@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_margin="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="116dp">
+        <ImageView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/clothing_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/clothing_item">
+
+        </ImageView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintStart_toEndOf="@id/clothing_item"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/clothing_line"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LIME"
+                android:textSize="11dp"
+                android:textAppearance="@style/TagName">
+
+            </TextView>
+            <TextView
+                android:id="@+id/clothing_name"
+                app:layout_constraintTop_toBottomOf="@id/clothing_line"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shirt"
+                android:textSize="16dp"
+                android:textAppearance="@style/ProductName">
+
+            </TextView>
+            <TextView
+                android:id="@+id/clothing_tag_color"
+                app:layout_constraintTop_toBottomOf="@id/clothing_name"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Color:"
+                android:textSize="11dp"
+                android:textAppearance="@style/TagName">
+
+            </TextView>
+            <TextView
+                android:id="@+id/clothing_color_description"
+                app:layout_constraintTop_toBottomOf="@id/clothing_name"
+                app:layout_constraintStart_toEndOf="@id/clothing_tag_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Blue"
+                android:textSize="11dp"
+                android:textAppearance="@style/TagDescription">
+
+            </TextView>
+            <TextView
+                android:id="@+id/clothing_tag_size"
+                app:layout_constraintTop_toBottomOf="@id/clothing_name"
+                app:layout_constraintStart_toEndOf="@id/clothing_color_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Size:"
+                android:textSize="11dp"
+                android:textAppearance="@style/TagName">
+
+            </TextView>
+            <TextView
+                android:id="@+id/clothing_size_description"
+                app:layout_constraintTop_toBottomOf="@id/clothing_name"
+                app:layout_constraintStart_toEndOf="@id/clothing_tag_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" L"
+                android:textSize="11dp"
+                android:textAppearance="@style/TagDescription">
+
+            </TextView>
+            <TextView
+                android:id="@+id/clothing_price"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="32$"
+                android:textSize="14dp"
+                android:textAppearance="@style/ProductPrice">
+
+            </TextView>
+            <LinearLayout
+                app:layout_constraintStart_toEndOf="@id/clothing_price"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/star_icon">
+
+                </ImageView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/star_icon">
+
+                </ImageView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/star_icon">
+
+                </ImageView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/star_icon">
+
+                </ImageView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/star_icon">
+
+                </ImageView>
+                <TextView
+                    android:layout_margin="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(10)"
+                    android:textSize="10dp"
+                    android:textAppearance="@style/TagName">
+
+                </TextView>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add_to_bag_icon">
+
+    </ImageView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
