@@ -139,6 +139,18 @@
         <item name="android:fontFamily">@font/metropolis_semi_bold</item>
         <item name="android:textAlignment">center</item>
     </style>
+    <style name="Body14">
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">@font/metropolis_medium</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+    <style name="Body15">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">@font/metropolis_regular</item>
+        <item name="android:textAlignment">center</item>
+    </style>
     <style name="Bottom0">
         <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">10dp</item>
