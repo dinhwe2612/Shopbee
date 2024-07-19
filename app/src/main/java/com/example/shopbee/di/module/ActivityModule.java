@@ -1,10 +1,8 @@
 package com.example.shopbee.di.module;
 
-import android.app.Activity;
-
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.shopbee.datas.Repository;
+import com.example.shopbee.data.Repository;
 import com.example.shopbee.di.ViewModelProviderFactory;
 import com.example.shopbee.ui.base.BaseActivity;
 import com.example.shopbee.ui.login.LoginViewModel;

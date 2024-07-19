@@ -2,7 +2,7 @@ package com.example.shopbee.di.module;
 
 import androidx.annotation.NonNull;
 
-import com.example.shopbee.datas.remote.AmazonApiService;
+import com.example.shopbee.data.remote.AmazonApiService;
 import com.example.shopbee.utils.NetworkUtils;
 
 import java.io.IOException;

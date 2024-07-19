@@ -1,10 +1,8 @@
 package com.example.shopbee.ui.main;
 
-import android.graphics.Movie;
-
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.shopbee.datas.Repository;
+import com.example.shopbee.data.Repository;
 import com.example.shopbee.ui.base.BaseViewModel;
 
 import java.util.HashMap;

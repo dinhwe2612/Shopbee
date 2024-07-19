@@ -3,7 +3,7 @@ package com.example.shopbee.ui.base;
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.ViewModel;
 
-import com.example.shopbee.datas.Repository;
+import com.example.shopbee.data.Repository;
 
 import java.lang.ref.WeakReference;
 

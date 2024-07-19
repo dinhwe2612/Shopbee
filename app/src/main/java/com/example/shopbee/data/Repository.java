@@ -1,7 +1,7 @@
-package com.example.shopbee.datas;
+package com.example.shopbee.data;
 
-import com.example.shopbee.datas.model.api.AmazonSearchResponse;
-import com.example.shopbee.datas.remote.AmazonApiService;
+import com.example.shopbee.data.model.api.AmazonSearchResponse;
+import com.example.shopbee.data.remote.AmazonApiService;
 
 import java.util.HashMap;
 

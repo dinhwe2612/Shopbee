@@ -103,7 +103,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/BannerContent"
+                android:textAppearance="@style/BannerContent"
                 android:text="Up to 50% off">
             </TextView>
         </LinearLayout>

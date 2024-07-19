@@ -1,9 +1,8 @@
 package com.example.shopbee.di.component;
 
 import com.example.shopbee.BaseApplication;
-import com.example.shopbee.datas.Repository;
+import com.example.shopbee.data.Repository;
 import com.example.shopbee.di.module.AppModule;
-import com.example.shopbee.ui.main.MainActivity;
 
 import javax.inject.Singleton;
 

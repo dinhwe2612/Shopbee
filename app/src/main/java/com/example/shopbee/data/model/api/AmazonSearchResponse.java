@@ -1,4 +1,4 @@
-package com.example.shopbee.datas.model.api;
+package com.example.shopbee.data.model.api;
 
 import java.util.ArrayList;
 import java.util.List;

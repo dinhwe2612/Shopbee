@@ -1,6 +1,6 @@
 package com.example.shopbee.ui.login;
 
-import com.example.shopbee.datas.Repository;
+import com.example.shopbee.data.Repository;
 import com.example.shopbee.ui.base.BaseViewModel;
 
 

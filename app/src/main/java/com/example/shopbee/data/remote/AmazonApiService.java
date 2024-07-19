@@ -1,6 +1,6 @@
-package com.example.shopbee.datas.remote;
+package com.example.shopbee.data.remote;
 
-import com.example.shopbee.datas.model.api.AmazonSearchResponse;
+import com.example.shopbee.data.model.api.AmazonSearchResponse;
 
 import java.util.Map;
 
