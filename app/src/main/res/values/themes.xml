@@ -11,144 +11,182 @@
         <item name="android:textSize">34dp</item>
         <item name="android:fontFamily">@font/metropolis_bold</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Black_SemiBold_18dp">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">18dp</item>
         <item name="android:fontFamily">@font/metropolis_semi_bold</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="White_SemiBold_24dp">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">24dp</item>
         <item name="android:fontFamily">@font/metropolis_semi_bold</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Red_Bold_34dp">
         <item name="android:textColor">@color/red</item>
         <item name="android:textSize">34dp</item>
         <item name="android:fontFamily">@font/metropolis_bold</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="White_Black_48dp">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">48dp</item>
         <item name="android:fontFamily">@font/metropolis_black</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="White_Black_34dp">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">34dp</item>
         <item name="android:fontFamily">@font/metropolis_black</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Black_SemiBold_24dp">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">24dp</item>
         <item name="android:fontFamily">@font/metropolis_semi_bold</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Black_SemiBold_44dp">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">44dp</item>
         <item name="android:fontFamily">@font/metropolis_semi_bold</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="White_Medium_14dp">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/metropolis_medium</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Black_Medium_14dp">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/metropolis_medium</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Gray_Regular_11dp">
         <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">11dp</item>
         <item name="android:fontFamily">@font/metropolis_regular</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="Gray_Regular_10dp">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:fontFamily">@font/metropolis_regular</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Black_Regular_11dp">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">11dp</item>
         <item name="android:fontFamily">@font/metropolis_regular</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="White_SemiBold_11dp">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">11dp</item>
         <item name="android:fontFamily">@font/metropolis_semi_bold</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Black_SemiBold_16dp">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16dp</item>
         <item name="android:fontFamily">@font/metropolis_semi_bold</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Gray_Medium_14dp">
         <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/metropolis_medium</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Red_Medium_14dp">
         <item name="android:textColor">@color/red</item>
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/metropolis_medium</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Black_Regular_16dp">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16dp</item>
         <item name="android:fontFamily">@font/metropolis_regular</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="White_SemiBold_16dp">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16dp</item>
         <item name="android:fontFamily">@font/metropolis_semi_bold</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="Red_SemiBold_16dp">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">@font/metropolis_semi_bold</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="DarkGray_Regular_14dp">
         <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/metropolis_regular</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Black_Regular_14dp">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/metropolis_regular</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Black_SemiBold_14dp">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/metropolis_semi_bold</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Black_SemiBold_11dp">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">11dp</item>
         <item name="android:fontFamily">@font/metropolis_semi_bold</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Green_Medium_14dp">
         <item name="android:textColor">@color/green</item>
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/metropolis_medium</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Gray_Regular_14dp">
         <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">@font/metropolis_regular</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="Bottom0">
@@ -175,4 +213,81 @@
     <style name="Background">
         <item name="android:background">@drawable/background</item>
     </style>
+<!--    <style name="Red_Button_White_Text">-->
+<!--        <item name="android:background">@drawable/rounded_red_rectangle</item>-->
+<!--        <item name="customTextAppearance">@style/White_Medium_14dp</item>-->
+<!--    </style>-->
+    <style name="Red_Button_White_Text">
+        <item name="android:background">@drawable/rounded_red_rectangle</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">@font/metropolis_medium</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="Slight_Rounded_Red_Button_White_Text">
+        <item name="android:background">@drawable/slight_rounded_red_rectangle</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">@font/metropolis_medium</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="Transparent_Button_White_Text">
+        <item name="android:background">@drawable/rounded_transparent_rectangle</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">@font/metropolis_medium</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="White_Button_Black_Stroke_Black_Text">
+        <item name="android:background">@drawable/rounded_white_rectangle_black_stroke</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">@font/metropolis_medium</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="White_Button_Gray_Stroke_Black_Text">
+        <item name="android:background">@drawable/rounded_white_rectangle_gray_stroke</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">@font/metropolis_medium</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="Black_Button_White_Text">
+        <item name="android:background">@drawable/rounded_black_rectangle</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">@font/metropolis_medium</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="SortOptionSelected">
+        <item name="android:background">@color/red</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">@font/metropolis_semi_bold</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="SaleTag">
+        <item name="android:background">@drawable/rounded_red_rectangle</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">11dp</item>
+        <item name="android:fontFamily">@font/metropolis_semi_bold</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="NewTag">
+        <item name="android:background">@drawable/rounded_black_rectangle</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">11dp</item>
+        <item name="android:fontFamily">@font/metropolis_semi_bold</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>
