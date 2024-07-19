@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    android:layout_width="match_parent"
+    android:background="#0E0EFF"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_margin="15dp"
+            android:gravity="center"
+            style="@style/Red_Button_White_Text"
+            android:layout_width="343dp"
+            android:layout_height="48dp"
+            android:text="LOGIN" >
+
+        </TextView>
+        <TextView
+            android:layout_margin="15dp"
+            android:gravity="center"
+            style="@style/Transparent_Button_White_Text"
+            android:layout_width="343dp"
+            android:layout_height="48dp"
+            android:text="LOGIN">
+
+        </TextView>
+        <TextView
+            android:layout_margin="15dp"
+            android:gravity="center"
+            style="@style/White_Button_Black_Stroke_Black_Text"
+            android:layout_width="160dp"
+            android:layout_height="36dp"
+            android:text="Reorder">
+
+        </TextView>
+        <TextView
+            android:layout_margin="15dp"
+            android:gravity="center"
+            style="@style/White_Button_Gray_Stroke_Black_Text"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="XS">
+
+        </TextView>
+        <TextView
+            android:layout_margin="15dp"
+            android:gravity="center"
+            style="@style/Slight_Rounded_Red_Button_White_Text"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="All">
+
+        </TextView>
+        <TextView
+            android:layout_margin="15dp"
+            android:gravity="center"
+            style="@style/Black_Button_White_Text"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:text="Summer">
+
+        </TextView>
+        <TextView
+            android:layout_margin="15dp"
+            android:gravity="center"
+            style="@style/SortOptionSelected"
+            android:layout_width="375dp"
+            android:layout_height="48dp"
+            android:text="Price: lowest to high">
+
+        </TextView>
+        <TextView
+            android:layout_margin="15dp"
+            android:gravity="center"
+            style="@style/SaleTag"
+            android:layout_width="40dp"
+            android:layout_height="24dp"
+            android:text="-15%">
+
+        </TextView>
+        <TextView
+            android:layout_margin="15dp"
+            android:gravity="center"
+            style="@style/NewTag"
+            android:layout_width="40dp"
+            android:layout_height="24dp"
+            android:text="NEW">
+
+        </TextView>
+        <LinearLayout
+            style="@style/Banner"
+            android:layout_width="343dp"
+            android:layout_height="100dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/BannerHeadline"
+                android:text="SUMMER SALES">
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/BannerContent"
+                android:text="Up to 50% off">
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
