@@ -16,7 +16,6 @@
         android:textAlignment="center"
         android:textAppearance="@style/Options"
         style="@style/ChipItemStyle">
-
     </com.google.android.material.chip.Chip>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

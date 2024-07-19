@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/BackgroundStyle">
+    style="@style/Background">
     <ImageView
         android:id="@+id/search_button"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,8 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Favorites"
-        android:textSize="34dp"
-        android:textAppearance="@style/Headline">
+        style="@style/Black_Bold_34dp">
     </TextView>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/options"
@@ -63,9 +62,8 @@
                 android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/Filters"
-                android:text="Filters"
-                android:textSize="11dp">
+                style="@style/Black_Regular_11dp"
+                android:text="Filters">
 
             </TextView>
         </LinearLayout>
@@ -86,9 +84,8 @@
                 android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/Filters"
-                android:text="Price:lowest to high"
-                android:textSize="11dp">
+                style="@style/Black_Regular_11dp"
+                android:text="Price:lowest to high">
 
             </TextView>
         </LinearLayout>

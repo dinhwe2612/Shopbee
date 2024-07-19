@@ -35,21 +35,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="LIME"
-                android:textSize="11dp"
-                android:textAppearance="@style/TagName">
+                style="@style/Gray_Regular_11dp">
 
             </TextView>
+
             <TextView
                 android:id="@+id/clothing_name"
-                app:layout_constraintTop_toBottomOf="@id/clothing_line"
-                app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Shirt"
-                android:textSize="16dp"
-                android:textAppearance="@style/ProductName">
-
+                style="@style/Black_SemiBold_16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clothing_line">
             </TextView>
+
             <TextView
                 android:id="@+id/clothing_tag_color"
                 app:layout_constraintTop_toBottomOf="@id/clothing_name"
@@ -57,9 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Color:"
-                android:textSize="11dp"
-                android:textAppearance="@style/TagName">
-
+                style="@style/Gray_Regular_11dp">
             </TextView>
             <TextView
                 android:id="@+id/clothing_color_description"
@@ -68,8 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" Blue"
-                android:textSize="11dp"
-                android:textAppearance="@style/TagDescription">
+                style="@style/Black_Regular_11dp">
 
             </TextView>
             <TextView
@@ -80,9 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:text="Size:"
-                android:textSize="11dp"
-                android:textAppearance="@style/TagName">
-
+                style="@style/Gray_Regular_11dp">
             </TextView>
             <TextView
                 android:id="@+id/clothing_size_description"
@@ -91,8 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" L"
-                android:textSize="11dp"
-                android:textAppearance="@style/TagDescription">
+                style="@style/Black_Regular_11dp">
 
             </TextView>
             <TextView
@@ -102,8 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="32$"
-                android:textSize="14dp"
-                android:textAppearance="@style/ProductPrice">
+                style="@style/Black_Medium_14dp">
 
             </TextView>
             <LinearLayout
