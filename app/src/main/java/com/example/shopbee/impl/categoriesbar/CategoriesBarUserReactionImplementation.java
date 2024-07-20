@@ -11,12 +11,17 @@ import com.example.shopbee.R;
 public class CategoriesBarUserReactionImplementation implements CategoriesBarUserReactionListener{
     public int position = 0;
     @Override
-    public void animateLine(TextView tag, View view) {
+    public void animateLine(TextView tag, View view, float viewX) {
         ViewGroup.LayoutParams params = view.getLayoutParams();
-        params.width = tag.getWidth() + tag.getWidth()/2;
+//        Log.d("tag.getWidth()", "animateLine: " + tag.getWidth());
+        params.width = tag.getWidth() + 25;
+        Log.d("TAG", "animateLine: " + params.width);
         view.setLayoutParams(params);
-        Log.d("TAG", "animateLine: "+tag.getLeft());
-        float center = tag.getLeft() + (float) tag.getWidth() / 2.0f - (float) view.getWidth() / 2;
+        Log.d("TAG", "animateLine: "+tag.getText());
+        Log.d("TAG", "animateLine: "+viewX);
+        Log.d("TAG", "animateLine: "+tag.getWidth());
+        Log.d("TAG", "animateLine: "+view.getWidth());
+        float center = viewX + (float) tag.getWidth() / 2.0f - params.width / 2.0f;
         ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationX", center);
         animator.setDuration(300);
         animator.start();

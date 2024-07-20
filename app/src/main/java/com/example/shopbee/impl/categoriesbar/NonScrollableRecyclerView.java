@@ -2,11 +2,14 @@ package com.example.shopbee.impl.categoriesbar;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NonScrollableRecyclerView extends RecyclerView {
+import com.example.shopbee.testUI.CategoriesBarAdapter.CategoriesBarAdapter;
+
+public class NonScrollableRecyclerView extends RecyclerView implements CategoriesBarAdapter.getViewX {
     public NonScrollableRecyclerView(Context context) {
         super(context);
     }
@@ -27,5 +30,11 @@ public class NonScrollableRecyclerView extends RecyclerView {
     @Override
     public void onScrolled(int dx, int dy) {
         // Do nothing to disable actual scrolling
+    }
+
+    @Override
+    public float getViewX(int position) {
+        Log.d("TAG", "getViewX: "+getLayoutManager().findViewByPosition(position).getLeft());
+        return getLayoutManager().findViewByPosition(position).getLeft();
     }
 }

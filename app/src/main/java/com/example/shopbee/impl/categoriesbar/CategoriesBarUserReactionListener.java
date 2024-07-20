@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public interface CategoriesBarUserReactionListener {
-    void animateLine(TextView tag, View view);
+    void animateLine(TextView tag, View view, float viewX);
     void UIUnselected(TextView tag);
     void UISelected(TextView tag);
 }
