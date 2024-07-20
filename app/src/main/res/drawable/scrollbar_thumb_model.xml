@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="4dp" />
+    <solid android:color="@color/black_light_theme" /> <!-- Red color for the thumb -->
+</shape>

@@ -61,31 +61,31 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/star_icon">
+                android:src="@drawable/star_full_icon">
 
             </ImageView>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/star_icon">
+                android:src="@drawable/star_full_icon">
 
             </ImageView>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/star_icon">
+                android:src="@drawable/star_full_icon">
 
             </ImageView>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/star_icon">
+                android:src="@drawable/star_full_icon">
 
             </ImageView>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/star_icon">
+                android:src="@drawable/star_full_icon">
 
             </ImageView>
             <TextView

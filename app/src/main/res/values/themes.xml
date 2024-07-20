@@ -356,4 +356,10 @@
     <color name="Black_Icon">@color/black</color>
     <color name="Background_EditText">@color/white</color>
     <color name="white_light_theme">@color/white</color>
+    <color name="black_light_theme">@color/black</color>
+    <style name="CustomRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/custome_ratingbar</item>
+        <item name="android:minHeight">14dp</item>
+        <item name="android:maxHeight">14dp</item>
+    </style>
 </resources>
