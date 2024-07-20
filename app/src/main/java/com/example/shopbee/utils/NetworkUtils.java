@@ -2,7 +2,7 @@ package com.example.shopbee.utils;
 
 import java.util.HashMap;
 
-public class NetworkUtils {
+public final class NetworkUtils {
     private NetworkUtils() {}
     public static final String BASE_URL = "https://real-time-amazon-data.p.rapidapi.com/";
     public static final String HEADER_KEY = "x-rapidapi-key";

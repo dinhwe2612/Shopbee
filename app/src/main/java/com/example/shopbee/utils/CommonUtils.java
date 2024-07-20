@@ -10,7 +10,7 @@ import android.net.NetworkInfo;
 
 import com.example.shopbee.R;
 
-public class CommonUtils {
+public final class CommonUtils {
     private CommonUtils() {}
     public static ProgressDialog showLoadingDialog(Context context) {
         ProgressDialog progressDialog = new ProgressDialog(context);

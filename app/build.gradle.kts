@@ -63,4 +63,7 @@ dependencies {
     implementation("com.google.dagger:dagger:2.48")
     annotationProcessor("com.google.dagger:dagger-compiler:2.48")
 
+    // Bottom Bar
+    implementation("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")
+
 }

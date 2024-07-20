@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.LayoutRes;
@@ -14,9 +16,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
 import com.example.shopbee.BaseApplication;
+import com.example.shopbee.R;
 import com.example.shopbee.di.component.ActivityComponent;
 import com.example.shopbee.di.component.DaggerActivityComponent;
 import com.example.shopbee.di.module.ActivityModule;
+import com.example.shopbee.toolbar.ToolbarView;
 import com.example.shopbee.ui.login.LoginActivity;
 import com.example.shopbee.utils.CommonUtils;
 
@@ -29,7 +33,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     // this can probably depend on isLoading variable of BaseViewModel,
     // since its going to be common for all the activities
     private ProgressDialog progressDialog;
-
+    ToolbarView toolbarView;
     private T viewDataBinding;
 
     @Inject
@@ -100,7 +104,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
         finish();
     }
 
-    private ActivityComponent getBuildComponent() {
+    protected ActivityComponent getBuildComponent() {
         return DaggerActivityComponent.builder()
                 .appComponent(((BaseApplication)getApplication()).appComponent)
                 .activityModule(new ActivityModule(this))
