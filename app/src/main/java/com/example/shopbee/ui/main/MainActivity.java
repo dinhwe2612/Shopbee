@@ -7,14 +7,16 @@ import androidx.annotation.Nullable;
 
 import com.example.shopbee.BR;
 import com.example.shopbee.R;
-import com.example.shopbee.impl.bottombar.BottomBarView;
+import com.example.shopbee.bottombar.BottomBarUserReactionImplementation;
+import com.example.shopbee.bottombar.BottomBarUserReactionListener;
 import com.example.shopbee.databinding.ActivityMainBinding;
 import com.example.shopbee.di.component.ActivityComponent;
 import com.example.shopbee.ui.base.BaseActivity;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements MainNavigator {
+public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel>
+        implements MainNavigator
+                , BottomBarUserReactionListener {
     ActivityMainBinding binding;
-    BottomBarView bottomBarView;
     @Override
     public int getBindingVariable() {
         return BR.vm;
@@ -30,10 +32,34 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = getViewDataBinding();
+        BottomBarUserReactionImplementation bottomBar = new BottomBarUserReactionImplementation();
+        bottomBar.bindView(binding.bottomBar, this);
     }
 
     @Override
     public void handleError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClick(int position) {
+        switch (position) {
+            case 0:
+                Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
+                break;
+            case 1:
+                Toast.makeText(this, "Shop", Toast.LENGTH_SHORT).show();
+                break;
+            case 2:
+                Toast.makeText(this, "Bag", Toast.LENGTH_SHORT).show();
+                break;
+            case 3:
+                Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
+                break;
+            case 4:
+                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 }
