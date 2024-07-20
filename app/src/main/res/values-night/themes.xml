@@ -282,6 +282,7 @@
         <item name="android:gravity">center</item>
     </style>
     <style name="NewTag">
+        <item name="android:text">NEW</item>
         <item name="android:background">@drawable/rounded_black_rectangle</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">11dp</item>

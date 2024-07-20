@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/image4">
+
+        </ImageView>
+        <TextView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="10dp"
+            android:layout_width="40dp"
+            android:layout_height="24dp"
+            android:text="-20%"
+            style="@style/SaleTag">
+
+        </TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/add_to_favorites_icon"
+        android:layout_marginBottom="57dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </ImageView>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/yellow_star_icon">
+
+            </ImageView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/yellow_star_icon">
+
+            </ImageView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/yellow_star_icon">
+
+            </ImageView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/yellow_star_icon">
+
+            </ImageView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/yellow_star_icon">
+
+            </ImageView>
+            <TextView
+                android:layout_margin="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(10)"
+                style="@style/Gray_Regular_10dp">
+
+            </TextView>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="3dp"
+            android:text="Dorothy Perkins"
+            style="@style/Gray_Regular_11dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </TextView>
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_marginTop="3dp"
+            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Evening Dress"
+            style="@style/Black_SemiBold_16dp">
+
+        </TextView>
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_marginTop="3dp"
+            app:layout_constraintTop_toBottomOf="@id/textView1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15$"
+            style="@style/Gray_Medium_14dp">
+
+        </TextView>
+        <ImageView
+            android:layout_marginTop="11.5dp"
+            app:layout_constraintTop_toBottomOf="@id/textView1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dash">
+
+        </ImageView>
+        <TextView
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="3dp"
+            app:layout_constraintTop_toBottomOf="@id/textView1"
+            app:layout_constraintStart_toEndOf="@id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12$"
+            style="@style/Red_Medium_14dp">
+
+        </TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
