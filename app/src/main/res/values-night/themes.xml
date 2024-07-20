@@ -312,6 +312,9 @@
     <style name="AccountEditText_Background">
         <item name="android:background">@drawable/slight_rounded_black_rectangle</item>
     </style>
+    <style name="Option_Background">
+        <item name="android:background">@drawable/rounded_black_rectangle</item>
+    </style>
     <style name="EditText">
         <item name="android:background">@color/black</item>
         <item name="android:textColor">@color/white</item>
@@ -321,4 +324,5 @@
     </style>
     <color name="Black_Icon">@color/white</color>
     <color name="Background_EditText">@color/black</color>
+    <color name="white_light_theme">@color/black</color>
 </resources>
