@@ -1,0 +1,7 @@
+<!-- res/drawable/rounded_rectangle_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="25dp"/>
+    <solid android:color="@color/red_stroke"/> <!-- Change color as needed -->
+
+</shape>

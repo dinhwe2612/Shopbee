@@ -1,5 +1,9 @@
 package com.example.shopbee.bottombar;
 
+import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -7,6 +11,24 @@ import com.example.shopbee.R;
 
 public class BottomBarUserReactionImplementation implements BottomBarUserReactionListener {
     int position = 0;
+
+    public static float dpToPx(Context context, float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
+    }
+
+    @Override
+    public void animateBackground(View view, int position) {
+        float translationX = dpToPx(view.getContext(),2 + 70*position);
+        if (position == 3) {
+            translationX += 15;
+        }
+        if (position == 4) {
+            translationX += 31;
+        }
+        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationX", translationX);
+        animator.setDuration(300);
+        animator.start();
+    }
     @Override
     public void UIUnselected(ImageView icon, TextView label, int position) {
         switch (position) {
@@ -64,9 +86,10 @@ public class BottomBarUserReactionImplementation implements BottomBarUserReactio
     }
 
     @Override
-    public void onClick(ImageView[] icons, TextView[] labels, int position) {
+    public void onClick(ImageView[] icons, TextView[] labels, View view, int position) {
         UIUnselected(icons[this.position], labels[this.position], this.position);
         UISelected(icons[position], labels[position], position);
+        animateBackground(view, position);
         this.position = position;
     }
 }
