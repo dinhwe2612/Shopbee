@@ -1,95 +1,106 @@
 package com.example.shopbee.bottombar;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+
 import com.example.shopbee.R;
+import com.example.shopbee.databinding.BottomBarBinding;
 
-public class BottomBarUserReactionImplementation implements BottomBarUserReactionListener {
-    int position = 0;
-
-    public static float dpToPx(Context context, float dp) {
-        return dp * context.getResources().getDisplayMetrics().density;
+public class BottomBarUserReactionImplementation {
+    BottomBarUserReactionListener listener;
+    int currentPosition = 0;
+    int[] selectedImages = new int[]{
+            R.drawable.red_home_icon,
+            R.drawable.red_shop_icon,
+            R.drawable.red_bag_icon,
+            R.drawable.red_heart_icon,
+            R.drawable.red_profile_icon
+    };
+    int[] unselectedImages = new int[]{
+            R.drawable.home_icon,
+            R.drawable.shop_icon,
+            R.drawable.bag_icon,
+            R.drawable.heart_icon,
+            R.drawable.profile_icon
+    };
+    int[] textAppearances = new int[]{
+            R.style.Gray_Regular_10dp,
+            R.style.Red_Regular_10dp
+    };
+    ImageView[] imageViews = new ImageView[5];
+    TextView[] textViews = new TextView[5];
+    LinearLayout[] layout = new LinearLayout[5];
+    View animatedBackground;
+    public void bindView(BottomBarBinding binding, BottomBarUserReactionListener listener) {
+        this.listener = listener;
+        imageViews[0] = binding.homeIcon;
+        imageViews[1] = binding.shopIcon;
+        imageViews[2] = binding.bagIcon;
+        imageViews[3] = binding.heartIcon;
+        imageViews[4] = binding.profileIcon;
+        textViews[0] = binding.homeLabel;
+        textViews[1] = binding.shopLabel;
+        textViews[2] = binding.bagLabel;
+        textViews[3] = binding.heartLabel;
+        textViews[4] = binding.profileLabel;
+        layout[0] = binding.home;
+        layout[1] = binding.shop;
+        layout[2] = binding.bag;
+        layout[3] = binding.heart;
+        layout[4] = binding.profile;
+        animatedBackground = binding.animatedBackground;
+        for(int i = 0; i < 5; ++i) {
+            int position = i;
+            layout[i].setOnClickListener(
+                    v -> onClick(position)
+            );
+        }
+        binding.getRoot().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                binding.getRoot().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                onClick(currentPosition);
+            }
+        });
     }
 
-    @Override
-    public void animateBackground(View view, int position) {
-        float translationX = dpToPx(view.getContext(),2 + 70*position);
-        if (position == 3) {
-            translationX += 15;
-        }
-        if (position == 4) {
-            translationX += 31;
-        }
-        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationX", translationX);
+    public float getTranslationX(int position) {
+        return layout[position].getLeft() + (float) layout[position].getWidth() / 2 - (float) animatedBackground.getWidth() / 2;
+    }
+    public void animateBackground(int position) {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(animatedBackground, "translationX", getTranslationX(position));
         animator.setDuration(300);
         animator.start();
     }
-    @Override
-    public void UIUnselected(ImageView icon, TextView label, int position) {
-        switch (position) {
-            case 0:
-                icon.setImageResource(R.drawable.home_icon);
-                label.setTextAppearance(R.style.Gray_Regular_10dp);
-                break;
-            case 1:
-                icon.setImageResource(R.drawable.shop_icon);
-                label.setTextAppearance(R.style.Gray_Regular_10dp);
-                break;
-            case 2:
-                icon.setImageResource(R.drawable.bag_icon);
-                label.setTextAppearance(R.style.Gray_Regular_10dp);
-                break;
-            case 3:
-                icon.setImageResource(R.drawable.heart_icon);
-                label.setTextAppearance(R.style.Gray_Regular_10dp);
-                break;
-            case 4:
-                icon.setImageResource(R.drawable.profile_icon);
-                label.setTextAppearance(R.style.Gray_Regular_10dp);
-                break;
-            default:
-                break;
-        }
+    public void UIUnselected(int position) {
+        imageViews[position].setImageResource(unselectedImages[position]);
+        textViews[position].setTextAppearance(textAppearances[0]);
     }
 
-    @Override
-    public void UISelected(ImageView icon, TextView label, int position) {
-        switch (position) {
-            case 0:
-                icon.setImageResource(R.drawable.red_home_icon);
-                label.setTextAppearance(R.style.Red_Regular_10dp);
-                break;
-            case 1:
-                icon.setImageResource(R.drawable.red_shop_icon);
-                label.setTextAppearance(R.style.Red_Regular_10dp);
-                break;
-            case 2:
-                icon.setImageResource(R.drawable.red_bag_icon);
-                label.setTextAppearance(R.style.Red_Regular_10dp);
-                break;
-            case 3:
-                icon.setImageResource(R.drawable.red_heart_icon);
-                label.setTextAppearance(R.style.Red_Regular_10dp);
-                break;
-            case 4:
-                icon.setImageResource(R.drawable.red_profile_icon);
-                label.setTextAppearance(R.style.Red_Regular_10dp);
-                break;
-            default:
-                break;
-        }
+    public void UISelected(int position) {
+        imageViews[position].setImageResource(selectedImages[position]);
+        textViews[position].setTextAppearance(textAppearances[1]);
     }
 
-    @Override
-    public void onClick(ImageView[] icons, TextView[] labels, View view, int position) {
-        UIUnselected(icons[this.position], labels[this.position], this.position);
-        UISelected(icons[position], labels[position], position);
-        animateBackground(view, position);
-        this.position = position;
+    public void onClick(int position) {
+        UIUnselected(currentPosition);
+        UISelected(position);
+        animateBackground(position);
+        currentPosition = position;
+        if (listener != null) {
+            listener.onClick(position);
+        }
     }
 }
