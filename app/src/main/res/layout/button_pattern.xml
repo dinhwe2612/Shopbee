@@ -11,6 +11,7 @@
         android:layout_height="match_parent">
         <TextView
             android:layout_margin="15dp"
+            android:id="@+id/button"
             android:gravity="center"
             style="@style/Red_Button_White_Text"
             android:layout_width="343dp"
