@@ -51,9 +51,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = getViewDataBinding();
-        bottomBarView = new BottomBarView();
-        bottomBarView.init(this);
     }
 
     @Override

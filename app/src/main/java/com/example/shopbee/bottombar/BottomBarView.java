@@ -8,11 +8,9 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.shopbee.R;
-import com.example.shopbee.databinding.BottomBarBinding;
 
 public class BottomBarView {
     BottomBarNavigator navigator;
-    BottomBarBinding binding;
     MutableLiveData<Integer> currentPosition = new MutableLiveData<Integer>(0);
     int[] selectedImage = new int[]{
             R.drawable.red_home_icon,
@@ -50,6 +48,6 @@ public class BottomBarView {
         return currentPosition.getValue();
     }
     public void init(Context context) {
-        binding = BottomBarBinding.inflate(LayoutInflater.from(context));
+
     }
 }
