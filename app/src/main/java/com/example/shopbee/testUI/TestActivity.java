@@ -22,7 +22,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bottom_bar);
 
-        ImageView[] icons;
+        /*ImageView[] icons;
         icons = new ImageView[5];
         icons[0] = this.findViewById(R.id.homeIcon);
         icons[1] = this.findViewById(R.id.shopIcon);
@@ -54,7 +54,7 @@ public class TestActivity extends AppCompatActivity {
                     impl.onClick(icons, labels, animatedBackground, finalI);
                 }
             });
-        }
+        }*/
 
     }
 }
