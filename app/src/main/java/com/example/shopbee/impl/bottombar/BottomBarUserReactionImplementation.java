@@ -1,4 +1,4 @@
-package com.example.shopbee.bottombar;
+package com.example.shopbee.impl.bottombar;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer;
 
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.BottomBarBinding;
+import com.example.shopbee.impl.bottombar.BottomBarUserReactionListener;
 
 public class BottomBarUserReactionImplementation {
     BottomBarUserReactionListener listener;
