@@ -1,4 +1,4 @@
-package com.example.shopbee.bottombar;
+package com.example.shopbee.impl.bottombar;
 
 public interface BottomBarNavigator {
     void navigate(int position);

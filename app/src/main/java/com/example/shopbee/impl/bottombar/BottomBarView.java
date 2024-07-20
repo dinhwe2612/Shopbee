@@ -1,10 +1,7 @@
-package com.example.shopbee.bottombar;
+package com.example.shopbee.impl.bottombar;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.shopbee.R;

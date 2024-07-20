@@ -36,11 +36,11 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/home_icon">
+                android:src="@drawable/red_home_icon">
             </ImageView>
             <TextView
                 android:id="@+id/homeLabel"
-                style="@style/Gray_Regular_10dp"
+                style="@style/Red_Regular_10dp"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

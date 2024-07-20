@@ -1,4 +1,4 @@
-package com.example.shopbee.bottombar;
+package com.example.shopbee.impl.bottombar;
 
 import android.view.View;
 import android.widget.ImageView;

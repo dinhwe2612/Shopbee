@@ -1,8 +1,7 @@
-package com.example.shopbee.bottombar;
+package com.example.shopbee.impl.bottombar;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
