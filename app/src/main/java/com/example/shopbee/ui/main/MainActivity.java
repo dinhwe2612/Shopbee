@@ -7,10 +7,10 @@ import androidx.annotation.Nullable;
 
 import com.example.shopbee.BR;
 import com.example.shopbee.R;
-import com.example.shopbee.bottombar.BottomBarUserReactionImplementation;
-import com.example.shopbee.bottombar.BottomBarUserReactionListener;
 import com.example.shopbee.databinding.ActivityMainBinding;
 import com.example.shopbee.di.component.ActivityComponent;
+import com.example.shopbee.impl.bottombar.BottomBarUserReactionImplementation;
+import com.example.shopbee.impl.bottombar.BottomBarUserReactionListener;
 import com.example.shopbee.ui.base.BaseActivity;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel>
