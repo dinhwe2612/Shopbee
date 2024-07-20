@@ -6,10 +6,6 @@ import com.example.shopbee.di.scope.FragmentScope;
 
 import dagger.Component;
 
-/*
- * Author: rotbolt
- */
-
 @FragmentScope
 @Component(modules = FragmentModule.class, dependencies = AppComponent.class)
 public interface FragmentComponent {
