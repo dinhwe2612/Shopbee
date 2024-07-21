@@ -25,7 +25,10 @@ public class CategoriesBarAdapter extends RecyclerView.Adapter<CategoriesBarView
     View animatedLine;
     TextView currentTag;
     CategoriesBarUserReactionImplementation impl;
-    String[] categories = {"Women", "Men", "Kids", "Accessories"};
+    public CategoriesBarUserReactionImplementation getImpl() {
+        return impl;
+    }
+    String[] categories = {"Women", "Men", "Kids", "Accessories", "Shoes", "Bags", "Jewellery", "Beauty"};
 
     public CategoriesBarAdapter(View animatedLine) {
         this.animatedLine = animatedLine;
@@ -57,6 +60,7 @@ public class CategoriesBarAdapter extends RecyclerView.Adapter<CategoriesBarView
         });
     }
     private void animateAfterLayout(TextView view) {
+        assert view != null;
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {

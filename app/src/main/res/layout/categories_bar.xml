@@ -43,7 +43,7 @@
 
 <!--        </TextView>-->
 <!--    </LinearLayout>-->
-    <com.example.shopbee.impl.categoriesbar.NonScrollableRecyclerView
+    <com.example.shopbee.impl.categoriesbar.CustomScrollableRecyclerView
         android:id="@+id/categoryList"
         tools:listitem="@layout/category_item"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </com.example.shopbee.impl.categoriesbar.NonScrollableRecyclerView>
+    </com.example.shopbee.impl.categoriesbar.CustomScrollableRecyclerView>
     <View
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
