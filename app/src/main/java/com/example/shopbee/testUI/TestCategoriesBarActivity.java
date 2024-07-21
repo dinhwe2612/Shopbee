@@ -76,6 +76,7 @@ public class TestCategoriesBarActivity extends AppCompatActivity {
                     int position;
 //                    Log.d("RecyclerViewItem", "scrollBack: " + scrollBack);
                     Log.d("itemsScrolledThrough", "itemsScrolledThrough: " + itemsScrolledThrough);
+                    Log.d("isScrollingBackward", "isScrollingBackward: " + layoutManager.isScrollingBackward());
                     if (layoutManager.isScrollingBackward()) {
 //                        position = adapter.getImpl().position - Math.max(1, Math.abs(itemsScrolledThrough));
 //                        if (position < 0) position = 0;
