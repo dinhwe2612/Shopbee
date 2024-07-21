@@ -82,7 +82,7 @@ public class TestCategoriesBarActivity extends AppCompatActivity {
 //                        if (position < 0) position = 0;
                         position = adapter.getImpl().position - 1;
                         if (position < 0) position = 0;
-//                        Log.d("RecyclerViewItem", "findLastVisibleItemPosition: " + layoutManager.findLastVisibleItemPosition() + "Position: " + position);
+                        Log.d("RecyclerViewItem",  "findFirstVisibleItemPosition: " + layoutManager.findFirstVisibleItemPosition() + "findLastVisibleItemPosition: " + layoutManager.findLastVisibleItemPosition() + "Position: " + position);
                         if (position < layoutManager.findFirstVisibleItemPosition()) position = layoutManager.findFirstVisibleItemPosition();
                         if (position > layoutManager.findLastVisibleItemPosition()) position = layoutManager.findLastVisibleItemPosition();
 //
@@ -92,8 +92,7 @@ public class TestCategoriesBarActivity extends AppCompatActivity {
                         position = adapter.getImpl().position + 1;
                         if (position >= adapter.getItemCount()) position = adapter.getItemCount() - 1;
 //
-//                        Log.d("RecyclerViewItem", "findFirstVisibleItemPosition: " + layoutManager.findFirstVisibleItemPosition() + "Position: " + position);
-                        if (position < layoutManager.findFirstVisibleItemPosition()) position = layoutManager.findFirstVisibleItemPosition();
+                        Log.d("RecyclerViewItem",  "findFirstVisibleItemPosition: " + layoutManager.findFirstVisibleItemPosition() + "findLastVisibleItemPosition: " + layoutManager.findLastVisibleItemPosition() + "Position: " + position);                        if (position < layoutManager.findFirstVisibleItemPosition()) position = layoutManager.findFirstVisibleItemPosition();
                         if (position < layoutManager.findFirstVisibleItemPosition()) position = layoutManager.findFirstVisibleItemPosition();
 //                        position = adapter.getImpl().position + Math.max(1, Math.abs(itemsScrolledThrough));
 //                        if (position >= adapter.getItemCount()) position = adapter.getItemCount() - 1;
