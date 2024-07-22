@@ -12,6 +12,7 @@ public class CategoriesBarUserReactionImplementation implements CategoriesBarUse
     public int position = 0;
     @Override
     public void animateLine(TextView tag, View view, float viewX) {
+        view.setVisibility(View.VISIBLE);
         ViewGroup.LayoutParams params = view.getLayoutParams();
 //        Log.d("tag.getWidth()", "animateLine: " + tag.getWidth());
         params.width = tag.getWidth() + 25;

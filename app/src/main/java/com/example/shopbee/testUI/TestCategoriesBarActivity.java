@@ -67,49 +67,68 @@ public class TestCategoriesBarActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                if (layoutManager.findFirstVisibleItemPosition() > adapter.getImpl().position || layoutManager.findLastVisibleItemPosition() < adapter.getImpl().position) {
+                    animatedLine.setVisibility(View.INVISIBLE);
+                    adapter.notifyItemChanged(adapter.getImpl().position);
+                }
+                else {
+                    adapter.notifyItemChanged(adapter.getImpl().position);
+                    animatedLine.setVisibility(View.VISIBLE);
+                }
+//                if (newState == RecyclerView.SCROLL_STATE_DRAGGING || newState == RecyclerView.SCROLL_STATE_SETTLING) {
+////                    animatedLine.setVisibility(View.INVISIBLE);
+//                }
+//                if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
+//                    animatedLine.setVisibility(View.VISIBLE);
+//                }
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    int newFirstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-                    itemsScrolledThrough = newFirstVisibleItemPosition - oldFirstVisibleItemPosition;
-                    oldFirstVisibleItemPosition = newFirstVisibleItemPosition;
-                    recyclerView.removeOnScrollListener(this);
-//                    int position = getSnappedPosition(recyclerView, snapHelper);
-                    int position;
-//                    Log.d("RecyclerViewItem", "scrollBack: " + scrollBack);
-                    Log.d("itemsScrolledThrough", "itemsScrolledThrough: " + itemsScrolledThrough);
-                    Log.d("isScrollingBackward", "isScrollingBackward: " + layoutManager.isScrollingBackward());
-                    if (layoutManager.isScrollingBackward()) {
-//                        position = adapter.getImpl().position - Math.max(1, Math.abs(itemsScrolledThrough));
+//                    animatedLine.setVisibility(View.VISIBLE);
+//                    int newFirstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+//                    itemsScrolledThrough = newFirstVisibleItemPosition - oldFirstVisibleItemPosition;
+//                    oldFirstVisibleItemPosition = newFirstVisibleItemPosition;
+//                    recyclerView.removeOnScrollListener(this);
+////                    int position = getSnappedPosition(recyclerView, snapHelper);
+//                    int position;
+////                    Log.d("RecyclerViewItem", "scrollBack: " + scrollBack);
+//                    Log.d("itemsScrolledThrough", "itemsScrolledThrough: " + itemsScrolledThrough);
+//                    Log.d("isScrollingBackward", "isScrollingBackward: " + layoutManager.isScrollingBackward());
+//                    if (layoutManager.isScrollingBackward()) {
+////                        position = adapter.getImpl().position - Math.max(1, Math.abs(itemsScrolledThrough));
+////                        if (position < 0) position = 0;
+//                        position = adapter.getImpl().position - 1;
 //                        if (position < 0) position = 0;
-                        position = adapter.getImpl().position - 1;
-                        if (position < 0) position = 0;
-                        Log.d("RecyclerViewItem",  "findFirstVisibleItemPosition: " + layoutManager.findFirstVisibleItemPosition() + "findLastVisibleItemPosition: " + layoutManager.findLastVisibleItemPosition() + "Position: " + position);
-                        if (position < layoutManager.findFirstVisibleItemPosition()) position = layoutManager.findFirstVisibleItemPosition();
-                        if (position > layoutManager.findLastVisibleItemPosition()) position = layoutManager.findLastVisibleItemPosition();
+//                        Log.d("RecyclerViewItem",  "findFirstVisibleItemPosition: " + layoutManager.findFirstVisibleItemPosition() + "findLastVisibleItemPosition: " + layoutManager.findLastVisibleItemPosition() + "Position: " + position);
+//                        if (position < layoutManager.findFirstVisibleItemPosition()) position = layoutManager.findFirstVisibleItemPosition();
+//                        if (position > layoutManager.findLastVisibleItemPosition()) position = layoutManager.findLastVisibleItemPosition();
+////
 //
-
-                    }
-                    else {
-                        position = adapter.getImpl().position + 1;
-                        if (position >= adapter.getItemCount()) position = adapter.getItemCount() - 1;
-//
-                        Log.d("RecyclerViewItem",  "findFirstVisibleItemPosition: " + layoutManager.findFirstVisibleItemPosition() + "findLastVisibleItemPosition: " + layoutManager.findLastVisibleItemPosition() + "Position: " + position);                        if (position < layoutManager.findFirstVisibleItemPosition()) position = layoutManager.findFirstVisibleItemPosition();
-                        if (position < layoutManager.findFirstVisibleItemPosition()) position = layoutManager.findFirstVisibleItemPosition();
-//                        position = adapter.getImpl().position + Math.max(1, Math.abs(itemsScrolledThrough));
+//                    }
+//                    else {
+//                        position = adapter.getImpl().position + 1;
 //                        if (position >= adapter.getItemCount()) position = adapter.getItemCount() - 1;
-                    }
-                    if (position != RecyclerView.NO_POSITION) {
-                        // Update the selected position here
-                        // For example, you can update a variable or notify an adapter
-                        adapter.notifyItemChanged(adapter.getImpl().position);
-                        adapter.getImpl().position = position;
-                        adapter.notifyItemChanged(adapter.getImpl().position);
-                    }
-                    recyclerView.addOnScrollListener(this);
+////
+//                        Log.d("RecyclerViewItem",  "findFirstVisibleItemPosition: " + layoutManager.findFirstVisibleItemPosition() + "findLastVisibleItemPosition: " + layoutManager.findLastVisibleItemPosition() + "Position: " + position);                        if (position < layoutManager.findFirstVisibleItemPosition()) position = layoutManager.findFirstVisibleItemPosition();
+//                        if (position < layoutManager.findFirstVisibleItemPosition()) position = layoutManager.findFirstVisibleItemPosition();
+////                        position = adapter.getImpl().position + Math.max(1, Math.abs(itemsScrolledThrough));
+////                        if (position >= adapter.getItemCount()) position = adapter.getItemCount() - 1;
+//                    }
+//                    if (position != RecyclerView.NO_POSITION) {
+//                        // Update the selected position here
+//                        // For example, you can update a variable or notify an adapter
+//                        adapter.notifyItemChanged(adapter.getImpl().position);
+//                        adapter.getImpl().position = position;
+//                        adapter.notifyItemChanged(adapter.getImpl().position);
+//                    }
+//                    recyclerView.addOnScrollListener(this);
                 }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dx != 0) {
+                    animatedLine.setVisibility(View.GONE);
+//                    adapter.notifyItemChanged(adapter.getImpl().position);
+                }
 //                Log.d("RecyclerViewItem", "dx: " + dx + ", dy: " + dy); // Log dx and dy values
                 if (dx > 0) {
                     scrollBack = false;
