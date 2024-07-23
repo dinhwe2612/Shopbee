@@ -66,4 +66,10 @@ dependencies {
     // Bottom Bar
     implementation("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")
 
+    //Circle image View
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    //Rating Bar
+    implementation("com.github.ome450901:SimpleRatingBar:1.5.1")
+
 }
