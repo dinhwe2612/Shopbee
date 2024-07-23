@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shopbee.R;
-import com.example.shopbee.bottombar.BottomBarUserReactionImplementation;
+import com.example.shopbee.impl.bottombar.BottomBarUserReactionImplementation;
 
 public class TestBottomBarActivity extends AppCompatActivity {
 
