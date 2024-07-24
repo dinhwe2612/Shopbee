@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/textView"
-        android:src="@drawable/image5"
+        android:src="@drawable/image4"
         android:scaleType="centerCrop"
         android:layout_width="171.5dp"
         android:layout_height="match_parent">
