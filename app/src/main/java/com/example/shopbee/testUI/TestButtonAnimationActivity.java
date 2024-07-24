@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.shopbee.R;
 
+import org.w3c.dom.Text;
+
 public class TestButtonAnimationActivity extends AppCompatActivity {
 
     @Override
@@ -21,7 +23,6 @@ public class TestButtonAnimationActivity extends AppCompatActivity {
         setContentView(R.layout.button_pattern);
         TextView myButton = this.findViewById(R.id.button);
         Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.button_click_animation);
-
         myButton.setOnClickListener(v -> v.startAnimation(clickAnimation));
 //        EdgeToEdge.start(this);
     }
