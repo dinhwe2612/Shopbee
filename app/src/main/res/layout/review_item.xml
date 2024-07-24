@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="343dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@color/white_background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <de.hdodenhof.circleimageview.CircleImageView
         app:layout_constraintStart_toStartOf="parent"
@@ -11,30 +13,93 @@
         android:src="@drawable/avatar_user"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:elevation="12dp"/>
+        android:elevation="4dp"/>
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="311dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@color/white_background"
         app:cardCornerRadius="8dp"
-        app:cardElevation="10dp"
+        app:cardElevation="3dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="340dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Helene Moorne"
                 style="@style/Black_SemiBold_14dp"/>
+            <com.willy.ratingbar.ScaleRatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srb_numStars="5"
+                app:srb_rating="4"
+                app:srb_starWidth="14dp"
+                app:srb_starHeight="14dp"
+                app:srb_starPadding="1dp"
+                app:srb_stepSize="1"
+                app:srb_isIndicator="true"
+                app:srb_clickable="true"
+                app:srb_scrollable="true"
+                app:srb_clearRatingEnabled="true"
+                app:srb_drawableEmpty="@drawable/star_empty_icon"
+                app:srb_drawableFilled="@drawable/star_full_icon">
+            </com.willy.ratingbar.ScaleRatingBar>
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="June 5, 2019"
+                style="@style/Gray_Regular_11dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:maxLines="6"
+                android:ellipsize="end"
+                android:text="The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!"
+                style="@style/Black_Regular_14dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/view_more"
+                style="@style/Gray_Regular_11dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"
+                tools:listitem="@layout/image_review_item"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="Helpful"
+                    style="@style/Gray_Regular_11dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/like_icon"/>
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
