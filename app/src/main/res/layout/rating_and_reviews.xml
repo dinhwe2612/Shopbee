@@ -5,6 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/Background">
+    <androidx.cardview.widget.CardView
+        android:layout_width="128dp"
+        android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="25dp"
+        android:outlineAmbientShadowColor="@color/red"
+        android:outlineSpotShadowColor="@color/red"
+        app:cardBackgroundColor="@color/red">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/pen_icon"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Write a review"
+                style="@style/White_SemiBold_11dp"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
     <RelativeLayout
         android:id="@+id/relativeLayout_ratingReviews"
         android:layout_width="match_parent"
@@ -37,6 +66,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:layout_marginTop="30dp">
 
             <LinearLayout

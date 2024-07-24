@@ -4,7 +4,7 @@
     android:layout_width="343dp"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:background="@color/white_background"
+    style="@style/Background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <de.hdodenhof.circleimageview.CircleImageView
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@color/white_background"
+        android:background="@color/white_light_theme"
+        android:outlineSpotShadowColor="@color/black_light_theme"
+        android:outlineAmbientShadowColor="@color/black_light_theme"
         app:cardCornerRadius="8dp"
         app:cardElevation="3dp"
         app:layout_constraintStart_toStartOf="parent"
