@@ -151,7 +151,7 @@
             android:background="@drawable/arrow_icon" />
     </LinearLayout>
 
-    <TextView
+    <com.example.shopbee.button.button
         style="@style/Red_Button_White_Text"
         android:layout_width="343dp"
         android:layout_height="48dp"
