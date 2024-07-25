@@ -236,7 +236,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:text="Shopping Info"
+                        android:text="Shipping Info"
                         style="@style/Black_Regular_16dp"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -312,14 +312,27 @@
         android:layout_height="78dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white_light_theme">
-        <TextView
+        <androidx.cardview.widget.CardView
             android:layout_width="343dp"
             android:layout_height="48dp"
-            android:text="ADD TO CART"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            app:cardElevation="5dp"
+            app:cardCornerRadius="25dp"
             android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            style="@style/Red_Button_White_Text"/>
+            android:outlineAmbientShadowColor="@color/black_light_theme"
+            android:outlineSpotShadowColor="@color/black_light_theme"
+            app:cardBackgroundColor="@color/red">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="ADD TO CART"
+                style="@style/White_Medium_14dp"/>
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>
