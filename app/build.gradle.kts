@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -66,10 +67,14 @@ dependencies {
     // Bottom Bar
     implementation("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")
 
-    //Circle image View
+    // Circle image View
     implementation("de.hdodenhof:circleimageview:3.1.0")
 
-    //Rating Bar
+    // Rating Bar
     implementation("com.github.ome450901:SimpleRatingBar:1.5.1")
 
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation("com.google.firebase:firebase-auth:23.0.0")
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
 }

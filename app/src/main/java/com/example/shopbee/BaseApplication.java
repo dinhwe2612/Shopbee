@@ -5,6 +5,7 @@ import android.app.Application;
 import com.example.shopbee.di.component.AppComponent;
 import com.example.shopbee.di.component.DaggerAppComponent;
 import com.example.shopbee.di.module.AppModule;
+import com.google.firebase.FirebaseApp;
 
 public class BaseApplication extends Application {
     public AppComponent appComponent;
@@ -15,5 +16,6 @@ public class BaseApplication extends Application {
                 .application(this)
                 .build();
         appComponent.inject(this);
+        FirebaseApp.initializeApp(this);
     }
 }

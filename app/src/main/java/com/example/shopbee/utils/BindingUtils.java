@@ -1,5 +1,6 @@
 package com.example.shopbee.utils;
 
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,5 +20,9 @@ public final class BindingUtils {
     @BindingAdapter("textAppearance")
     public static void setTextAppearance(TextView textView, int resource) {
         textView.setTextAppearance(resource);
+    }
+    @BindingAdapter("loadAnimation")
+    public static void setLoadAnimation(TextView textView, int resource) {
+        textView.startAnimation(AnimationUtils.loadAnimation(textView.getContext(), resource));
     }
 }
