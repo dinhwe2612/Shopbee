@@ -72,4 +72,7 @@ dependencies {
     //Rating Bar
     implementation("com.github.ome450901:SimpleRatingBar:1.5.1")
 
+    //AvatarView
+    implementation("io.getstream:avatarview-coil:1.0.7")
+
 }
