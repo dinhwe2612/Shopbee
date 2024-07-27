@@ -19,6 +19,9 @@ import androidx.core.content.ContextCompat;
 import com.example.shopbee.R;
 
 public class DraggableCircle extends View {
+    private static int MIN_PRICE = 0;
+    private static int MAX_PRICE = 10000;
+    int minPrice = 78, maxPrice = 9999;
     int width, height;
     public int getViewWidth() {
         return width;
@@ -106,8 +109,9 @@ public class DraggableCircle extends View {
         paint.setTextSize(textSizeInPx);
 //        Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "app/src/main/res/font/metropolis_medium.otf");
 //        paint.setTypeface(typeface);
-        canvas.drawText("$78", 0, getHeight() / 2f - circleRadius / 8f - 20, paint);
-        canvas.drawText("$143", getWidth() - 80, getHeight() / 2f - circleRadius / 8f - 20, paint);
+        int textwidth = (int) paint.measureText(getStringPrice(maxPrice));
+        canvas.drawText(getStringPrice(minPrice), 0, getHeight() / 2f - circleRadius / 8f - 20, paint);
+        canvas.drawText(getStringPrice(maxPrice), getWidth() - textwidth, getHeight() / 2f - circleRadius / 8f - 20, paint);
     }
 
     @Override
@@ -197,5 +201,9 @@ public class DraggableCircle extends View {
     float dpToPx(int dp) {
         Resources resources = getContext().getResources();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
+    }
+
+    public String getStringPrice(int price) {
+        return "$" + price;
     }
 }

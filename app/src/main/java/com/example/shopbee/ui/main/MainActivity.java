@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.shopbee.BR;
 import com.example.shopbee.R;
@@ -16,11 +18,15 @@ import com.example.shopbee.impl.bottombar.BottomBarUserReactionListener;
 import com.example.shopbee.ui.base.BaseActivity;
 import com.example.shopbee.ui.login.LoginActivity;
 
+import javax.inject.Inject;
+
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel>
         implements MainNavigator
                 , BottomBarUserReactionListener {
+    private NavController navController;
     ActivityMainBinding binding;
-
+    @Inject
+    BottomBarUserReactionImplementation bottomBar;
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
     }
@@ -41,8 +47,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = getViewDataBinding();
-        BottomBarUserReactionImplementation bottomBar = new BottomBarUserReactionImplementation();
         bottomBar.bindView(binding.bottomBar, this);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.fragmentContainer.getId());
+        navController = navHostFragment.getNavController();
+
     }
 
     @Override
@@ -55,6 +63,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         switch (position) {
             case 0:
                 Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
+                navController.navigate(R.id.homeFragment);
                 break;
             case 1:
                 Toast.makeText(this, "Shop", Toast.LENGTH_SHORT).show();

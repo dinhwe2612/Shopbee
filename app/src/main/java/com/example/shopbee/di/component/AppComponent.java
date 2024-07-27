@@ -3,6 +3,7 @@ package com.example.shopbee.di.component;
 import com.example.shopbee.BaseApplication;
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.di.module.AppModule;
+import com.example.shopbee.impl.bottombar.BottomBarUserReactionImplementation;
 
 import javax.inject.Singleton;
 
@@ -14,6 +15,7 @@ import dagger.Component;
 public interface AppComponent {
     void inject(BaseApplication application);
     Repository getRepository();
+    BottomBarUserReactionImplementation getBottomBarUserReactionImplementation();
     @Component.Builder
     interface Builder {
         @BindsInstance

@@ -18,6 +18,8 @@ import com.example.shopbee.ui.main.MainViewModel;
 
 import java.util.function.Supplier;
 
+import javax.inject.Qualifier;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -41,6 +43,7 @@ public class ActivityModule {
         ViewModelProviderFactory<MainViewModel> factory = new ViewModelProviderFactory<MainViewModel>(MainViewModel.class, supplier);
         return new ViewModelProvider(activity, factory).get(MainViewModel.class);
     }
+
     @Provides
     ForgotPasswordViewModel provideForgotPasswordViewModel(Repository repository) {
         Supplier<ForgotPasswordViewModel> supplier = () -> new ForgotPasswordViewModel(repository);

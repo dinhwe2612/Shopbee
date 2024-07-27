@@ -3,6 +3,8 @@ package com.example.shopbee.di.module;
 import androidx.annotation.NonNull;
 
 import com.example.shopbee.data.remote.AmazonApiService;
+import com.example.shopbee.impl.bottombar.BottomBarUserReactionImplementation;
+import com.example.shopbee.impl.bottombar.BottomBarUserReactionListener;
 import com.example.shopbee.utils.NetworkUtils;
 
 import java.io.IOException;
@@ -52,5 +54,10 @@ public class AppModule {
                 .client(okHttpClient)
                 .build()
                 .create(AmazonApiService.class);
+    }
+    @Provides
+    @Singleton
+    public static BottomBarUserReactionImplementation provideBottomBarUserReactionImplementation(){
+        return new BottomBarUserReactionImplementation();
     }
 }
