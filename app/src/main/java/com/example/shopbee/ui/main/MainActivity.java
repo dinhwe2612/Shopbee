@@ -1,5 +1,7 @@
 package com.example.shopbee.ui.main;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -12,11 +14,17 @@ import com.example.shopbee.di.component.ActivityComponent;
 import com.example.shopbee.impl.bottombar.BottomBarUserReactionImplementation;
 import com.example.shopbee.impl.bottombar.BottomBarUserReactionListener;
 import com.example.shopbee.ui.base.BaseActivity;
+import com.example.shopbee.ui.login.LoginActivity;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel>
         implements MainNavigator
                 , BottomBarUserReactionListener {
     ActivityMainBinding binding;
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
+
     @Override
     public int getBindingVariable() {
         return BR.vm;

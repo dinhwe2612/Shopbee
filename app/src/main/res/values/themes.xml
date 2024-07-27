@@ -303,6 +303,14 @@
         <item name="android:textAlignment">center</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="SortOptionUnselected">
+        <item name="android:background">@color/white_light_theme</item>
+        <item name="android:textColor">@color/black_light_theme</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">@font/metropolis_regular</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
     <style name="SaleTag">
         <item name="android:background">@drawable/rounded_red_rectangle</item>
         <item name="android:textColor">@color/white</item>

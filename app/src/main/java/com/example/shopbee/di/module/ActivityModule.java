@@ -12,6 +12,7 @@ import com.example.shopbee.data.Repository;
 import com.example.shopbee.di.ViewModelProviderFactory;
 import com.example.shopbee.toolbar.ToolbarView;
 import com.example.shopbee.ui.base.BaseActivity;
+import com.example.shopbee.ui.forgotpassword.ForgotPasswordViewModel;
 import com.example.shopbee.ui.login.LoginViewModel;
 import com.example.shopbee.ui.main.MainViewModel;
 
@@ -40,6 +41,13 @@ public class ActivityModule {
         ViewModelProviderFactory<MainViewModel> factory = new ViewModelProviderFactory<MainViewModel>(MainViewModel.class, supplier);
         return new ViewModelProvider(activity, factory).get(MainViewModel.class);
     }
+    @Provides
+    ForgotPasswordViewModel provideForgotPasswordViewModel(Repository repository) {
+        Supplier<ForgotPasswordViewModel> supplier = () -> new ForgotPasswordViewModel(repository);
+        ViewModelProviderFactory<ForgotPasswordViewModel> factory = new ViewModelProviderFactory<>(ForgotPasswordViewModel.class, supplier);
+        return new ViewModelProvider(activity, factory).get(ForgotPasswordViewModel.class);
+    }
+
     @Provides
     LayoutInflater provideLayoutInflater() {
         return LayoutInflater.from(activity);
