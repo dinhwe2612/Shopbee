@@ -1,7 +1,6 @@
 package com.example.shopbee.dialog;
 
 import android.app.Dialog;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +29,7 @@ public class MyBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.bottom_sheet_layout, container, false);
+        rootView = inflater.inflate(R.layout.bottom_sheet_layout_sort_by, container, false);
         return rootView;
     }
 
