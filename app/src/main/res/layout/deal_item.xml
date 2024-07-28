@@ -12,7 +12,17 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:elevation="5dp"
+            android:layout_margin="60dp"
+            android:layout_alignStart="@id/productImage"
+            android:layout_alignEnd="@id/productImage"
+            android:layout_alignTop="@id/productImage"
+            android:layout_alignBottom="@id/productImage" />
         <ImageView
             android:id="@+id/productImage"
             android:layout_width="180dp"

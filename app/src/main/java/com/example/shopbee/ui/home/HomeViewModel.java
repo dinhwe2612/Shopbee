@@ -22,13 +22,18 @@ public class HomeViewModel extends BaseViewModel<HomeNavigator> {
     }
     MutableLiveData<List<AmazonDealsResponse.Data.Deal>> dealProducts = new MutableLiveData<>();
     public void syncDealProducts(HashMap<String, String> map) {
+        setIsLoading(true);
         getCompositeDisposable().add(getRepository().getAmazonDealsResponse(map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
+                            setIsLoading(false);
                             dealProducts.setValue(result.getData().getDeals());
                         },
-                        error -> Log.e("getAmazonDealsResponse", "getAmazonDealsResponse " + error.getMessage()))
+                        error -> {
+                            setIsLoading(false);
+                            Log.e("getAmazonDealsResponse", "getAmazonDealsResponse " + error.getMessage());
+                        })
                 );
     }
     public MutableLiveData<List<AmazonDealsResponse.Data.Deal>> getDealProducts() {
