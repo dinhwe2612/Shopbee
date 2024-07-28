@@ -90,7 +90,7 @@
         android:layout_height="wrap_content">
     </ImageView>
     <androidx.recyclerview.widget.RecyclerView
-        tools:listitem="@layout/my_bag_item"
+        tools:listitem="@layout/shop_item"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
         android:layout_centerHorizontal="true"
