@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    android:id="@+id/custom_tab"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center">
 
     <TextView
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="14dp"
+        android:fontFamily="@font/metropolis_medium"
         android:text="Delivered"
-        style="@style/TabSelectedMyOrders"
+        android:textColor="@drawable/my_orders_tab_text_selector"
+        android:background="@drawable/my_orders_tab_background_selector"
         android:id="@+id/tab_text"
         android:layout_width="100dp"
         android:layout_height="30dp" />
