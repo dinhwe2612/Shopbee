@@ -18,4 +18,9 @@ public final class NetworkUtils {
         queryMap.put("product_condition", "ALL");
         return queryMap;
     }
+
+    public static HashMap<String, String> createAmazonDealsQuery() {
+        HashMap<String, String> queryMap = new HashMap<>();
+        return queryMap;
+    }
 }
