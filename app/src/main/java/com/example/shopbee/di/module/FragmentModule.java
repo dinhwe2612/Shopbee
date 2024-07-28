@@ -5,8 +5,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.di.ViewModelProviderFactory;
+import com.example.shopbee.ui.bag.BagViewModel;
+import com.example.shopbee.ui.favorites.FavoritesViewModel;
 import com.example.shopbee.ui.home.HomeViewModel;
 import com.example.shopbee.ui.main.MainViewModel;
+import com.example.shopbee.ui.profile.ProfileViewModel;
+import com.example.shopbee.ui.shop.ShopViewModel;
 
 import java.util.function.Supplier;
 
@@ -25,5 +29,33 @@ public class FragmentModule {
         Supplier<HomeViewModel> supplier = () -> new HomeViewModel(repository);
         ViewModelProviderFactory<HomeViewModel> factory = new ViewModelProviderFactory<HomeViewModel>(HomeViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(HomeViewModel.class);
+    }
+
+    @Provides
+    public ShopViewModel provideShopViewModel(Repository repository) {
+        Supplier<ShopViewModel> supplier = () -> new ShopViewModel(repository);
+        ViewModelProviderFactory<ShopViewModel> factory = new ViewModelProviderFactory<ShopViewModel>(ShopViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(ShopViewModel.class);
+    }
+
+    @Provides
+    public BagViewModel provideBagViewModel(Repository repository) {
+        Supplier<BagViewModel> supplier = () -> new BagViewModel(repository);
+        ViewModelProviderFactory<BagViewModel> factory = new ViewModelProviderFactory<BagViewModel>(BagViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(BagViewModel.class);
+    }
+
+    @Provides
+    public FavoritesViewModel provideFavoritesViewModel(Repository repository) {
+        Supplier<FavoritesViewModel> supplier = () -> new FavoritesViewModel(repository);
+        ViewModelProviderFactory<FavoritesViewModel> factory = new ViewModelProviderFactory<FavoritesViewModel>(FavoritesViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(FavoritesViewModel.class);
+    }
+
+    @Provides
+    public ProfileViewModel provideProfileViewModel(Repository repository) {
+        Supplier<ProfileViewModel> supplier = () -> new ProfileViewModel(repository);
+        ViewModelProviderFactory<ProfileViewModel> factory = new ViewModelProviderFactory<ProfileViewModel>(ProfileViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(ProfileViewModel.class);
     }
 }

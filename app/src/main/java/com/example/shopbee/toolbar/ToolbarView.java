@@ -15,9 +15,14 @@ import com.example.shopbee.databinding.ViewToolbarBinding;
 //toolbarView.setTitle("ShopBee");
 //toolbarView.attachToParent();
 public class ToolbarView {
+    public interface SearchClickListener {
+        void onSearchClick();
+    }
     public interface NavigateUpClickListener {
         void onNavigateUpClick();
     }
+    SearchClickListener searchClickListener;
+
     NavigateUpClickListener listener;
     public String title;
     ViewToolbarBinding binding;
@@ -41,12 +46,36 @@ public class ToolbarView {
             this.listener.onNavigateUpClick();
         }
     }
+    public void onSearchClick() {
+        if (this.searchClickListener != null) {
+            this.searchClickListener.onSearchClick();
+        }
+    }
+    public void setSearchClickListener(SearchClickListener listener) {
+        if (this.searchClickListener != null) {
+            throw new RuntimeException("SearchClickListener is already set.");
+        }
+        this.searchClickListener = listener;
+        binding.btnSearch.setVisibility(VISIBLE);
+        binding.btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSearchClick();
+            }
+        });
+    }
     public void enableNavigateUp(NavigateUpClickListener listener) {
         if (this.listener != null) {
-            throw new RuntimeException("NavigateUpClickListener must be null");
+            throw new RuntimeException("NavigateUpClickListener is already enabled.");
         }
         this.listener = listener;
         binding.btnBack.setVisibility(View.VISIBLE);
+        binding.btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onNavigateUpClick();
+            }
+        });
     }
     public int isBackButtonVisible() {
         return backButtonVisible ? VISIBLE : GONE;

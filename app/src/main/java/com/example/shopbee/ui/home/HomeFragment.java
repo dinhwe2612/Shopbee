@@ -2,6 +2,8 @@ package com.example.shopbee.ui.home;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.widget.Toolbar;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
@@ -9,6 +11,7 @@ import androidx.databinding.library.baseAdapters.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.HomeBinding;
 import com.example.shopbee.di.component.FragmentComponent;
+import com.example.shopbee.toolbar.ToolbarView;
 import com.example.shopbee.ui.base.BaseFragment;
 
 public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> implements HomeNavigator {
@@ -31,6 +34,5 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("HomeFragment", "onCreate: ");
     }
 }
