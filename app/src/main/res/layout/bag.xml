@@ -60,6 +60,7 @@
             style="@style/AccountEditText_Background"
             android:padding="1dp">
             <EditText
+                android:textAppearance="@style/Black_Medium_14dp"
                 android:layout_width="343dp"
                 android:layout_height="50dp"
                 android:layout_toStartOf="@+id/name_checkmark"
