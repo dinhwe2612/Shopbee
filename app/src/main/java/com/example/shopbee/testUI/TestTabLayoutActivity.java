@@ -2,6 +2,8 @@ package com.example.shopbee.testUI;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.util.Log;
@@ -78,22 +80,30 @@ public class TestTabLayoutActivity extends AppCompatActivity {
                         if (tab != null && tab.view != null) {
                             tab.select();
                             // Custom animation logic here
-                            ValueAnimator animator = ValueAnimator.ofFloat(backgroundView.getX(), tab.view.getX() + padding);
-                            animator.addUpdateListener(animation -> {
+                            ValueAnimator moveAnimator = ValueAnimator.ofFloat(backgroundView.getX(), tab.view.getX() + padding);
+                            moveAnimator.addUpdateListener(animation -> {
                                 float value = (float) animation.getAnimatedValue();
                                 backgroundView.setX(value);
                             });
-                            animator.addListener(new AnimatorListenerAdapter() {
+
+                            ObjectAnimator fadeAnimator = ObjectAnimator.ofFloat(backgroundView, "alpha", 1f, 0f);
+                            fadeAnimator.setDuration(300); // Duration of the fade-out animation in ms
+
+                            // Create an AnimatorSet to play both animations together
+                            AnimatorSet animatorSet = new AnimatorSet();
+                            animatorSet.playTogether(moveAnimator, fadeAnimator);
+                            animatorSet.addListener(new AnimatorListenerAdapter() {
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
-                                    // Make the background view invisible when the animation ends
+                                    // Make the background view invisible after the fade-out animation ends
                                     backgroundView.setVisibility(View.INVISIBLE);
                                 }
                             });
-                            animator.setDuration(300); // Duration of the animation in ms
-                            animator.start();
+                            animatorSet.setDuration(500); // Duration of the move animation in ms
+                            animatorSet.start();
                         }
                     }
+
 
                 });
             }
