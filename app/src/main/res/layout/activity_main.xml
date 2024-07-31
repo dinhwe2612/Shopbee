@@ -19,15 +19,14 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="780dp" />
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottomBar"/>
 
         <include layout="@layout/bottom_bar"
             android:id="@+id/bottomBar"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_width="412dp"
-            android:layout_height="83dp"
-            android:layout_below="@id/fragmentContainer"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 </layout>
