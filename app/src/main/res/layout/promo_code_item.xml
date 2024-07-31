@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/slight_rounded_white_rectangle"
+    android:layout_gravity="center"
+    android:layout_marginTop="15dp"
+    android:layout_width="343dp"
+    android:layout_height="80dp">
+    <RelativeLayout
+        android:gravity="center"
+        android:id="@+id/relativeLayout"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/slight_rounded_red_rectangle"
+        android:layout_width="80dp"
+        android:layout_height="80dp">
+        <TextView
+            android:id="@+id/textView"
+            style="@style/White_Bold_34dp"
+            android:text="10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </TextView>
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_toRightOf="@id/textView"
+            android:layout_alignTop="@id/textView"
+            android:text="%"
+            style="@style/White_Bold_14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </TextView>
+        <TextView
+            android:layout_below="@id/textView1"
+            android:layout_toRightOf="@id/textView"
+            android:layout_alignBottom="@id/textView"
+            android:text="off"
+            style="@style/White_Bold_14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </TextView>
+    </RelativeLayout>
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/textView2"
+        android:layout_toRightOf="@id/relativeLayout"
+        style="@style/Black_Medium_14dp"
+        android:layout_marginStart="10dp"
+        android:text="Personal offer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <TextView
+        android:layout_marginBottom="10dp"
+        android:layout_centerVertical="true"
+        android:layout_below="@id/textView2"
+        android:layout_toRightOf="@id/relativeLayout"
+        style="@style/Black_Regular_11dp"
+        android:layout_marginStart="10dp"
+        android:text="mypromocode2020"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="10dp"
+        style="@style/Gray_Regular_11dp"
+        android:text="6 days remaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <TextView
+        android:layout_below="@id/textView3"
+        style="@style/Red_Button_White_Text"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="12dp"
+        android:text="Apply"
+        android:layout_alignParentEnd="true"
+        android:layout_width="93dp"
+        android:layout_height="36dp">
+
+    </TextView>
+</RelativeLayout>
