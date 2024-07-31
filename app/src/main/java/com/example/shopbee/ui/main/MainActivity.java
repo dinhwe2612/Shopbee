@@ -62,23 +62,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     public void onClick(int position) {
         switch (position) {
             case 0:
-                Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
                 navController.navigate(R.id.homeFragment);
                 break;
             case 1:
-                Toast.makeText(this, "Shop", Toast.LENGTH_SHORT).show();
                 navController.navigate(R.id.shopFragment);
                 break;
             case 2:
-                Toast.makeText(this, "Bag", Toast.LENGTH_SHORT).show();
                 navController.navigate(R.id.bagFragment);
                 break;
             case 3:
-                Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
                 navController.navigate(R.id.favoritesFragment);
                 break;
             case 4:
-                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
                 navController.navigate(R.id.profileFragment);
                 break;
         }
