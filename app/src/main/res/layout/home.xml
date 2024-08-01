@@ -9,12 +9,13 @@
     <RelativeLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="420dp"
         android:orientation="horizontal">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bannerRCV"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="160dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/banner_item"/>
@@ -55,7 +56,9 @@
             android:layout_marginTop="10dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"/>
+
         <ImageView
+            android:id="@+id/messageIcon"
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:src="@drawable/icon_message_white"
@@ -63,73 +66,137 @@
             android:layout_toStartOf="@id/bagIcon"
             android:layout_marginEnd="20dp"/>
 
-    </RelativeLayout>
-    <androidx.cardview.widget.CardView
-        android:layout_width="360dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="-10dp"
-        app:cardElevation="20dp"
-        app:cardCornerRadius="10dp"
-        android:layout_gravity="center">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/scanIcon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/icon_scan_black"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"/>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="35dp"
-                android:background="@color/gray"
-                android:layout_toEndOf="@id/scanIcon"
-                android:layout_centerVertical="true" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="360dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/bannerRCV"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-10dp"
+            app:cardElevation="25dp"
+            app:cardCornerRadius="10dp"
+            android:layout_gravity="center">
             <RelativeLayout
-                android:layout_marginStart="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toEndOf="@id/scanIcon">
-                <RelativeLayout
-                    android:id="@+id/shobeePay"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toStartOf="@id/splitView"
-                    android:layout_marginEnd="5dp">
-                    <ImageView
-                        android:id="@+id/walletIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/icon_wallet_red" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ShobeePay"
-                        android:layout_toEndOf="@id/walletIcon"
-                        style="@style/Black_Medium_14dp"/>
-
-                </RelativeLayout>
-                <RelativeLayout
-                    android:id="@+id/voucher"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@id/splitView"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/scanIcon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/icon_scan_black"
+                    android:layout_centerVertical="true"
                     android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp">
-
-                </RelativeLayout>
+                    android:layout_marginEnd="5dp"/>
                 <View
-                    android:id="@+id/splitView"
                     android:layout_width="1dp"
                     android:layout_height="35dp"
                     android:background="@color/gray"
-                    android:layout_centerInParent="true" />
+                    android:layout_toEndOf="@id/scanIcon"
+                    android:layout_centerVertical="true" />
+                <RelativeLayout
+                    android:layout_marginStart="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@id/scanIcon">
+                    <RelativeLayout
+                        android:id="@+id/shobeePay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toStartOf="@id/splitView"
+                        android:layout_marginEnd="5dp">
+                        <ImageView
+                            android:id="@+id/walletIcon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/icon_wallet_red"
+                            android:layout_marginTop="5dp"
+                            android:layout_alignParentTop="true"/>
+                        <TextView
+                            android:id="@+id/shobeePayText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ShobeePay"
+                            android:layout_toEndOf="@id/walletIcon"
+                            style="@style/Black_SemiBold_16dp"
+                            android:layout_alignBottom="@id/walletIcon"
+                            android:layout_marginStart="5dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Loan with low interest"
+                            android:layout_below="@id/shobeePayText"/>
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/voucher"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@id/splitView"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp">
+                        <ImageView
+                            android:id="@+id/voucherIcon"
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            android:src="@drawable/icon_voucher"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_alignParentTop="true"/>
+                        <TextView
+                            android:id="@+id/voucherText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Voucher"
+                            android:layout_marginTop="15dp"
+                            android:layout_toEndOf="@id/voucherIcon"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="6dp"
+                            style="@style/Black_SemiBold_16dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Voucher up to 80%"
+                            android:layout_below="@id/voucherText"
+                            android:layout_marginStart="5dp"/>
+                    </RelativeLayout>
+                    <View
+                        android:id="@+id/splitView"
+                        android:layout_width="1dp"
+                        android:layout_height="35dp"
+                        android:background="@color/gray"
+                        android:layout_centerInParent="true" />
+                </RelativeLayout>
             </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/bannerRCV"
+            android:background="@color/red">
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_above="@+id/eventLayout"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/deal_item"
+                android:layout_marginBottom="20dp"/>
+            <LinearLayout
+                android:id="@+id/eventLayout"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp">
+                
+            </LinearLayout>
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+
+
+
+    </RelativeLayout>
+
+
     <ScrollView
         style="@style/Background"
         app:layout_constraintTop_toTopOf="parent"
@@ -151,7 +218,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="25dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/dealRCV"
