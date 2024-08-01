@@ -6,6 +6,7 @@
     android:layout_marginEnd="10dp"
     android:background="@drawable/rounded_black_rectangle">
     <TextView
+        android:id="@+id/tag_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Summer"
