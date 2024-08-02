@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/white_rectangle_gray_stroke"
+    android:layout_height="50dp">
+    <TextView
+        style="@style/Black_Regular_16dp"
+        android:text="Black dress for summer"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <ImageView
+        android:src="@drawable/image_review"
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:scaleType="fitCenter"
+        android:layout_width="36dp"
+        android:layout_height="36dp">
+
+    </ImageView>
+</RelativeLayout>
