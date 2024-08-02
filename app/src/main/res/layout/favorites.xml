@@ -22,7 +22,6 @@
             style="@style/Black_Bold_34dp"
             android:text="Favorites"/>
         <androidx.recyclerview.widget.RecyclerView
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -77,7 +76,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/view_icon" />
+                android:background="@drawable/grid_view_icon" />
         </RelativeLayout>
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
