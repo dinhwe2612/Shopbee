@@ -87,4 +87,7 @@ dependencies {
 
     // StickyScrollView
     implementation("com.github.amarjain07:StickyScrollView:1.0.3")
+
+    // Layout Manager Recycler View
+    implementation("com.github.DingMouRen:LayoutManagerGroup:1e6f4f96eb")
 }
