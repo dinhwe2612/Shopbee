@@ -364,6 +364,7 @@
     </style>
     <color name="Black_Icon">@color/white</color>
     <color name="Background_EditText">@color/black</color>
+    <color name="white_background">@color/black_background</color>
     <color name="white_light_theme">@color/black</color>
     <color name="black_light_theme">@color/white</color>
 </resources>
