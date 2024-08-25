@@ -395,4 +395,16 @@
     <color name="Background_EditText">@color/white</color>
     <color name="white_light_theme">@color/white</color>
     <color name="black_light_theme">@color/black</color>
+
+    <style name="CollapsedAppBar" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/black_light_theme</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:fontFamily">@font/metropolis_bold</item>
+    </style>
+
+    <style name="ExpandedAppBar" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/black_light_theme</item>
+        <item name="android:textSize">34dp</item>
+        <item name="android:fontFamily">@font/metropolis_bold</item>
+    </style>
 </resources>
