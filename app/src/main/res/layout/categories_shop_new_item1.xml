@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="82dp"
+    android:gravity="center"
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="4dp"
+    style="@style/CategoriesUnselected"
+    android:layout_gravity="center"
+    android:layout_height="82dp"
+    android:layout_centerInParent="true">
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="82dp"
+        android:layout_height="82dp">
+        <ImageView
+            android:layout_margin="5dp"
+            android:src="@drawable/suggested_for_you_icon"
+            android:scaleType="centerCrop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ImageView>
+        <TextView
+            android:textAlignment="center"
+            android:textAppearance="@style/Black_Regular_11dp"
+            android:text="Suggested for you"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </TextView>
+    </LinearLayout>
+
+</RelativeLayout>

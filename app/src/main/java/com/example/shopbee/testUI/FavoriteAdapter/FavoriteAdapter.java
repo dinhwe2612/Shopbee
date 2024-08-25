@@ -38,5 +38,4 @@ public class FavoriteAdapter extends  RecyclerView.Adapter<FavoriteAdapter.Favor
             name = itemView.findViewById(R.id.item_favorite_name);
         }
     }
-
 }

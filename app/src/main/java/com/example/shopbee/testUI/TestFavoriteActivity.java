@@ -63,7 +63,7 @@ public class TestFavoriteActivity extends AppCompatActivity {
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (Math.abs(verticalOffset) > 50){
+                if (Math.abs(verticalOffset) > 120){
                     appBarExpended = false;
                     invalidateOptionsMenu();
                 } else {
