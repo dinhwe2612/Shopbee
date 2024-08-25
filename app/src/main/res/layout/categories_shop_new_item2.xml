@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="5dp"
+    android:layout_gravity="center"
+    style="@style/CategoriesUnselected"
+    android:layout_height="160dp">
+    <TextView
+        android:id="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="7dp"
+        style="@style/Black_SemiBold_14dp"
+        android:text="Popular items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <androidx.recyclerview.widget.RecyclerView
+        tools:listitem="@layout/categories_shop_new_item2_item"
+        android:layout_alignParentStart="true"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        android:layout_below="@id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="124dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>

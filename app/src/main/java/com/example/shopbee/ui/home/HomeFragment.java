@@ -50,7 +50,7 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
         super.onViewCreated(view, savedInstanceState);
         binding = getViewDataBinding();
         setUpToolbar();
-        syncData();
+//        syncData();
         observeData();
         setUpRecyclerView();
     }

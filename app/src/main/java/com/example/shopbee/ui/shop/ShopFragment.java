@@ -49,7 +49,7 @@ public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> imple
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         toolbarView = new ToolbarView(inflater, container);
-        toolbarView.setTitle("");
+        toolbarView.setTitle("Categories");
         toolbarView.enableNavigateUp(this);
         toolbarView.setSearchClickListener(this);
         return super.onCreateView(inflater, container, savedInstanceState);
