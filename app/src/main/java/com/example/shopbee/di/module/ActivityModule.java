@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.Toolbar;
 
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.shopbee.R;
 import com.example.shopbee.data.Repository;
@@ -55,4 +56,5 @@ public class ActivityModule {
     LayoutInflater provideLayoutInflater() {
         return LayoutInflater.from(activity);
     }
+
 }

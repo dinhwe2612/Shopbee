@@ -17,6 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder>{
+    public interface Listener {
+        void onItemClicked(int position);
+    }
+    Listener listener;
+    public ProfileAdapter(Listener listener) {
+        this.listener = listener;
+    }
     private final List<ProfileItem> profileItems = new ArrayList<>();
     @NonNull
     @Override
@@ -29,6 +36,12 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     public void onBindViewHolder(@NonNull ProfileViewHolder holder, int position) {
         holder.binding.optionName.setText(profileItems.get(position).option_name);
         holder.binding.optionContent.setText(profileItems.get(position).option_content);
+        holder.binding.buttonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClicked(position);
+            }
+        });
     }
 
     @Override
@@ -41,7 +54,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             super(binding.getRoot());
             this.binding = binding;
         }
-
     }
     public void setUpListProfileItem(){
         profileItems.add(new ProfileItem("My orders", "Already have 12..."));

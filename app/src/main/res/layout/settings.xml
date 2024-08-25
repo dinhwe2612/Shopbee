@@ -26,248 +26,269 @@
             android:layout_marginEnd="15dp"
             android:background="@drawable/share_icon" />
     </RelativeLayout>
-    <LinearLayout
-        android:layout_gravity="center_horizontal"
+    <TextView
+        android:layout_marginStart="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="Settings"
-            style="@style/Black_Bold_34dp"/>
-        <TextView
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Personal Information"
-            style="@style/Black_SemiBold_16dp"/>
-        <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="64dp"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:padding="8dp"
-            style="@style/AccountEditText_Background">
-            <TextView
-                style="@style/Gray_Regular_11dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Full name" />
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/AccountEditText_Background"
-                android:padding="1dp">
-                <EditText
-                    android:id="@+id/passwordText"
-                    android:layout_width="343dp"
-                    android:layout_height="50dp"
-                    style="@style/EditText"/>
-            </RelativeLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="64dp"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:padding="8dp"
-            style="@style/AccountEditText_Background">
-            <TextView
-                style="@style/Gray_Regular_11dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date of Birth"/>
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/AccountEditText_Background"
-                android:padding="1dp">
-                <EditText
-                    android:id="@+id/DOBText"
-                    android:layout_width="343dp"
-                    android:layout_height="50dp"
-                    android:inputType="datetime"
-                    style="@style/EditText"/>
-            </RelativeLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:layout_width="350dp"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Password"
-                style="@style/Black_SemiBold_16dp"/>
-            <TextView
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Change"
-                style="@style/Gray_Medium_14dp"/>
-        </RelativeLayout>
-        <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="64dp"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:padding="8dp"
-            style="@style/AccountEditText_Background">
-            <TextView
-                style="@style/Gray_Regular_11dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Password" />
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/AccountEditText_Background"
-                android:padding="1dp">
-                <EditText
-                    android:id="@+id/changePassword"
-                    android:layout_width="350dp"
-                    android:layout_height="50dp"
-                    android:inputType="textPassword"
-                    style="@style/EditText"/>
-            </RelativeLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:layout_width="350dp"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Country"
-                style="@style/Black_SemiBold_16dp"/>
-            <TextView
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Change"
-                style="@style/Gray_Medium_14dp"/>
-        </RelativeLayout>
-        <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="64dp"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:padding="8dp"
-            style="@style/AccountEditText_Background">
-            <TextView
-                style="@style/Gray_Regular_11dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Country" />
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/AccountEditText_Background"
-                android:padding="1dp">
-                <EditText
-                    android:layout_width="350dp"
-                    android:layout_height="50dp"
-                    style="@style/EditText"/>
-            </RelativeLayout>
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
+        android:layout_marginTop="18dp"
+        android:text="Settings"
+        style="@style/Black_Bold_34dp"/>
+    <ScrollView
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:scrollbars="none"
         android:layout_gravity="center_horizontal"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notifications"
-            style="@style/Black_SemiBold_16dp"/>
-        <RelativeLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:layout_centerVertical="true"
+            android:orientation="vertical">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sales"
-                style="@style/Black_Medium_14dp"/>
-            <com.github.angads25.toggle.widget.LabeledSwitch
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                app:colorOn = "@color/dark_red"
-                app:colorOff = "@color/white_light_theme"
-                app:on = "true"
-                android:layout_alignParentEnd="true"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:layout_centerVertical="true"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginTop="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Personal Information"
+                    style="@style/Black_SemiBold_16dp"/>
+                <LinearLayout
+                    android:layout_width="350dp"
+                    android:layout_height="64dp"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:padding="8dp"
+                    style="@style/AccountEditText_Background">
+                    <TextView
+                        style="@style/Gray_Regular_11dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Full name" />
+                    <RelativeLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/AccountEditText_Background"
+                        android:padding="1dp">
+                        <EditText
+                            android:id="@+id/fullnameText"
+                            android:layout_width="343dp"
+                            android:layout_height="50dp"
+                            style="@style/EditText"/>
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="350dp"
+                    android:layout_height="64dp"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:padding="8dp"
+                    style="@style/AccountEditText_Background">
+                    <TextView
+                        style="@style/Gray_Regular_11dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date of Birth"/>
+                    <RelativeLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/AccountEditText_Background"
+                        android:padding="1dp">
+                        <EditText
+                            android:id="@+id/DOBText"
+                            android:layout_width="343dp"
+                            android:layout_height="50dp"
+                            android:inputType="datetime"
+                            style="@style/EditText"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New arrivals"
-                style="@style/Black_Medium_14dp"/>
-            <com.github.angads25.toggle.widget.LabeledSwitch
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                app:colorOn = "@color/dark_red"
-                app:colorOff = "@color/white_light_theme"
-                app:on = "false"
-                android:layout_alignParentEnd="true"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:layout_centerVertical="true"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Password"
+                        style="@style/Black_SemiBold_16dp"/>
+                    <TextView
+                        android:id="@+id/changePassword"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Change"
+                        style="@style/Gray_Medium_14dp"/>
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="350dp"
+                    android:layout_height="64dp"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:padding="8dp"
+                    style="@style/AccountEditText_Background">
+                    <TextView
+                        style="@style/Gray_Regular_11dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Password" />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/AccountEditText_Background"
+                        android:padding="1dp">
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/passwordText"
+                            android:layout_width="350dp"
+                            android:layout_height="50dp"
+                            android:inputType="textPassword"
+                            style="@style/EditText"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delivery status changes"
-                style="@style/Black_Medium_14dp"/>
-            <com.github.angads25.toggle.widget.LabeledSwitch
-                android:layout_width="60dp"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Country"
+                        style="@style/Black_SemiBold_16dp"/>
+                    <TextView
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Change"
+                        style="@style/Gray_Medium_14dp"/>
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="350dp"
+                    android:layout_height="64dp"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:padding="8dp"
+                    style="@style/AccountEditText_Background">
+                    <TextView
+                        style="@style/Gray_Regular_11dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Country" />
+                    <RelativeLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/AccountEditText_Background"
+                        android:padding="1dp">
+                        <TextView
+                            android:id="@+id/countryText"
+                            android:layout_width="350dp"
+                            android:layout_height="50dp"
+                            style="@style/EditText"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
-                app:colorOn = "@color/dark_red"
-                app:colorOff = "@color/white_light_theme"
-                app:on = "false"
-                android:layout_alignParentEnd="true"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Themes"
-                style="@style/Black_Medium_14dp"/>
-            <com.github.angads25.toggle.widget.DayNightSwitch
-                android:layout_width="60dp"
-                android:layout_height="35dp"
-                android:layout_alignParentEnd="true"
-                app:on="true"/>
-        </RelativeLayout>
-    </LinearLayout>
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Notifications"
+                    style="@style/Black_SemiBold_16dp"/>
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sales"
+                        style="@style/Black_Medium_14dp"/>
+                    <com.github.angads25.toggle.widget.LabeledSwitch
+                        android:id="@+id/labeledSwitch_sales"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        app:colorOn = "@color/dark_red"
+                        app:colorOff = "@color/white_light_theme"
+                        app:on = "true"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New arrivals"
+                        style="@style/Black_Medium_14dp"/>
+                    <com.github.angads25.toggle.widget.LabeledSwitch
+                        android:id="@+id/labeledSwitch_newArrivals"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        app:colorOn = "@color/dark_red"
+                        app:colorOff = "@color/white_light_theme"
+                        app:on = "false"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Delivery status changes"
+                        style="@style/Black_Medium_14dp"/>
+                    <com.github.angads25.toggle.widget.LabeledSwitch
+                        android:id="@+id/labeledSwitch_deliveryStatus"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        app:colorOn = "@color/dark_red"
+                        app:colorOff = "@color/white_light_theme"
+                        app:on = "false"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Themes"
+                        style="@style/Black_Medium_14dp"/>
+                    <com.github.angads25.toggle.widget.DayNightSwitch
+                        android:id="@+id/dayNightSwitch"
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:layout_alignParentEnd="true"
+                        app:on="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
 </layout>

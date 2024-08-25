@@ -5,6 +5,6 @@ import com.example.shopbee.ui.base.BaseViewModel;
 
 public class SettingsViewModel extends BaseViewModel {
     public SettingsViewModel(Repository repository) {
-        super();
+        super(repository);
     }
 }
