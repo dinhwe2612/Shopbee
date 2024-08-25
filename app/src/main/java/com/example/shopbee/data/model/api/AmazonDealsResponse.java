@@ -1,5 +1,7 @@
 package com.example.shopbee.data.model.api;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 import okhttp3.OkHttpClient;
