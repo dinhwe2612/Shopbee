@@ -197,21 +197,21 @@
                 android:layout_below="@id/bannerLayout"
                 android:background="@color/red">
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/listMenu"
+                    android:id="@+id/categoriesRCV"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="1200dp"
                     android:layout_alignParentTop="true"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/deal_item"
+                    tools:listitem="@layout/categoryhome_item"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginTop="60dp"/>
+                    android:layout_marginTop="60dp" />
                 <LinearLayout
                     android:id="@+id/eventLayout"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:orientation="horizontal"
-                    android:layout_below="@id/listMenu"
+                    android:layout_below="@id/categoriesRCV"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="15dp">
 

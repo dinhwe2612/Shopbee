@@ -21,6 +21,9 @@ public class HomeViewModel extends BaseViewModel<HomeNavigator> {
         super(repository);
     }
     MutableLiveData<List<AmazonDealsResponse.Data.Deal>> dealProducts = new MutableLiveData<>();
+    MutableLiveData<List<AmazonDealsResponse.Data.Deal>> newDealProducts = new MutableLiveData<>();
+    MutableLiveData<List<AmazonDealsResponse.Data.Deal>> recommendedProducts = new MutableLiveData<>();
+
     public void syncDealProducts(HashMap<String, String> map) {
         setIsLoading(true);
         getCompositeDisposable().add(getRepository().getAmazonDealsResponse(map)
@@ -29,6 +32,8 @@ public class HomeViewModel extends BaseViewModel<HomeNavigator> {
                 .subscribe(result -> {
                             setIsLoading(false);
                             dealProducts.setValue(result.getData().getDeals());
+                            newDealProducts.setValue(result.getData().getDeals());
+                            recommendedProducts.setValue(result.getData().getDeals());
                         },
                         error -> {
                             setIsLoading(false);
@@ -36,7 +41,20 @@ public class HomeViewModel extends BaseViewModel<HomeNavigator> {
                         })
                 );
     }
+    public void syncNewDealProducts(HashMap<String, String> amazonDealsQuery) {
+
+    }
+    public void syncRecommendedProducts(HashMap<String, String> amazonDealsQuery) {
+
+    }
     public MutableLiveData<List<AmazonDealsResponse.Data.Deal>> getDealProducts() {
         return dealProducts;
+    }
+    public MutableLiveData<List<AmazonDealsResponse.Data.Deal>> getNewDealProducts() {
+        return newDealProducts;
+    }
+
+    public LiveData<List<AmazonDealsResponse.Data.Deal>> getRecommendedProducts() {
+        return recommendedProducts;
     }
 }
