@@ -1,4 +1,4 @@
-package com.example.shopbee.ui.adapter;
+package com.example.shopbee.ui.home.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.data.model.api.AmazonDealsResponse;
 import com.example.shopbee.databinding.DealItemBinding;
-import com.example.shopbee.databinding.SaleItemBinding;
 
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
