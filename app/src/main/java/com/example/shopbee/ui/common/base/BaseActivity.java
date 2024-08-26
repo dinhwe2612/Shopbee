@@ -29,6 +29,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     // TODO
     // this can probably depend on isLoading variable of BaseViewModel,
     // since its going to be common for all the activities
+    public ActivityComponent activityComponent;
     private ProgressDialog progressDialog;
     ToolbarView toolbarView;
     private T viewDataBinding;
@@ -102,7 +103,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     }
 
     protected ActivityComponent getBuildComponent() {
-        return DaggerActivityComponent.builder()
+        return activityComponent = DaggerActivityComponent.builder()
                 .appComponent(((BaseApplication)getApplication()).appComponent)
                 .activityModule(new ActivityModule(this))
                 .build();

@@ -46,6 +46,8 @@ public class TwoOptionDialog extends DialogFragment {
         binding.messageText.setText(message);
         binding.dialogBtn1.setText(buttonText1);
         binding.dialogBtn2.setText(buttonText2);
+        binding.dialogBtn1.setOnClickListener(v -> dismiss());
+        binding.dialogBtn2.setOnClickListener(v -> dismiss());
         Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(binding.getRoot());
         return dialog;

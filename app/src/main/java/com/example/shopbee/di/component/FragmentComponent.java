@@ -13,7 +13,7 @@ import com.example.shopbee.ui.shop.ShopFragment;
 import dagger.Component;
 
 @FragmentScope
-@Component(modules = FragmentModule.class, dependencies = AppComponent.class)
+@Component(modules = FragmentModule.class, dependencies = {AppComponent.class, ActivityComponent.class})
 public interface FragmentComponent {
     void inject(ProfileFragment profileFragment);
     void inject(FavoritesFragment favoritesFragment);

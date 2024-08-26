@@ -113,6 +113,7 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
     private FragmentComponent getBuildComponent() {
         return DaggerFragmentComponent.builder()
                 .appComponent(((BaseApplication)(requireContext().getApplicationContext())).appComponent)
+                .activityComponent(((BaseActivity<?, ?>) requireActivity()).activityComponent)
                 .fragmentModule(new FragmentModule(this))
                 .build();
     }
