@@ -16,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.SettingsBinding;
 import com.example.shopbee.di.component.FragmentComponent;
-import com.example.shopbee.ui.base.BaseFragment;
+
+import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.profile.adapter.ProfileAdapter;
 import com.github.angads25.toggle.interfaces.OnToggledListener;
 import com.github.angads25.toggle.model.ToggleableView;
