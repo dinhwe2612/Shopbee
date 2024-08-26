@@ -12,8 +12,7 @@ import com.example.shopbee.R;
 import com.example.shopbee.databinding.BagBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.toolbar.ToolbarView;
-import com.example.shopbee.ui.base.BaseActivity;
-import com.example.shopbee.ui.base.BaseFragment;
+import com.example.shopbee.ui.common.base.BaseFragment;
 
 public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implements BagNavigator, ToolbarView.SearchClickListener {
     ToolbarView toolbarView;

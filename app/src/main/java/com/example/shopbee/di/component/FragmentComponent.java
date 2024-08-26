@@ -14,7 +14,7 @@ import com.example.shopbee.ui.shop.search.SearchFragment;
 import dagger.Component;
 
 @FragmentScope
-@Component(modules = FragmentModule.class, dependencies = AppComponent.class)
+@Component(modules = FragmentModule.class, dependencies = {AppComponent.class, ActivityComponent.class})
 public interface FragmentComponent {
     void inject(SearchFragment searchFragment);
     void inject(ProfileFragment profileFragment);

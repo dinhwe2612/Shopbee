@@ -14,7 +14,7 @@ import com.example.shopbee.R;
 import com.example.shopbee.databinding.ShopBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.toolbar.ToolbarView;
-import com.example.shopbee.ui.base.BaseFragment;
+import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.shop.adapter.CategoriesAdapter;
 import com.example.shopbee.ui.shop.adapter.SubCategoriesAdapter;
 

@@ -2,13 +2,12 @@ package com.example.shopbee.ui.home;
 
 import android.util.Log;
 
-import androidx.lifecycle.HasDefaultViewModelProviderFactory;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.data.model.api.AmazonDealsResponse;
-import com.example.shopbee.ui.base.BaseViewModel;
+import com.example.shopbee.ui.common.base.BaseViewModel;
 
 import java.util.HashMap;
 import java.util.List;

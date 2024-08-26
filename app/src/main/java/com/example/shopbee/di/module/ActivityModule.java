@@ -1,25 +1,19 @@
 package com.example.shopbee.di.module;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.Toolbar;
 
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.shopbee.R;
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.di.ViewModelProviderFactory;
-import com.example.shopbee.toolbar.ToolbarView;
-import com.example.shopbee.ui.base.BaseActivity;
+import com.example.shopbee.ui.common.base.BaseActivity;
+import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.forgotpassword.ForgotPasswordViewModel;
 import com.example.shopbee.ui.login.LoginViewModel;
 import com.example.shopbee.ui.main.MainViewModel;
 
 import java.util.function.Supplier;
-
-import javax.inject.Qualifier;
 
 import dagger.Module;
 import dagger.Provides;
@@ -57,4 +51,8 @@ public class ActivityModule {
         return LayoutInflater.from(activity);
     }
 
+    @Provides
+    DialogsManager provideDialogsManager(LayoutInflater layoutInflater) {
+        return new DialogsManager(activity, activity.getSupportFragmentManager());
+    }
 }

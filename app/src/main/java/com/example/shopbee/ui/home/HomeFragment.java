@@ -1,9 +1,9 @@
 package com.example.shopbee.ui.home;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -18,21 +18,25 @@ import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.AmazonDealsResponse;
 import com.example.shopbee.databinding.HomeBinding;
 import com.example.shopbee.di.component.FragmentComponent;
+import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.home.adapter.BannerAdapter;
 import com.example.shopbee.ui.home.adapter.CategoryAdapter;
 import com.example.shopbee.ui.home.adapter.DealAdapter;
-import com.example.shopbee.ui.base.BaseFragment;
+import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.utils.ColorUtils;
 import com.example.shopbee.utils.NetworkUtils;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> implements HomeNavigator {
     HomeBinding binding;
     DealAdapter dealAdapter;
     DealAdapter newDealAdapter;
     DealAdapter recommendedAdapter;
-
+    @Inject
+    DialogsManager dialogsManager;
     final int maxScrollHeight = 200;
     @Override
     public int getBindingVariable() {
@@ -58,6 +62,7 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
 //        syncData();
         observeData();
         setUpRecyclerView();
+        dialogsManager.showYesNoDialog("Title", "Message");
     }
 
     void setUpToolbar() {
