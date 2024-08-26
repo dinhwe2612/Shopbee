@@ -10,6 +10,7 @@ import com.example.shopbee.ui.favorites.FavoritesViewModel;
 import com.example.shopbee.ui.home.HomeViewModel;
 import com.example.shopbee.ui.main.MainViewModel;
 import com.example.shopbee.ui.profile.ProfileViewModel;
+import com.example.shopbee.ui.profile.setting.SettingsViewModel;
 import com.example.shopbee.ui.shop.ShopViewModel;
 
 import java.util.function.Supplier;
@@ -57,5 +58,11 @@ public class FragmentModule {
         Supplier<ProfileViewModel> supplier = () -> new ProfileViewModel(repository);
         ViewModelProviderFactory<ProfileViewModel> factory = new ViewModelProviderFactory<ProfileViewModel>(ProfileViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(ProfileViewModel.class);
+    }
+    @Provides
+    public SettingsViewModel provideSettingsViewModel(Repository repository) {
+        Supplier<SettingsViewModel> supplier = () -> new SettingsViewModel(repository);
+        ViewModelProviderFactory<SettingsViewModel> factory = new ViewModelProviderFactory<SettingsViewModel>(SettingsViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(SettingsViewModel.class);
     }
 }

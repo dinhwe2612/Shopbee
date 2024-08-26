@@ -90,4 +90,7 @@ dependencies {
 
     // Layout Manager Recycler View
     implementation("com.github.DingMouRen:LayoutManagerGroup:1e6f4f96eb")
+
+    // Toggle Button
+    implementation("com.github.angads25:toggle:1.1.0")
 }

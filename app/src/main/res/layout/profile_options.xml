@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/white_rectangle_gray_stroke"
     android:layout_width="match_parent"
     android:layout_height="72dp">
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/option_name"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:text="My orders"
@@ -14,9 +15,10 @@
 
     </TextView>
     <TextView
+        android:id="@+id/option_content"
         android:layout_marginTop="5dp"
         android:layout_marginStart="15dp"
-        android:layout_below="@id/textView"
+        android:layout_below="@id/option_name"
         android:text="Already have 12 orders"
         style="@style/Gray_Regular_11dp"
         android:layout_width="wrap_content"
@@ -24,6 +26,7 @@
 
     </TextView>
     <ImageView
+        android:id="@+id/button_next"
         android:layout_marginEnd="15dp"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
@@ -33,3 +36,4 @@
 
     </ImageView>
 </RelativeLayout>
+</layout>

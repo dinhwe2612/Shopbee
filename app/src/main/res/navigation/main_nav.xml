@@ -28,4 +28,8 @@
         android:id="@+id/profileFragment"
         android:name="com.example.shopbee.ui.profile.ProfileFragment"
         android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.shopbee.ui.profile.setting.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>
