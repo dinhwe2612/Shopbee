@@ -13,6 +13,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.inject.Singleton;
+
 public class CategoriesTree {
     private static CategoriesTree instance;
     public static CategoriesTree getInstance(Context context) throws IOException {

@@ -1,6 +1,7 @@
 package com.example.shopbee.ui.shop.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.FutureTarget;
 import com.example.shopbee.databinding.CategoriesShopNewItem2Binding;
 import com.example.shopbee.databinding.CategoriesShopNewItem2ItemBinding;
 import com.example.shopbee.ui.shop.categories.CategoriesHashMap;
@@ -18,7 +20,17 @@ import com.example.shopbee.ui.shop.tree.CategoryNode;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import coil.ImageLoader;
+import coil.ImageLoaders;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class SubSubCategoriesAdapter extends RecyclerView.Adapter<SubSubCategoriesAdapter.ViewHolder> {
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
     private Context context;
     private ArrayList<String> subSubCategories;
     public SubSubCategoriesAdapter(Context context, String subCategory) throws IOException {
@@ -54,7 +66,29 @@ public class SubSubCategoriesAdapter extends RecyclerView.Adapter<SubSubCategori
         }
         public void bindView(int position) {
             binding.textView.setText(CategoriesHashMap.getInstance().getCategories().get(subSubCategories.get(position)));
-            Glide.with(binding.imageView.getContext()).load(CategoriesHashMap.getInstance().getCategoriesLink(subSubCategories.get(position))).into(binding.imageView);
+//            Glide.with(binding.imageView.getContext()).load(CategoriesHashMap.getInstance().getCategoriesLink(subSubCategories.get(position))).into(binding.imageView);
+            compositeDisposable.add(Observable.fromCallable(() -> {
+                       FutureTarget<Bitmap> futureTarget = Glide.with(binding.imageView.getContext())
+                       .asBitmap()
+                       .load(CategoriesHashMap.getInstance()
+                       .getCategoriesLink(subSubCategories.get(position)))
+                       .submit();
+                       return futureTarget.get();
+                   })
+                   .subscribeOn(Schedulers.io())
+                   .observeOn(AndroidSchedulers.mainThread())
+                   .subscribe(bitmap -> {
+                       binding.imageView.setImageBitmap(bitmap);
+                   }, throwable -> {
+                       Log.e("Exception", throwable.getMessage());
+                   })
+            );
         }
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        compositeDisposable.clear();
     }
 }
