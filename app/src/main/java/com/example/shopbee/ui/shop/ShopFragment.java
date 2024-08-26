@@ -8,12 +8,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.ShopBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.toolbar.ToolbarView;
 import com.example.shopbee.ui.base.BaseFragment;
+import com.example.shopbee.ui.shop.adapter.CategoriesAdapter;
+
+import java.io.IOException;
 
 public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> implements ShopNavigator,ToolbarView.NavigateUpClickListener, ToolbarView.SearchClickListener {
     ToolbarView toolbarView;
@@ -44,6 +48,12 @@ public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> imple
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getViewDataBinding().topBar.addView(toolbarView.getRootView());
+        getViewDataBinding().recyclerView1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        try {
+            getViewDataBinding().recyclerView1.setAdapter(new CategoriesAdapter(requireContext()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

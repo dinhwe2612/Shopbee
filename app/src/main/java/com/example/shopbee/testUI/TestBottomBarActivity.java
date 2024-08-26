@@ -1,15 +1,10 @@
 package com.example.shopbee.testUI;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shopbee.R;
-import com.example.shopbee.impl.bottombar.BottomBarUserReactionImplementation;
 
 public class TestBottomBarActivity extends AppCompatActivity {
 

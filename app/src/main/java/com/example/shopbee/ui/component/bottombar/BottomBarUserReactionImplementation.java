@@ -1,23 +1,14 @@
-package com.example.shopbee.impl.bottombar;
+package com.example.shopbee.ui.component.bottombar;
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.BottomBarBinding;
-import com.example.shopbee.impl.bottombar.BottomBarUserReactionListener;
 
 public class BottomBarUserReactionImplementation {
     BottomBarUserReactionListener listener;

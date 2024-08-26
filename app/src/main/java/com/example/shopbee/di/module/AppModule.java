@@ -3,8 +3,7 @@ package com.example.shopbee.di.module;
 import androidx.annotation.NonNull;
 
 import com.example.shopbee.data.remote.AmazonApiService;
-import com.example.shopbee.impl.bottombar.BottomBarUserReactionImplementation;
-import com.example.shopbee.impl.bottombar.BottomBarUserReactionListener;
+import com.example.shopbee.ui.component.bottombar.BottomBarUserReactionImplementation;
 import com.example.shopbee.utils.NetworkUtils;
 
 import java.io.IOException;
@@ -16,7 +15,6 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;

@@ -1,20 +1,41 @@
 package com.example.shopbee.ui.shop.categories;
 
+import com.example.shopbee.R;
 import com.example.shopbee.ui.shop.adapter.CategoriesAdapter;
 
 import java.nio.channels.ScatteringByteChannel;
 import java.util.HashMap;
 
 public class CategoriesHashMap {
+    private static final CategoriesHashMap instance = new CategoriesHashMap();
+    public static CategoriesHashMap getInstance() {
+        return instance;
+    }
     private HashMap<String, String> categories;
-    public CategoriesHashMap() {
+    private HashMap<String, Integer> categoriesImage;
+    public HashMap<String, String> getCategories() {
+        return categories;
+    }
+    public HashMap<String, Integer> getCategoriesImage() {
+        return categoriesImage;
+    }
+    private CategoriesHashMap() {
         categories = new HashMap<>();
+        categoriesImage = new HashMap<>();
         categories.put("1000", "Books");
+        categoriesImage.put("1000", R.style.Book);
         categories.put("7141124011", "Clothing, Shoes & Jewelry");
+        categoriesImage.put("7141124011", R.style.Fashion);
         categories.put("1063498", "Home & Kitchen");
+        categoriesImage.put("1063498", R.style.Kitchen);
         categories.put("1084128", "Office Products");
+        categoriesImage.put("1084128", R.style.Stationery);
         categories.put("2619534011", "Pet Supplies");
+        categoriesImage.put("2619534011", R.style.Pet);
         categories.put("541966", "Computers");
+        categoriesImage.put("541966", R.style.Computer);
+        categories.put("2811119011", "Cell Phones & Accessories");
+        categoriesImage.put("2811119011", R.style.Phone);
 
         categories.put("4", "Children's Books");
         categories.put("5", "Computers & Technology");

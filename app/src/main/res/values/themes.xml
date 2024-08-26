@@ -413,4 +413,28 @@
     <style name="CategoriesSelected">
         <item name="android:background">@drawable/categories_selected_background</item>
     </style>
+    <style name="Star">
+        <item name="android:src">@drawable/star</item>
+    </style>
+    <style name="Book">
+        <item name="android:src">@drawable/book</item>
+    </style>
+    <style name="Computer">
+        <item name="android:src">@drawable/computer</item>
+    </style>
+    <style name="Phone">
+        <item name="android:src">@drawable/smartphone</item>
+    </style>
+    <style name="Kitchen">
+        <item name="android:src">@drawable/kitchen</item>
+    </style>
+    <style name="Stationery">
+        <item name="android:src">@drawable/stationery</item>
+    </style>
+    <style name="Fashion">
+        <item name="android:src">@drawable/fashion</item>
+    </style>
+    <style name="Pet">
+        <item name="android:src">@drawable/pet</item>
+    </style>
 </resources>
