@@ -13,10 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.ProfileBinding;
 import com.example.shopbee.di.component.FragmentComponent;
-import com.example.shopbee.ui.base.BaseFragment;
+import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.profile.adapter.ProfileAdapter;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewModel> implements ProfileNavigator, ProfileAdapter.Listener {

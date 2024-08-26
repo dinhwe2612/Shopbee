@@ -1,15 +1,11 @@
 package com.example.shopbee.ui.login;
 
-import android.text.Editable;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.shopbee.data.Repository;
-import com.example.shopbee.ui.base.BaseViewModel;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.example.shopbee.ui.common.base.BaseViewModel;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GoogleAuthCredential;
 
 import java.util.Objects;
 

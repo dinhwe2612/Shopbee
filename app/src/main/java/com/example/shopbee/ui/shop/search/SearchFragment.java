@@ -1,13 +1,13 @@
-package com.example.shopbee.ui.favorites;
+package com.example.shopbee.ui.shop.search;
 
 import androidx.databinding.library.baseAdapters.BR;
 
 import com.example.shopbee.R;
-import com.example.shopbee.databinding.FavoritesBinding;
+import com.example.shopbee.databinding.SearchCatalogNewBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 
-public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesViewModel> implements  FavoritesNavigator {
+public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, SearchViewModel> implements SearchNavigator {
     @Override
     public int getBindingVariable() {
         return BR.vm;
@@ -15,7 +15,7 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
 
     @Override
     public int getLayoutId() {
-        return R.layout.favorites;
+        return R.layout.search_catalog_new;
     }
 
     @Override

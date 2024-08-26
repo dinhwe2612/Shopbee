@@ -1,4 +1,4 @@
-package com.example.shopbee.ui.base;
+package com.example.shopbee.ui.common.base;
 
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.ViewModel;

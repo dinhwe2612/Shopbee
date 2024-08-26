@@ -398,4 +398,7 @@
     <style name="Pet">
         <item name="android:src">@drawable/pet_color</item>
     </style>
+    <style name="Electronics">
+        <item name="android:src">@drawable/electronics_color</item>
+    </style>
 </resources>

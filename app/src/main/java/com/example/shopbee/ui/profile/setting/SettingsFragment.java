@@ -12,21 +12,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.SettingsBinding;
 import com.example.shopbee.di.component.FragmentComponent;
-import com.example.shopbee.ui.base.BaseFragment;
+
+import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.profile.adapter.ProfileAdapter;
 import com.github.angads25.toggle.interfaces.OnToggledListener;
 import com.github.angads25.toggle.model.ToggleableView;
 
 public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsViewModel> implements SettingsNavigator {
     SettingsBinding binding;
-
     @Override
-    public int getBindingVariable() {return 0;}
+    public int getBindingVariable() {return BR.vm;}
     @Override
     public int getLayoutId() {return R.layout.settings;}
     @Override

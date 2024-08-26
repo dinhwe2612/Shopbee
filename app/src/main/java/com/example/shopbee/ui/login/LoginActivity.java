@@ -11,7 +11,7 @@ import com.example.shopbee.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.LoginBinding;
 import com.example.shopbee.di.component.ActivityComponent;
-import com.example.shopbee.ui.base.BaseActivity;
+import com.example.shopbee.ui.common.base.BaseActivity;
 import com.example.shopbee.ui.forgotpassword.ForgotPasswordActivity;
 import com.example.shopbee.ui.main.MainActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

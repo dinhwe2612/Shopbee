@@ -28,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="24dp"
-            android:textColor="@color/black"
             style="@style/Black_SemiBold_18dp"
             android:layout_gravity="center"/>
         <ImageButton

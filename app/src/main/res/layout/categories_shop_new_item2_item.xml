@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="product"
+            type="com.example.shopbee.ui.shop.tree.CategoryNode" />
+    </data>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_marginStart="7dp"
     android:layout_width="80dp"
@@ -7,7 +13,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:src="@drawable/english_book"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         android:layout_width="wrap_content"
         android:layout_height="100dp">
 
@@ -25,3 +31,4 @@
 
     </TextView>
 </LinearLayout>
+</layout>

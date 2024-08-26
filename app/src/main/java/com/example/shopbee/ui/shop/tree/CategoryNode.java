@@ -15,6 +15,7 @@ public class CategoryNode {
     private CategoryNode parent;
     private String id;
     private List<CategoryNode> children;
+
     public void setParent(CategoryNode parent) {
         this.parent = parent;
     }

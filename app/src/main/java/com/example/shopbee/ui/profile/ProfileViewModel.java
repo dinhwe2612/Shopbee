@@ -1,7 +1,7 @@
 package com.example.shopbee.ui.profile;
 
 import com.example.shopbee.data.Repository;
-import com.example.shopbee.ui.base.BaseViewModel;
+import com.example.shopbee.ui.common.base.BaseViewModel;
 
 public class ProfileViewModel extends BaseViewModel {
     public ProfileViewModel(Repository repository) {

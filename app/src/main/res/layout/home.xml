@@ -137,7 +137,7 @@
                                 android:id="@+id/shobeePayText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="ShobeePay"
+                                android:text="ShopbeePay"
                                 android:layout_toEndOf="@id/walletIcon"
                                 style="@style/Black_SemiBold_16dp"
                                 android:layout_alignBottom="@id/walletIcon"

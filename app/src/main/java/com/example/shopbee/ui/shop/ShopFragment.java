@@ -14,8 +14,9 @@ import com.example.shopbee.R;
 import com.example.shopbee.databinding.ShopBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.toolbar.ToolbarView;
-import com.example.shopbee.ui.base.BaseFragment;
+import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.shop.adapter.CategoriesAdapter;
+import com.example.shopbee.ui.shop.adapter.SubCategoriesAdapter;
 
 import java.io.IOException;
 
@@ -48,9 +49,24 @@ public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> imple
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getViewDataBinding().topBar.addView(toolbarView.getRootView());
+        SubCategoriesAdapter subCategoriesAdapter;
+        try {
+            subCategoriesAdapter = new SubCategoriesAdapter(requireContext());
+            getViewDataBinding().recyclerView2.setAdapter(subCategoriesAdapter);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        getViewDataBinding().recyclerView2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         getViewDataBinding().recyclerView1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         try {
-            getViewDataBinding().recyclerView1.setAdapter(new CategoriesAdapter(requireContext()));
+            getViewDataBinding().recyclerView1.setAdapter(new CategoriesAdapter(requireContext(), new CategoriesAdapter.OnCategoryClickListener() {
+                @Override
+                public void onCategoryClick(String category) throws IOException {
+                    if (subCategoriesAdapter != null) {
+                        subCategoriesAdapter.notifyCategoryChanged(category);
+                    }
+                }
+            }));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
