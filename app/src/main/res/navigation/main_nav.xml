@@ -32,4 +32,8 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.shopbee.ui.profile.setting.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/myOrderFragment"
+        android:name="com.example.shopbee.ui.profile.myorder.MyOrderFragment"
+        android:label="MyOrderFragment" />
 </navigation>

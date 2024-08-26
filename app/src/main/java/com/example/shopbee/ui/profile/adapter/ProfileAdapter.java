@@ -48,6 +48,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     public int getItemCount(){
         return profileItems.size();
     }
+
     static class ProfileViewHolder extends RecyclerView.ViewHolder{
         ProfileOptionsBinding binding;
         public ProfileViewHolder(@NonNull ProfileOptionsBinding binding){

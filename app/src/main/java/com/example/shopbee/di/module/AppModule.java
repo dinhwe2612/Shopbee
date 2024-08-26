@@ -3,6 +3,7 @@ package com.example.shopbee.di.module;
 import androidx.annotation.NonNull;
 
 import com.example.shopbee.data.remote.AmazonApiService;
+import com.example.shopbee.data.remote.CountryApiService;
 import com.example.shopbee.ui.component.bottombar.BottomBarUserReactionImplementation;
 import com.example.shopbee.utils.NetworkUtils;
 
@@ -52,6 +53,15 @@ public class AppModule {
                 .client(okHttpClient)
                 .build()
                 .create(AmazonApiService.class);
+    }
+    @Provides
+    @Singleton
+    public static CountryApiService provideCountryService(){
+        return new Retrofit.Builder()
+                .baseUrl(NetworkUtils.BASE_URL_COUNTRY)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(CountryApiService.class);
     }
     @Provides
     @Singleton

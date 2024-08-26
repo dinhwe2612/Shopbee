@@ -10,6 +10,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.R;
@@ -41,8 +43,26 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
         binding.DOBText.setText("19/07/2001");
         binding.passwordText.setText("123456789");
         binding.countryText.setText("Viet Nam (VN)");
+        settingTheme();
+
+        NavController navController = NavHostFragment.findNavController(this);
+        binding.buttonBackSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigateUp();
+            }
+        });
+        binding.changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+    }
 
 
+    void settingTheme(){
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         boolean isDarkMode = sharedPref.getBoolean("DARK_MODE", false);
         if (isDarkMode){

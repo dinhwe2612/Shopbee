@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public final class NetworkUtils {
     private NetworkUtils() {}
+    public static final String BASE_URL_COUNTRY = "https://restcountries.com/";
     public static final String BASE_URL = "https://real-time-amazon-data.p.rapidapi.com/";
     public static final String HEADER_KEY = "x-rapidapi-key";
     public static final String KEY = "c674539d8fmshd141625da6009cbp18d329jsnae1fad532e4d";

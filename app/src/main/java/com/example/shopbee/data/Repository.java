@@ -2,9 +2,12 @@ package com.example.shopbee.data;
 
 import com.example.shopbee.data.model.api.AmazonDealsResponse;
 import com.example.shopbee.data.model.api.AmazonSearchResponse;
+import com.example.shopbee.data.model.api.CountryRespone;
 import com.example.shopbee.data.remote.AmazonApiService;
+import com.example.shopbee.data.remote.CountryApiService;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,6 +18,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 @Singleton
 public class Repository {
     final AmazonApiService amazonApiService;
+    /*final CountryApiService countryApiService;*/
     @Inject
     Repository(AmazonApiService amazonApiService) {
         this.amazonApiService = amazonApiService;
@@ -27,4 +31,8 @@ public class Repository {
     public Observable<AmazonDealsResponse> getAmazonDealsResponse(HashMap<String, String> map) {
         return amazonApiService.getAmazonDeals(map);
     }
+   /* public Observable<List<CountryRespone>> getAllCountries() {
+
+        return countryApiService.getAllCountries();
+    }*/
 }

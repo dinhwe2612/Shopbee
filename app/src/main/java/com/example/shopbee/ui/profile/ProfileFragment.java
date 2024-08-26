@@ -62,7 +62,8 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
     }
     @Override
     public void myOrder() {
-
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.myOrderFragment);
     }
 
     @Override
