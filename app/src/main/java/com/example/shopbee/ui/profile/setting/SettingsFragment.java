@@ -3,6 +3,7 @@ package com.example.shopbee.ui.profile.setting;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.github.angads25.toggle.model.ToggleableView;
 
 public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsViewModel> implements SettingsNavigator {
     SettingsBinding binding;
+
     @Override
     public int getBindingVariable() {return 0;}
     @Override
@@ -36,17 +38,24 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
         binding.passwordText.setText("123456789");
         binding.countryText.setText("Viet Nam (VN)");
 
+
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        boolean isDarkMode = sharedPref.getBoolean("DARK_MODE", false);
+        if (isDarkMode){
+            binding.dayNightSwitch.setOn(false);
+        } else binding.dayNightSwitch.setOn(true);
+
         binding.dayNightSwitch.setOnToggledListener(new OnToggledListener() {
             @Override
             public void onSwitched(ToggleableView toggleableView, boolean isOn) {
-                if (isOn) {
+                Log.d("TAG", "onSwitched: " + isOn);
+                if (!isOn) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
                 SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putBoolean("DARK_MODE", isOn);
+                editor.putBoolean("DARK_MODE", !isOn);
                 editor.apply();
             }
         });
