@@ -23,7 +23,7 @@ import com.example.shopbee.R;
 import com.example.shopbee.databinding.MyOrdersBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.testUI.PagerAdapter.ViewPagerAdapter;
-import com.example.shopbee.ui.base.BaseFragment;
+import com.example.shopbee.ui.common.base.BaseFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 

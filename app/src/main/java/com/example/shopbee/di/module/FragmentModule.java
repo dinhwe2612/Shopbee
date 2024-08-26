@@ -72,6 +72,7 @@ public class FragmentModule {
         Supplier<MyOrderViewModel> supplier = () -> new MyOrderViewModel(repository);
         ViewModelProviderFactory<MyOrderViewModel> factory = new ViewModelProviderFactory<MyOrderViewModel>(MyOrderViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(MyOrderViewModel.class);
+    }
     @Provides
     public SearchViewModel provideSearchViewModel(Repository repository) {
         Supplier<SearchViewModel> supplier = () -> new SearchViewModel(repository);
