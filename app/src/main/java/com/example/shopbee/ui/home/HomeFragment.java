@@ -3,7 +3,6 @@ package com.example.shopbee.ui.home;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -21,7 +20,7 @@ import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.home.adapter.BannerAdapter;
 import com.example.shopbee.ui.home.adapter.CategoryAdapter;
 import com.example.shopbee.ui.home.adapter.DealAdapter;
-import com.example.shopbee.ui.base.BaseFragment;
+import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.utils.ColorUtils;
 import com.example.shopbee.utils.NetworkUtils;
 

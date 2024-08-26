@@ -10,10 +10,7 @@ import androidx.databinding.library.baseAdapters.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.ForgotPasswordBinding;
 import com.example.shopbee.di.component.ActivityComponent;
-import com.example.shopbee.ui.base.BaseActivity;
-import com.example.shopbee.ui.login.LoginActivity;
-
-import java.util.Map;
+import com.example.shopbee.ui.common.base.BaseActivity;
 
 public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordBinding, ForgotPasswordViewModel>
         implements ForgotPasswordNavigator{

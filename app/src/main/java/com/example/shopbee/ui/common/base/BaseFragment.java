@@ -1,4 +1,4 @@
-package com.example.shopbee.ui.base;
+package com.example.shopbee.ui.common.base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,8 +17,6 @@ import com.example.shopbee.BaseApplication;
 import com.example.shopbee.di.component.DaggerFragmentComponent;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.di.module.FragmentModule;
-
-import java.util.Objects;
 
 import javax.inject.Inject;
 

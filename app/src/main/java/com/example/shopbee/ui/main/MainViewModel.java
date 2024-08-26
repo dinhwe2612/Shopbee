@@ -3,7 +3,7 @@ package com.example.shopbee.ui.main;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.shopbee.data.Repository;
-import com.example.shopbee.ui.base.BaseViewModel;
+import com.example.shopbee.ui.common.base.BaseViewModel;
 
 import java.util.HashMap;
 import java.util.List;

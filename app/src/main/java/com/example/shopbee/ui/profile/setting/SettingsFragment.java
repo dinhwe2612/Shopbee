@@ -1,7 +1,5 @@
 package com.example.shopbee.ui.profile.setting;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,13 +7,11 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.SettingsBinding;
 import com.example.shopbee.di.component.FragmentComponent;
-import com.example.shopbee.ui.base.BaseFragment;
-import com.example.shopbee.ui.profile.adapter.ProfileAdapter;
+import com.example.shopbee.ui.common.base.BaseFragment;
 import com.github.angads25.toggle.interfaces.OnToggledListener;
 import com.github.angads25.toggle.model.ToggleableView;
 

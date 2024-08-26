@@ -1,7 +1,7 @@
 package com.example.shopbee.ui.forgotpassword;
 
 import com.example.shopbee.data.Repository;
-import com.example.shopbee.ui.base.BaseViewModel;
+import com.example.shopbee.ui.common.base.BaseViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
