@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.shopbee.databinding.CategoriesShopNewItem2Binding;
 import com.example.shopbee.databinding.CategoriesShopNewItem2ItemBinding;
 import com.example.shopbee.ui.shop.categories.CategoriesHashMap;
@@ -53,6 +54,7 @@ public class SubSubCategoriesAdapter extends RecyclerView.Adapter<SubSubCategori
         }
         public void bindView(int position) {
             binding.textView.setText(CategoriesHashMap.getInstance().getCategories().get(subSubCategories.get(position)));
+            Glide.with(binding.imageView.getContext()).load(CategoriesHashMap.getInstance().getCategoriesLink(subSubCategories.get(position))).into(binding.imageView);
         }
     }
 }

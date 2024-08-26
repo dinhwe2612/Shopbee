@@ -13,15 +13,20 @@ public class CategoriesHashMap {
     }
     private HashMap<String, String> categories;
     private HashMap<String, Integer> categoriesImage;
+    private HashMap<String, String> categoriesLink;
     public HashMap<String, String> getCategories() {
         return categories;
     }
     public HashMap<String, Integer> getCategoriesImage() {
         return categoriesImage;
     }
+    public String getCategoriesLink(String key) {
+        return categoriesLink.get(key);
+    }
     private CategoriesHashMap() {
         categories = new HashMap<>();
         categoriesImage = new HashMap<>();
+        categoriesLink = new HashMap<>();
         categories.put("1000", "Books");
         categoriesImage.put("1000", R.style.Book);
         categories.put("7141124011", "Clothing, Shoes & Jewelry");
@@ -76,42 +81,70 @@ public class CategoriesHashMap {
         categories.put("172541", "Headphones");
 
         categories.put("2787", "Animals");
+        categoriesLink.put("2787", "https://m.media-amazon.com/images/I/71WUlaKVG-L._AC_UF1000,1000_QL80_.jpg");
 //        categoriesImage.put("2787", R.drawable.animal_children_book);
         categories.put("3207", "Science, Nature & How It Works");
+        categoriesLink.put("3207", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5X3ngu4e4xfOHSdLCVF7LjsnrH3mOjpjaFA&s");
 //        categoriesImage.put("3207", R.drawable.science_children_book);
         categories.put("3344091011", "Geography & Cultures");
+        categoriesLink.put("3344091011", "https://m.media-amazon.com/images/I/61HcngqelBL._AC_UF894,1000_QL80_.jpg");
 //        categoriesImage.put("3344091011", R.drawable.geography_children_book);
         categories.put("2917", "History");
+        categoriesLink.put("2917", "https://m.media-amazon.com/images/I/51NAVbHmeSL._AC_UF1000,1000_QL80_.jpg");
 //        categoriesImage.put("2917", R.drawable.history_children_book);
 
         categories.put("549726", "Business Technology");
+        categoriesLink.put("549726", "https://m.media-amazon.com/images/I/618v+5-EzdL._AC_UF1000,1000_QL80_.jpg");
         categories.put("3508", "Computer Science");
+        categoriesLink.put("3508", "https://m.media-amazon.com/images/I/71mGHEwMN-L._AC_UF1000,1000_QL80_.jpg");
         categories.put("549646", "Databases & Big Data");
+        categoriesLink.put("549646", "https://m.media-amazon.com/images/I/613auODCgnL._AC_UF894,1000_QL80_.jpg");
         categories.put("3652", "Networking & Cloud Computing");
+        categoriesLink.put("3652", "https://m.media-amazon.com/images/I/41dPKcYbQyL._AC_UF1000,1000_QL80_.jpg");
         categories.put("3839", "Programming");
+        categoriesLink.put("3839", "https://m.media-amazon.com/images/I/41mkuSVEvkL.jpg");
         categories.put("3510", "Web Development & Design");
+        categoriesLink.put("3510", "https://m.media-amazon.com/images/I/41pH7mPYBTL.jpg");
 
         categories.put("69820", "Higher & Continuing Education");
+        categoriesLink.put("69820", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1qDNR-8Ti9eLy5ekyPrf6-sYrGLbzwpghhg&s");
         categories.put("5267708011", "Schools & Teaching");
+        categoriesLink.put("5267708011", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRB5HwHwOkEFIP0yum2IWxO_Domn62e7RBtgA&s");
         categories.put("5267723011", "Studying & Workbooks");
+        categoriesLink.put("5267723011", "https://m.media-amazon.com/images/I/51ODXv0sbGL._AC_SR300,300.jpg");
         categories.put("5267710011", "Test Preparation");
+        categoriesLink.put("5267710011", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5o93Zpe_HoCnjb_p6Z_EVh7jhhEZeYowdnQ&s");
 
         categories.put("4716", "Addiction & Recovery");
+        categoriesLink.put("4716", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEjdYDo9FPSMerdtSrURaYScPTl9i3EoXmqw&s");
         categories.put("282840", "Aging");
+        categoriesLink.put("282840", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqmRUXukNGAwaLSblN4zOwkOC_TOfkPjo6EQ&s");
         categories.put("4645", "Exercise & Fitness");
+        categoriesLink.put("4645", "https://m.media-amazon.com/images/I/712GjqUYJUL._AC_UF1000,1000_QL80_.jpg");
         categories.put("4682", "Mental Health");
+        categoriesLink.put("4682", "https://m.media-amazon.com/images/I/718A6RecZKL._AC_UF1000,1000_QL80_.jpg");
         categories.put("6514340011", "Sexual Health");
+        categoriesLink.put("6514340011", "https://m.media-amazon.com/images/I/518iWRkFBLL._AC_UF1000,1000_QL80_.jpg");
 
         categories.put("266181", "Medical Informatics");
+        categoriesLink.put("266181", "https://m.media-amazon.com/images/I/71O6yQRfsUL._AC_UF1000,1000_QL80_.jpg");
         categories.put("265542", "Medicine");
+        categoriesLink.put("265542", "https://m.media-amazon.com/images/I/61wrToRwudL._AC_UF894,1000_QL80_.jpg");
         categories.put("227640", "Nursing");
+        categoriesLink.put("227640", "https://m.media-amazon.com/images/I/61imDp+lvcL._AC_UF1000,1000_QL80_.jpg");
         categories.put("6511980011", "Psychology");
+        categoriesLink.put("6511980011", "https://m.media-amazon.com/images/I/81LDP+GDKVL._AC_UF1000,1000_QL80_.jpg");
 
         categories.put("3568218011", "Anger Management");
+        categoriesLink.put("3568218011", "https://m.media-amazon.com/images/I/41HOF7nqyRL._AC_UF1000,1000_QL80_.jpg");
         categories.put("10166949011", "Communication & Social Skills");
+        categoriesLink.put("10166949011", "https://m.media-amazon.com/images/I/71+n-OaH1RL._AC_UF1000,1000_QL80_.jpg");
         categories.put("4743", "Memory Improvement");
+        categoriesLink.put("4743", "https://m.media-amazon.com/images/I/61c3g0pRDgL._AC_UF894,1000_QL80_.jpg");
         categories.put("4747", "Stress Management");
+        categoriesLink.put("4747", "https://m.media-amazon.com/images/I/718-7EH+yKL._AC_UF1000,1000_QL80_.jpg");
         categories.put("9473326011", "Time Management");
+        categoriesLink.put("9473326011", "https://m.media-amazon.com/images/I/61rd1Rh3UiL._AC_UF1000,1000_QL80_.jpg");
 
         categories.put("1040660", "Clothing");
         categories.put("679337011", "Shoes");

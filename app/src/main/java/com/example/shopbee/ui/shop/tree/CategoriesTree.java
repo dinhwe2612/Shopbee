@@ -58,6 +58,11 @@ public class CategoriesTree {
             ArrayList<String> lineData = new ArrayList<>(Arrays.asList(elements));
 
             // Process the ArrayList (example: print each element)
+            if (current.getParent() != null && CategoriesHashMap.getInstance().getCategories().containsKey(current.getParent().getId())) {
+                Log.d("CategoriesTree", "Parent: " + CategoriesHashMap.getInstance().getCategories().get(current.getParent().getId()));
+            }
+
+
             Log.d("CategoriesTree", "Parent: " + CategoriesHashMap.getInstance().getCategories().get(current.getId()));
             for (String element : lineData) {
                 CategoryNode newNode = new CategoryNode(element);
