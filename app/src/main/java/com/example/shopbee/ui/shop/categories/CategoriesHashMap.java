@@ -34,8 +34,8 @@ public class CategoriesHashMap {
         categoriesImage.put("2619534011", R.style.Pet);
         categories.put("541966", "Computers");
         categoriesImage.put("541966", R.style.Computer);
-        categories.put("2811119011", "Cell Phones & Accessories");
-        categoriesImage.put("2811119011", R.style.Phone);
+        categories.put("493964", "Electronics");
+        categoriesImage.put("493964", R.style.Electronics);
 
         categories.put("4", "Children's Books");
         categories.put("5", "Computers & Technology");
@@ -71,10 +71,18 @@ public class CategoriesHashMap {
         categories.put("3011391011", "Laptop Accessories");
         categories.put("193870011", "Computer Components");
 
+        categories.put("502394", "Camera & Photo");
+        categories.put("2811119011", "Cell Phones & Accessories");
+        categories.put("172541", "Headphones");
+
         categories.put("2787", "Animals");
+//        categoriesImage.put("2787", R.drawable.animal_children_book);
         categories.put("3207", "Science, Nature & How It Works");
+//        categoriesImage.put("3207", R.drawable.science_children_book);
         categories.put("3344091011", "Geography & Cultures");
+//        categoriesImage.put("3344091011", R.drawable.geography_children_book);
         categories.put("2917", "History");
+//        categoriesImage.put("2917", R.drawable.history_children_book);
 
         categories.put("549726", "Business Technology");
         categories.put("3508", "Computer Science");
@@ -209,5 +217,17 @@ public class CategoriesHashMap {
         categories.put("3015426011", "Desktop Barebones");
         categories.put("3012292011", "External Components");
         categories.put("17923671011", "Internal Components");
+
+        categories.put("281052", "Digital Cameras");
+        categories.put("499248", "Lenses");
+        categories.put("499306", "Tripods & Monopods");
+
+        categories.put("2407748011", "Carrier Cell Phones");
+        categories.put("2407749011", "Unlocked Cell Phones");
+        categories.put("2407760011", "Cases, Holsters & Clips");
+
+        categories.put("12097478011", "Earbud Headphones");
+        categories.put("12097480011", "On-Ear Headphones");
+        categories.put("12097479011", "Over-Ear Headphones");
     }
 }

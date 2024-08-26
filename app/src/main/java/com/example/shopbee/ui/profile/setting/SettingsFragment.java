@@ -10,6 +10,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.R;
@@ -22,9 +23,8 @@ import com.github.angads25.toggle.model.ToggleableView;
 
 public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsViewModel> implements SettingsNavigator {
     SettingsBinding binding;
-
     @Override
-    public int getBindingVariable() {return 0;}
+    public int getBindingVariable() {return BR.vm;}
     @Override
     public int getLayoutId() {return R.layout.settings;}
     @Override

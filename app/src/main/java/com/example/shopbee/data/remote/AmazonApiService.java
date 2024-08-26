@@ -1,6 +1,7 @@
 package com.example.shopbee.data.remote;
 
 import com.example.shopbee.data.model.api.AmazonDealsResponse;
+import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.data.model.api.AmazonSearchResponse;
 
 import java.util.Map;
@@ -28,4 +29,6 @@ public interface AmazonApiService {
     }
     @GET("deals-v2")
     Observable<AmazonDealsResponse> getAmazonDeals(@QueryMap Map<String, String> queries);
+    @GET("products-by-category")
+    Observable<AmazonProductByCategoryResponse> getAmazonProductByCategory(@QueryMap Map<String, String> queries);
 }

@@ -2,6 +2,7 @@ package com.example.shopbee.ui.shop.adapter;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shopbee.R;
 import com.example.shopbee.databinding.CategoriesShopNewItem1Binding;
 import com.example.shopbee.databinding.DealItemBinding;
 import com.example.shopbee.ui.home.adapter.DealAdapter;
@@ -20,10 +22,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
+    public interface OnCategoryClickListener {
+        void onCategoryClick(String category) throws IOException;
+    }
+    private OnCategoryClickListener onCategoryClickListener;
+    private int currentPosition = 0;
     private Context context;
     private ArrayList<String> categories;
-    public CategoriesAdapter(Context context) throws IOException {
+    public CategoriesAdapter(Context context, OnCategoryClickListener onCategoryClickListener) throws IOException {
         this.context = context;
+        this.onCategoryClickListener = onCategoryClickListener;
         categories = new ArrayList<>();
         for (CategoryNode categoryNode : CategoriesTree.getInstance(context).getHead().getChildren()) {
             categories.add(categoryNode.getId());
@@ -41,6 +49,21 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull CategoriesAdapter.ViewHolder holder, int position) {
         holder.bindView(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                notifyItemChanged(currentPosition);
+                currentPosition = position;
+                notifyItemChanged(currentPosition);
+                if (onCategoryClickListener != null) {
+                    try {
+                        onCategoryClickListener.onCategoryClick(categories.get(position));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -65,6 +88,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                 binding.imageView.setImageResource(drawableResourceId);
             }
             typedArray.recycle();
+            if (position == currentPosition) {
+                binding.relativeLayout.setBackgroundResource(R.drawable.categories_selected_background);
+            } else {
+                binding.relativeLayout.setBackgroundResource(R.drawable.slight_rounded_white_rectangle);
+            }
         }
     }
 }

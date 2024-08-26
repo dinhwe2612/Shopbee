@@ -437,4 +437,7 @@
     <style name="Pet">
         <item name="android:src">@drawable/pet</item>
     </style>
+    <style name="Electronics">
+        <item name="android:src">@drawable/electronics</item>
+    </style>
 </resources>
