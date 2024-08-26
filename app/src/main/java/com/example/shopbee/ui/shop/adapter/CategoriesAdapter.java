@@ -14,6 +14,7 @@ import com.example.shopbee.R;
 import com.example.shopbee.databinding.CategoriesShopNewItem1Binding;
 import com.example.shopbee.databinding.DealItemBinding;
 import com.example.shopbee.ui.home.adapter.DealAdapter;
+import com.example.shopbee.ui.shop.ShopNavigator;
 import com.example.shopbee.ui.shop.categories.CategoriesHashMap;
 import com.example.shopbee.ui.shop.tree.CategoriesTree;
 import com.example.shopbee.ui.shop.tree.CategoryNode;
@@ -21,7 +22,7 @@ import com.example.shopbee.ui.shop.tree.CategoryNode;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
+public class CategoriesAdapter extends BaseAdapter<CategoriesAdapter.ViewHolder> {
     public interface OnCategoryClickListener {
         void onCategoryClick(String category) throws IOException;
     }
@@ -29,7 +30,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     private int currentPosition = 0;
     private Context context;
     private ArrayList<String> categories;
-    public CategoriesAdapter(Context context, OnCategoryClickListener onCategoryClickListener) throws IOException {
+    public CategoriesAdapter(Context context, OnCategoryClickListener onCategoryClickListener, ShopNavigator navigator) throws IOException {
+        super(navigator);
         this.context = context;
         this.onCategoryClickListener = onCategoryClickListener;
         categories = new ArrayList<>();
@@ -71,7 +73,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         return categories.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends BaseAdapter.BaseViewHolder {
         private CategoriesShopNewItem1Binding binding;
         public ViewHolder(@NonNull CategoriesShopNewItem1Binding binding) {
             super(binding.getRoot());

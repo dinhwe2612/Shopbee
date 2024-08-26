@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.shopbee.R;
@@ -51,7 +53,7 @@ public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> imple
         getViewDataBinding().topBar.addView(toolbarView.getRootView());
         SubCategoriesAdapter subCategoriesAdapter;
         try {
-            subCategoriesAdapter = new SubCategoriesAdapter(requireContext());
+            subCategoriesAdapter = new SubCategoriesAdapter(requireContext(), this);
             getViewDataBinding().recyclerView2.setAdapter(subCategoriesAdapter);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -66,7 +68,7 @@ public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> imple
                         subCategoriesAdapter.notifyCategoryChanged(category);
                     }
                 }
-            }));
+            }, this));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -89,5 +91,11 @@ public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> imple
     @Override
     public void onSearchClick() {
 
+    }
+
+    @Override
+    public void navigateToSearchByCategory() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.searchFragment);
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.example.shopbee.databinding.CategoriesShopNewItem2Binding;
 import com.example.shopbee.databinding.CategoriesShopNewItem2ItemBinding;
+import com.example.shopbee.ui.shop.ShopNavigator;
 import com.example.shopbee.ui.shop.categories.CategoriesHashMap;
 import com.example.shopbee.ui.shop.tree.CategoriesTree;
 import com.example.shopbee.ui.shop.tree.CategoryNode;
@@ -29,11 +31,12 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class SubSubCategoriesAdapter extends RecyclerView.Adapter<SubSubCategoriesAdapter.ViewHolder> {
+public class SubSubCategoriesAdapter extends BaseAdapter<SubSubCategoriesAdapter.ViewHolder> {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     private Context context;
     private ArrayList<String> subSubCategories;
-    public SubSubCategoriesAdapter(Context context, String subCategory) throws IOException {
+    public SubSubCategoriesAdapter(Context context, String subCategory, ShopNavigator navigator) throws IOException {
+        super(navigator);
         this.context = context;
         subSubCategories = new ArrayList<>();
         for (CategoryNode subSubCategory: CategoriesTree.getInstance(context).findNode(subCategory).getChildren()) {
@@ -52,13 +55,19 @@ public class SubSubCategoriesAdapter extends RecyclerView.Adapter<SubSubCategori
     @Override
     public void onBindViewHolder(@NonNull SubSubCategoriesAdapter.ViewHolder holder, int position) {
         holder.bindView(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getNavigator().navigateToSearchByCategory();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return subSubCategories.size();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends BaseAdapter.BaseViewHolder {
         private CategoriesShopNewItem2ItemBinding binding;
         public ViewHolder(@NonNull CategoriesShopNewItem2ItemBinding binding) {
             super(binding.getRoot());

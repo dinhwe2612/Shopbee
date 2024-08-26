@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopbee.databinding.CategoriesShopNewItem1Binding;
 import com.example.shopbee.databinding.CategoriesShopNewItem2Binding;
 import com.example.shopbee.ui.shop.CustomLinearLayoutManager.CustomLinearLayoutManager;
+import com.example.shopbee.ui.shop.ShopNavigator;
 import com.example.shopbee.ui.shop.categories.CategoriesHashMap;
 import com.example.shopbee.ui.shop.tree.CategoriesTree;
 import com.example.shopbee.ui.shop.tree.CategoryNode;
@@ -19,11 +20,12 @@ import com.example.shopbee.ui.shop.tree.CategoryNode;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SubCategoriesAdapter extends RecyclerView.Adapter<SubCategoriesAdapter.ViewHolder> {
+public class SubCategoriesAdapter extends BaseAdapter<SubCategoriesAdapter.ViewHolder> {
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private Context context;
     private ArrayList<String> subCategories;
-    public SubCategoriesAdapter(Context context) throws IOException {
+    public SubCategoriesAdapter(Context context, ShopNavigator navigator) throws IOException {
+        super(navigator);
         this.context = context;
         subCategories = new ArrayList<>();
         for (CategoryNode subCategory: CategoriesTree.getInstance(context).getHead().getChildren().get(0).getChildren()) {
@@ -59,7 +61,7 @@ public class SubCategoriesAdapter extends RecyclerView.Adapter<SubCategoriesAdap
         return subCategories.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends BaseAdapter.BaseViewHolder {
         private CategoriesShopNewItem2Binding binding;
         public ViewHolder(@NonNull CategoriesShopNewItem2Binding binding) {
             super(binding.getRoot());
@@ -70,7 +72,7 @@ public class SubCategoriesAdapter extends RecyclerView.Adapter<SubCategoriesAdap
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(binding.recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false);
             linearLayoutManager.setInitialPrefetchItemCount(CategoriesTree.getInstance(context).findNode(subCategories.get(position)).getChildren().size());
 
-            SubSubCategoriesAdapter subSubCategoriesAdapter = new SubSubCategoriesAdapter(context, subCategories.get(position));
+            SubSubCategoriesAdapter subSubCategoriesAdapter = new SubSubCategoriesAdapter(context, subCategories.get(position), getNavigator());
             binding.recyclerView.setLayoutManager(linearLayoutManager);
             binding.recyclerView.setAdapter(subSubCategoriesAdapter);
 //            binding.recyclerView.setRecycledViewPool(viewPool);
