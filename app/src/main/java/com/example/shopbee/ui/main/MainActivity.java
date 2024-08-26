@@ -50,7 +50,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         bottomBar.bindView(binding.bottomBar, this);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.fragmentContainer.getId());
         navController = navHostFragment.getNavController();
-
     }
 
     @Override

@@ -264,6 +264,71 @@
                     style="@style/Black_Bold_34dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="25dp"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/newCollection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/new_collection"
+                        android:scaleType="centerCrop"/>
+                    <TextView
+                        style="@style/Black_Bold_34dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignBottom="@+id/newCollection"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="New Collection"
+                        android:textColor="@color/white"/>
+                    <TextView
+                        android:id="@+id/summerSale"
+                        android:text="Summer\nSale"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/newCollection"
+                        style="@style/Red_Bold_34dp"
+                        android:layout_toStartOf="@id/menshoodies"
+                        android:layout_above="@id/black"/>
+                    <ImageView
+                        android:id="@+id/menshoodies"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/mens_hoodies"
+                        android:layout_below="@+id/newCollection"
+                        android:layout_alignParentEnd="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Men's\nhoodies"
+                        android:layout_alignTop="@id/menshoodies"
+                        android:layout_alignBottom="@+id/menshoodies"
+                        android:layout_alignStart="@id/menshoodies"
+                        android:layout_alignParentEnd="true"
+                        style="@style/Black_Bold_34dp"
+                        android:textColor="@color/white"/>
+                    <ImageView
+                        android:id="@+id/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="250dp"
+                        android:layout_alignBottom="@id/menshoodies"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@id/menshoodies"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Black"
+                        android:layout_alignBottom="@+id/black"
+                        android:layout_alignParentStart="true"
+                        style="@style/Black_Bold_34dp"
+                        android:textColor="@color/white"
+                        android:layout_margin="15dp"/>
+                </RelativeLayout>
+
 
                 <TextView
                     android:layout_width="wrap_content"

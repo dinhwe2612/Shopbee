@@ -13,16 +13,17 @@ import com.example.shopbee.di.component.ActivityComponent;
 import com.example.shopbee.ui.base.BaseActivity;
 import com.example.shopbee.ui.login.LoginActivity;
 
+import java.util.Map;
+
 public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordBinding, ForgotPasswordViewModel>
         implements ForgotPasswordNavigator{
     ForgotPasswordBinding binding;
     public static Intent newIntent(Context context) {
         return new Intent(context, ForgotPasswordActivity.class);
     }
-
     @Override
     public int getBindingVariable() {
-        return BR.vm;
+            return BR.vm;
     }
 
     @Override
