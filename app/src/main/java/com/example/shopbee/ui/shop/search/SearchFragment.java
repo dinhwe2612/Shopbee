@@ -100,6 +100,8 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
             if (((SortByEvent) event).getSortByChoice() != productFilter.getSort_by_choice()) {
                 productFilter.setSort_by_choice(((SortByEvent) event).getSortByChoice());
                 viewModel.syncProductsByCategory(productFilter.getProductFilter());
+                assert productFilter.getSortByChoiceMap() != null;
+                getViewDataBinding().textView11.setText(productFilter.getSortByChoiceMap().get(productFilter.getSort_by_choice()));
             }
         }
     }

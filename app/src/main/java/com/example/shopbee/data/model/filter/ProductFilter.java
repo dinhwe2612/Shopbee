@@ -3,6 +3,13 @@ package com.example.shopbee.data.model.filter;
 import java.util.HashMap;
 
 public class ProductFilter {
+    private HashMap<SortByChoice, String> sort_by_choice_map;
+    public HashMap<SortByChoice, String> getSortByChoiceMap() {
+        return sort_by_choice_map;
+    }
+    public void setSortByChoiceMap(HashMap<SortByChoice, String> sort_by_choice_map) {
+        this.sort_by_choice_map = sort_by_choice_map;
+    }
     SortByChoice sort_by_choice;
     Float min_price;
     Float max_price;
@@ -30,6 +37,13 @@ public class ProductFilter {
         this.product_country = product_country;
         this.category_id = category_id;
         this.page = page;
+        sort_by_choice_map = new HashMap<>();
+        sort_by_choice_map.put(SortByChoice.RELEVANCE, "Most Relevant");
+        sort_by_choice_map.put(SortByChoice.HIGHEST_PRICE, "Highest Price");
+        sort_by_choice_map.put(SortByChoice.LOWEST_PRICE, "Lowest Price");
+        sort_by_choice_map.put(SortByChoice.NEWEST, "Newest");
+        sort_by_choice_map.put(SortByChoice.REVIEWS, "Most Reviewed");
+        sort_by_choice_map.put(SortByChoice.BEST_SELLERS, "Best Sellers");
     }
     public ProductFilter(boolean default_filter) {
         // required product_name or product_asin
@@ -38,9 +52,22 @@ public class ProductFilter {
         this.category_id = "aps";
         this.product_condition = ProductCondition.ALL;
         this.page = 1;
+        sort_by_choice_map = new HashMap<>();
+        sort_by_choice_map.put(SortByChoice.RELEVANCE, "Most Relevant");
+        sort_by_choice_map.put(SortByChoice.HIGHEST_PRICE, "Highest Price");
+        sort_by_choice_map.put(SortByChoice.LOWEST_PRICE, "Lowest Price");
+        sort_by_choice_map.put(SortByChoice.NEWEST, "Newest");
+        sort_by_choice_map.put(SortByChoice.REVIEWS, "Most Reviewed");
+        sort_by_choice_map.put(SortByChoice.BEST_SELLERS, "Best Sellers");
     }
     public ProductFilter() {
-
+        sort_by_choice_map = new HashMap<>();
+        sort_by_choice_map.put(SortByChoice.RELEVANCE, "Most Relevant");
+        sort_by_choice_map.put(SortByChoice.HIGHEST_PRICE, "Highest Price");
+        sort_by_choice_map.put(SortByChoice.LOWEST_PRICE, "Lowest Price");
+        sort_by_choice_map.put(SortByChoice.NEWEST, "Newest");
+        sort_by_choice_map.put(SortByChoice.REVIEWS, "Most Reviewed");
+        sort_by_choice_map.put(SortByChoice.BEST_SELLERS, "Best Sellers");
     }
     public void setPage(int page) {
         this.page = page;

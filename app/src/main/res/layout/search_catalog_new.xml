@@ -96,8 +96,9 @@
 
             </ImageView>
             <TextView
+                android:id="@+id/textView11"
                 android:layout_gravity="center"
-                android:text="Price: lowest to high"
+                android:text="Most Relevant"
                 style="@style/Black_Regular_11dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
