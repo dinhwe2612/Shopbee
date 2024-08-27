@@ -61,30 +61,38 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         }
         public void bindView(int position) {
             binding.textView2.setText(products.get(position).getProduct_title());
-            binding.simpleRatingBar.setRating(Float.parseFloat(products.get(position).getProduct_star_rating()));
-            binding.textView3.setText(products.get(position).getProduct_num_ratings());
+            if (products.get(position).getProduct_star_rating() != null) {
+                binding.simpleRatingBar.setRating(Float.parseFloat(products.get(position).getProduct_star_rating()));
+            } else {
+                binding.simpleRatingBar.setRating(0);
+            }
+
+            Log.e("rating", "msg: " + position + " " + products.get(position).getProduct_star_rating());
+            binding.textView3.setText("(" + products.get(position).getProduct_num_ratings() + ")");
             binding.textView1.setText(products.get(position).getProduct_price());
-            compositeDisposable.add(Observable.fromCallable(() -> {
-                                FutureTarget<Bitmap> futureTarget = Glide.with(binding.imageView.getContext())
-                                        .asBitmap()
-                                        .load(products.get(position).getProduct_photo())
-                                        .submit();
-                                return futureTarget.get();
-                            })
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(bitmap -> {
-                                binding.imageView.setImageBitmap(bitmap);
-                            }, throwable -> {
-                                Log.e("Exception", throwable.getMessage());
-                            })
-            );
+            if (products.get(position).getProduct_photo() != null) {
+                compositeDisposable.add(Observable.fromCallable(() -> {
+                                    FutureTarget<Bitmap> futureTarget = Glide.with(binding.imageView.getContext())
+                                            .asBitmap()
+                                            .load(products.get(position).getProduct_photo())
+                                            .submit();
+                                    return futureTarget.get();
+                                })
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(bitmap -> {
+                                    binding.imageView.setImageBitmap(bitmap);
+                                }, throwable -> {
+                                    Log.e("Exception", throwable.getMessage());
+                                })
+                );
+            }
         }
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
-        super.onViewDetachedFromWindow(holder);
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
         compositeDisposable.clear();
     }
 }
