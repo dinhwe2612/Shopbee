@@ -1,6 +1,7 @@
 package com.example.shopbee.data;
 
 import com.example.shopbee.data.model.api.AmazonDealsResponse;
+import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.data.model.api.AmazonSearchResponse;
 import com.example.shopbee.data.model.api.CountryRespone;
 import com.example.shopbee.data.remote.AmazonApiService;
@@ -30,6 +31,9 @@ public class Repository {
 
     public Observable<AmazonDealsResponse> getAmazonDealsResponse(HashMap<String, String> map) {
         return amazonApiService.getAmazonDeals(map);
+    }
+    public Observable<AmazonProductByCategoryResponse> getAmazonProductByCategory(HashMap<String, String> map) {
+        return amazonApiService.getAmazonProductByCategory(map);
     }
    /* public Observable<List<CountryRespone>> getAllCountries() {
 

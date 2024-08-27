@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.example.shopbee.toolbar.ToolbarView;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.shop.adapter.CategoriesAdapter;
 import com.example.shopbee.ui.shop.adapter.SubCategoriesAdapter;
+import com.example.shopbee.ui.shop.search.SearchFragment;
 
 import java.io.IOException;
 
@@ -94,8 +96,16 @@ public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> imple
     }
 
     @Override
-    public void navigateToSearchByCategory() {
-        NavController navController = NavHostFragment.findNavController(this);
-        navController.navigate(R.id.searchFragment);
+    public void navigateToSearchByCategory(String category) {
+//        NavController navController = NavHostFragment.findNavController(this);
+//        navController.navigate(R.id.searchFragment);
+        SearchFragment searchFragment = new SearchFragment(category);
+        FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(
+                R.id.fragmentContainer,
+                searchFragment
+        );
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
