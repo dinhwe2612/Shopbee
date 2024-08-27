@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.shopbee.ui.common.dialogs.twooptiondialog.TwoOptionDialog;
+import com.example.shopbee.ui.shop.search.dialog.SortByDialog;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DialogsManager {
     Context context;
     final FragmentManager fragmentManager;
+
     public interface Listener {
         void onDialogEvent(Object event);
     }
