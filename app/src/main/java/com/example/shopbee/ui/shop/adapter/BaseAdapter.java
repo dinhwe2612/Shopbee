@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.ui.shop.ShopNavigator;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class BaseAdapter<T extends BaseAdapter.BaseViewHolder> extends RecyclerView.Adapter<T> {
     ShopNavigator navigator;
