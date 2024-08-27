@@ -31,6 +31,7 @@ import javax.inject.Inject;
 public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, SearchViewModel> implements SearchNavigator, DialogsManager.Listener {
     @Inject
     DialogsManager dialogsManager;
+    SortByDialog sortByDialog;
     ProductFilter productFilter;
     private String category;
     public SearchFragment(String category) {
@@ -71,8 +72,8 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
             getViewDataBinding().recyclerView1.setAdapter(productAdapter);
         });
         Animation clickAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.button_click_animation);
+        sortByDialog = SortByDialog.newInstance(dialogsManager);
         getViewDataBinding().linearLayout2.setOnClickListener(new View.OnClickListener() {
-            SortByDialog sortByDialog = SortByDialog.newInstance(dialogsManager);
             @Override
             public void onClick(View view) {
                 Log.d("SearchFragment", "onClick: Clicked");
@@ -88,6 +89,7 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
             if (((SortByEvent) event).getSortByChoice() != productFilter.getSort_by_choice()) {
                 productFilter.setSort_by_choice(((SortByEvent) event).getSortByChoice());
                 viewModel.syncProductsByCategory(productFilter.getProductFilter());
+                sortByDialog.notifyDatasetChanged();
             }
         }
     }

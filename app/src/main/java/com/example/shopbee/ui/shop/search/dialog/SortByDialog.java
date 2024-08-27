@@ -24,6 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import javax.inject.Inject;
 
 public class SortByDialog extends BottomSheetDialogFragment {
+    DialogAdapter dialogAdapter;
     DialogsManager dialogsManager;
     public void setDialogsManager(DialogsManager dialogsManager) {
         this.dialogsManager = dialogsManager;
@@ -50,21 +51,27 @@ public class SortByDialog extends BottomSheetDialogFragment {
         return binding.getRoot();
     }
 
+    public void notifyDatasetChanged() {
+        dialogAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bottomSheetBehavior = BottomSheetBehavior.from((View) view.getParent());
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        DialogAdapter dialogAdapter = new DialogAdapter();
-        dialogAdapter.setOnSortByChoiceSelectedListener(new DialogAdapter.OnSortByChoiceSelectedListener() {
-            @Override
-            public void onSortByChoiceSelected(SortByChoice sortByChoice) {
-                SortByEvent sortByEvent = new SortByEvent(sortByChoice);
-                dialogsManager.postEvent(sortByEvent);
-                dismiss();
-            }
-        });
+        if (dialogAdapter == null) {
+            dialogAdapter = new DialogAdapter();
+            dialogAdapter.setOnSortByChoiceSelectedListener(new DialogAdapter.OnSortByChoiceSelectedListener() {
+                @Override
+                public void onSortByChoiceSelected(SortByChoice sortByChoice) {
+                    SortByEvent sortByEvent = new SortByEvent(sortByChoice);
+                    dialogsManager.postEvent(sortByEvent);
+                    dismiss();
+                }
+            });
+        }
         binding.recyclerView.setAdapter(dialogAdapter);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
