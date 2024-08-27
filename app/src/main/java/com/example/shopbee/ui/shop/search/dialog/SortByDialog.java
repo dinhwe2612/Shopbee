@@ -24,16 +24,21 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import javax.inject.Inject;
 
 public class SortByDialog extends BottomSheetDialogFragment {
+    SortByChoice sortByChoice;
     DialogAdapter dialogAdapter;
     DialogsManager dialogsManager;
     public void setDialogsManager(DialogsManager dialogsManager) {
         this.dialogsManager = dialogsManager;
     }
+    public SortByDialog(SortByChoice sortByChoice) {
+        super();
+        this.sortByChoice = sortByChoice;
+    }
     BottomSheetDialog dialog;
     BottomSheetLayoutSortByBinding binding;
     BottomSheetBehavior<View> bottomSheetBehavior;
-    public static SortByDialog newInstance(DialogsManager dialogsManager) {
-        SortByDialog dialog = new SortByDialog();
+    public static SortByDialog newInstance(DialogsManager dialogsManager, SortByChoice sortByChoice) {
+        SortByDialog dialog = new SortByDialog(sortByChoice);
         dialog.setDialogsManager(dialogsManager);
         return dialog;
     }
@@ -61,8 +66,8 @@ public class SortByDialog extends BottomSheetDialogFragment {
         bottomSheetBehavior = BottomSheetBehavior.from((View) view.getParent());
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        if (dialogAdapter == null) {
-            dialogAdapter = new DialogAdapter();
+//        if (dialogAdapter == null) {
+            dialogAdapter = new DialogAdapter(sortByChoice);
             dialogAdapter.setOnSortByChoiceSelectedListener(new DialogAdapter.OnSortByChoiceSelectedListener() {
                 @Override
                 public void onSortByChoiceSelected(SortByChoice sortByChoice) {
@@ -71,7 +76,7 @@ public class SortByDialog extends BottomSheetDialogFragment {
                     dismiss();
                 }
             });
-        }
+//        }
         binding.recyclerView.setAdapter(dialogAdapter);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }

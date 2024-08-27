@@ -29,7 +29,7 @@ public class DialogAdapter extends RecyclerView.Adapter<DialogAdapter.ViewHolder
 //    public DialogAdapter(ArrayList<SortByChoice> sort_by_choices) {
 //        this.sort_by_choices = sort_by_choices;
 //    }
-    public DialogAdapter() {
+    public DialogAdapter(SortByChoice sortByChoice) {
         sort_by_choices = new ArrayList<>();
         sort_by_choices.add(SortByChoice.RELEVANCE);
         sort_by_choices.add(SortByChoice.NEWEST);
@@ -37,6 +37,12 @@ public class DialogAdapter extends RecyclerView.Adapter<DialogAdapter.ViewHolder
         sort_by_choices.add(SortByChoice.LOWEST_PRICE);
         sort_by_choices.add(SortByChoice.BEST_SELLERS);
         sort_by_choices.add(SortByChoice.REVIEWS);
+        for (int i = 0; i < sort_by_choices.size(); i++) {
+            if (sort_by_choices.get(i) == sortByChoice) {
+                currentPosition = i;
+                break;
+            }
+        }
     }
     @NonNull
     @Override

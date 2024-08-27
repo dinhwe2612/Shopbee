@@ -31,7 +31,6 @@ import javax.inject.Inject;
 public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, SearchViewModel> implements SearchNavigator, DialogsManager.Listener {
     @Inject
     DialogsManager dialogsManager;
-    SortByDialog sortByDialog;
     ProductFilter productFilter;
     private String category;
     public SearchFragment(String category) {
@@ -72,10 +71,10 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
             getViewDataBinding().recyclerView1.setAdapter(productAdapter);
         });
         Animation clickAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.button_click_animation);
-        sortByDialog = SortByDialog.newInstance(dialogsManager);
         getViewDataBinding().linearLayout2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SortByDialog sortByDialog = SortByDialog.newInstance(dialogsManager, productFilter.getSort_by_choice());
                 Log.d("SearchFragment", "onClick: Clicked");
                 getViewDataBinding().linearLayout2.startAnimation(clickAnimation);
                 sortByDialog.show(requireActivity().getSupportFragmentManager(), sortByDialog.getTag());
@@ -84,12 +83,23 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        dialogsManager.registerListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        dialogsManager.unregisterListener(this);
+    }
+
+    @Override
     public void onDialogEvent(Object event) {
         if (event instanceof SortByEvent) {
             if (((SortByEvent) event).getSortByChoice() != productFilter.getSort_by_choice()) {
                 productFilter.setSort_by_choice(((SortByEvent) event).getSortByChoice());
                 viewModel.syncProductsByCategory(productFilter.getProductFilter());
-                sortByDialog.notifyDatasetChanged();
             }
         }
     }
