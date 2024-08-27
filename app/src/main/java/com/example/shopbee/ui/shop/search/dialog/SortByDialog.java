@@ -60,7 +60,9 @@ public class SortByDialog extends BottomSheetDialogFragment {
         dialogAdapter.setOnSortByChoiceSelectedListener(new DialogAdapter.OnSortByChoiceSelectedListener() {
             @Override
             public void onSortByChoiceSelected(SortByChoice sortByChoice) {
-//                dialogsManager.postEvent();
+                SortByEvent sortByEvent = new SortByEvent(sortByChoice);
+                dialogsManager.postEvent(sortByEvent);
+                dismiss();
             }
         });
         binding.recyclerView.setAdapter(dialogAdapter);

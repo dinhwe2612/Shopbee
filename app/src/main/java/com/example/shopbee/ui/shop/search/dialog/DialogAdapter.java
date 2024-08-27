@@ -54,6 +54,7 @@ public class DialogAdapter extends RecyclerView.Adapter<DialogAdapter.ViewHolder
             public void onClick(View view) {
                 notifyItemChanged(currentPosition);
                 currentPosition = position;
+                onSortByChoiceSelectedListener.onSortByChoiceSelected(sort_by_choices.get(currentPosition));
                 notifyItemChanged(currentPosition);
             }
         });

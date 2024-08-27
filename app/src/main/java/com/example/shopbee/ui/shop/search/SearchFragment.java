@@ -31,6 +31,7 @@ import javax.inject.Inject;
 public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, SearchViewModel> implements SearchNavigator, DialogsManager.Listener {
     @Inject
     DialogsManager dialogsManager;
+    ProductFilter productFilter;
     private String category;
     public SearchFragment(String category) {
         super();
@@ -55,7 +56,7 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ProductFilter productFilter = new ProductFilter();
+        productFilter = new ProductFilter();
         productFilter.setCategory_id(category);
         productFilter.setPage(1);
         productFilter.setProduct_country(ProductCountry.US);
@@ -84,7 +85,10 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
     @Override
     public void onDialogEvent(Object event) {
         if (event instanceof SortByEvent) {
-
+            if (((SortByEvent) event).getSortByChoice() != productFilter.getSort_by_choice()) {
+                productFilter.setSort_by_choice(((SortByEvent) event).getSortByChoice());
+                viewModel.syncProductsByCategory(productFilter.getProductFilter());
+            }
         }
     }
 }
