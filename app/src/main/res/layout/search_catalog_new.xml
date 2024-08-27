@@ -32,6 +32,7 @@
 
             </ImageView>
             <TextView
+                android:id="@+id/textView"
                 android:text="English Books"
                 android:background="@drawable/slight_rounded_white_rectangle_gray_stroke"
                 style="@style/Black_Regular_16dp"
@@ -113,6 +114,7 @@
             android:layout_height="wrap_content">
         </ImageView>
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView1"
             tools:listitem="@layout/shop_item"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"

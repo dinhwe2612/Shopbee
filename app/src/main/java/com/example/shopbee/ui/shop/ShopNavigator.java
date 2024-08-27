@@ -1,5 +1,5 @@
 package com.example.shopbee.ui.shop;
 
 public interface ShopNavigator {
-    void navigateToSearchByCategory();
+    void navigateToSearchByCategory(String category);
 }
