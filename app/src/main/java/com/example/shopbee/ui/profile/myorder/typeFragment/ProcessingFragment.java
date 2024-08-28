@@ -16,7 +16,7 @@ import com.example.shopbee.ui.profile.adapter.OrderProductAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProcessingFragment extends Fragment implements OrderProductAdapter.Listener {
+public class ProcessingFragment extends Fragment implements OrderProductAdapter.Listener{
     List<OrderProductItem> orderProductItemList;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.processing_fragment,container, false);
