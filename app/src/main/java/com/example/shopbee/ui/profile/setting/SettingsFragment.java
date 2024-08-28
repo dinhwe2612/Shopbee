@@ -100,7 +100,7 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
         });
     }
     void settingTheme(){
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getActivity().getApplicationContext().getSharedPreferences("THEME", Context.MODE_PRIVATE);
         boolean isDarkMode = sharedPref.getBoolean("DARK_MODE", false);
         if (isDarkMode){
             binding.dayNightSwitch.setOn(false);
