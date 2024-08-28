@@ -14,13 +14,15 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
         <ImageView
+            android:id="@+id/imageView"
+            android:scaleType="fitCenter"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/image4">
+            android:layout_width="150dp"
+            android:layout_height="180dp"
+            android:src="@null">
 
         </ImageView>
         <TextView
@@ -28,6 +30,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_margin="10dp"
             android:layout_width="40dp"
+            android:visibility="gone"
             android:layout_height="24dp"
             tools:text="-20%"
             style="@style/SaleTag">
@@ -43,64 +46,45 @@
         android:layout_alignStart="@+id/constraintLayout"
         android:layout_marginTop="5dp"
         app:layout_constraintTop_toBottomOf="@id/constraintLayout">
-
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <ImageView
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/simpleRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/yellow_star_icon">
-
-            </ImageView>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/yellow_star_icon">
-
-            </ImageView>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/yellow_star_icon">
-
-            </ImageView>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/yellow_star_icon">
-
-            </ImageView>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/yellow_star_icon">
-
-            </ImageView>
+                app:srb_clickable="true"
+                app:srb_clearRatingEnabled="true"
+                app:srb_drawableEmpty="@drawable/star_empty_icon"
+                app:srb_drawableFilled="@drawable/star_full_icon"
+                app:srb_isIndicator="true"
+                app:srb_numStars="5"
+                app:srb_rating="3.3"
+                app:srb_scrollable="true"
+                app:srb_starHeight="14dp"
+                app:srb_starPadding="1dp"
+                app:srb_starWidth="14dp"
+                app:srb_stepSize="0.1" />
 
             <TextView
-                style="@style/Gray_Regular_10dp"
+                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:text="(10)">
-
-            </TextView>
+                android:text="(10)"
+                style="@style/Gray_Regular_10dp" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/textView"
             style="@style/Gray_Regular_11dp"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
@@ -135,16 +119,19 @@
         </TextView>
 
         <ImageView
+            android:id="@+id/imageView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="11.5dp"
             android:src="@drawable/dash"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/textView2"
+            app:layout_constraintEnd_toEndOf="@id/textView2"
             app:layout_constraintTop_toBottomOf="@id/textView1">
 
         </ImageView>
 
         <TextView
+            android:id="@+id/textView4"
             style="@style/Red_Medium_14dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -163,8 +150,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/constraintLayout"
         android:layout_alignEnd="@+id/constraintLayout"
-        android:layout_marginTop="-25dp"
-        android:src="@drawable/add_to_favorites_icon"/>
+        android:layout_marginTop="-20dp"
+        android:src="@drawable/favorite_product_icon"/>
 
 </RelativeLayout>
 </layout>
