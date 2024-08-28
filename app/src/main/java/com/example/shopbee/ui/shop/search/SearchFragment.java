@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.shopbee.R;
@@ -23,12 +24,14 @@ import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.common.dialogs.twooptiondialog.TwoOptionEvent;
 import com.example.shopbee.ui.shop.categories.CategoriesHashMap;
 import com.example.shopbee.ui.shop.search.adapter.ProductAdapter;
+import com.example.shopbee.ui.shop.search.adapter.ProductAdapterGridView;
 import com.example.shopbee.ui.shop.search.dialog.SortByDialog;
 import com.example.shopbee.ui.shop.search.dialog.SortByEvent;
 
 import javax.inject.Inject;
 
 public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, SearchViewModel> implements SearchNavigator, DialogsManager.Listener {
+    int isInListView;
     @Inject
     DialogsManager dialogsManager;
     ProductFilter productFilter;
@@ -36,6 +39,7 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
     public SearchFragment(String category) {
         super();
         this.category = category;
+        isInListView = 1;
     }
     @Override
     public int getBindingVariable() {
@@ -67,8 +71,14 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
         getViewDataBinding().textView.setText("Category: " + CategoriesHashMap.getInstance().getCategories().get(category));
         getViewDataBinding().recyclerView1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         viewModel.getCategoryProducts().observe(getViewLifecycleOwner(), products -> {
-            ProductAdapter productAdapter = new ProductAdapter(products);
-            getViewDataBinding().recyclerView1.setAdapter(productAdapter);
+            if (isInListView == 1) {
+                ProductAdapter productAdapter = new ProductAdapter(products);
+                getViewDataBinding().recyclerView1.setAdapter(productAdapter);
+            }
+            else {
+                ProductAdapterGridView productAdapterGridView = new ProductAdapterGridView(products);
+                getViewDataBinding().recyclerView1.setAdapter(productAdapterGridView);
+            }
         });
         Animation clickAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.button_click_animation);
         getViewDataBinding().linearLayout2.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +88,27 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
                 Log.d("SearchFragment", "onClick: Clicked");
                 getViewDataBinding().linearLayout2.startAnimation(clickAnimation);
                 sortByDialog.show(requireActivity().getSupportFragmentManager(), sortByDialog.getTag());
+            }
+        });
+        getViewDataBinding().imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isInListView == 1) {
+                    getViewDataBinding().imageView.setImageResource(R.drawable.list_view_icon);
+                    getViewDataBinding().recyclerView1.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                    if (viewModel.getCategoryProducts().getValue() != null) {
+                        getViewDataBinding().recyclerView1.setAdapter(new ProductAdapterGridView(viewModel.getCategoryProducts().getValue()));
+                    }
+                    isInListView = 0;
+                }
+                else {
+                    getViewDataBinding().imageView.setImageResource(R.drawable.grid_view_icon);
+                    getViewDataBinding().recyclerView1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                    if (viewModel.getCategoryProducts().getValue() != null) {
+                        getViewDataBinding().recyclerView1.setAdapter(new ProductAdapter(viewModel.getCategoryProducts().getValue()));
+                    }
+                    isInListView = 1;
+                }
             }
         });
     }
