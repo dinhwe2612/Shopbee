@@ -16,6 +16,7 @@ import com.example.shopbee.databinding.OrderDetailsBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.bag.BagFragment;
 import com.example.shopbee.ui.common.base.BaseFragment;
+import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -35,6 +36,5 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = getViewDataBinding();
-
     }
 }

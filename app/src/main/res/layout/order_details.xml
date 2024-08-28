@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <RelativeLayout
+        android:background="@color/white_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,18 +15,16 @@
             android:layout_height="44dp">
         </androidx.constraintlayout.widget.ConstraintLayout>
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/orderNumber"
             android:layout_below="@id/top_bar"
             android:text="Order No1947034"
             style="@style/Black_SemiBold_16dp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="15dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </TextView>
+            android:layout_height="wrap_content"/>
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/date"
             android:layout_below="@id/top_bar"
             android:text="05-12-2019"
             style="@style/Gray_Regular_14dp"
@@ -33,76 +32,63 @@
             android:layout_marginEnd="15dp"
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </TextView>
+            android:layout_height="wrap_content"/>
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textView"
             android:text="Tracking number: "
             style="@style/Gray_Regular_14dp"
             android:layout_marginTop="10dp"
-            android:layout_below="@id/textView"
+            android:layout_below="@id/orderNumber"
             android:layout_alignParentStart="true"
             android:layout_marginStart="15dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </TextView>
+            android:layout_height="wrap_content"/>
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/trackingNumber"
             style="@style/Black_Medium_14dp"
             android:text="3475453455"
-            android:layout_toRightOf="@id/textView2"
+            android:layout_toRightOf="@id/textView"
             android:layout_marginTop="10dp"
-            android:layout_below="@id/textView"
+            android:layout_below="@id/orderNumber"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </TextView>
+            android:layout_height="wrap_content"/>
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/status"
             android:text="Delivered"
-            android:layout_below="@id/textView1"
+            android:layout_below="@id/date"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
             android:layout_marginTop="10dp"
             style="@style/Green_Medium_14dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </TextView>
+            android:layout_height="wrap_content"/>
         <TextView
-            android:id="@+id/textView5"
-            android:layout_below="@id/textView3"
+            android:id="@+id/quantity"
+            android:layout_below="@id/trackingNumber"
             android:layout_marginTop="15dp"
             android:text="3"
             style="@style/Black_Medium_14dp"
             android:layout_marginStart="15dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </TextView>
+            android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/textView6"
-            android:layout_toRightOf="@id/textView5"
-            android:layout_below="@id/textView3"
+            android:layout_toRightOf="@id/quantity"
+            android:layout_below="@id/textView"
             android:layout_marginTop="15dp"
             android:text=" items"
             style="@style/Black_Medium_14dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </TextView>
+            android:layout_height="wrap_content"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             tools:listitem="@layout/order_details_item"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/textView5"
+            android:layout_below="@id/quantity"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
             android:layout_width="343dp"
             android:layout_height="360dp">
-
         </androidx.recyclerview.widget.RecyclerView>
         <TextView
             android:layout_marginTop="15dp"
@@ -116,9 +102,13 @@
 
         </TextView>
         <LinearLayout
+            android:layout_below="@id/textView7"
+            android:id="@+id/textView8"
+            android:layout_marginStart="15dp"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <RelativeLayout
                 android:layout_marginTop="15dp"
                 android:layout_width="347dp"
                 android:layout_height="40dp">
@@ -131,6 +121,7 @@
 
                 </TextView>
                 <TextView
+                    android:id="@+id/shippingAddress"
                     android:text="3 Newbridge Court, Chino Hills, CA 91709, United States"
                     style="@style/Black_Medium_14dp"
                     android:textAlignment="viewStart"
@@ -141,31 +132,113 @@
 
                 </TextView>
             </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="347dp"
+                android:layout_height="40dp">
+                <TextView
+                    android:layout_alignParentStart="true"
+                    style="@style/Gray_Regular_14dp"
+                    android:text="Payment method:"
+                    android:layout_width="122dp"
+                    android:layout_height="20dp"/>
+
+                <TextView
+                    android:id="@+id/paymentMethod"
+                    android:text="3 Newbridge Court, Chino Hills, CA 91709, United States"
+                    style="@style/Black_Medium_14dp"
+                    android:textAlignment="viewStart"
+                    android:gravity="start"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="215dp"
+                    android:layout_height="40dp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="347dp"
+                android:layout_height="40dp">
+                <TextView
+                    android:layout_alignParentStart="true"
+                    style="@style/Gray_Regular_14dp"
+                    android:text="Delivery method:"
+                    android:layout_width="122dp"
+                    android:layout_height="20dp"/>
+                <TextView
+                    android:id="@+id/deliveryMethod"
+                    android:text="3 Newbridge Court, Chino Hills, CA 91709, United States"
+                    style="@style/Black_Medium_14dp"
+                    android:textAlignment="viewStart"
+                    android:gravity="start"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="215dp"
+                    android:layout_height="40dp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="347dp"
+                android:layout_height="40dp">
+                <TextView
+                    android:layout_alignParentStart="true"
+                    style="@style/Gray_Regular_14dp"
+                    android:textAlignment="viewStart"
+                    android:text="Discount:"
+                    android:layout_width="122dp"
+                    android:layout_height="20dp"/>
+                <TextView
+                    android:id="@+id/discount"
+                    android:text="3 Newbridge Court, Chino Hills, CA 91709, United States"
+                    style="@style/Black_Medium_14dp"
+                    android:textAlignment="viewStart"
+                    android:gravity="start"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="215dp"
+                    android:layout_height="40dp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="347dp"
+                android:layout_height="40dp">
+                <TextView
+                    android:layout_alignParentStart="true"
+                    android:textAlignment="viewStart"
+                    style="@style/Gray_Regular_14dp"
+                    android:text="Total Amount:"
+                    android:layout_width="122dp"
+                    android:layout_height="20dp"/>
+                <TextView
+                    android:id="@+id/totalAmount"
+                    android:text="3 Newbridge Court, Chino Hills, CA 91709, United States"
+                    style="@style/Black_Medium_14dp"
+                    android:textAlignment="viewStart"
+                    android:gravity="start"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="215dp"
+                    android:layout_height="40dp"/>
+            </RelativeLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_margin="20dp"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:layout_below="@id/recyclerView1"
+            android:layout_below="@id/textView8"
             android:layout_width="match_parent"
             android:layout_height="36dp">
             <TextView
+                android:id="@+id/reorder"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/rounded_white_rectangle_black_stroke"
                 android:text="Reorder"
                 android:gravity="center"
                 android:layout_width="160dp"
-                android:layout_height="36dp">
-
-            </TextView>
+                android:layout_height="36dp"/>
             <TextView
+                android:id="@+id/leave_feedback"
                 android:layout_marginStart="10dp"
                 style="@style/Red_Button_White_Text"
-                android:text="Reorder"
+                android:text="Leave feedback"
                 android:gravity="center"
                 android:layout_width="160dp"
-                android:layout_height="36dp">
-            </TextView>
+                android:layout_height="36dp"/>
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>
