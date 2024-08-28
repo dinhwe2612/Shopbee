@@ -23,11 +23,11 @@ import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.shop.categories.CategoriesHashMap;
 import com.example.shopbee.ui.shop.search.adapter.ProductAdapter;
 import com.example.shopbee.ui.shop.search.adapter.ProductAdapterGridView;
+import com.example.shopbee.ui.common.dialogs.sortbydialog.SortByDialog;
+import com.example.shopbee.ui.common.dialogs.sortbydialog.SortByEvent;
 import com.example.shopbee.ui.shop.search.dialog.filter.Filter;
 import com.example.shopbee.ui.shop.search.dialog.filter.FilterDialog;
 import com.example.shopbee.ui.shop.search.dialog.filter.FilterEvent;
-import com.example.shopbee.ui.shop.search.dialog.sort.SortByDialog;
-import com.example.shopbee.ui.shop.search.dialog.sort.SortByEvent;
 
 import javax.inject.Inject;
 
@@ -37,11 +37,11 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
     DialogsManager dialogsManager;
     ProductFilter productFilter;
     private String category;
-    public SearchFragment(String category, String productName) {
-        super();
-        this.category = category;
-        isInListView = 1;
-    }
+//    public SearchFragment(String category) {
+//        super();
+//        this.category = category;
+//        isInListView = 1;
+//    }
     @Override
     public int getBindingVariable() {
         return BR.vm;
@@ -61,10 +61,13 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        isInListView = 1;
+        category = getArguments().getString("category");
         productFilter = new ProductFilter();
-        productFilter.setMin_price(0.0f);
-        productFilter.setMax_price(1000.0f);
-        if (category != null) productFilter.setCategory_id(category);
+        productFilter.setMin_price(0f);
+        productFilter.setMax_price(1000f);
+        productFilter.setProduct_condition(ProductCondition.ALL);
+        productFilter.setCategory_id(category);
         productFilter.setPage(1);
         productFilter.setProduct_country(ProductCountry.US);
         productFilter.setSort_by_choice(SortByChoice.RELEVANCE);
@@ -117,7 +120,8 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
         getViewDataBinding().linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FilterDialog filterDialog = FilterDialog.newInstance(dialogsManager, new Filter(productFilter.getMin_price(), productFilter.getMax_price(), productFilter.getProduct_condition(), productFilter.getProduct_country()));
+                FilterDialog filterDialog = FilterDialog.newInstance(dialogsManager, new Filter(productFilter.getMin_price(), productFilter.getMax_price(), productFilter.getProduct_condition()));
+                Log.d("SearchFragment", "onClick: Clicked");
                 getViewDataBinding().linearLayout.startAnimation(clickAnimation);
                 filterDialog.show(requireActivity().getSupportFragmentManager(), filterDialog.getTag());
             }
@@ -147,10 +151,12 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
             }
         }
         else if (event instanceof FilterEvent) {
-            productFilter.setMin_price(((FilterEvent) event).getFilter().getMin_price());
-            productFilter.setMax_price(((FilterEvent) event).getFilter().getMax_price());
-            productFilter.setProduct_condition(((FilterEvent) event).getFilter().getProductCondition());
-            viewModel.syncProductsByCategory(productFilter.getProductFilter());
+            if (((FilterEvent) event).getFilter().getMin_price() != productFilter.getMin_price() || ((FilterEvent) event).getFilter().getMax_price() != productFilter.getMax_price() || ((FilterEvent) event).getFilter().getProductCondition() != productFilter.getProduct_condition()) {
+                productFilter.setMin_price(((FilterEvent) event).getFilter().getMin_price());
+                productFilter.setMax_price(((FilterEvent) event).getFilter().getMax_price());
+                productFilter.setProduct_condition(((FilterEvent) event).getFilter().getProductCondition());
+                viewModel.syncProductsByCategory(productFilter.getProductFilter());
+            }
         }
     }
 }

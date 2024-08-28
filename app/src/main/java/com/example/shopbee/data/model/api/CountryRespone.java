@@ -1,68 +1,40 @@
 package com.example.shopbee.data.model.api;
+import android.widget.LinearLayout;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Map;
 
 public class CountryRespone {
-    @SerializedName("name")
-    private Name name;
-
-    @SerializedName("currencies")
-    private Map<String, Currency> currencies;
-
-    @SerializedName("cca2")
-    private String cca2;
-
-    @SerializedName("flags")
-    private Flags flags;
-
-    public Name getName() {
+    private String name;
+    private String code;
+    private String currency;
+    private String flagPngUrl;
+    private String flagSvgUrl;
+    public CountryRespone(String name, String code, String currency, String flagPngUrl, String flagSvgUrl) {
+        this.name = name;
+        this.code = code;
+        this.currency = currency;
+        this.flagPngUrl = flagPngUrl;
+        this.flagSvgUrl = flagSvgUrl;
+    }
+    public String getName() {
         return name;
     }
 
-    public Map<String, Currency> getCurrencies() {
-        return currencies;
+    public String getCode() {
+        return code;
     }
 
-    public String getCca2() {
-        return cca2;
+    public String getCurrency() {
+        return currency;
     }
 
-    public Flags getFlags() {
-        return flags;
+    public String getFlagPngUrl() {
+        return flagPngUrl;
     }
 
-    public static class Name {
-        @SerializedName("common")
-        private String common;
-
-        public String getCommon() {
-            return common;
-        }
-    }
-
-    public static class Currency {
-        @SerializedName("symbol")
-        private String symbol;
-
-        public String getSymbol() {
-            return symbol;
-        }
-    }
-
-    public static class Flags {
-        @SerializedName("png")
-        private String png;
-
-        @SerializedName("svg")
-        private String svg;
-
-        public String getPng() {
-            return png;
-        }
-
-        public String getSvg() {
-            return svg;
-        }
+    public String getFlagSvgUrl() {
+        return flagSvgUrl;
     }
 }

@@ -22,7 +22,6 @@ import com.example.shopbee.data.model.filter.SortByChoice;
 import com.example.shopbee.databinding.BottomSheetLayoutSortByBinding;
 import com.example.shopbee.databinding.FiltersBinding;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
-import com.example.shopbee.ui.shop.search.dialog.sort.SortByDialog;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;

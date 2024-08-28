@@ -99,15 +99,18 @@ public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> imple
     public void navigateToSearchByCategory(String category) {
 //        NavController navController = NavHostFragment.findNavController(this);
 //        navController.navigate(R.id.searchFragment);
-        SearchFragment searchFragment = new SearchFragment(category, null);
-        FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(
-                R.id.fragmentContainer,
-                searchFragment
-        );
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.hide(requireActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainer));
-        fragmentTransaction.show(searchFragment);
-        fragmentTransaction.commit();
+//        SearchFragment searchFragment = new SearchFragment(category);
+//        FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(
+//                R.id.fragmentContainer,
+//                searchFragment
+//        );
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
+        // using navigation graph to pass argument
+        NavController navController = NavHostFragment.findNavController(this);
+        Bundle bundle = new Bundle();
+        bundle.putString("category", category);
+        navController.navigate(R.id.searchFragment, bundle);
     }
 }

@@ -1,0 +1,250 @@
+South Georgia	GS	£	https://flagcdn.com/w320/gs.png	https://flagcdn.com/gs.svg
+Grenada	GD	$	https://flagcdn.com/w320/gd.png	https://flagcdn.com/gd.svg
+Switzerland	CH	Fr.	https://flagcdn.com/w320/ch.png	https://flagcdn.com/ch.svg
+Sierra Leone	SL	Le	https://flagcdn.com/w320/sl.png	https://flagcdn.com/sl.svg
+Hungary	HU	Ft	https://flagcdn.com/w320/hu.png	https://flagcdn.com/hu.svg
+Taiwan	TW	$	https://flagcdn.com/w320/tw.png	https://flagcdn.com/tw.svg
+Wallis and Futuna	WF	₣	https://flagcdn.com/w320/wf.png	https://flagcdn.com/wf.svg
+Barbados	BB	$	https://flagcdn.com/w320/bb.png	https://flagcdn.com/bb.svg
+Pitcairn Islands	PN	$	https://flagcdn.com/w320/pn.png	https://flagcdn.com/pn.svg
+Ivory Coast	CI	Fr	https://flagcdn.com/w320/ci.png	https://flagcdn.com/ci.svg
+Tunisia	TN	د.ت	https://flagcdn.com/w320/tn.png	https://flagcdn.com/tn.svg
+Italy	IT	€	https://flagcdn.com/w320/it.png	https://flagcdn.com/it.svg
+Benin	BJ	Fr	https://flagcdn.com/w320/bj.png	https://flagcdn.com/bj.svg
+Indonesia	ID	Rp	https://flagcdn.com/w320/id.png	https://flagcdn.com/id.svg
+Cape Verde	CV	Esc	https://flagcdn.com/w320/cv.png	https://flagcdn.com/cv.svg
+Saint Kitts and Nevis	KN	$	https://flagcdn.com/w320/kn.png	https://flagcdn.com/kn.svg
+Laos	LA	₭	https://flagcdn.com/w320/la.png	https://flagcdn.com/la.svg
+Caribbean Netherlands	BQ	$	https://flagcdn.com/w320/bq.png	https://flagcdn.com/bq.svg
+Uganda	UG	Sh	https://flagcdn.com/w320/ug.png	https://flagcdn.com/ug.svg
+Andorra	AD	€	https://flagcdn.com/w320/ad.png	https://flagcdn.com/ad.svg
+Burundi	BI	Fr	https://flagcdn.com/w320/bi.png	https://flagcdn.com/bi.svg
+South Africa	ZA	R	https://flagcdn.com/w320/za.png	https://flagcdn.com/za.svg
+France	FR	€	https://flagcdn.com/w320/fr.png	https://flagcdn.com/fr.svg
+Libya	LY	ل.د	https://flagcdn.com/w320/ly.png	https://flagcdn.com/ly.svg
+Mexico	MX	$	https://flagcdn.com/w320/mx.png	https://flagcdn.com/mx.svg
+Gabon	GA	Fr	https://flagcdn.com/w320/ga.png	https://flagcdn.com/ga.svg
+Northern Mariana Islands	MP	$	https://flagcdn.com/w320/mp.png	https://flagcdn.com/mp.svg
+North Macedonia	MK	den	https://flagcdn.com/w320/mk.png	https://flagcdn.com/mk.svg
+China	CN	¥	https://flagcdn.com/w320/cn.png	https://flagcdn.com/cn.svg
+Yemen	YE	﷼	https://flagcdn.com/w320/ye.png	https://flagcdn.com/ye.svg
+Saint Barthélemy	BL	€	https://flagcdn.com/w320/bl.png	https://flagcdn.com/bl.svg
+Guernsey	GG	£	https://flagcdn.com/w320/gg.png	https://flagcdn.com/gg.svg
+Solomon Islands	SB	$	https://flagcdn.com/w320/sb.png	https://flagcdn.com/sb.svg
+Svalbard and Jan Mayen	SJ	kr	https://flagcdn.com/w320/sj.png	https://flagcdn.com/sj.svg
+Faroe Islands	FO	kr	https://flagcdn.com/w320/fo.png	https://flagcdn.com/fo.svg
+Uzbekistan	UZ	so'm	https://flagcdn.com/w320/uz.png	https://flagcdn.com/uz.svg
+Egypt	EG	£	https://flagcdn.com/w320/eg.png	https://flagcdn.com/eg.svg
+Senegal	SN	Fr	https://flagcdn.com/w320/sn.png	https://flagcdn.com/sn.svg
+Sri Lanka	LK	Rs  රු	https://flagcdn.com/w320/lk.png	https://flagcdn.com/lk.svg
+Palestine	PS	E£	https://flagcdn.com/w320/ps.png	https://flagcdn.com/ps.svg
+Bangladesh	BD	৳	https://flagcdn.com/w320/bd.png	https://flagcdn.com/bd.svg
+Peru	PE	S/ 	https://flagcdn.com/w320/pe.png	https://flagcdn.com/pe.svg
+Singapore	SG	$	https://flagcdn.com/w320/sg.png	https://flagcdn.com/sg.svg
+Turkey	TR	₺	https://flagcdn.com/w320/tr.png	https://flagcdn.com/tr.svg
+Afghanistan	AF	؋	https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_the_Taliban.svg/320px-Flag_of_the_Taliban.svg.png	https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_the_Taliban.svg
+Aruba	AW	ƒ	https://flagcdn.com/w320/aw.png	https://flagcdn.com/aw.svg
+Cook Islands	CK	$	https://flagcdn.com/w320/ck.png	https://flagcdn.com/ck.svg
+United Kingdom	GB	£	https://flagcdn.com/w320/gb.png	https://flagcdn.com/gb.svg
+Zambia	ZM	ZK	https://flagcdn.com/w320/zm.png	https://flagcdn.com/zm.svg
+Finland	FI	€	https://flagcdn.com/w320/fi.png	https://flagcdn.com/fi.svg
+Niger	NE	Fr	https://flagcdn.com/w320/ne.png	https://flagcdn.com/ne.svg
+Christmas Island	CX	$	https://flagcdn.com/w320/cx.png	https://flagcdn.com/cx.svg
+Tokelau	TK	$	https://flagcdn.com/w320/tk.png	https://flagcdn.com/tk.svg
+Guinea-Bissau	GW	Fr	https://flagcdn.com/w320/gw.png	https://flagcdn.com/gw.svg
+Azerbaijan	AZ	₼	https://flagcdn.com/w320/az.png	https://flagcdn.com/az.svg
+Réunion	RE	€	https://flagcdn.com/w320/re.png	https://flagcdn.com/re.svg
+Djibouti	DJ	Fr	https://flagcdn.com/w320/dj.png	https://flagcdn.com/dj.svg
+North Korea	KP	₩	https://flagcdn.com/w320/kp.png	https://flagcdn.com/kp.svg
+Mauritius	MU	₨	https://flagcdn.com/w320/mu.png	https://flagcdn.com/mu.svg
+Montserrat	MS	$	https://flagcdn.com/w320/ms.png	https://flagcdn.com/ms.svg
+United States Virgin Islands	VI	$	https://flagcdn.com/w320/vi.png	https://flagcdn.com/vi.svg
+Colombia	CO	$	https://flagcdn.com/w320/co.png	https://flagcdn.com/co.svg
+Greece	GR	€	https://flagcdn.com/w320/gr.png	https://flagcdn.com/gr.svg
+Croatia	HR	€	https://flagcdn.com/w320/hr.png	https://flagcdn.com/hr.svg
+Morocco	MA	د.م.	https://flagcdn.com/w320/ma.png	https://flagcdn.com/ma.svg
+Algeria	DZ	د.ج	https://flagcdn.com/w320/dz.png	https://flagcdn.com/dz.svg
+Antarctica	AQ	N/A	https://flagcdn.com/w320/aq.png	https://flagcdn.com/aq.svg
+Netherlands	NL	€	https://flagcdn.com/w320/nl.png	https://flagcdn.com/nl.svg
+Sudan	SD	ج.س	https://flagcdn.com/w320/sd.png	https://flagcdn.com/sd.svg
+Fiji	FJ	$	https://flagcdn.com/w320/fj.png	https://flagcdn.com/fj.svg
+Liechtenstein	LI	Fr	https://flagcdn.com/w320/li.png	https://flagcdn.com/li.svg
+Nepal	NP	₨	https://flagcdn.com/w320/np.png	https://flagcdn.com/np.svg
+Puerto Rico	PR	$	https://flagcdn.com/w320/pr.png	https://flagcdn.com/pr.svg
+Georgia	GE	₾	https://flagcdn.com/w320/ge.png	https://flagcdn.com/ge.svg
+Pakistan	PK	₨	https://flagcdn.com/w320/pk.png	https://flagcdn.com/pk.svg
+Monaco	MC	€	https://flagcdn.com/w320/mc.png	https://flagcdn.com/mc.svg
+Botswana	BW	P	https://flagcdn.com/w320/bw.png	https://flagcdn.com/bw.svg
+Lebanon	LB	ل.ل	https://flagcdn.com/w320/lb.png	https://flagcdn.com/lb.svg
+Papua New Guinea	PG	K	https://flagcdn.com/w320/pg.png	https://flagcdn.com/pg.svg
+Mayotte	YT	€	https://flagcdn.com/w320/yt.png	https://flagcdn.com/yt.svg
+Dominican Republic	DO	$	https://flagcdn.com/w320/do.png	https://flagcdn.com/do.svg
+Norfolk Island	NF	$	https://flagcdn.com/w320/nf.png	https://flagcdn.com/nf.svg
+Bouvet Island	BV	N/A	https://flagcdn.com/w320/bv.png	https://flagcdn.com/bv.svg
+Qatar	QA	ر.ق	https://flagcdn.com/w320/qa.png	https://flagcdn.com/qa.svg
+Madagascar	MG	Ar	https://flagcdn.com/w320/mg.png	https://flagcdn.com/mg.svg
+India	IN	₹	https://flagcdn.com/w320/in.png	https://flagcdn.com/in.svg
+Syria	SY	£	https://flagcdn.com/w320/sy.png	https://flagcdn.com/sy.svg
+Montenegro	ME	€	https://flagcdn.com/w320/me.png	https://flagcdn.com/me.svg
+Eswatini	SZ	L	https://flagcdn.com/w320/sz.png	https://flagcdn.com/sz.svg
+Paraguay	PY	₲	https://flagcdn.com/w320/py.png	https://flagcdn.com/py.svg
+El Salvador	SV	$	https://flagcdn.com/w320/sv.png	https://flagcdn.com/sv.svg
+Ukraine	UA	₴	https://flagcdn.com/w320/ua.png	https://flagcdn.com/ua.svg
+Isle of Man	IM	£	https://flagcdn.com/w320/im.png	https://flagcdn.com/im.svg
+Namibia	NA	$	https://flagcdn.com/w320/na.png	https://flagcdn.com/na.svg
+United Arab Emirates	AE	د.إ	https://flagcdn.com/w320/ae.png	https://flagcdn.com/ae.svg
+Bulgaria	BG	лв	https://flagcdn.com/w320/bg.png	https://flagcdn.com/bg.svg
+Greenland	GL	kr.	https://flagcdn.com/w320/gl.png	https://flagcdn.com/gl.svg
+Germany	DE	€	https://flagcdn.com/w320/de.png	https://flagcdn.com/de.svg
+Cambodia	KH	៛	https://flagcdn.com/w320/kh.png	https://flagcdn.com/kh.svg
+Iraq	IQ	ع.د	https://flagcdn.com/w320/iq.png	https://flagcdn.com/iq.svg
+French Southern and Antarctic Lands	TF	€	https://flagcdn.com/w320/tf.png	https://flagcdn.com/tf.svg
+Sweden	SE	kr	https://flagcdn.com/w320/se.png	https://flagcdn.com/se.svg
+Cuba	CU	$	https://flagcdn.com/w320/cu.png	https://flagcdn.com/cu.svg
+Kyrgyzstan	KG	с	https://flagcdn.com/w320/kg.png	https://flagcdn.com/kg.svg
+Russia	RU	₽	https://flagcdn.com/w320/ru.png	https://flagcdn.com/ru.svg
+Malaysia	MY	RM	https://flagcdn.com/w320/my.png	https://flagcdn.com/my.svg
+São Tomé and Príncipe	ST	Db	https://flagcdn.com/w320/st.png	https://flagcdn.com/st.svg
+Cyprus	CY	€	https://flagcdn.com/w320/cy.png	https://flagcdn.com/cy.svg
+Canada	CA	$	https://flagcdn.com/w320/ca.png	https://flagcdn.com/ca.svg
+Malawi	MW	MK	https://flagcdn.com/w320/mw.png	https://flagcdn.com/mw.svg
+Saudi Arabia	SA	ر.س	https://flagcdn.com/w320/sa.png	https://flagcdn.com/sa.svg
+Bosnia and Herzegovina	BA	KM	https://flagcdn.com/w320/ba.png	https://flagcdn.com/ba.svg
+Ethiopia	ET	Br	https://flagcdn.com/w320/et.png	https://flagcdn.com/et.svg
+Spain	ES	€	https://flagcdn.com/w320/es.png	https://flagcdn.com/es.svg
+Slovenia	SI	€	https://flagcdn.com/w320/si.png	https://flagcdn.com/si.svg
+Oman	OM	ر.ع.	https://flagcdn.com/w320/om.png	https://flagcdn.com/om.svg
+Saint Pierre and Miquelon	PM	€	https://flagcdn.com/w320/pm.png	https://flagcdn.com/pm.svg
+Macau	MO	P	https://flagcdn.com/w320/mo.png	https://flagcdn.com/mo.svg
+San Marino	SM	€	https://flagcdn.com/w320/sm.png	https://flagcdn.com/sm.svg
+Lesotho	LS	L	https://flagcdn.com/w320/ls.png	https://flagcdn.com/ls.svg
+Marshall Islands	MH	$	https://flagcdn.com/w320/mh.png	https://flagcdn.com/mh.svg
+Sint Maarten	SX	ƒ	https://flagcdn.com/w320/sx.png	https://flagcdn.com/sx.svg
+Iceland	IS	kr	https://flagcdn.com/w320/is.png	https://flagcdn.com/is.svg
+Luxembourg	LU	€	https://flagcdn.com/w320/lu.png	https://flagcdn.com/lu.svg
+Argentina	AR	$	https://flagcdn.com/w320/ar.png	https://flagcdn.com/ar.svg
+Turks and Caicos Islands	TC	$	https://flagcdn.com/w320/tc.png	https://flagcdn.com/tc.svg
+Nauru	NR	$	https://flagcdn.com/w320/nr.png	https://flagcdn.com/nr.svg
+Cocos (Keeling) Islands	CC	$	https://flagcdn.com/w320/cc.png	https://flagcdn.com/cc.svg
+Western Sahara	EH	دج	https://flagcdn.com/w320/eh.png	https://flagcdn.com/eh.svg
+Dominica	DM	$	https://flagcdn.com/w320/dm.png	https://flagcdn.com/dm.svg
+Costa Rica	CR	₡	https://flagcdn.com/w320/cr.png	https://flagcdn.com/cr.svg
+Australia	AU	$	https://flagcdn.com/w320/au.png	https://flagcdn.com/au.svg
+Thailand	TH	฿	https://flagcdn.com/w320/th.png	https://flagcdn.com/th.svg
+Haiti	HT	G	https://flagcdn.com/w320/ht.png	https://flagcdn.com/ht.svg
+Tuvalu	TV	$	https://flagcdn.com/w320/tv.png	https://flagcdn.com/tv.svg
+Honduras	HN	L	https://flagcdn.com/w320/hn.png	https://flagcdn.com/hn.svg
+Equatorial Guinea	GQ	Fr	https://flagcdn.com/w320/gq.png	https://flagcdn.com/gq.svg
+Saint Lucia	LC	$	https://flagcdn.com/w320/lc.png	https://flagcdn.com/lc.svg
+French Polynesia	PF	₣	https://flagcdn.com/w320/pf.png	https://flagcdn.com/pf.svg
+Belarus	BY	Br	https://flagcdn.com/w320/by.png	https://flagcdn.com/by.svg
+Latvia	LV	€	https://flagcdn.com/w320/lv.png	https://flagcdn.com/lv.svg
+Palau	PW	$	https://flagcdn.com/w320/pw.png	https://flagcdn.com/pw.svg
+Guadeloupe	GP	€	https://flagcdn.com/w320/gp.png	https://flagcdn.com/gp.svg
+Philippines	PH	₱	https://flagcdn.com/w320/ph.png	https://flagcdn.com/ph.svg
+Gibraltar	GI	£	https://flagcdn.com/w320/gi.png	https://flagcdn.com/gi.svg
+Denmark	DK	kr	https://flagcdn.com/w320/dk.png	https://flagcdn.com/dk.svg
+Cameroon	CM	Fr	https://flagcdn.com/w320/cm.png	https://flagcdn.com/cm.svg
+Guinea	GN	Fr	https://flagcdn.com/w320/gn.png	https://flagcdn.com/gn.svg
+Bahrain	BH	.د.ب	https://flagcdn.com/w320/bh.png	https://flagcdn.com/bh.svg
+Suriname	SR	$	https://flagcdn.com/w320/sr.png	https://flagcdn.com/sr.svg
+DR Congo	CD	FC	https://flagcdn.com/w320/cd.png	https://flagcdn.com/cd.svg
+Somalia	SO	Sh	https://flagcdn.com/w320/so.png	https://flagcdn.com/so.svg
+Czechia	CZ	Kč	https://flagcdn.com/w320/cz.png	https://flagcdn.com/cz.svg
+New Caledonia	NC	₣	https://flagcdn.com/w320/nc.png	https://flagcdn.com/nc.svg
+Vanuatu	VU	Vt	https://flagcdn.com/w320/vu.png	https://flagcdn.com/vu.svg
+Saint Helena, Ascension and Tristan da Cunha	SH	£	https://flagcdn.com/w320/sh.png	https://flagcdn.com/sh.svg
+Togo	TG	Fr	https://flagcdn.com/w320/tg.png	https://flagcdn.com/tg.svg
+British Virgin Islands	VG	$	https://flagcdn.com/w320/vg.png	https://flagcdn.com/vg.svg
+Kenya	KE	Sh	https://flagcdn.com/w320/ke.png	https://flagcdn.com/ke.svg
+Niue	NU	$	https://flagcdn.com/w320/nu.png	https://flagcdn.com/nu.svg
+Heard Island and McDonald Islands	HM	N/A	https://flagcdn.com/w320/hm.png	https://flagcdn.com/hm.svg
+Rwanda	RW	Fr	https://flagcdn.com/w320/rw.png	https://flagcdn.com/rw.svg
+Estonia	EE	€	https://flagcdn.com/w320/ee.png	https://flagcdn.com/ee.svg
+Romania	RO	lei	https://flagcdn.com/w320/ro.png	https://flagcdn.com/ro.svg
+Trinidad and Tobago	TT	$	https://flagcdn.com/w320/tt.png	https://flagcdn.com/tt.svg
+Guyana	GY	$	https://flagcdn.com/w320/gy.png	https://flagcdn.com/gy.svg
+Timor-Leste	TL	$	https://flagcdn.com/w320/tl.png	https://flagcdn.com/tl.svg
+Vietnam	VN	₫	https://flagcdn.com/w320/vn.png	https://flagcdn.com/vn.svg
+Uruguay	UY	$	https://flagcdn.com/w320/uy.png	https://flagcdn.com/uy.svg
+Vatican City	VA	€	https://flagcdn.com/w320/va.png	https://flagcdn.com/va.svg
+Hong Kong	HK	$	https://flagcdn.com/w320/hk.png	https://flagcdn.com/hk.svg
+Austria	AT	€	https://flagcdn.com/w320/at.png	https://flagcdn.com/at.svg
+Antigua and Barbuda	AG	$	https://flagcdn.com/w320/ag.png	https://flagcdn.com/ag.svg
+Turkmenistan	TM	m	https://flagcdn.com/w320/tm.png	https://flagcdn.com/tm.svg
+Mozambique	MZ	MT	https://flagcdn.com/w320/mz.png	https://flagcdn.com/mz.svg
+Panama	PA	B/.	https://flagcdn.com/w320/pa.png	https://flagcdn.com/pa.svg
+Micronesia	FM	$	https://flagcdn.com/w320/fm.png	https://flagcdn.com/fm.svg
+Ireland	IE	€	https://flagcdn.com/w320/ie.png	https://flagcdn.com/ie.svg
+Curaçao	CW	ƒ	https://flagcdn.com/w320/cw.png	https://flagcdn.com/cw.svg
+French Guiana	GF	€	https://flagcdn.com/w320/gf.png	https://flagcdn.com/gf.svg
+Norway	NO	kr	https://flagcdn.com/w320/no.png	https://flagcdn.com/no.svg
+Åland Islands	AX	€	https://flagcdn.com/w320/ax.png	https://flagcdn.com/ax.svg
+Central African Republic	CF	Fr	https://flagcdn.com/w320/cf.png	https://flagcdn.com/cf.svg
+Burkina Faso	BF	Fr	https://flagcdn.com/w320/bf.png	https://flagcdn.com/bf.svg
+Eritrea	ER	Nfk	https://flagcdn.com/w320/er.png	https://flagcdn.com/er.svg
+Tanzania	TZ	Sh	https://flagcdn.com/w320/tz.png	https://flagcdn.com/tz.svg
+South Korea	KR	₩	https://flagcdn.com/w320/kr.png	https://flagcdn.com/kr.svg
+Jordan	JO	د.ا	https://flagcdn.com/w320/jo.png	https://flagcdn.com/jo.svg
+Mauritania	MR	UM	https://flagcdn.com/w320/mr.png	https://flagcdn.com/mr.svg
+Lithuania	LT	€	https://flagcdn.com/w320/lt.png	https://flagcdn.com/lt.svg
+United States Minor Outlying Islands	UM	$	https://flagcdn.com/w320/um.png	https://flagcdn.com/um.svg
+Slovakia	SK	€	https://flagcdn.com/w320/sk.png	https://flagcdn.com/sk.svg
+Angola	AO	Kz	https://flagcdn.com/w320/ao.png	https://flagcdn.com/ao.svg
+Kazakhstan	KZ	₸	https://flagcdn.com/w320/kz.png	https://flagcdn.com/kz.svg
+Moldova	MD	L	https://flagcdn.com/w320/md.png	https://flagcdn.com/md.svg
+Mali	ML	Fr	https://flagcdn.com/w320/ml.png	https://flagcdn.com/ml.svg
+Falkland Islands	FK	£	https://flagcdn.com/w320/fk.png	https://flagcdn.com/fk.svg
+Armenia	AM	֏	https://flagcdn.com/w320/am.png	https://flagcdn.com/am.svg
+Samoa	WS	T	https://flagcdn.com/w320/ws.png	https://flagcdn.com/ws.svg
+Jersey	JE	£	https://flagcdn.com/w320/je.png	https://flagcdn.com/je.svg
+Japan	JP	¥	https://flagcdn.com/w320/jp.png	https://flagcdn.com/jp.svg
+Bolivia	BO	Bs.	https://flagcdn.com/w320/bo.png	https://flagcdn.com/bo.svg
+Chile	CL	$	https://flagcdn.com/w320/cl.png	https://flagcdn.com/cl.svg
+United States	US	$	https://flagcdn.com/w320/us.png	https://flagcdn.com/us.svg
+Saint Vincent and the Grenadines	VC	$	https://flagcdn.com/w320/vc.png	https://flagcdn.com/vc.svg
+Bermuda	BM	$	https://flagcdn.com/w320/bm.png	https://flagcdn.com/bm.svg
+Seychelles	SC	₨	https://flagcdn.com/w320/sc.png	https://flagcdn.com/sc.svg
+British Indian Ocean Territory	IO	$	https://flagcdn.com/w320/io.png	https://flagcdn.com/io.svg
+Guatemala	GT	Q	https://flagcdn.com/w320/gt.png	https://flagcdn.com/gt.svg
+Ecuador	EC	$	https://flagcdn.com/w320/ec.png	https://flagcdn.com/ec.svg
+Martinique	MQ	€	https://flagcdn.com/w320/mq.png	https://flagcdn.com/mq.svg
+Tajikistan	TJ	ЅМ	https://flagcdn.com/w320/tj.png	https://flagcdn.com/tj.svg
+Malta	MT	€	https://flagcdn.com/w320/mt.png	https://flagcdn.com/mt.svg
+Gambia	GM	D	https://flagcdn.com/w320/gm.png	https://flagcdn.com/gm.svg
+Nigeria	NG	₦	https://flagcdn.com/w320/ng.png	https://flagcdn.com/ng.svg
+Bahamas	BS	$	https://flagcdn.com/w320/bs.png	https://flagcdn.com/bs.svg
+Kosovo	XK	€	https://flagcdn.com/w320/xk.png	https://flagcdn.com/xk.svg
+Kuwait	KW	د.ك	https://flagcdn.com/w320/kw.png	https://flagcdn.com/kw.svg
+Maldives	MV	.ރ	https://flagcdn.com/w320/mv.png	https://flagcdn.com/mv.svg
+South Sudan	SS	£	https://flagcdn.com/w320/ss.png	https://flagcdn.com/ss.svg
+Iran	IR	﷼	https://flagcdn.com/w320/ir.png	https://flagcdn.com/ir.svg
+Albania	AL	L	https://flagcdn.com/w320/al.png	https://flagcdn.com/al.svg
+Brazil	BR	R$	https://flagcdn.com/w320/br.png	https://flagcdn.com/br.svg
+Serbia	RS	дин.	https://flagcdn.com/w320/rs.png	https://flagcdn.com/rs.svg
+Belize	BZ	$	https://flagcdn.com/w320/bz.png	https://flagcdn.com/bz.svg
+Myanmar	MM	Ks	https://flagcdn.com/w320/mm.png	https://flagcdn.com/mm.svg
+Bhutan	BT	Nu.	https://flagcdn.com/w320/bt.png	https://flagcdn.com/bt.svg
+Venezuela	VE	Bs.S.	https://flagcdn.com/w320/ve.png	https://flagcdn.com/ve.svg
+Liberia	LR	$	https://flagcdn.com/w320/lr.png	https://flagcdn.com/lr.svg
+Jamaica	JM	$	https://flagcdn.com/w320/jm.png	https://flagcdn.com/jm.svg
+Poland	PL	zł	https://flagcdn.com/w320/pl.png	https://flagcdn.com/pl.svg
+Cayman Islands	KY	$	https://flagcdn.com/w320/ky.png	https://flagcdn.com/ky.svg
+Brunei	BN	$	https://flagcdn.com/w320/bn.png	https://flagcdn.com/bn.svg
+Comoros	KM	Fr	https://flagcdn.com/w320/km.png	https://flagcdn.com/km.svg
+Guam	GU	$	https://flagcdn.com/w320/gu.png	https://flagcdn.com/gu.svg
+Tonga	TO	T$	https://flagcdn.com/w320/to.png	https://flagcdn.com/to.svg
+Kiribati	KI	$	https://flagcdn.com/w320/ki.png	https://flagcdn.com/ki.svg
+Ghana	GH	₵	https://flagcdn.com/w320/gh.png	https://flagcdn.com/gh.svg
+Chad	TD	Fr	https://flagcdn.com/w320/td.png	https://flagcdn.com/td.svg
+Zimbabwe	ZW	$	https://flagcdn.com/w320/zw.png	https://flagcdn.com/zw.svg
+Saint Martin	MF	€	https://flagcdn.com/w320/mf.png	https://flagcdn.com/mf.svg
+Mongolia	MN	₮	https://flagcdn.com/w320/mn.png	https://flagcdn.com/mn.svg
+Portugal	PT	€	https://flagcdn.com/w320/pt.png	https://flagcdn.com/pt.svg
+American Samoa	AS	$	https://flagcdn.com/w320/as.png	https://flagcdn.com/as.svg
+Republic of the Congo	CG	Fr	https://flagcdn.com/w320/cg.png	https://flagcdn.com/cg.svg
+Belgium	BE	€	https://flagcdn.com/w320/be.png	https://flagcdn.com/be.svg
+Israel	IL	₪	https://flagcdn.com/w320/il.png	https://flagcdn.com/il.svg
+New Zealand	NZ	$	https://flagcdn.com/w320/nz.png	https://flagcdn.com/nz.svg
+Nicaragua	NI	C$	https://flagcdn.com/w320/ni.png	https://flagcdn.com/ni.svg
+Anguilla	AI	$	https://flagcdn.com/w320/ai.png	https://flagcdn.com/ai.svg

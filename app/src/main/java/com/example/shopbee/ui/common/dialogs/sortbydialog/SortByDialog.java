@@ -1,4 +1,4 @@
-package com.example.shopbee.ui.shop.search.dialog.sort;
+package com.example.shopbee.ui.common.dialogs.sortbydialog;
 
 import android.app.Dialog;
 import android.graphics.Color;

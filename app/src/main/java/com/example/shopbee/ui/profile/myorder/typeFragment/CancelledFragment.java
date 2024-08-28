@@ -16,14 +16,14 @@ import com.example.shopbee.ui.profile.adapter.OrderProductAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CancelledFragment extends Fragment {
+public class CancelledFragment extends Fragment implements OrderProductAdapter.Listener{
     List<OrderProductItem> orderProductItemList;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.cancelled_fragment,container, false);
         setUpOrderProductItemList();
 
-        OrderProductAdapter orderProductAdapter = new OrderProductAdapter(orderProductItemList);
+        OrderProductAdapter orderProductAdapter = new OrderProductAdapter(orderProductItemList, this);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewCancelled);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(orderProductAdapter);
@@ -42,5 +42,10 @@ public class CancelledFragment extends Fragment {
         orderProductItemList.add(new OrderProductItem("No1947234", "05-12-2019", "IW3475453462", 2, "100$", "Cancelled"));
         orderProductItemList.add(new OrderProductItem("No1947334", "05-12-2019", "IW3475453463", 2, "100$", "Cancelled"));
         orderProductItemList.add(new OrderProductItem("No1947434", "05-12-2019", "IW3475453464", 2, "100$", "Cancelled"));
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+
     }
 }

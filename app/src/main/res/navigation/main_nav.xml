@@ -42,6 +42,7 @@
         android:label="SearchFragment" >
         <argument
             android:name="categoryId"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue=""/>
     </fragment>
 </navigation>

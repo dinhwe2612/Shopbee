@@ -1,6 +1,7 @@
 package com.example.shopbee.ui.profile.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -13,9 +14,13 @@ import java.util.List;
 
 public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapter.OrderProductViewHolder> {
     List<OrderProductItem> orderProductItemList;
-
-    public OrderProductAdapter(List<OrderProductItem> orderProductItemList) {
+    public interface Listener{
+        public void onItemClicked(int position);
+    }
+    private Listener listener;
+    public OrderProductAdapter(List<OrderProductItem> orderProductItemList, Listener listener) {
         this.orderProductItemList = orderProductItemList;
+        this.listener = listener;
     }
     @NonNull
     @Override
@@ -32,6 +37,12 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         holder.binding.trackingNumber.setText(orderProductItem.getTrackingNumber());
         holder.binding.quantity.setText(orderProductItem.getQuantity().toString());
         holder.binding.totalAmount.setText(orderProductItem.getTotalAmount());
+        holder.binding.buttonDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClicked(position);
+            }
+        });
     }
 
     @Override

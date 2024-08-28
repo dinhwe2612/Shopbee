@@ -7,7 +7,7 @@ public class Filter {
     Float min_price;
     Float max_price;
     ProductCondition productCondition;
-    public Filter(Float min_price, Float max_price, ProductCondition productCondition, ProductCountry productCountry) {
+    public Filter(Float min_price, Float max_price, ProductCondition productCondition) {
         this.min_price = min_price;
         this.max_price = max_price;
         this.productCondition = productCondition;
