@@ -1,4 +1,6 @@
 package com.example.shopbee.data.model.api;
+import android.widget.LinearLayout;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Map;

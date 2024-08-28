@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.CountryRespone;
 import com.example.shopbee.databinding.ChangeCountryBinding;
 import com.example.shopbee.databinding.CountryItemBinding;
@@ -15,13 +16,15 @@ import java.util.List;
 
 public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryViewHolder> {
     List<CountryRespone> countries;
+    private int currentPosition;
     public interface Listener{
         void onClickItems(int position);
     }
     Listener listener;
-    public CountryAdapter(Listener listener, List<CountryRespone> countries) {
+    public CountryAdapter(Listener listener, List<CountryRespone> countries, int currentPosition) {
         this.listener = listener;
         this.countries = countries;
+        this.currentPosition = currentPosition;
     }
 
     @NonNull
@@ -36,14 +39,21 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryV
         CountryRespone country = countries.get(position);
         holder.binding.countryName.setText(country.getName());
         holder.binding.countryCode.setText("(" + country.getCode() + ")");
+        if (currentPosition == position){
+            holder.binding.countryItemLayout.setBackgroundResource(R.drawable.red_rectangle_gray_stroke);
+        } else {
+            holder.binding.countryItemLayout.setBackgroundResource(R.drawable.white_rectangle_gray_stroke);
+        }
         holder.binding.countryName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                notifyItemChanged(currentPosition);
+                currentPosition = position;
+                notifyItemChanged(currentPosition);
                 listener.onClickItems(position);
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return countries.size();

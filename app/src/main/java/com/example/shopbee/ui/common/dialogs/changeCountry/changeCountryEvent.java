@@ -1,12 +1,10 @@
 package com.example.shopbee.ui.common.dialogs.changeCountry;
 
-import com.example.shopbee.ui.common.dialogs.DialogsEventBus;
-
 public class changeCountryEvent {
-    private String newCountry;
-    private String newCode;
-    private String pngUrl;
-    private int position;
+    private final String newCountry;
+    private final String newCode;
+    private final String pngUrl;
+    private final int position;
 
     public changeCountryEvent(String newCountry, String newCode, String pngUrl, int position) {
         this.newCountry = newCountry;

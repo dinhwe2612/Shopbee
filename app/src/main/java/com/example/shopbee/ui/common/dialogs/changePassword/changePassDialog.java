@@ -13,7 +13,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.ChangePasswordBinding;
-import com.example.shopbee.ui.common.dialogs.DialogsEventBus;
+import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import javax.inject.Inject;
@@ -22,20 +22,19 @@ public class changePassDialog extends DialogFragment {
     public static final String ARG_OLD_PASSWORD = "old_password";
     public static final String ARG_FULL_NAME = "full_name";
     public static final String ARG_EMAIL = "email";
-    ChangePasswordBinding binding;
+    private ChangePasswordBinding binding;
+    private DialogsManager dialogsManager;
 
-    public static changePassDialog newInstance(String old_password, String full_name, String email) {
+    public static changePassDialog newInstance(DialogsManager dialogsManager, String old_password, String full_name, String email) {
         changePassDialog dialog = new changePassDialog();
         Bundle args = new Bundle();
+        dialog.dialogsManager = dialogsManager;
         args.putString(ARG_OLD_PASSWORD, old_password);
         args.putString(ARG_FULL_NAME, full_name);
         args.putString(ARG_EMAIL, email);
         dialog.setArguments(args);
         return dialog;
     }
-
-    @Inject
-    DialogsEventBus dialogsEventBus;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -164,6 +163,7 @@ public class changePassDialog extends DialogFragment {
                     binding.repeatNewPasswordLayout.setBackgroundResource(R.drawable.slight_rounded_white_rectangle_red_stroke);
                 } else if (binding.oldPassword.getText().toString().equals(old_password)) {
                     if (binding.newPassword.getText().toString().equals(binding.repeatNewPassword.getText().toString())) {
+
                         Toast.makeText(getContext(), "Change password successfully", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getContext(), "Repeat new password must be same with new password", Toast.LENGTH_SHORT).show();

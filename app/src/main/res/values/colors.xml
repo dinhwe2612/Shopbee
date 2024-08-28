@@ -14,4 +14,5 @@
     <color name="red_error">#F01F0E</color>
     <color name="red_stroke">#FDD3D0</color>
     <color name="gray_stroke">#979797</color>
+    <color name="pastel_red">#de5858</color>
 </resources>

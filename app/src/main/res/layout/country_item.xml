@@ -6,6 +6,7 @@
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
     android:gravity="center_horizontal"
+    android:id="@+id/country_item_layout"
     android:background="@drawable/white_rectangle_gray_stroke"
     android:orientation="horizontal">
     <LinearLayout

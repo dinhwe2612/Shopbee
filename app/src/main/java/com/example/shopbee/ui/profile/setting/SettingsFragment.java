@@ -4,9 +4,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -16,16 +18,17 @@ import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.FutureTarget;
 import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.CountryRespone;
 import com.example.shopbee.databinding.SettingsBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 
 import com.example.shopbee.ui.common.base.BaseFragment;
-import com.example.shopbee.ui.common.dialogs.DialogsEventBus;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryEvent;
 import com.example.shopbee.ui.profile.adapter.ProfileAdapter;
+import com.example.shopbee.ui.shop.categories.CategoriesHashMap;
 import com.github.angads25.toggle.interfaces.OnToggledListener;
 import com.github.angads25.toggle.model.ToggleableView;
 
@@ -40,7 +43,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsViewModel> implements SettingsNavigator, DialogsEventBus.Listener {
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
+public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsViewModel> implements SettingsNavigator, DialogsManager.Listener {
     private SettingsBinding binding;
     private List<CountryRespone> listCountry;
 
@@ -87,7 +95,7 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
         binding.changeCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogsManager.changeCountryDialog("Viet Nam", listCountry);
+                dialogsManager.changeCountryDialog("Vietnam", listCountry);
             }
         });
     }
@@ -144,12 +152,36 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
     @Override
     public void onDialogEvent(Object event) {
         if (event instanceof changeCountryEvent) {
+            Toast.makeText(getContext(), "Change country successfully", Toast.LENGTH_SHORT).show();
             changeCountryEvent mChangeCountryEvent = (changeCountryEvent) event;
+            Log.d("TAG", "onDialogEvent: " + mChangeCountryEvent.getNewCountry());
             binding.countryText.setText(mChangeCountryEvent.getNewCountry() + " (" + mChangeCountryEvent.getNewCode() + ")");
-            Glide.with(this)
-                    .load(mChangeCountryEvent.getPngUrl())// Optional error image
-                    .into(binding.countryImage);
+            Disposable d = (Observable.fromCallable(() -> {
+                    FutureTarget<Bitmap> futureTarget = Glide.with(this)
+                            .asBitmap()
+                            .load(mChangeCountryEvent.getPngUrl())
+                            .submit();
+                    return futureTarget.get();
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bitmap -> {
+                    binding.countryImage.setImageBitmap(bitmap);
+                }, throwable -> {
+                    Log.e("Exception", throwable.getMessage());
+                })
+            );
         }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        dialogsManager.registerListener(this);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        dialogsManager.unregisterListener(this);
     }
 }
 
