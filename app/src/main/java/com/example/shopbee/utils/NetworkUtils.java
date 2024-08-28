@@ -7,7 +7,7 @@ public final class NetworkUtils {
     public static final String BASE_URL_COUNTRY = "https://restcountries.com/";
     public static final String BASE_URL = "https://real-time-amazon-data.p.rapidapi.com/";
     public static final String HEADER_KEY = "x-rapidapi-key";
-    public static final String KEY = "c674539d8fmshd141625da6009cbp18d329jsnae1fad532e4d";
+    public static final String KEY = "62f6f3b71fmsh832e26b1d7bf1c8p10ee91jsnbcd4439f82e5";
     public static final String HEADER_HOST = "x-rapidapi-host";
     public static final String HOST = "real-time-amazon-data.p.rapidapi.com";
     public static HashMap<String, String> createSearchQuery(String query, String page, String country) {

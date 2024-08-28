@@ -1,18 +1,15 @@
-package com.example.shopbee.ui.shop.search.dialog;
+package com.example.shopbee.ui.common.dialogs.sortbydialog;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.R;
 import com.example.shopbee.data.model.filter.SortByChoice;
-import com.example.shopbee.databinding.ShopItemBinding;
 import com.example.shopbee.databinding.SortItemBinding;
-import com.example.shopbee.ui.shop.search.adapter.ProductAdapter;
 
 import java.util.ArrayList;
 
