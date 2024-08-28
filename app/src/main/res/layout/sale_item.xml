@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="11.5dp"
             android:src="@drawable/dash"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/textView2"
             app:layout_constraintEnd_toEndOf="@id/textView2"
             app:layout_constraintTop_toBottomOf="@id/textView1">
 
