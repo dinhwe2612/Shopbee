@@ -1,4 +1,4 @@
-package com.example.shopbee.ui.shop.search.dialog;
+package com.example.shopbee.ui.common.dialogs.sortbydialog;
 
 import com.example.shopbee.data.model.filter.SortByChoice;
 

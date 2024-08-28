@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
@@ -21,12 +20,11 @@ import com.example.shopbee.databinding.SearchCatalogNewBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
-import com.example.shopbee.ui.common.dialogs.twooptiondialog.TwoOptionEvent;
 import com.example.shopbee.ui.shop.categories.CategoriesHashMap;
 import com.example.shopbee.ui.shop.search.adapter.ProductAdapter;
 import com.example.shopbee.ui.shop.search.adapter.ProductAdapterGridView;
-import com.example.shopbee.ui.shop.search.dialog.SortByDialog;
-import com.example.shopbee.ui.shop.search.dialog.SortByEvent;
+import com.example.shopbee.ui.common.dialogs.sortbydialog.SortByDialog;
+import com.example.shopbee.ui.common.dialogs.sortbydialog.SortByEvent;
 
 import javax.inject.Inject;
 
