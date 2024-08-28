@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="150dp"
             android:layout_height="180dp"
-            android:src="@drawable/image4">
+            android:src="@null">
 
         </ImageView>
         <TextView
