@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
@@ -21,12 +20,14 @@ import com.example.shopbee.databinding.SearchCatalogNewBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
-import com.example.shopbee.ui.common.dialogs.twooptiondialog.TwoOptionEvent;
 import com.example.shopbee.ui.shop.categories.CategoriesHashMap;
 import com.example.shopbee.ui.shop.search.adapter.ProductAdapter;
 import com.example.shopbee.ui.shop.search.adapter.ProductAdapterGridView;
-import com.example.shopbee.ui.shop.search.dialog.SortByDialog;
-import com.example.shopbee.ui.shop.search.dialog.SortByEvent;
+import com.example.shopbee.ui.shop.search.dialog.filter.Filter;
+import com.example.shopbee.ui.shop.search.dialog.filter.FilterDialog;
+import com.example.shopbee.ui.shop.search.dialog.filter.FilterEvent;
+import com.example.shopbee.ui.shop.search.dialog.sort.SortByDialog;
+import com.example.shopbee.ui.shop.search.dialog.sort.SortByEvent;
 
 import javax.inject.Inject;
 
@@ -36,7 +37,7 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
     DialogsManager dialogsManager;
     ProductFilter productFilter;
     private String category;
-    public SearchFragment(String category) {
+    public SearchFragment(String category, String productName) {
         super();
         this.category = category;
         isInListView = 1;
@@ -61,7 +62,9 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         productFilter = new ProductFilter();
-        productFilter.setCategory_id(category);
+        productFilter.setMin_price(0.0f);
+        productFilter.setMax_price(1000.0f);
+        if (category != null) productFilter.setCategory_id(category);
         productFilter.setPage(1);
         productFilter.setProduct_country(ProductCountry.US);
         productFilter.setSort_by_choice(SortByChoice.RELEVANCE);
@@ -111,6 +114,14 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
                 }
             }
         });
+        getViewDataBinding().linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FilterDialog filterDialog = FilterDialog.newInstance(dialogsManager, new Filter(productFilter.getMin_price(), productFilter.getMax_price(), productFilter.getProduct_condition(), productFilter.getProduct_country()));
+                getViewDataBinding().linearLayout.startAnimation(clickAnimation);
+                filterDialog.show(requireActivity().getSupportFragmentManager(), filterDialog.getTag());
+            }
+        });
     }
 
     @Override
@@ -134,6 +145,12 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
                 assert productFilter.getSortByChoiceMap() != null;
                 getViewDataBinding().textView11.setText(productFilter.getSortByChoiceMap().get(productFilter.getSort_by_choice()));
             }
+        }
+        else if (event instanceof FilterEvent) {
+            productFilter.setMin_price(((FilterEvent) event).getFilter().getMin_price());
+            productFilter.setMax_price(((FilterEvent) event).getFilter().getMax_price());
+            productFilter.setProduct_condition(((FilterEvent) event).getFilter().getProductCondition());
+            viewModel.syncProductsByCategory(productFilter.getProductFilter());
         }
     }
 }

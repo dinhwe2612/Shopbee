@@ -1,4 +1,4 @@
-package com.example.shopbee.ui.shop.search.dialog;
+package com.example.shopbee.ui.shop.search.dialog.sort;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -10,18 +10,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.shopbee.R;
 import com.example.shopbee.data.model.filter.SortByChoice;
 import com.example.shopbee.databinding.BottomSheetLayoutSortByBinding;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-
-import javax.inject.Inject;
 
 public class SortByDialog extends BottomSheetDialogFragment {
     SortByChoice sortByChoice;

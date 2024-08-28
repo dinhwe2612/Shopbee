@@ -12,9 +12,9 @@
     android:layout_height="124dp">
     <ImageView
         android:id="@+id/imageView"
-        android:src="@drawable/english_book"
+        android:src="@null"
         android:scaleType="fitCenter"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="100dp">
 
     </ImageView>

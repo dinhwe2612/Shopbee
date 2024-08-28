@@ -99,13 +99,15 @@ public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> imple
     public void navigateToSearchByCategory(String category) {
 //        NavController navController = NavHostFragment.findNavController(this);
 //        navController.navigate(R.id.searchFragment);
-        SearchFragment searchFragment = new SearchFragment(category);
+        SearchFragment searchFragment = new SearchFragment(category, null);
         FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(
+        fragmentTransaction.add(
                 R.id.fragmentContainer,
                 searchFragment
         );
         fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.hide(requireActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainer));
+        fragmentTransaction.show(searchFragment);
         fragmentTransaction.commit();
     }
 }

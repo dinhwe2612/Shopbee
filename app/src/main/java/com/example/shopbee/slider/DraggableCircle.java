@@ -19,9 +19,28 @@ import androidx.core.content.ContextCompat;
 import com.example.shopbee.R;
 
 public class DraggableCircle extends View {
+    boolean isInitialized = false;
     private static int MIN_PRICE = 0;
-    private static int MAX_PRICE = 10000;
-    int minPrice = 78, maxPrice = 9999;
+    private static int MAX_PRICE = 1000;
+    float minPrice = 250f, maxPrice = 750f;
+    public float getMinPrice() {
+        return minPrice;
+    }
+    public float getMaxPrice() {
+        return maxPrice;
+    }
+    public void setMinPrice(float minPrice) {
+        this.minPrice = minPrice;
+        setPosForCircle1(getPositionFromPrice(minPrice), 0);
+    }
+    public float getPositionFromPrice(float x) {
+        return x/(MAX_PRICE - MIN_PRICE) * getWidth();
+//        return x / 1000f * 943f;
+    }
+    public void setMaxPrice(float maxPrice) {
+        this.maxPrice = maxPrice;
+        setPosForCircle2(getPositionFromPrice(maxPrice), 0);
+    }
     int width, height;
     public int getViewWidth() {
         return width;
@@ -75,6 +94,11 @@ public class DraggableCircle extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (!isInitialized) {
+            cx1 = getPositionFromPrice(minPrice);
+            cx2 = getPositionFromPrice(maxPrice);
+            isInitialized = true;
+        }
         paint.setColor(frameColor);
         canvas.drawRect(0, getHeight() / 2f - circleRadius / 8f, getWidth(), getHeight() / 2f + circleRadius / 8f, paint);
         paint.setColor(selectFrameColor);
@@ -109,9 +133,9 @@ public class DraggableCircle extends View {
         paint.setTextSize(textSizeInPx);
 //        Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "app/src/main/res/font/metropolis_medium.otf");
 //        paint.setTypeface(typeface);
-        int textwidth = (int) paint.measureText(getStringPrice(maxPrice));
-        canvas.drawText(getStringPrice(minPrice), 0, getHeight() / 2f - circleRadius / 8f - 20, paint);
-        canvas.drawText(getStringPrice(maxPrice), getWidth() - textwidth, getHeight() / 2f - circleRadius / 8f - 20, paint);
+        int textwidth = (int) paint.measureText(getStringPrice((int) maxPrice));
+        canvas.drawText(getStringPrice((int) minPrice), 0, getHeight() / 2f - circleRadius / 8f - 20, paint);
+        canvas.drawText(getStringPrice((int) maxPrice), getWidth() - textwidth, getHeight() / 2f - circleRadius / 8f - 20, paint);
     }
 
     @Override
@@ -141,6 +165,8 @@ public class DraggableCircle extends View {
                     float dy1 = y - lastY1;
                     lastX1 = x;
                     lastY1 = y;
+                    if (cx1 + dx1 < 0 || cx1 + dx1 >= cx2) return false;
+                    minPrice = getPriceFromPosition(cx1 + dx1);
                     setPosForCircle1(cx1 + dx1, cy1 + dy1);
                     return true;
                 } else if (isDraggingCircle2) {
@@ -148,6 +174,8 @@ public class DraggableCircle extends View {
                     float dy2 = y - lastY2;
                     lastX2 = x;
                     lastY2 = y;
+                    if (cx2 + dx2 <= cx1 || cx2 + dx2 > getWidth()) return false;
+                    maxPrice = getPriceFromPosition(cx2 + dy2);
                     setPosForCircle2(cx2 + dx2, cy2 + dy2);
                     return true;
                 }
@@ -203,7 +231,11 @@ public class DraggableCircle extends View {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
     }
 
+    public float getPriceFromPosition(float x) {
+        return (x / getWidth()) * (MAX_PRICE - MIN_PRICE);
+    }
+
     public String getStringPrice(int price) {
-        return "$" + price;
+        return "$" + String.valueOf(price);
     }
 }
