@@ -34,11 +34,11 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
     DialogsManager dialogsManager;
     ProductFilter productFilter;
     private String category;
-    public SearchFragment(String category) {
-        super();
-        this.category = category;
-        isInListView = 1;
-    }
+//    public SearchFragment(String category) {
+//        super();
+//        this.category = category;
+//        isInListView = 1;
+//    }
     @Override
     public int getBindingVariable() {
         return BR.vm;
@@ -58,6 +58,8 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        isInListView = 1;
+        category = getArguments().getString("category");
         productFilter = new ProductFilter();
         productFilter.setCategory_id(category);
         productFilter.setPage(1);
