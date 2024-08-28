@@ -62,7 +62,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         profileItems.add(new ProfileItem("Payment methods", "Visa **34"));
         profileItems.add(new ProfileItem("Promocodes", "You have special promocodes"));
         profileItems.add(new ProfileItem("My reviews", "Review for 4 items"));
-        profileItems.add(new ProfileItem("Setting", "Notification, password"));
+        profileItems.add(new ProfileItem("Settings", "Notification, password"));
     }
     public static class ProfileItem {
         private String option_name;

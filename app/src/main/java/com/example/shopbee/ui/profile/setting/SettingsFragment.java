@@ -15,17 +15,37 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.shopbee.R;
+import com.example.shopbee.data.model.api.CountryRespone;
 import com.example.shopbee.databinding.SettingsBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 
 import com.example.shopbee.ui.common.base.BaseFragment;
+import com.example.shopbee.ui.common.dialogs.DialogsEventBus;
+import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryEvent;
 import com.example.shopbee.ui.profile.adapter.ProfileAdapter;
 import com.github.angads25.toggle.interfaces.OnToggledListener;
 import com.github.angads25.toggle.model.ToggleableView;
 
-public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsViewModel> implements SettingsNavigator {
-    SettingsBinding binding;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import javax.inject.Inject;
+
+public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsViewModel> implements SettingsNavigator, DialogsEventBus.Listener {
+    private SettingsBinding binding;
+    private List<CountryRespone> listCountry;
+
+    @Inject
+    DialogsManager dialogsManager;
     @Override
     public int getBindingVariable() {return BR.vm;}
     @Override
@@ -39,11 +59,16 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = getViewDataBinding();
+        setUpCountryItems();
 
         binding.fullnameText.setText("Nguyen Minh Luan");
         binding.DOBText.setText("19/07/2001");
         binding.passwordText.setText("123456789");
         binding.countryText.setText("Viet Nam (VN)");
+        String svgUrl = "https://flagcdn.com/w320/vn.png";
+        Glide.with(this)
+                .load(svgUrl)// Optional error image
+                .into(binding.countryImage);
         settingTheme();
 
         NavController navController = NavHostFragment.findNavController(this);
@@ -56,13 +81,16 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
         binding.changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dialogsManager.changePasswordDialog("123456789", "Nguyen Minh Luan", "james.iredell@examplepetstore.com");
             }
         });
-
+        binding.changeCountry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogsManager.changeCountryDialog("Viet Nam", listCountry);
+            }
+        });
     }
-
-
     void settingTheme(){
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         boolean isDarkMode = sharedPref.getBoolean("DARK_MODE", false);
@@ -84,6 +112,44 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
                 editor.apply();
             }
         });
+    }
+    void setUpCountryItems(){
+        listCountry = new ArrayList<>();
+        try {
+            InputStream inputStream = getContext().getResources().openRawResource(R.raw.countries_info);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("\t");
+                if (parts.length == 5) {
+                    String name = parts[0];
+                    String code = parts[1];
+                    String currency = parts[2];
+                    String flagPngUrl = parts[3];
+                    String flagSvgUrl = parts[4];
+                    listCountry.add(new CountryRespone(name, code, currency, flagPngUrl, flagSvgUrl));
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(listCountry, new Comparator<CountryRespone>() {
+            @Override
+            public int compare(CountryRespone c1, CountryRespone c2) {
+                return c1.getCode().compareTo(c2.getCode());
+            }
+        });
+    }
+    @Override
+    public void onDialogEvent(Object event) {
+        if (event instanceof changeCountryEvent) {
+            changeCountryEvent mChangeCountryEvent = (changeCountryEvent) event;
+            binding.countryText.setText(mChangeCountryEvent.getNewCountry() + " (" + mChangeCountryEvent.getNewCode() + ")");
+            Glide.with(this)
+                    .load(mChangeCountryEvent.getPngUrl())// Optional error image
+                    .into(binding.countryImage);
+        }
     }
 }
 

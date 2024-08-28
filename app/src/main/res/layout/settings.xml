@@ -173,13 +173,14 @@
                         android:text="Country"
                         style="@style/Black_SemiBold_16dp"/>
                     <TextView
+                        android:id="@+id/changeCountry"
                         android:layout_alignParentEnd="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Change"
                         style="@style/Gray_Medium_14dp"/>
                 </RelativeLayout>
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="350dp"
                     android:layout_height="64dp"
                     android:orientation="vertical"
@@ -188,10 +189,12 @@
                     style="@style/AccountEditText_Background">
                     <TextView
                         style="@style/Gray_Regular_11dp"
+                        android:id="@+id/setting_country_hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Country" />
                     <RelativeLayout
+                        android:layout_below="@id/setting_country_hint"
                         android:layout_marginTop="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -203,7 +206,14 @@
                             android:layout_height="50dp"
                             style="@style/EditText"/>
                     </RelativeLayout>
-                </LinearLayout>
+                    <ImageView
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="5dp"
+                        android:id="@+id/countryImage"
+                        android:layout_width="36dp"
+                        android:layout_height="24dp"/>
+                </RelativeLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_marginTop="30dp"
