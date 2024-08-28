@@ -66,6 +66,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             } else {
                 binding.simpleRatingBar.setRating(0);
             }
+            if (products.get(position).getProduct_original_price() != null) {
+                binding.textView4.setText(products.get(position).getProduct_original_price());
+            }
+            else {
+                binding.textView4.setVisibility(View.GONE);
+                binding.imageView1.setVisibility(View.GONE);
+            }
 
 //            Log.e("rating", "msg: " + position + " " + products.get(position).getProduct_star_rating());
             binding.textView3.setText("(" + products.get(position).getProduct_num_ratings() + ")");

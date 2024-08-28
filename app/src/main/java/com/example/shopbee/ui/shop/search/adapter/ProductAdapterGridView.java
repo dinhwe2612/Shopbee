@@ -68,6 +68,10 @@ public class ProductAdapterGridView extends RecyclerView.Adapter<ProductAdapterG
             if (products.get(position).getProduct_original_price() != null) {
                 binding.textView2.setText(products.get(position).getProduct_original_price());
             }
+            else {
+                binding.textView2.setVisibility(View.GONE);
+                binding.imageView4.setVisibility(View.GONE);
+            }
             binding.textView4.setText(products.get(position).getProduct_price());
             if (products.get(position).getProduct_photo() != null) {
                 compositeDisposable.add(Observable.fromCallable(() -> {
