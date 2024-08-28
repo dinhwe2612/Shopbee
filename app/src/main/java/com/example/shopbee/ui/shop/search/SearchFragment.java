@@ -64,7 +64,7 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
         isInListView = 1;
         category = getArguments().getString("category");
         productFilter = new ProductFilter();
-        productFilter.setMin_price(0f);
+        productFilter.setMin_price(1f);
         productFilter.setMax_price(1000f);
         productFilter.setProduct_condition(ProductCondition.ALL);
         productFilter.setCategory_id(category);
