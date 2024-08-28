@@ -36,4 +36,12 @@
         android:id="@+id/myOrderFragment"
         android:name="com.example.shopbee.ui.profile.myorder.MyOrderFragment"
         android:label="MyOrderFragment" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.shopbee.ui.shop.search.SearchFragment"
+        android:label="SearchFragment" >
+        <argument
+            android:name="categoryId"
+            app:argType="string" />
+    </fragment>
 </navigation>

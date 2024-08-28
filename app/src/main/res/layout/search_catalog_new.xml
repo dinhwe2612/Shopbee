@@ -32,6 +32,7 @@
 
             </ImageView>
             <TextView
+                android:id="@+id/textView"
                 android:text="English Books"
                 android:background="@drawable/slight_rounded_white_rectangle_gray_stroke"
                 style="@style/Black_Regular_16dp"
@@ -71,15 +72,16 @@
 
             </ImageView>
             <TextView
+                android:id="@+id/textView10"
                 android:layout_gravity="center"
                 android:text="Filters"
                 style="@style/Black_Regular_11dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
             </TextView>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal"
             android:layout_marginTop="15dp"
@@ -94,8 +96,9 @@
 
             </ImageView>
             <TextView
+                android:id="@+id/textView11"
                 android:layout_gravity="center"
-                android:text="Price: lowest to high"
+                android:text="Most Relevant"
                 style="@style/Black_Regular_11dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -113,6 +116,7 @@
             android:layout_height="wrap_content">
         </ImageView>
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView1"
             tools:listitem="@layout/shop_item"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"

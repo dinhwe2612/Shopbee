@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -25,6 +26,7 @@
         style="@style/Black_SemiBold_18dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         tools:listitem="@layout/sort_item"
         android:layout_marginTop="25dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -34,3 +36,4 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>
+</layout>

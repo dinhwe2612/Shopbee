@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.shopbee.databinding.TwoOptionDialogBinding;
-import com.example.shopbee.ui.common.dialogs.DialogsEventBus;
+import com.example.shopbee.ui.common.dialogs.DialogsManager;
 
 import javax.inject.Inject;
 
@@ -17,9 +17,11 @@ public class TwoOptionDialog extends DialogFragment {
     public static final String ARG_MESSAGE = "message";
     public static final String ARG_BUTTON_TEXT1 = "button_text_1";
     public static final String ARG_BUTTON_TEXT2 = "button_text_2";
+    DialogsManager dialogsManager;
 
-    public static TwoOptionDialog newInstance(String title, String message, String buttonText1, String buttonText2) {
+    public static TwoOptionDialog newInstance(DialogsManager dialogsManager, String title, String message, String buttonText1, String buttonText2) {
         TwoOptionDialog dialog = new TwoOptionDialog();
+        dialog.dialogsManager = dialogsManager;
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
         args.putString(ARG_MESSAGE, message);
@@ -28,8 +30,6 @@ public class TwoOptionDialog extends DialogFragment {
         dialog.setArguments(args);
         return dialog;
     }
-    @Inject
-    DialogsEventBus dialogsEventBus;
 
     @NonNull
     @Override
@@ -46,8 +46,16 @@ public class TwoOptionDialog extends DialogFragment {
         binding.messageText.setText(message);
         binding.dialogBtn1.setText(buttonText1);
         binding.dialogBtn2.setText(buttonText2);
-        binding.dialogBtn1.setOnClickListener(v -> dismiss());
-        binding.dialogBtn2.setOnClickListener(v -> dismiss());
+        binding.dialogBtn1.setOnClickListener(v -> {
+            TwoOptionEvent button = new TwoOptionEvent(TwoOptionEvent.Button.FIRST);
+            dialogsManager.postEvent(button);
+            dismiss();
+        });
+        binding.dialogBtn2.setOnClickListener(v -> {
+            TwoOptionEvent button = new TwoOptionEvent(TwoOptionEvent.Button.SECOND);
+            dialogsManager.postEvent(button);
+            dismiss();
+        });
         Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(binding.getRoot());
         return dialog;

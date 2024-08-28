@@ -1,11 +1,13 @@
 package com.example.shopbee.ui.home;
 
-import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
@@ -19,6 +21,7 @@ import com.example.shopbee.data.model.api.AmazonDealsResponse;
 import com.example.shopbee.databinding.HomeBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.example.shopbee.ui.common.dialogs.twooptiondialog.TwoOptionEvent;
 import com.example.shopbee.ui.home.adapter.BannerAdapter;
 import com.example.shopbee.ui.home.adapter.CategoryAdapter;
 import com.example.shopbee.ui.home.adapter.DealAdapter;
@@ -30,7 +33,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> implements HomeNavigator {
+public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> implements HomeNavigator, DialogsManager.Listener {
     HomeBinding binding;
     DealAdapter dealAdapter;
     DealAdapter newDealAdapter;
@@ -117,5 +120,25 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
         binding.recommendedRCV.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recommendedAdapter = new DealAdapter(new ArrayList<AmazonDealsResponse.Data.Deal>());
         binding.recommendedRCV.setAdapter(recommendedAdapter);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        dialogsManager.registerListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        dialogsManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onDialogEvent(Object event) {
+        if (event instanceof TwoOptionEvent) {
+            Toast.makeText(getContext(), "TwoOptionEvent " + ((TwoOptionEvent) event).toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

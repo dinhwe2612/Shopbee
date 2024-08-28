@@ -1,7 +1,5 @@
 package com.example.shopbee.di.component;
 
-import android.widget.Toolbar;
-
 import com.example.shopbee.di.module.ActivityModule;
 import com.example.shopbee.di.scope.ActivityScope;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
