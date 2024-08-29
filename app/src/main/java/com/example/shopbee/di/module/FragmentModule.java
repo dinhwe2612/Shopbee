@@ -16,6 +16,7 @@ import com.example.shopbee.ui.profile.myorder.MyOrderViewModel;
 import com.example.shopbee.ui.profile.setting.SettingsViewModel;
 import com.example.shopbee.ui.shop.ShopViewModel;
 import com.example.shopbee.ui.shop.search.SearchViewModel;
+import com.example.shopbee.ui.user_search.UserSearchViewModel;
 
 import java.util.function.Supplier;
 
@@ -92,5 +93,11 @@ public class FragmentModule {
         Supplier<ProductDetailViewModel> supplier = () -> new ProductDetailViewModel(repository);
         ViewModelProviderFactory<ProductDetailViewModel> factory = new ViewModelProviderFactory<ProductDetailViewModel>(ProductDetailViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(ProductDetailViewModel.class);
+    }
+    @Provides
+    public UserSearchViewModel provideUserSearchViewModel(Repository repository) {
+        Supplier<UserSearchViewModel> supplier = () -> new UserSearchViewModel(repository);
+        ViewModelProviderFactory<UserSearchViewModel> factory = new ViewModelProviderFactory<UserSearchViewModel>(UserSearchViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(UserSearchViewModel.class);
     }
 }
