@@ -49,4 +49,8 @@
         android:id="@+id/userSearchFragment"
         android:name="com.example.shopbee.ui.user_search.UserSearchFragment"
         android:label="UserSearchFragment" />
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.example.shopbee.ui.productdetail.ProductDetailFragment"
+        android:label="ProductDetailFragment" />
 </navigation>

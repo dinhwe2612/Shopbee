@@ -7,14 +7,20 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.ProductDetailBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
+import com.example.shopbee.ui.common.dialogs.DialogsManager;
 
-public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, ProductDetailViewModel> implements ProductDetailNavigator{
+import javax.inject.Inject;
+
+public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, ProductDetailViewModel> implements ProductDetailNavigator, DialogsManager.Listener{
     ProductDetailBinding binding;
+    @Inject
+    DialogsManager dialogsManager;
     @Override
     public int getBindingVariable() {
         return 0;
@@ -40,17 +46,17 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
 
     @Override
     public void addToBag() {
-
+        dialogsManager.showOptionDialog();
     }
 
     @Override
     public void buyNow() {
-
+        dialogsManager.showOptionDialog();
     }
 
     @Override
     public void goToBag() {
-
+        NavHostFragment.findNavController(this).navigate(R.id.bagFragment);
     }
 
     @Override
@@ -65,6 +71,22 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
 
     @Override
     public void option() {
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        dialogsManager.registerListener(this);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        dialogsManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onDialogEvent(Object event) {
 
     }
 }
