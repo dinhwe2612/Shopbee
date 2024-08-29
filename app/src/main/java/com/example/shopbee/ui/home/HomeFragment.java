@@ -68,7 +68,6 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
 //        syncData();
         observeData();
         setUpRecyclerView();
-        dialogsManager.showYesNoDialog("Title", "Message");
         return binding.getRoot();
     }
 

@@ -3,6 +3,7 @@ package com.example.shopbee.di.module;
 import android.view.LayoutInflater;
 import android.widget.Toolbar;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.shopbee.data.Repository;
@@ -12,8 +13,15 @@ import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.forgotpassword.ForgotPasswordViewModel;
 import com.example.shopbee.ui.login.LoginViewModel;
 import com.example.shopbee.ui.main.MainViewModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.function.Supplier;
+
+import javax.inject.Inject;
 
 import dagger.Module;
 import dagger.Provides;
