@@ -25,6 +25,9 @@ import com.example.shopbee.ui.shop.search.adapter.ProductAdapter;
 import com.example.shopbee.ui.shop.search.adapter.ProductAdapterGridView;
 import com.example.shopbee.ui.common.dialogs.sortbydialog.SortByDialog;
 import com.example.shopbee.ui.common.dialogs.sortbydialog.SortByEvent;
+import com.example.shopbee.ui.shop.search.dialog.filter.Filter;
+import com.example.shopbee.ui.shop.search.dialog.filter.FilterDialog;
+import com.example.shopbee.ui.shop.search.dialog.filter.FilterEvent;
 
 import javax.inject.Inject;
 
@@ -61,6 +64,9 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
         isInListView = 1;
         category = getArguments().getString("category");
         productFilter = new ProductFilter();
+        productFilter.setMin_price(1f);
+        productFilter.setMax_price(1000f);
+        productFilter.setProduct_condition(ProductCondition.ALL);
         productFilter.setCategory_id(category);
         productFilter.setPage(1);
         productFilter.setProduct_country(ProductCountry.US);
@@ -111,6 +117,15 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
                 }
             }
         });
+        getViewDataBinding().linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FilterDialog filterDialog = FilterDialog.newInstance(dialogsManager, new Filter(productFilter.getMin_price(), productFilter.getMax_price(), productFilter.getProduct_condition()));
+                Log.d("SearchFragment", "onClick: Clicked");
+                getViewDataBinding().linearLayout.startAnimation(clickAnimation);
+                filterDialog.show(requireActivity().getSupportFragmentManager(), filterDialog.getTag());
+            }
+        });
     }
 
     @Override
@@ -133,6 +148,14 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
                 viewModel.syncProductsByCategory(productFilter.getProductFilter());
                 assert productFilter.getSortByChoiceMap() != null;
                 getViewDataBinding().textView11.setText(productFilter.getSortByChoiceMap().get(productFilter.getSort_by_choice()));
+            }
+        }
+        else if (event instanceof FilterEvent) {
+            if (((FilterEvent) event).getFilter().getMin_price() != productFilter.getMin_price() || ((FilterEvent) event).getFilter().getMax_price() != productFilter.getMax_price() || ((FilterEvent) event).getFilter().getProductCondition() != productFilter.getProduct_condition()) {
+                productFilter.setMin_price(((FilterEvent) event).getFilter().getMin_price());
+                productFilter.setMax_price(((FilterEvent) event).getFilter().getMax_price());
+                productFilter.setProduct_condition(((FilterEvent) event).getFilter().getProductCondition());
+                viewModel.syncProductsByCategory(productFilter.getProductFilter());
             }
         }
     }

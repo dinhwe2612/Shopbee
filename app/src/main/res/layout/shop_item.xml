@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="51$"
-                style="@style/Black_Medium_14dp"
+                style="@style/Red_Medium_14dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/textView4"
                 />

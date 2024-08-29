@@ -121,10 +121,16 @@ public class ProductFilter {
     }
 
     public float getMin_price() {
+        if (min_price == null) {
+            return 0;
+        }
         return min_price;
     }
 
     public float getMax_price() {
+        if (max_price == null) {
+            return 1000f;
+        }
         return max_price;
     }
 
