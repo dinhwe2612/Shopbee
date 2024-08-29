@@ -14,8 +14,8 @@ import com.example.shopbee.ui.profile.ProfileViewModel;
 import com.example.shopbee.ui.profile.myorder.MyOrderDetailViewModel;
 import com.example.shopbee.ui.profile.myorder.MyOrderViewModel;
 import com.example.shopbee.ui.profile.setting.SettingsViewModel;
+import com.example.shopbee.ui.search.SearchViewModel;
 import com.example.shopbee.ui.shop.ShopViewModel;
-import com.example.shopbee.ui.shop.search.SearchViewModel;
 import com.example.shopbee.ui.user_search.UserSearchViewModel;
 
 import java.util.function.Supplier;
