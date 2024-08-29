@@ -38,7 +38,7 @@ import javax.inject.Inject;
 
 public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, SearchViewModel> implements SearchNavigator, DialogsManager.Listener, ProductAdapter.OnItemClickListener, ProductAdapterGridView.OnItemClickListener {
     int isInListView;
-    ProductAdapter productAdapter;
+    ProductAdapter productAdapter = new ProductAdapter(null);
     ProductAdapterGridView productAdapterGridView = new ProductAdapterGridView(null);
     @Inject
     DialogsManager dialogsManager;
