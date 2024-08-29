@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.shopbee.R;
@@ -23,7 +25,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     DialogsManager dialogsManager;
     @Override
     public int getBindingVariable() {
-        return 0;
+        return BR.vm;
     }
 
     @Override
@@ -40,22 +42,25 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
-
+        viewModel.setNavigator(this);
         return binding.getRoot();
     }
 
     @Override
     public void addToBag() {
-        dialogsManager.showOptionDialog();
+        Toast.makeText(getContext(), "Add to bag", Toast.LENGTH_SHORT).show();
+        dialogsManager.showOptionDialog("ADD TO BAG", "$11", "null", null);
     }
 
     @Override
     public void buyNow() {
-        dialogsManager.showOptionDialog();
+        Toast.makeText(getContext(), "Buy now", Toast.LENGTH_SHORT).show();
+        dialogsManager.showOptionDialog("BUY NOW", "$11", "null", null);
     }
 
     @Override
     public void goToBag() {
+        Toast.makeText(getContext(), "Go to bag", Toast.LENGTH_SHORT).show();
         NavHostFragment.findNavController(this).navigate(R.id.bagFragment);
     }
 

@@ -281,7 +281,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="out of 5"
+                    android:text="out of 5"
                     android:layout_marginTop="1dp"
                     android:layout_marginStart="3dp"
                     style="@style/Black_Regular_16dp"
@@ -376,7 +376,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="ADD TO CART"
+                    android:text="ADD TO BAG"
                     style="@style/White_Medium_14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
@@ -424,7 +424,8 @@
         android:layout_alignTop="@+id/bag_button"
         android:layout_alignEnd="@+id/bag_button"
         app:cardBackgroundColor="@color/red"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="8dp"
+        android:visibility="gone">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
