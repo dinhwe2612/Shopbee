@@ -9,12 +9,14 @@ import com.example.shopbee.ui.bag.BagViewModel;
 import com.example.shopbee.ui.favorites.FavoritesViewModel;
 import com.example.shopbee.ui.home.HomeViewModel;
 import com.example.shopbee.ui.main.MainViewModel;
+import com.example.shopbee.ui.productdetail.ProductDetailViewModel;
 import com.example.shopbee.ui.profile.ProfileViewModel;
 import com.example.shopbee.ui.profile.myorder.MyOrderDetailViewModel;
 import com.example.shopbee.ui.profile.myorder.MyOrderViewModel;
 import com.example.shopbee.ui.profile.setting.SettingsViewModel;
+import com.example.shopbee.ui.search.SearchViewModel;
 import com.example.shopbee.ui.shop.ShopViewModel;
-import com.example.shopbee.ui.shop.search.SearchViewModel;
+import com.example.shopbee.ui.user_search.UserSearchViewModel;
 
 import java.util.function.Supplier;
 
@@ -85,5 +87,17 @@ public class FragmentModule {
         Supplier<MyOrderDetailViewModel> supplier = () -> new MyOrderDetailViewModel(repository);
         ViewModelProviderFactory<MyOrderDetailViewModel> factory = new ViewModelProviderFactory<MyOrderDetailViewModel>(MyOrderDetailViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(MyOrderDetailViewModel.class);
+    }
+    @Provides
+    public ProductDetailViewModel provideProductDetailViewModel(Repository repository) {
+        Supplier<ProductDetailViewModel> supplier = () -> new ProductDetailViewModel(repository);
+        ViewModelProviderFactory<ProductDetailViewModel> factory = new ViewModelProviderFactory<ProductDetailViewModel>(ProductDetailViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(ProductDetailViewModel.class);
+    }
+    @Provides
+    public UserSearchViewModel provideUserSearchViewModel(Repository repository) {
+        Supplier<UserSearchViewModel> supplier = () -> new UserSearchViewModel(repository);
+        ViewModelProviderFactory<UserSearchViewModel> factory = new ViewModelProviderFactory<UserSearchViewModel>(UserSearchViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(UserSearchViewModel.class);
     }
 }

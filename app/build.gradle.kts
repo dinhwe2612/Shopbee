@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -101,5 +102,6 @@ dependencies {
     implementation("com.google.firebase:firebase-database:21.0.0")
 
     // spark button
-    implementation("com.github.varunest:sparkbutton:1.0.6");
+    implementation("com.github.varunest:sparkbutton:1.0.6")
+
 }

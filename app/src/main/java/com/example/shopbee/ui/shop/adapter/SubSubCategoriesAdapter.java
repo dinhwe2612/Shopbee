@@ -58,6 +58,7 @@ public class SubSubCategoriesAdapter extends BaseAdapter<SubSubCategoriesAdapter
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 getNavigator().navigateToSearchByCategory(subSubCategories.get(position));
             }
         });

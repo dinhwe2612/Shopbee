@@ -31,4 +31,6 @@ public interface AmazonApiService {
     Observable<AmazonDealsResponse> getAmazonDeals(@QueryMap Map<String, String> queries);
     @GET("products-by-category")
     Observable<AmazonProductByCategoryResponse> getAmazonProductByCategory(@QueryMap Map<String, String> queries);
+    @GET("search")
+    Observable<AmazonProductByCategoryResponse> getAmazonProductBySearching(@QueryMap Map<String, String> queries);
 }
