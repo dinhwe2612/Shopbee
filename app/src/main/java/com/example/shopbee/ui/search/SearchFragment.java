@@ -36,8 +36,10 @@ import java.util.HashMap;
 
 import javax.inject.Inject;
 
-public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, SearchViewModel> implements SearchNavigator, DialogsManager.Listener {
+public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, SearchViewModel> implements SearchNavigator, DialogsManager.Listener, ProductAdapter.OnItemClickListener, ProductAdapterGridView.OnItemClickListener {
     int isInListView;
+    ProductAdapter productAdapter;
+    ProductAdapterGridView productAdapterGridView;
     @Inject
     DialogsManager dialogsManager;
     ProductFilter productFilter;
@@ -101,11 +103,13 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
         getViewDataBinding().recyclerView1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         viewModel.getCategoryProducts().observe(getViewLifecycleOwner(), products -> {
             if (isInListView == 1) {
-                ProductAdapter productAdapter = new ProductAdapter(products);
+                productAdapter = new ProductAdapter(products);
+                productAdapter.setOnItemClickListener(this);
                 getViewDataBinding().recyclerView1.setAdapter(productAdapter);
             }
             else {
-                ProductAdapterGridView productAdapterGridView = new ProductAdapterGridView(products);
+                productAdapterGridView = new ProductAdapterGridView(products);
+                productAdapterGridView.setOnItemClickListener(this);
                 getViewDataBinding().recyclerView1.setAdapter(productAdapterGridView);
             }
         });
@@ -126,7 +130,8 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
                     getViewDataBinding().imageView.setImageResource(R.drawable.list_view_icon);
                     getViewDataBinding().recyclerView1.setLayoutManager(new GridLayoutManager(getContext(), 2));
                     if (viewModel.getCategoryProducts().getValue() != null) {
-                        getViewDataBinding().recyclerView1.setAdapter(new ProductAdapterGridView(viewModel.getCategoryProducts().getValue()));
+//                        getViewDataBinding().recyclerView1.setAdapter(new ProductAdapterGridView(viewModel.getCategoryProducts().getValue()));
+                        productAdapter.setProducts(viewModel.getCategoryProducts().getValue());
                     }
                     isInListView = 0;
                 }
@@ -134,7 +139,8 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
                     getViewDataBinding().imageView.setImageResource(R.drawable.grid_view_icon);
                     getViewDataBinding().recyclerView1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
                     if (viewModel.getCategoryProducts().getValue() != null) {
-                        getViewDataBinding().recyclerView1.setAdapter(new ProductAdapter(viewModel.getCategoryProducts().getValue()));
+//                        getViewDataBinding().recyclerView1.setAdapter(new ProductAdapter(viewModel.getCategoryProducts().getValue()));
+                        productAdapterGridView.setProducts(viewModel.getCategoryProducts().getValue());
                     }
                     isInListView = 1;
                 }
@@ -212,5 +218,19 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
                 .build();
 
         navController.navigate(R.id.userSearchFragment, null, navOptions);
+    }
+
+    @Override
+    public void onItemClick(String asin) {
+        Bundle bundle = new Bundle();
+        bundle.putString("asin", asin);
+        NavController navController = NavHostFragment.findNavController(this);
+//        NavOptions navOptions = new NavOptions.Builder()
+//                .setEnterAnim(R.anim.fade_in)
+//                .setExitAnim(R.anim.fade_out)
+//                .setPopEnterAnim(R.anim.fade_in)
+//                .setPopExitAnim(R.anim.fade_out)
+//                .build();
+        navController.navigate(R.id.productDetailFragment, bundle);
     }
 }

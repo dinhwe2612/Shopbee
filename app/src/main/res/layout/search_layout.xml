@@ -15,6 +15,7 @@
             android:layout_width="412dp"
             android:layout_height="60dp">
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout"
                 app:startIconDrawable="@drawable/back_icon"
                 app:endIconDrawable="@drawable/search_icon_top_bar"
                 app:endIconMode="custom"
@@ -26,6 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="60dp">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditText"
                     android:background="@drawable/slight_rounded_white_rectangle_red_stroke"
                     android:hint="Search..."
                     android:paddingStart="40dp"
