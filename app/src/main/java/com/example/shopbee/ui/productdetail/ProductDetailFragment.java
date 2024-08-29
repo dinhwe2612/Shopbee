@@ -1,7 +1,9 @@
 package com.example.shopbee.ui.productdetail;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,9 +31,40 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void addToBag() {
+
+    }
+
+    @Override
+    public void buyNow() {
+
+    }
+
+    @Override
+    public void goToBag() {
+
+    }
+
+    @Override
+    public void addFavorite() {
+
+    }
+
+    @Override
+    public void shareProduct() {
+
+    }
+
+    @Override
+    public void option() {
 
     }
 }

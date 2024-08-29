@@ -7,11 +7,5 @@ public class ProductDetailViewModel extends BaseViewModel<ProductDetailNavigator
     public ProductDetailViewModel(Repository repository) {
         super(repository);
     }
-    public void addToBag() {
 
-    }
-    public void buyNow() {
-
-    }
-//    public void
 }
