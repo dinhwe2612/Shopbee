@@ -1,4 +1,4 @@
-package com.example.shopbee.ui.shop.search.dialog.filter;
+package com.example.shopbee.ui.search.dialog.filter;
 
 public class FilterEvent {
     private Filter filter;

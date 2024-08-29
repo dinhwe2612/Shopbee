@@ -1,4 +1,4 @@
-package com.example.shopbee.ui.shop.search;
+package com.example.shopbee.ui.search;
 
 import android.util.Log;
 
@@ -20,9 +20,26 @@ public class SearchViewModel extends BaseViewModel {
         super(repository);
     }
     MutableLiveData<List<AmazonProductByCategoryResponse.Data.Product>> categoryProducts = new MutableLiveData<>();
+//    MutableLiveData<List<AmazonProductByCategoryResponse.Data.Product>> searchingProducts = new MutableLiveData<>();
 
     public MutableLiveData<List<AmazonProductByCategoryResponse.Data.Product>> getCategoryProducts() {
         return categoryProducts;
+    }
+
+    public void syncProductsBySearching(HashMap<String, String> map) {
+        setIsLoading(true);
+        getCompositeDisposable().add(getRepository().getAmazonProductBySearching(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                            setIsLoading(false);
+                            categoryProducts.setValue(result.getData().getProducts());
+                        },
+                        error -> {
+                            setIsLoading(false);
+                            Log.e("getAmazonProductBySearching", "getAmazonProductBySearching " + error.getMessage());
+                        })
+        );
     }
 
     public void syncProductsByCategory(HashMap<String, String> map) {

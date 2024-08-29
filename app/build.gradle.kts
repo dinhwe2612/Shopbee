@@ -99,7 +99,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
     // Add the dependency for the Realtime Database library
     // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-database:21.0.0")
 
     // spark button
     implementation("com.github.varunest:sparkbutton:1.0.6")

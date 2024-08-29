@@ -38,11 +38,15 @@
         android:label="MyOrderFragment" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.shopbee.ui.shop.search.SearchFragment"
+        android:name="com.example.shopbee.ui.search.SearchFragment"
         android:label="SearchFragment" >
         <argument
             android:name="categoryId"
             app:argType="string"
             android:defaultValue=""/>
     </fragment>
+    <fragment
+        android:id="@+id/userSearchFragment"
+        android:name="com.example.shopbee.ui.user_search.UserSearchFragment"
+        android:label="UserSearchFragment" />
 </navigation>

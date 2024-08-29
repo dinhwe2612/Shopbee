@@ -13,6 +13,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
@@ -34,6 +35,10 @@ public class Repository {
     }
     public Observable<AmazonProductByCategoryResponse> getAmazonProductByCategory(HashMap<String, String> map) {
         return amazonApiService.getAmazonProductByCategory(map);
+    }
+
+    public Observable<AmazonProductByCategoryResponse> getAmazonProductBySearching(HashMap<String, String> map) {
+        return amazonApiService.getAmazonProductBySearching(map);
     }
    /* public Observable<List<CountryRespone>> getAllCountries() {
 
