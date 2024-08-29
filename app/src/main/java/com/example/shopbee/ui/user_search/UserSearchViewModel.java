@@ -1,19 +1,11 @@
 package com.example.shopbee.ui.user_search;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.shopbee.data.Repository;
-import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.ui.common.base.BaseViewModel;
-import com.example.shopbee.ui.search.adapter.ProductAdapter;
-import com.example.shopbee.ui.search.adapter.ProductAdapterGridView;
 
 import java.util.List;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class UserSearchViewModel extends BaseViewModel {
     MutableLiveData<List<String>> suggestions = new MutableLiveData<>();
