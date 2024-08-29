@@ -14,13 +14,13 @@
 
     </TextView>
     <ImageView
-        android:src="@drawable/image_review"
+        android:src="@drawable/history"
         android:layout_marginEnd="10dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:scaleType="fitCenter"
-        android:layout_width="36dp"
-        android:layout_height="36dp">
+        android:layout_width="27dp"
+        android:layout_height="27dp">
 
     </ImageView>
 </RelativeLayout>

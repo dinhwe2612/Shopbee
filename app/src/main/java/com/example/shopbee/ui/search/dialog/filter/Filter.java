@@ -1,4 +1,4 @@
-package com.example.shopbee.ui.shop.search.dialog.filter;
+package com.example.shopbee.ui.search.dialog.filter;
 
 import com.example.shopbee.data.model.filter.ProductCondition;
 import com.example.shopbee.data.model.filter.ProductCountry;

@@ -1,4 +1,4 @@
-package com.example.shopbee.ui.shop.search.dialog.filter;
+package com.example.shopbee.ui.search.dialog.filter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,13 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.R;
-import com.example.shopbee.data.model.filter.ProductCondition;
 import com.example.shopbee.data.model.filter.ProductCountry;
 import com.example.shopbee.databinding.SelectSizeItemBinding;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.EnumSet;
 
 public class ProductCountryAdapter extends RecyclerView.Adapter<ProductCountryAdapter.ViewHolder> {
     ArrayList<ProductCountry> productCountries;

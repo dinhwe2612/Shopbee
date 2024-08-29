@@ -1,10 +1,9 @@
-package com.example.shopbee.ui.shop.search.dialog.filter;
+package com.example.shopbee.ui.search.dialog.filter;
 
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.shopbee.R;
-import com.example.shopbee.data.model.filter.ProductCondition;
-import com.example.shopbee.data.model.filter.ProductCountry;
-import com.example.shopbee.data.model.filter.SortByChoice;
-import com.example.shopbee.databinding.BottomSheetLayoutSortByBinding;
 import com.example.shopbee.databinding.FiltersBinding;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;

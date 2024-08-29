@@ -1,4 +1,4 @@
-package com.example.shopbee.ui.shop.search;
+package com.example.shopbee.ui.search;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +8,9 @@ import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -21,13 +24,15 @@ import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.shop.categories.CategoriesHashMap;
-import com.example.shopbee.ui.shop.search.adapter.ProductAdapter;
-import com.example.shopbee.ui.shop.search.adapter.ProductAdapterGridView;
+import com.example.shopbee.ui.search.adapter.ProductAdapter;
+import com.example.shopbee.ui.search.adapter.ProductAdapterGridView;
 import com.example.shopbee.ui.common.dialogs.sortbydialog.SortByDialog;
 import com.example.shopbee.ui.common.dialogs.sortbydialog.SortByEvent;
-import com.example.shopbee.ui.shop.search.dialog.filter.Filter;
-import com.example.shopbee.ui.shop.search.dialog.filter.FilterDialog;
-import com.example.shopbee.ui.shop.search.dialog.filter.FilterEvent;
+import com.example.shopbee.ui.search.dialog.filter.Filter;
+import com.example.shopbee.ui.search.dialog.filter.FilterDialog;
+import com.example.shopbee.ui.search.dialog.filter.FilterEvent;
+
+import java.util.HashMap;
 
 import javax.inject.Inject;
 
@@ -36,6 +41,8 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
     @Inject
     DialogsManager dialogsManager;
     ProductFilter productFilter;
+    boolean searchByCategory;
+    private String product_name;
     private String category;
 //    public SearchFragment(String category) {
 //        super();
@@ -63,18 +70,34 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
         super.onViewCreated(view, savedInstanceState);
         isInListView = 1;
         category = getArguments().getString("category");
+        product_name = getArguments().getString("product_name");
+        if (category == null) {
+            searchByCategory = false;
+        }
+        else {
+            searchByCategory = true;
+        }
         productFilter = new ProductFilter();
         productFilter.setMin_price(1f);
         productFilter.setMax_price(1000f);
         productFilter.setProduct_condition(ProductCondition.ALL);
-        productFilter.setCategory_id(category);
+        if (searchByCategory) productFilter.setCategory_id(category);
+        else {
+            productFilter.setProduct_name(product_name);
+        }
         productFilter.setPage(1);
         productFilter.setProduct_country(ProductCountry.US);
         productFilter.setSort_by_choice(SortByChoice.RELEVANCE);
         productFilter.setProduct_condition(ProductCondition.ALL);
         assert viewModel != null;
-        viewModel.syncProductsByCategory(productFilter.getProductFilter());
-        getViewDataBinding().textView.setText("Category: " + CategoriesHashMap.getInstance().getCategories().get(category));
+        syncProducts(searchByCategory, productFilter.getProductFilter());
+//        viewModel.syncProductsByCategory(productFilter.getProductFilter());
+        if (searchByCategory) {
+            getViewDataBinding().textView.setText("Category: " + CategoriesHashMap.getInstance().getCategories().get(category));
+        }
+        else {
+            getViewDataBinding().textView.setText("Search for: " + product_name);
+        }
         getViewDataBinding().recyclerView1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         viewModel.getCategoryProducts().observe(getViewLifecycleOwner(), products -> {
             if (isInListView == 1) {
@@ -126,6 +149,21 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
                 filterDialog.show(requireActivity().getSupportFragmentManager(), filterDialog.getTag());
             }
         });
+        getViewDataBinding().textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateToMannualSearchFragment();
+            }
+        });
+    }
+
+    public void syncProducts(boolean searchByCategory, HashMap<String, String> query) {
+        if (searchByCategory) {
+            viewModel.syncProductsByCategory(query);
+        }
+        else {
+            viewModel.syncProductsBySearching(query);
+        }
     }
 
     @Override
@@ -145,7 +183,8 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
         if (event instanceof SortByEvent) {
             if (((SortByEvent) event).getSortByChoice() != productFilter.getSort_by_choice()) {
                 productFilter.setSort_by_choice(((SortByEvent) event).getSortByChoice());
-                viewModel.syncProductsByCategory(productFilter.getProductFilter());
+//                viewModel.syncProductsByCategory(productFilter.getProductFilter());
+                syncProducts(searchByCategory, productFilter.getProductFilter());
                 assert productFilter.getSortByChoiceMap() != null;
                 getViewDataBinding().textView11.setText(productFilter.getSortByChoiceMap().get(productFilter.getSort_by_choice()));
             }
@@ -155,8 +194,23 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
                 productFilter.setMin_price(((FilterEvent) event).getFilter().getMin_price());
                 productFilter.setMax_price(((FilterEvent) event).getFilter().getMax_price());
                 productFilter.setProduct_condition(((FilterEvent) event).getFilter().getProductCondition());
-                viewModel.syncProductsByCategory(productFilter.getProductFilter());
+                syncProducts(searchByCategory, productFilter.getProductFilter());
+//                viewModel.syncProductsByCategory(productFilter.getProductFilter());
             }
         }
+    }
+
+    @Override
+    public void navigateToMannualSearchFragment() {
+        NavController navController = NavHostFragment.findNavController(this);
+
+        NavOptions navOptions = new NavOptions.Builder()
+                .setEnterAnim(R.anim.fade_in)
+                .setExitAnim(R.anim.fade_out)
+                .setPopEnterAnim(R.anim.fade_in)
+                .setPopExitAnim(R.anim.fade_out)
+                .build();
+
+        navController.navigate(R.id.userSearchFragment, null, navOptions);
     }
 }

@@ -11,13 +11,15 @@ import com.example.shopbee.ui.profile.myorder.MyOrderDetailFragment;
 import com.example.shopbee.ui.profile.myorder.MyOrderFragment;
 import com.example.shopbee.ui.profile.setting.SettingsFragment;
 import com.example.shopbee.ui.shop.ShopFragment;
-import com.example.shopbee.ui.shop.search.SearchFragment;
+import com.example.shopbee.ui.search.SearchFragment;
+import com.example.shopbee.ui.user_search.UserSearchFragment;
 
 import dagger.Component;
 
 @FragmentScope
 @Component(modules = FragmentModule.class, dependencies = {AppComponent.class, ActivityComponent.class})
 public interface FragmentComponent {
+    void inject(UserSearchFragment userSearchFragment);
     void inject(SearchFragment searchFragment);
     void inject(ProfileFragment profileFragment);
     void inject(FavoritesFragment favoritesFragment);
