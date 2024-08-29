@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -46,6 +47,12 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     public void performDependencyInjection(FragmentComponent buildComponent) {
         buildComponent.inject(this);
         viewModel.setNavigator(this);
+//        viewModel.setGetLifeCycleOwner(new FavoritesViewModel.GetLifeCycleOwner() {
+//            @Override
+//            public LifecycleOwner getLifeCycleOwner() {
+//                return this.getLifeCycleOwner();
+//            }
+//        });
     }
 
     @Override
@@ -61,10 +68,22 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
         viewModel.syncFavoriteLists();
+
+        productAdapter = new FavoriteAdapter(null);
+        productAdapter.setOnItemClickListener(this::onItemClick);
+        getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        getViewDataBinding().recyclerView.setAdapter(productAdapter);
+
         viewModel.getFavoriteProducts().observe(getViewLifecycleOwner(), products -> {
             changeView(isInListView, products);
         });
@@ -84,12 +103,14 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     }
     public void changeView(boolean isInListView, List<AmazonProductByCategoryResponse.Data.Product> products) {
         if (isInListView) {
+            getViewDataBinding().imageView.setImageResource(R.drawable.list_view_icon);
             productAdapter = new FavoriteAdapter(products);
             productAdapter.setOnItemClickListener(this::onItemClick);
             getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
             getViewDataBinding().recyclerView.setAdapter(productAdapter);
         }
         else {
+            getViewDataBinding().imageView.setImageResource(R.drawable.grid_view_icon);
             productAdapterGridView = new FavoriteAdapterGridView(products);
             productAdapterGridView.setOnItemClickListener(this::onItemClick);
             getViewDataBinding().recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));

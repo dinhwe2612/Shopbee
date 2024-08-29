@@ -75,6 +75,7 @@
             </LinearLayout>
             <ImageView
                 android:id="@+id/imageView"
+                android:scaleType="centerCrop"
                 android:layout_marginEnd="14dp"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"

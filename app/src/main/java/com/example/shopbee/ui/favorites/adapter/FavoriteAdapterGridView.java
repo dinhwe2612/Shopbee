@@ -62,6 +62,7 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
 
     @Override
     public int getItemCount() {
+        if (products == null) return 0;
         return products.size();
     }
 

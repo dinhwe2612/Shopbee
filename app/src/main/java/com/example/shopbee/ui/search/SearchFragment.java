@@ -39,7 +39,7 @@ import javax.inject.Inject;
 public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, SearchViewModel> implements SearchNavigator, DialogsManager.Listener, ProductAdapter.OnItemClickListener, ProductAdapterGridView.OnItemClickListener {
     int isInListView;
     ProductAdapter productAdapter;
-    ProductAdapterGridView productAdapterGridView;
+    ProductAdapterGridView productAdapterGridView = new ProductAdapterGridView(null);
     @Inject
     DialogsManager dialogsManager;
     ProductFilter productFilter;
@@ -131,7 +131,8 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
                     getViewDataBinding().recyclerView1.setLayoutManager(new GridLayoutManager(getContext(), 2));
                     if (viewModel.getCategoryProducts().getValue() != null) {
 //                        getViewDataBinding().recyclerView1.setAdapter(new ProductAdapterGridView(viewModel.getCategoryProducts().getValue()));
-                        productAdapter.setProducts(viewModel.getCategoryProducts().getValue());
+                        productAdapterGridView.setProducts(viewModel.getCategoryProducts().getValue());
+                        getViewDataBinding().recyclerView1.setAdapter(productAdapterGridView);
                     }
                     isInListView = 0;
                 }
@@ -140,7 +141,8 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
                     getViewDataBinding().recyclerView1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
                     if (viewModel.getCategoryProducts().getValue() != null) {
 //                        getViewDataBinding().recyclerView1.setAdapter(new ProductAdapter(viewModel.getCategoryProducts().getValue()));
-                        productAdapterGridView.setProducts(viewModel.getCategoryProducts().getValue());
+                        productAdapter.setProducts(viewModel.getCategoryProducts().getValue());
+                        getViewDataBinding().recyclerView1.setAdapter(productAdapter);
                     }
                     isInListView = 1;
                 }

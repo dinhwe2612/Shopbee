@@ -10,6 +10,15 @@ import com.example.shopbee.ui.common.base.BaseViewModel;
 import java.util.List;
 
 public class FavoritesViewModel extends BaseViewModel<FavoritesNavigator> {
+    public interface GetLifeCycleOwner {
+        LifecycleOwner getLifeCycleOwner();
+    }
+    GetLifeCycleOwner getLifeCycleOwner;
+
+    public void setGetLifeCycleOwner(GetLifeCycleOwner getLifeCycleOwner) {
+        this.getLifeCycleOwner = getLifeCycleOwner;
+    }
+
     MutableLiveData<List<AmazonProductByCategoryResponse.Data.Product>> favoriteProducts = new MutableLiveData<>();
     MutableLiveData<List<String>> favoriteLists = new MutableLiveData<>();
     public FavoritesViewModel(Repository repository) {
@@ -30,9 +39,10 @@ public class FavoritesViewModel extends BaseViewModel<FavoritesNavigator> {
 
     public void syncFavoriteLists() {
         // get users' favorite asins
-        favoriteLists.observe((LifecycleOwner) this, lists -> {
-            syncFavoriteProducts(favoriteLists.getValue());
-        });
+//        favoriteLists.observe(getLifeCycleOwner.getLifeCycleOwner(), lists -> {
+//            syncFavoriteProducts(favoriteLists.getValue());
+//        });
+        syncFavoriteProducts(favoriteLists.getValue());
     }
     public void syncFavoriteProducts(List<String> favoriteLists) {
         // get information from Amazon asin
