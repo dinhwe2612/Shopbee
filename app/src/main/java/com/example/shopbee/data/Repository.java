@@ -44,4 +44,7 @@ public class Repository {
 
         return countryApiService.getAllCountries();
     }*/
+    public Observable<List<String>> getUserSearchHistory() {
+        return null;
+    }
 }
