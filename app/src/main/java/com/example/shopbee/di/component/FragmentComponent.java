@@ -6,6 +6,7 @@ import com.example.shopbee.di.scope.FragmentScope;
 import com.example.shopbee.ui.bag.BagFragment;
 import com.example.shopbee.ui.favorites.FavoritesFragment;
 import com.example.shopbee.ui.home.HomeFragment;
+import com.example.shopbee.ui.productdetail.ProductDetailFragment;
 import com.example.shopbee.ui.profile.ProfileFragment;
 import com.example.shopbee.ui.profile.myorder.MyOrderDetailFragment;
 import com.example.shopbee.ui.profile.myorder.MyOrderFragment;
@@ -27,4 +28,5 @@ public interface FragmentComponent {
     void inject(SettingsFragment settingsFragment);
     void inject(MyOrderFragment myOrderFragment);
     void inject(MyOrderDetailFragment myOrderDetailFragment);
+    void inject(ProductDetailFragment ProductDetailFragment);
 }
