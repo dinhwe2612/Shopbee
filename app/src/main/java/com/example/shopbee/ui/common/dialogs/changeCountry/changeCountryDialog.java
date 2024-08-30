@@ -85,7 +85,7 @@ public class changeCountryDialog extends DialogFragment implements CountryAdapte
     public String getCountryPngUrl(){
         return countries.get(positionChange).getFlagPngUrl();
     }
-    int retrievePosition(String countryName){
+    public int retrievePosition(String countryName){
         try {
             for (int i = 0; i < countries.size(); i++) {
                 if (countries.get(i).getName().equals(countryName)) {

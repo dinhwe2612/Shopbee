@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.databinding.library.baseAdapters.BR;
@@ -21,6 +22,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.CountryRespone;
+import com.example.shopbee.data.model.api.ListOrderResponse;
+import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.databinding.SettingsBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 
@@ -51,7 +54,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsViewModel> implements SettingsNavigator, DialogsManager.Listener {
     private SettingsBinding binding;
     private List<CountryRespone> listCountry;
-
+    private UserResponse userResponse;
+    private ListOrderResponse listOrderResponse;
     @Inject
     DialogsManager dialogsManager;
     @Override
@@ -68,14 +72,15 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
         super.onViewCreated(view, savedInstanceState);
         binding = getViewDataBinding();
         setUpCountryItems();
+        loadRealtimeData();
 
-        binding.fullnameText.setText("Nguyen Minh Luan");
-        binding.DOBText.setText("19/07/2001");
+        binding.fullnameText.setText(userResponse.getFull_name());
+        binding.DOBText.setText(userResponse.getDob());
         binding.passwordText.setText("123456789");
-        binding.countryText.setText("Viet Nam (VN)");
-        String svgUrl = "https://flagcdn.com/w320/vn.png";
+        binding.countryText.setText(userResponse.getCountry());
+        int index = retrievePosition(userResponse.getCountry());
         Glide.with(this)
-                .load(svgUrl)// Optional error image
+                .load(listCountry.get(index).getFlagPngUrl())// Optional error image
                 .into(binding.countryImage);
         settingTheme();
 
@@ -95,7 +100,8 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
         binding.changeCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogsManager.changeCountryDialog("Vietnam", listCountry);
+                dialogsManager.changeCountryDialog(userResponse.getCountry(), listCountry);
+
             }
         });
     }
@@ -171,6 +177,7 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
                     Log.e("Exception", throwable.getMessage());
                 })
             );
+            userResponse.setCountry(mChangeCountryEvent.getNewCountry());
         }
     }
     @Override
@@ -182,6 +189,33 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
     public void onStop() {
         super.onStop();
         dialogsManager.unregisterListener(this);
+    }
+    void loadRealtimeData(){
+        viewModel.getUserResponse().observeForever(new Observer<UserResponse>() {
+            @Override
+            public void onChanged(UserResponse response) {
+                userResponse = response;
+            }
+        });
+        viewModel.getOrderResponse().observeForever(new Observer<ListOrderResponse>() {
+            @Override
+            public void onChanged(ListOrderResponse responses) {
+                listOrderResponse = responses;
+            }
+        });
+    }
+    public int retrievePosition(String countryName){
+        try {
+            for (int i = 0; i < listCountry.size(); i++) {
+                if (listCountry.get(i).getName().equals(countryName)) {
+                    return i;
+                }
+            }
+            throw new Exception("Country name not found: " + countryName);
+        } catch (Exception e) {
+            Log.e("Exception", e.getMessage());
+            return -1;
+        }
     }
 }
 

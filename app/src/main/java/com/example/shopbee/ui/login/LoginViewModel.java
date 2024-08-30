@@ -12,9 +12,10 @@ import java.util.Objects;
 
 public class LoginViewModel extends BaseViewModel<LoginNavigator> {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    Repository repository;
     public LoginViewModel(Repository repository) {
         super(repository);
-
+        this.repository = repository;
     }
     public void login(String email, String password) {
         Log.d("LoginViewModel", "login called with email: " + email + ", password: " + password);
@@ -25,6 +26,8 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
                 getNavigator().handleError(Objects.requireNonNull(task.getException()).getMessage());
             }
         });
+        repository.queryUserInformation(email);
+        repository.queryListOrderInformation(email);
     }
 
     public void loginWithGoogle(AuthCredential credential) {
