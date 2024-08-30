@@ -64,6 +64,7 @@ public class Repository {
     }
     public Observable<List<String>> getUserSearchHistory() {
         return null;
+    }
     public void queryUserInformation(String email) {
         databaseReference = FirebaseDatabase.getInstance().getReference("user");
         Query query = databaseReference.orderByChild("email").equalTo(email);
