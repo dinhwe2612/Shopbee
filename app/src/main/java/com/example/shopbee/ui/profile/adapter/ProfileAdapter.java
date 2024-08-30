@@ -20,11 +20,15 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     public interface Listener {
         void onItemClicked(int position);
     }
-    Listener listener;
-    public ProfileAdapter(Listener listener) {
-        this.listener = listener;
-    }
+    private Listener listener;
+    private List<String> listContent;
     private final List<ProfileItem> profileItems = new ArrayList<>();
+
+    public ProfileAdapter(Listener listener, List<String> listContent) {
+
+        this.listener = listener;
+        this.listContent = listContent;
+    }
     @NonNull
     @Override
     public ProfileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -57,12 +61,12 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         }
     }
     public void setUpListProfileItem(){
-        profileItems.add(new ProfileItem("My orders", "Already have 12..."));
-        profileItems.add(new ProfileItem("Shipping Addresses", "3 addresses"));
-        profileItems.add(new ProfileItem("Payment methods", "Visa **34"));
-        profileItems.add(new ProfileItem("Promocodes", "You have special promocodes"));
-        profileItems.add(new ProfileItem("My reviews", "Review for 4 items"));
-        profileItems.add(new ProfileItem("Settings", "Notification, password"));
+        profileItems.add(new ProfileItem("My orders", listContent.get(0)));
+        profileItems.add(new ProfileItem("Shipping Addresses", listContent.get(1)));
+        profileItems.add(new ProfileItem("Payment methods", listContent.get(2)));
+        profileItems.add(new ProfileItem("Promocodes", listContent.get(3)));
+        profileItems.add(new ProfileItem("My reviews", listContent.get(4)));
+        profileItems.add(new ProfileItem("Settings", listContent.get(5)));
     }
     public static class ProfileItem {
         private String option_name;

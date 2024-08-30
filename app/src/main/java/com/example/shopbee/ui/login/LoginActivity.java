@@ -68,6 +68,7 @@ public class LoginActivity extends BaseActivity<LoginBinding, LoginViewModel>
     @Override
     public void loginWithEmailAndPassWord() {
         viewModel.login(loginBinding.emailText.getText().toString(), loginBinding.passwordText.getText().toString());
+
     }
 
     @Override

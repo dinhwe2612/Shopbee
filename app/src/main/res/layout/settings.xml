@@ -58,6 +58,7 @@
                     android:text="Personal Information"
                     style="@style/Black_SemiBold_16dp"/>
                 <LinearLayout
+                    android:id="@+id/changeNameLayout"
                     android:layout_width="350dp"
                     android:layout_height="64dp"
                     android:orientation="vertical"
@@ -65,6 +66,7 @@
                     android:padding="8dp"
                     style="@style/AccountEditText_Background">
                     <TextView
+                        android:id="@+id/hintChangeName"
                         style="@style/Gray_Regular_11dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

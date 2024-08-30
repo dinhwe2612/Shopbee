@@ -3,20 +3,18 @@ package com.example.shopbee.data.model.api;
 import java.util.List;
 
 public class OrderResponse {
-    private String user_name;
     private String date;
     private int quantity;
     private String status;
-    private List<OrderDetailResponse> listOrderDetail;
+    private List<OrderDetailResponse> order_detail;
 
     public OrderResponse(){
     }
-    public OrderResponse(String user_name, String date, int quantity, String status, List<OrderDetailResponse> listOrderDetail) {
-        this.user_name = user_name;
+    public OrderResponse(String date, int quantity, String status, List<OrderDetailResponse> order_detail) {
         this.date = date;
         this.quantity = quantity;
         this.status = status;
-        this.listOrderDetail = listOrderDetail;
+        this.order_detail = order_detail;
     }
 
     public String getDate() {
@@ -43,19 +41,11 @@ public class OrderResponse {
         this.status = status;
     }
 
-    public String getUser_name() {
-        return user_name;
-    }
-
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
-    }
-
     public List<OrderDetailResponse> getListOrderDetail() {
-        return listOrderDetail;
+        return order_detail;
     }
 
-    public void setListOrderDetail(List<OrderDetailResponse> listOrderDetail) {
-        this.listOrderDetail = listOrderDetail;
+    public void setListOrderDetail(List<OrderDetailResponse> order_detail) {
+        this.order_detail = order_detail;
     }
 }

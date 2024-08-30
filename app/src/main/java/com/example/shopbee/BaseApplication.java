@@ -21,7 +21,6 @@ public class BaseApplication extends Application {
                 .build();
         appComponent.inject(this);
         FirebaseApp.initializeApp(this);
-
         SharedPreferences sharedPref = getSharedPreferences("THEME", Context.MODE_PRIVATE);
         boolean isDarkMode = sharedPref.getBoolean("DARK_MODE", false);
         if (isDarkMode) {

@@ -1,5 +1,6 @@
 package com.example.shopbee.data.model.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserResponse {
@@ -9,10 +10,9 @@ public class UserResponse {
     private String country;
     private String dob;
     private String full_name;
-    private List<AddressResponse> address;
+    private List<AddressResponse> address = new ArrayList<>();
 
-    public UserResponse(){
-    }
+    public UserResponse(){}
 
     public UserResponse(String user_name, String phone, String email, String country, String dob, String full_name, List<AddressResponse> address) {
         this.user_name = user_name;
