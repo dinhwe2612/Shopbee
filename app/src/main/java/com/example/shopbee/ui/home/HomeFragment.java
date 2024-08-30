@@ -5,11 +5,14 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -58,14 +61,14 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
         setUpToolbar();
 //        syncData();
         observeData();
         setUpRecyclerView();
-        dialogsManager.showYesNoDialog("Title", "Message");
+        return binding.getRoot();
     }
 
     void setUpToolbar() {

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -78,7 +79,7 @@ public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> imple
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         toolbarView = new ToolbarView(inflater, container);
         toolbarView.setTitle("Categories");
-        toolbarView.enableNavigateUp(this);
+//        toolbarView.enableNavigateUp(this);
         toolbarView.setSearchClickListener(this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -90,7 +91,7 @@ public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> imple
 
     @Override
     public void onSearchClick() {
-
+        navigateToMannualSearch();
     }
 
     @Override
@@ -110,5 +111,18 @@ public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> imple
         Bundle bundle = new Bundle();
         bundle.putString("category", category);
         navController.navigate(R.id.searchFragment, bundle);
+    }
+
+    @Override
+    public void navigateToMannualSearch() {
+        NavController navController = NavHostFragment.findNavController(this);
+        NavOptions navOptions = new NavOptions.Builder()
+                .setEnterAnim(R.anim.fade_in)
+                .setExitAnim(R.anim.fade_out)
+                .setPopEnterAnim(R.anim.fade_in)
+                .setPopExitAnim(R.anim.fade_out)
+                .build();
+
+        navController.navigate(R.id.userSearchFragment, null, navOptions);
     }
 }

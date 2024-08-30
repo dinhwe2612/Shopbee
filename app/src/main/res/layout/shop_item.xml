@@ -30,9 +30,10 @@
             <TextView
                 android:maxLines="1"
                 android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:ellipsize="end"
                 android:text="Pullover"
                 style="@style/Black_SemiBold_16dp"
                 android:textAlignment="viewStart"

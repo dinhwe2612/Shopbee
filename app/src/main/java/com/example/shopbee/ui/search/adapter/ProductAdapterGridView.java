@@ -22,6 +22,13 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ProductAdapterGridView extends RecyclerView.Adapter<ProductAdapterGridView.ViewHolder>{
+    public interface OnItemClickListener {
+        void onItemClick(String asin);
+    }
+    OnItemClickListener onItemClickListener;
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private List<AmazonProductByCategoryResponse.Data.Product> products;
     public ProductAdapterGridView(List<AmazonProductByCategoryResponse.Data.Product> products) {
@@ -41,11 +48,25 @@ public class ProductAdapterGridView extends RecyclerView.Adapter<ProductAdapterG
     @Override
     public void onBindViewHolder(@NonNull ProductAdapterGridView.ViewHolder holder, int position) {
         holder.bindView(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(products.get(position).getAsin());
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return products.size();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        compositeDisposable.clear();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

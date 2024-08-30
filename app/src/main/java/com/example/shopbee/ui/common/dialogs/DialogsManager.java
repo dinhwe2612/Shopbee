@@ -6,9 +6,11 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.shopbee.data.model.api.CountryRespone;
 import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryDialog;
+import com.example.shopbee.ui.common.dialogs.optiondialog.OptionDialog;
 import com.example.shopbee.ui.common.dialogs.twooptiondialog.TwoOptionDialog;
 import com.example.shopbee.ui.common.dialogs.changePassword.changePassDialog;
 
+import java.util.HashMap;
 import java.util.List;
 
 import java.util.Collections;
@@ -52,5 +54,9 @@ public class DialogsManager {
     public void changeCountryDialog(String old_country, List<CountryRespone> listCountry){
         changeCountryDialog dialog = changeCountryDialog.newInstance(this, old_country, listCountry);
         dialog.show(fragmentManager, "change_country_dialog");
+    }
+    public void showOptionDialog(String name, String money, String urlImage, HashMap<String, List<String>> options) {
+        OptionDialog dialog = OptionDialog.newInstance(this, name, money, urlImage, options);
+        dialog.show(fragmentManager, "option_dialog");
     }
 }

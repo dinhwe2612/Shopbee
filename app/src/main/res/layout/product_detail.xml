@@ -44,13 +44,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_share"
-                    android:layout_marginEnd="20dp"/>
+                    android:layout_marginEnd="20dp"
+                    android:onClick="@{()->vm.navigator.shareProduct()}"/>
                 <ImageView
                     android:id="@+id/icon_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_more_horiz" />
+                    android:src="@drawable/icon_more_horiz"
+                    android:onClick="@{()->vm.navigator.option()}"/>
             </LinearLayout>
             <TextView
                 android:id="@+id/search_bar"
@@ -114,10 +116,12 @@
                 <androidx.cardview.widget.CardView
                     android:background="@drawable/rounded_white_rectangle"
                     app:cardCornerRadius="32dp"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="1dp"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true">
+                    android:layout_centerVertical="true"
+                    android:onClick="@{()->vm.navigator.addFavorite()}">
                     <com.varunest.sparkbutton.SparkButton
                         android:id="@+id/spark_button"
                         android:layout_gravity="center"
@@ -277,7 +281,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="out of 5"
+                    android:text="out of 5"
                     android:layout_marginTop="1dp"
                     android:layout_marginStart="3dp"
                     style="@style/Black_Regular_16dp"
@@ -353,11 +357,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:background="@color/white_light_theme"
+            android:elevation="20dp">
             <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="40dp"
-                app:cardElevation="5dp"
                 app:cardCornerRadius="25dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -365,25 +370,26 @@
                 android:outlineAmbientShadowColor="@color/black_light_theme"
                 android:outlineSpotShadowColor="@color/black_light_theme"
                 app:cardBackgroundColor="@color/red"
-                android:layout_marginEnd="18dp">
+                android:layout_marginEnd="18dp"
+                android:onClick="@{()->vm.navigator.addToBag()}">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="ADD TO CART"
+                    android:text="ADD TO BAG"
                     style="@style/White_Medium_14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="40dp"
-                app:cardElevation="5dp"
                 app:cardCornerRadius="25dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:outlineAmbientShadowColor="@color/black_light_theme"
                 android:outlineSpotShadowColor="@color/black_light_theme"
-                app:cardBackgroundColor="@color/red">
+                app:cardBackgroundColor="@color/red"
+                android:onClick="@{()->vm.navigator.buyNow()}">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -399,9 +405,10 @@
         android:id="@+id/bag_button"
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/buy"
-        app:cardBackgroundColor="@color/cardview_shadow_end_color"
+        app:cardBackgroundColor="@color/white_light_theme"
         app:cardCornerRadius="20dp"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:onClick="@{()->vm.navigator.goToBag()}">
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
@@ -417,7 +424,8 @@
         android:layout_alignTop="@+id/bag_button"
         android:layout_alignEnd="@+id/bag_button"
         app:cardBackgroundColor="@color/red"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="8dp"
+        android:visibility="gone">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

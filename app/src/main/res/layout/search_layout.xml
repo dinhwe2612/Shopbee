@@ -15,6 +15,7 @@
             android:layout_width="412dp"
             android:layout_height="60dp">
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout"
                 app:startIconDrawable="@drawable/back_icon"
                 app:endIconDrawable="@drawable/search_icon_top_bar"
                 app:endIconMode="custom"
@@ -24,8 +25,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:hintEnabled="false"
                 android:layout_width="wrap_content"
-                android:layout_height="60dp">
+                android:layout_height="50dp">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditText"
                     android:background="@drawable/slight_rounded_white_rectangle_red_stroke"
                     android:hint="Search..."
                     android:paddingStart="40dp"
@@ -37,14 +39,26 @@
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:id="@+id/recyclerView1"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/search_suggestion"
+            android:layout_below="@id/top_bar"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             tools:listitem="@layout/search_history_item"
-            android:layout_below="@id/top_bar"
+            android:layout_below="@id/recyclerView1"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="250dp">
-
+            android:layout_height="wrap_content"
+            >
+<!--            android:layout_height="250dp"-->
         </androidx.recyclerview.widget.RecyclerView>
         <RelativeLayout
             android:id="@+id/relativeLayout"
@@ -53,6 +67,7 @@
             android:background="@drawable/white_rectangle_gray_stroke"
             android:layout_height="50dp">
             <TextView
+                android:id="@+id/textView1"
                 style="@style/Gray_Medium_14dp"
                 android:text="Click for more..."
                 android:layout_marginStart="10dp"
@@ -75,7 +90,7 @@
 
         </TextView>
         <androidx.recyclerview.widget.RecyclerView
-            tools:listitem="@layout/search_suggestions_item"
+            tools:listitem="@layout/sale_item"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             android:layout_marginTop="10dp"
