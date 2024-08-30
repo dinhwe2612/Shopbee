@@ -2,11 +2,13 @@ package com.example.shopbee.ui.favorites.adapter;
 
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -35,11 +37,15 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private List<AmazonProductByCategoryResponse.Data.Product> products;
+    List<List<Pair<String, String>>> variations;
     public FavoriteAdapter(List<AmazonProductByCategoryResponse.Data.Product> products) {
         this.products = products;
     }
     public void setProducts(List<AmazonProductByCategoryResponse.Data.Product> products) {
         this.products = products;
+    }
+    public void setVariations(List<List<Pair<String, String>>> variations) {
+        this.variations = variations;
     }
 
     @NonNull
@@ -101,6 +107,19 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                                     Log.e("Exception", throwable.getMessage());
                                 })
                 );
+            }
+            if (variations.get(position).size() > 0) {
+                binding.layoutColor.setVisibility(View.VISIBLE);
+                binding.colorTag.setText(variations.get(position).get(0).first);
+                binding.colorDescription.setText(variations.get(position).get(0).second);
+            }
+            if (variations.get(position).size() > 1) {
+                binding.layoutColors.setVisibility(View.VISIBLE);
+                binding.sizeTag.setText(variations.get(position).get(1).first);
+                binding.sizeDescription.setText(variations.get(position).get(1).second);
+            }
+            if (variations.get(position).size() <= 2) {
+                binding.more.setVisibility(View.GONE);
             }
         }
     }

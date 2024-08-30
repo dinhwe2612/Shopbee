@@ -57,15 +57,18 @@
                                 android:orientation="vertical">
                                 <LinearLayout
                                     android:visibility="gone"
+                                    android:id="@+id/layout_color"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
                                     <TextView
+                                        android:id="@+id/color_tag"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         style="@style/Gray_Regular_11dp"
                                         android:text="Color: "/>
                                     <TextView
+                                        android:id="@+id/color_description"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         style="@style/Black_Regular_11dp"
@@ -81,6 +84,7 @@
                             </LinearLayout>
                         </RelativeLayout>
                         <RelativeLayout
+                            android:id="@+id/size_rating_layout"
                             android:layout_toRightOf="@id/layout_colorPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
@@ -96,11 +100,13 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
                                     <TextView
+                                        android:id="@+id/size_tag"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         style="@style/Gray_Regular_11dp"
                                         android:text="Size: "/>
                                     <TextView
+                                        android:id="@+id/size_description"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         style="@style/Black_Regular_11dp"
@@ -139,6 +145,15 @@
                                 </LinearLayout>
                             </LinearLayout>
                         </RelativeLayout>
+                        <TextView
+                            android:id="@+id/more"
+                            android:text="More..."
+                            style="@style/Gray_Regular_10dp"
+                            android:layout_toRightOf="@id/size_rating_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                        </TextView>
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>

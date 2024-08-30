@@ -1,5 +1,7 @@
 package com.example.shopbee.ui.favorites;
 
+import android.util.Pair;
+
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
@@ -21,6 +23,12 @@ public class FavoritesViewModel extends BaseViewModel<FavoritesNavigator> {
 
     MutableLiveData<List<AmazonProductByCategoryResponse.Data.Product>> favoriteProducts = new MutableLiveData<>();
     MutableLiveData<List<String>> favoriteLists = new MutableLiveData<>();
+    MutableLiveData<List<List<Pair<String, String>>>> favoriteVariations = new MutableLiveData<>();
+
+    public MutableLiveData<List<List<Pair<String, String>>>> getFavoriteVariations() {
+        return favoriteVariations;
+    }
+
     public FavoritesViewModel(Repository repository) {
         super(repository);
     }
