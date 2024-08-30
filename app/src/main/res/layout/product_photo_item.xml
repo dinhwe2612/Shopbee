@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="320dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:scaleType="centerCrop"
-    tools:src="@drawable/image_review">
+    tools:src="@drawable/image_review"
+    android:scaleType="fitCenter"
+    android:background="@color/white_light_theme"
+    android:orientation="vertical">
 
 </ImageView>
