@@ -11,9 +11,10 @@ import com.example.shopbee.ui.common.base.BaseViewModel;
 public class SettingsViewModel extends BaseViewModel {
     MutableLiveData<UserResponse> userResponse = new MutableLiveData<>();
     MutableLiveData<ListOrderResponse> listOrderResponse = new MutableLiveData<>();
+    Repository repository;
     public SettingsViewModel(Repository repository) {
-
         super(repository);
+        this.repository = repository;
         repository.getUserResponse().observeForever(new Observer<UserResponse>() {
             @Override
             public void onChanged(UserResponse response) {
@@ -32,5 +33,8 @@ public class SettingsViewModel extends BaseViewModel {
     }
     public MutableLiveData<UserResponse> getUserResponse() {
         return userResponse;
+    }
+    public void updateUserFirebase(){
+        repository.updateUserFirebase();
     }
 }

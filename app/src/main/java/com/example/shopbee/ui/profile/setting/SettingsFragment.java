@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -94,7 +96,7 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
         binding.changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogsManager.changePasswordDialog("123456789", "Nguyen Minh Luan", "james.iredell@examplepetstore.com");
+                dialogsManager.changePasswordDialog("123456789", userResponse.getFull_name(), userResponse.getEmail());
             }
         });
         binding.changeCountry.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +104,28 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
             public void onClick(View v) {
                 dialogsManager.changeCountryDialog(userResponse.getCountry(), listCountry);
 
+            }
+        });
+        binding.fullnameText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().isEmpty()){
+                    binding.hintChangeName.setHintTextColor(getResources().getColor(R.color.red));
+                    binding.changeNameLayout.setBackgroundResource(R.drawable.slight_rounded_white_rectangle_red_stroke);
+                } else {
+                    binding.hintChangeName.setHintTextColor(getResources().getColor(R.color.gray));
+                    binding.changeNameLayout.setBackgroundResource(R.drawable.slight_rounded_white_rectangle);
+                    userResponse.setFull_name(s.toString());
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                viewModel.updateUserFirebase();
             }
         });
     }
@@ -178,6 +202,7 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
                 })
             );
             userResponse.setCountry(mChangeCountryEvent.getNewCountry());
+            viewModel.updateUserFirebase();
         }
     }
     @Override

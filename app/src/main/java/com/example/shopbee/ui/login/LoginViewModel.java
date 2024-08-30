@@ -22,12 +22,12 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 getNavigator().openMainActivity();
+                repository.queryUserInformation(email);
+                repository.queryListOrderInformation(email);
             } else {
                 getNavigator().handleError(Objects.requireNonNull(task.getException()).getMessage());
             }
         });
-        repository.queryUserInformation(email);
-        repository.queryListOrderInformation(email);
     }
 
     public void loginWithGoogle(AuthCredential credential) {
