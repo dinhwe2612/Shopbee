@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
+import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.databinding.FavoritesBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
@@ -81,12 +82,19 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
 
         productAdapter = new FavoriteAdapter(null);
         productAdapter.setOnItemClickListener(this::onItemClick);
-        getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        getViewDataBinding().recyclerView.setAdapter(productAdapter);
+
+        productAdapterGridView = new FavoriteAdapterGridView(null);
+        productAdapterGridView.setOnItemClickListener(this::onItemClick);
+
+//        getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        changeView(isInListView, null);
 
         viewModel.getFavoriteProducts().observe(getViewLifecycleOwner(), products -> {
             changeView(isInListView, products);
         });
+//        viewModel.getFavoriteVariations().observe(getViewLifecycleOwner(), variations -> {
+//            changeView(isInListView, viewModel.getFavoriteProducts().getValue());
+//        });
         binding.imageView.setVisibility(View.VISIBLE);
         binding.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,18 +110,24 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     public void onDialogEvent(Object event) {
 
     }
-    public void changeView(boolean isInListView, List<AmazonProductByCategoryResponse.Data.Product> products) {
+    public void changeView(boolean isInListView, List<AmazonProductDetailsResponse> products) {
         if (isInListView) {
             binding.imageView.setImageResource(R.drawable.list_view_icon);
+
             productAdapter = new FavoriteAdapter(products);
-            productAdapter.setOnItemClickListener(this::onItemClick);
+            productAdapter.setVariations(viewModel.getFavoriteVariations().getValue());
+//            productAdapter.setOnItemClickListener(this::onItemClick);
+
             getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
             getViewDataBinding().recyclerView.setAdapter(productAdapter);
         }
         else {
             binding.imageView.setImageResource(R.drawable.grid_view_icon);
+
             productAdapterGridView = new FavoriteAdapterGridView(products);
-            productAdapterGridView.setOnItemClickListener(this::onItemClick);
+            productAdapterGridView.setVariations(viewModel.getFavoriteVariations().getValue());
+//            productAdapterGridView.setOnItemClickListener(this::onItemClick);
+
             getViewDataBinding().recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
             getViewDataBinding().recyclerView.setAdapter(productAdapterGridView);
         }

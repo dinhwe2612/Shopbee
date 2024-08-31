@@ -1,6 +1,7 @@
 package com.example.shopbee.data;
 
 import android.util.Log;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -14,6 +15,7 @@ import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.data.model.api.OrderResponse;
 import com.example.shopbee.data.model.api.SearchResponse;
 import com.example.shopbee.data.model.api.UserResponse;
+import com.example.shopbee.data.model.api.UserVariationResponse;
 import com.example.shopbee.data.remote.AmazonApiService;
 import com.example.shopbee.ui.user_search.UserSearchViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -363,5 +365,110 @@ public class Repository {
 
             }
         });
+    }
+    public enum UserVariation {
+        FAVORITE,
+        BAG
+    }
+    public void saveUserVariation(UserVariation userVariation, String asin, List<Pair<String, String>> variation) {
+        databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
+        String userEmail = getUserResponse().getValue().getEmail();
+        Query query = databaseReference.orderByChild("email").equalTo(userEmail);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                HashMap<String, Object> userMap = new HashMap<>();
+                userMap.put("email", userEmail);
+                DatabaseReference userReference;
+                if (!snapshot.exists()) {
+                    userReference = databaseReference.push();
+                    userReference.setValue(userMap);
+
+                }
+                else {
+                    userReference = snapshot.getRef();
+                }
+                HashMap<String, Object> variation = new HashMap<>();
+                variation.put("asin", asin);
+                variation.put("variation", variation);
+                if (userVariation == UserVariation.FAVORITE) {
+                    userReference.child("favorite").push().setValue(variation);
+                }
+                else {
+                    userReference.child("bag").push().setValue(variation);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public Observable<UserVariationResponse> getUserVariation(UserVariation userVariation) {
+        UserVariationResponse userVariationResponse = new UserVariationResponse();
+        return Observable.create(emitter -> {
+            String email = getUserResponse().getValue().getEmail();
+            databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
+            Query query = databaseReference.orderByChild("email").equalTo(email);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        DatabaseReference variationReference;
+                        if (userVariation == UserVariation.FAVORITE) {
+                            variationReference = snapshot.getRef().child("favorite");
+                        } else {
+                            variationReference = snapshot.getRef().child("bag");
+                        }
+                        variationReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()) {
+                                    for (DataSnapshot variation : snapshot.getChildren()) {
+                                        String asin = variation.child("asin").getValue(String.class);
+                                        List<Map<String, String>> variationsMap = (List<Map<String, String>>) variation.child("variation").getValue();
+                                        List<Pair<String, String>> variations = new ArrayList<>();
+                                        for (Map<String, String> map : variationsMap) {
+                                            Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
+                                            variations.add(pair);
+                                        }
+                                        UserVariationResponse.Variation userVariation = new UserVariationResponse.Variation(asin, variations);
+                                        userVariationResponse.addVariation(userVariation);
+
+                                    }
+                                    UserVariationResponse result = new UserVariationResponse();
+                                    for (int i = userVariationResponse.getVariations().size() - 1; i >= 0; i--) {
+                                        result.addVariation(userVariationResponse.getVariations().get(i));
+                                        emitter.onNext(result);
+                                    }
+                                    emitter.onComplete();
+                                } else {
+                                    emitter.onNext(userVariationResponse);
+                                    emitter.onComplete();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                    else {
+                        emitter.onNext(userVariationResponse);
+                        emitter.onComplete();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        });
+    }
+    public void deleteUserVariation() {
+
     }
 }

@@ -86,22 +86,27 @@
         style="@style/Black_SemiBold_16dp"
         android:text="Shirt"/>
     <LinearLayout
+        android:layout_gravity="start"
+        android:gravity="start"
         android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <LinearLayout
             android:visibility="gone"
+            android:layout_marginEnd="10dp"
+            android:id="@+id/color_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/color_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Gray_Regular_11dp"
                 android:text="Color: "/>
             <TextView
+                android:id="@+id/color_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Black_Regular_11dp"
@@ -109,21 +114,33 @@
         </LinearLayout>
         <LinearLayout
             android:visibility="gone"
+            android:layout_marginEnd="10dp"
             android:id="@+id/layout_colors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/size_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Gray_Regular_11dp"
                 android:text="Size: "/>
             <TextView
+                android:id="@+id/size_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Black_Regular_11dp"
                 android:text="L"/>
         </LinearLayout>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/more"
+            android:text="More..."
+            style="@style/Gray_Regular_11dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </TextView>
     </LinearLayout>
     <TextView
         android:id="@+id/favorite_item_price"

@@ -78,6 +78,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 // delete this string from adapter data and then delete on firebase or vice versa
                 @Override
                 public void onClick(View view) {
+                    Animation clickAnimation = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.button_click_animation);
+                    itemView.startAnimation(clickAnimation);
                     onHistorySearchClick.onHistoryDeleteClick(binding.textView.getText().toString());
                 }
             });
