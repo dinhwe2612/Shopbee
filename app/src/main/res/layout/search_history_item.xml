@@ -20,11 +20,22 @@
     <ImageView
         android:src="@drawable/history"
         android:layout_marginEnd="10dp"
-        android:layout_alignParentEnd="true"
+        android:layout_toLeftOf="@id/delete_from_list"
         android:layout_centerVertical="true"
         android:scaleType="fitCenter"
         android:layout_width="27dp"
         android:layout_height="27dp">
+
+    </ImageView>
+    <ImageView
+        android:id="@+id/delete_from_list"
+        android:src="@drawable/delete_icon"
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:scaleType="fitCenter"
+        android:layout_width="15dp"
+        android:layout_height="15dp">
 
     </ImageView>
 </RelativeLayout>

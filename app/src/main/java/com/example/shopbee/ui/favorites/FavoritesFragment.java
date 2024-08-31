@@ -87,6 +87,7 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         viewModel.getFavoriteProducts().observe(getViewLifecycleOwner(), products -> {
             changeView(isInListView, products);
         });
+        binding.imageView.setVisibility(View.VISIBLE);
         binding.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,14 +104,14 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     }
     public void changeView(boolean isInListView, List<AmazonProductByCategoryResponse.Data.Product> products) {
         if (isInListView) {
-            getViewDataBinding().imageView.setImageResource(R.drawable.list_view_icon);
+            binding.imageView.setImageResource(R.drawable.list_view_icon);
             productAdapter = new FavoriteAdapter(products);
             productAdapter.setOnItemClickListener(this::onItemClick);
             getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
             getViewDataBinding().recyclerView.setAdapter(productAdapter);
         }
         else {
-            getViewDataBinding().imageView.setImageResource(R.drawable.grid_view_icon);
+            binding.imageView.setImageResource(R.drawable.grid_view_icon);
             productAdapterGridView = new FavoriteAdapterGridView(products);
             productAdapterGridView.setOnItemClickListener(this::onItemClick);
             getViewDataBinding().recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));

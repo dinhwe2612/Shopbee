@@ -3,6 +3,7 @@ package com.example.shopbee.ui.user_search;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,12 @@ import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.user_search.adapter.HistoryAdapter;
 import com.example.shopbee.ui.user_search.adapter.SuggestionAdapter;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSearchViewModel> implements UserSearchNavigator, HistoryAdapter.OnHistorySearchClick {
+    CompositeDisposable compositeDisposable;
     SearchLayoutBinding binding;
     HistoryAdapter historyAdapter = new HistoryAdapter();
     SuggestionAdapter suggestionAdapter = new SuggestionAdapter();
@@ -47,6 +53,7 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
         binding = getViewDataBinding();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.recyclerView.setAdapter(historyAdapter);
+        historyAdapter.setOnHistorySearchClick(this);
         viewModel.syncSearchHistory();
         viewModel.setHistoryIsShort(true);
         viewModel.getHistoryIsShort().observe(getViewLifecycleOwner(), isShort -> {
@@ -137,11 +144,26 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
         navigateToSearchFragment(product_name);
     }
 
+    @Override
+    public void onHistoryDeleteClick(String product_name) {
+        Log.d("TAG", "onHistoryDeleteClick: "+product_name);
+        compositeDisposable.add(viewModel.deleteSearchHistory(product_name)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                    if (result.equals("complete")) {
+                        viewModel.syncSearchHistory();
+                    }
+                })
+        );
+    }
+
     public void observeShortList() {
         viewModel.getFullListOfSearchHistory().removeObservers(getViewLifecycleOwner());
         historyAdapter.setHistoryList(viewModel.getShortListOfSearchHistory().getValue());
         historyAdapter.notifyDataSetChanged();
         viewModel.getShortListOfSearchHistory().observe(getViewLifecycleOwner(), historyList -> {
+            Log.d("TAG", "observeShortList: "+historyList.size());
             historyAdapter.setHistoryList(historyList);
             historyAdapter.notifyDataSetChanged();
         });
@@ -151,6 +173,7 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
         historyAdapter.setHistoryList(viewModel.getFullListOfSearchHistory().getValue());
         historyAdapter.notifyDataSetChanged();
         viewModel.getFullListOfSearchHistory().observe(getViewLifecycleOwner(), historyList -> {
+            Log.d("TAG", "observeFullList: "+historyList.size());
             historyAdapter.setHistoryList(historyList);
             historyAdapter.notifyDataSetChanged();
         });
@@ -171,5 +194,17 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
         binding.recyclerView.setVisibility(View.VISIBLE);
         binding.relativeLayout.setVisibility(View.VISIBLE);
         binding.recyclerView1.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        compositeDisposable = new CompositeDisposable();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        compositeDisposable.clear();
     }
 }
