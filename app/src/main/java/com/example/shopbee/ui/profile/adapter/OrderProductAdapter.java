@@ -7,13 +7,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shopbee.data.model.api.ListOrderResponse;
 import com.example.shopbee.databinding.MyOrdersDeliveredItemBinding;
 import com.example.shopbee.data.model.OrderProductItem;
 
 import java.util.List;
 
 public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapter.OrderProductViewHolder> {
-    List<OrderProductItem> orderProductItemList;
+    private List<OrderProductItem> orderProductItemList;
+    private String statusOfOrder;
+
     public interface Listener{
         public void onItemClicked(int position);
     }
@@ -37,6 +40,9 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         holder.binding.trackingNumber.setText(orderProductItem.getTrackingNumber());
         holder.binding.quantity.setText(orderProductItem.getQuantity().toString());
         holder.binding.totalAmount.setText(orderProductItem.getTotalAmount());
+        String status = orderProductItem.getStatus();
+        String newStatus = status.substring(0, 1).toUpperCase() + status.substring(1).toLowerCase();
+        holder.binding.status.setText(newStatus);
         holder.binding.buttonDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

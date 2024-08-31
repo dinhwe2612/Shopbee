@@ -14,15 +14,23 @@
         android:layout_width="343dp"
         android:layout_height="164dp">
         <TextView
-            android:id="@+id/orderNumber"
+            android:id="@+id/orderNumberText"
             android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
             android:layout_alignParentStart="true"
             style="@style/Black_SemiBold_16dp"
-            android:text="Order No1947034"
+            android:text="Order No."
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
         </TextView>
+        <TextView
+            android:layout_marginTop="15dp"
+            android:id="@+id/orderNumber"
+            android:text="1947034"
+            android:layout_toRightOf="@id/orderNumberText"
+            style="@style/Black_SemiBold_16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/date"
             android:text="05-12-2019"
@@ -37,7 +45,7 @@
         <TextView
             android:layout_marginStart="15dp"
             style="@style/Gray_Regular_14dp"
-            android:layout_below="@id/orderNumber"
+            android:layout_below="@id/orderNumberText"
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dp"
             android:text="Tracking number: "
@@ -49,7 +57,7 @@
         <TextView
             android:layout_toRightOf="@id/textView"
             style="@style/Black_Medium_14dp"
-            android:layout_below="@id/orderNumber"
+            android:layout_below="@id/orderNumberText"
             android:layout_marginTop="10dp"
             android:text="IW3475453455"
             android:id="@+id/trackingNumber"
