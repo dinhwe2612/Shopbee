@@ -3,12 +3,12 @@ package com.example.shopbee.data.remote;
 import com.example.shopbee.data.model.api.AmazonDealsResponse;
 import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.data.model.api.AmazonSearchResponse;
+import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 
 import java.util.Map;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.QueryMap;
 
 public interface AmazonApiService {
@@ -33,4 +33,6 @@ public interface AmazonApiService {
     Observable<AmazonProductByCategoryResponse> getAmazonProductByCategory(@QueryMap Map<String, String> queries);
     @GET("search")
     Observable<AmazonProductByCategoryResponse> getAmazonProductBySearching(@QueryMap Map<String, String> queries);
+    @GET("product-details")
+    Observable<AmazonProductDetailsResponse> getAmazonProductDetails(@QueryMap Map<String, String> queries);
 }

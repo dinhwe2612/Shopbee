@@ -1,25 +1,26 @@
 package com.example.shopbee.data.model.api;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ProductDetailsResponse {
-    static class data {
+public class AmazonProductDetailsResponse {
+    public static class Data {
         String asin;
         String product_title;
         String product_price;
         String product_original_price;
         String product_byline;
         String product_star_rating;
-        String product_num_ratings;
+        Integer product_num_ratings;
         String product_url;
         String product_photo;
         String product_availability;
-        List<String> about_product;
+        List<String> about_product = new ArrayList<>();
         String product_description;
-        String product_information;
-        List<String> product_photos;
-        HashMap<String, String> product_details;
+        HashMap<String, String> product_information = new HashMap<>();
+        List<String> product_photos = new ArrayList<>();
+        HashMap<String, String> product_details = new HashMap<>();
         String customers_say;
         class Category {
             String id;
@@ -50,8 +51,8 @@ public class ProductDetailsResponse {
                 this.link = link;
             }
         }
-        List<Category> category_path;
-        HashMap<String, List<String>> product_variations;
+        List<Category> category_path = new ArrayList<>();
+        HashMap<String, List<String>> product_variations = new HashMap<>();
 
         public String getAsin() {
             return asin;
@@ -101,11 +102,11 @@ public class ProductDetailsResponse {
             this.product_star_rating = product_star_rating;
         }
 
-        public String getProduct_num_ratings() {
+        public Integer getProduct_num_ratings() {
             return product_num_ratings;
         }
 
-        public void setProduct_num_ratings(String product_num_ratings) {
+        public void setProduct_num_ratings(Integer product_num_ratings) {
             this.product_num_ratings = product_num_ratings;
         }
 
@@ -149,11 +150,11 @@ public class ProductDetailsResponse {
             this.product_description = product_description;
         }
 
-        public String getProduct_information() {
+        public HashMap<String, String> getProduct_information() {
             return product_information;
         }
 
-        public void setProduct_information(String product_information) {
+        public void setProduct_information(HashMap<String, String> product_information) {
             this.product_information = product_information;
         }
 
@@ -196,5 +197,14 @@ public class ProductDetailsResponse {
         public void setProduct_variations(HashMap<String, List<String>> product_variations) {
             this.product_variations = product_variations;
         }
+    }
+    Data data;
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
     }
 }

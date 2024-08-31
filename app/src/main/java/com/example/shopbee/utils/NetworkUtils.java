@@ -24,4 +24,9 @@ public final class NetworkUtils {
         HashMap<String, String> queryMap = new HashMap<>();
         return queryMap;
     }
+    public static HashMap<String, String> createProductDetailsQuery(String asin) {
+        HashMap<String, String> queryMap = new HashMap<>();
+        queryMap.put("asin", asin);
+        return queryMap;
+    }
 }

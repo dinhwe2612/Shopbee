@@ -21,6 +21,7 @@ import java.util.List;
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
     public interface OnHistorySearchClick {
         void onHistorySearchClick(String product_name);
+        void onHistoryDeleteClick(String product_name);
     }
     OnHistorySearchClick onHistorySearchClick;
     public void setOnHistorySearchClick(OnHistorySearchClick onHistorySearchClick) {
@@ -73,6 +74,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         }
         public void bindView(int position) {
             binding.textView.setText(historyList.get(position));
+            binding.deleteFromList.setOnClickListener(new View.OnClickListener() {
+                // delete this string from adapter data and then delete on firebase or vice versa
+                @Override
+                public void onClick(View view) {
+                    Animation clickAnimation = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.button_click_animation);
+                    itemView.startAnimation(clickAnimation);
+                    onHistorySearchClick.onHistoryDeleteClick(binding.textView.getText().toString());
+                }
+            });
         }
     }
 }

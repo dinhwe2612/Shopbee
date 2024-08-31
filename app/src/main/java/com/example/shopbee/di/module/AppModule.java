@@ -2,10 +2,14 @@ package com.example.shopbee.di.module;
 
 import androidx.annotation.NonNull;
 
+import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
+import com.example.shopbee.data.model.api.jsondeserializer.ProductDetailsDeserializer;
 import com.example.shopbee.data.remote.AmazonApiService;
 import com.example.shopbee.data.remote.CountryApiService;
 import com.example.shopbee.ui.component.bottombar.BottomBarUserReactionImplementation;
 import com.example.shopbee.utils.NetworkUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -46,9 +50,12 @@ public class AppModule {
                     }
                 })
                 .build();
+        Gson customGson = new GsonBuilder()
+                .registerTypeAdapter(AmazonProductDetailsResponse.class, new ProductDetailsDeserializer())
+                .create();
         return new Retrofit.Builder()
                 .baseUrl(NetworkUtils.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(customGson))
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build()

@@ -2,6 +2,7 @@ package com.example.shopbee.ui.favorites.adapter;
 
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
+import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.databinding.FavoriteGridItemBinding;
 import com.example.shopbee.databinding.SaleItemBinding;
 import com.example.shopbee.ui.search.adapter.ProductAdapterGridView;
@@ -32,12 +34,16 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
         this.onItemClickListener = onItemClickListener;
     }
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private List<AmazonProductByCategoryResponse.Data.Product> products;
-    public FavoriteAdapterGridView(List<AmazonProductByCategoryResponse.Data.Product> products) {
+    private List<AmazonProductDetailsResponse> products;
+    public FavoriteAdapterGridView(List<AmazonProductDetailsResponse> products) {
         this.products = products;
     }
-    public void setProducts(List<AmazonProductByCategoryResponse.Data.Product> products) {
+    public void setProducts(List<AmazonProductDetailsResponse> products) {
         this.products = products;
+    }
+    List<List<Pair<String, String>>> variations;
+    public void setVariations(List<List<Pair<String, String>>> variations) {
+        this.variations = variations;
     }
     @NonNull
     @Override
@@ -54,7 +60,7 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
             @Override
             public void onClick(View view) {
                 if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(products.get(position).getAsin());
+                    onItemClickListener.onItemClick(products.get(position).getData().getAsin());
                 }
             }
         });
@@ -79,20 +85,20 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
             this.binding = binding;
         }
         public void bindView(int position) {
-            binding.itemFavoriteName.setText(products.get(position).getProduct_title());
-            if (products.get(position).getProduct_star_rating() != null) {
-                binding.simpleRatingBar.setRating(Float.parseFloat(products.get(position).getProduct_star_rating()));
+            binding.itemFavoriteName.setText(products.get(position).getData().getProduct_title());
+            if (products.get(position).getData().getProduct_star_rating() != null) {
+                binding.simpleRatingBar.setRating(Float.parseFloat(products.get(position).getData().getProduct_star_rating()));
             } else {
                 binding.simpleRatingBar.setRating(0);
             }
-            binding.numRating.setText("(" + products.get(position).getProduct_num_ratings() + ")");
-            binding.favoriteItemPrice.setText(products.get(position).getProduct_price());
+            binding.numRating.setText("(" + products.get(position).getData().getProduct_num_ratings() + ")");
+            binding.favoriteItemPrice.setText(products.get(position).getData().getProduct_price());
             // variation
-            if (products.get(position).getProduct_photo() != null) {
+            if (products.get(position).getData().getProduct_photo() != null) {
                 compositeDisposable.add(Observable.fromCallable(() -> {
                                     FutureTarget<Bitmap> futureTarget = Glide.with(binding.image.getContext())
                                             .asBitmap()
-                                            .load(products.get(position).getProduct_photo())
+                                            .load(products.get(position).getData().getProduct_photo())
                                             .submit();
                                     return futureTarget.get();
                                 })
@@ -104,6 +110,19 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
                                     Log.e("Exception", throwable.getMessage());
                                 })
                 );
+            }
+            if (variations.get(position).size() > 0) {
+                binding.colorLayout.setVisibility(View.VISIBLE);
+                binding.colorTag.setText(variations.get(position).get(0).first);
+                binding.colorDescription.setText(variations.get(position).get(0).second);
+            }
+            if (variations.get(position).size() > 1) {
+                binding.layoutColors.setVisibility(View.VISIBLE);
+                binding.sizeTag.setText(variations.get(position).get(1).first);
+                binding.sizeDescription.setText(variations.get(position).get(1).second);
+            }
+            if (variations.get(position).size() <= 2) {
+                binding.more.setVisibility(View.GONE);
             }
         }
     }
