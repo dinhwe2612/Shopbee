@@ -71,6 +71,7 @@ public class Repository {
     public Observable<List<String>> getUserSearchHistory() {
         return null;
     }
+    
     public Observable<UserResponse> getUserInformation(String email) {
         return Observable.create(emitter -> {
             databaseReference = FirebaseDatabase.getInstance().getReference("user");
