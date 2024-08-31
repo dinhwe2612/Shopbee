@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ktx.Firebase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -251,19 +252,76 @@ public class Repository {
                                 String searchString = historySnapshot.child("search").getValue(String.class);
                                 Long timestamp = historySnapshot.child("timestamp").getValue(Long.class);
                                 searchResponse.addSearch(new SearchResponse.Search(searchString, timestamp));
-                                searchResponse.getSearches().sort((a, b) -> b.getTimestamp().compareTo(a.getTimestamp()));
-                                emitter.onNext(searchResponse);
                             }
-                            break;
                         }
                         // sort by timestamp, larger timestamp first
+                        SearchResponse result = new SearchResponse();
+                        for (int i = searchResponse.getSearches().size() - 1; i >=0; i--) {
+                            result.addSearch(searchResponse.getSearches().get(i));
+//                            Log.d("TAG", "onDataChange: " + searchResponse.getSearches().get(i).getSearch());
+                            emitter.onNext(result);
+                        }
+                        emitter.onNext(result);
                         emitter.onComplete();
+                        break;
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
+                }
+            });
+        });
+    }
+    public Observable<String> deleteSearchHistory(String searchText) {
+        return Observable.create(emitter -> {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("search_history");
+            String userEmail = getUserResponse().getValue().getEmail();
+            Query query = databaseReference.orderByChild("email").equalTo(userEmail);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                        Query subQuery = userSnapshot.child("history").getRef().orderByChild("search").equalTo(searchText);
+
+                        subQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                boolean isDeleted = false;  // To track if any deletions happened
+                                for (DataSnapshot searchSnapshot : snapshot.getChildren()) {
+                                    searchSnapshot.getRef().removeValue();  // Perform the delete
+                                    isDeleted = true;  // Mark that we've deleted something
+                                }
+
+                                // Only emit after all deletions in this subQuery are complete
+                                if (isDeleted) {
+                                    emitter.onNext("complete");
+                                    emitter.onComplete();
+                                } else {
+                                    emitter.onError(new Throwable("No matching search history found to delete"));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                emitter.onError(new Throwable("Error deleting search history: " + error.getMessage()));
+                            }
+                        });
+                    }
+
+                    // If no matching user snapshot found
+//                    if (!isDeleted) {
+//                        emitter.onNext("complete"); // Or error handling if no data is found
+//                        emitter.onComplete();
+//                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    emitter.onError(new Throwable("Error querying search history: " + error.getMessage()));
                 }
             });
         });

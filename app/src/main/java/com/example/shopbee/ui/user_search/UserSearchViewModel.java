@@ -7,9 +7,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.ui.common.base.BaseViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class UserSearchViewModel extends BaseViewModel {
@@ -52,14 +54,41 @@ public class UserSearchViewModel extends BaseViewModel {
                 .subscribe(result -> {
                             setIsLoading(false);
                             searchHistory.setValue(result.getHistorySearch());
-                            int endIndex = Math.min(result.getHistorySearch().size(), 5);
-                            shortSearchHistory.setValue(result.getHistorySearch().subList(0, endIndex));
+                            if (result.getHistorySearch().size() == 0) {
+                                shortSearchHistory.setValue(new ArrayList<>());
+                            }
+                            else {
+                                int endIndex = Math.min(result.getHistorySearch().size(), 5);
+                                shortSearchHistory.setValue(result.getHistorySearch().subList(0, endIndex));
+                            }
                         },
                         error -> {
                             setIsLoading(false);
                             Log.e("getUserSearchHistory", "getUserSearchHistory " + error.getMessage());
                         })
         );
+    }
+
+    public Observable<String> deleteSearchHistory(String searchText) {
+        return Observable.create(emitter -> {
+            setIsLoading(true);
+            getCompositeDisposable().add(getRepository().deleteSearchHistory(searchText)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(result -> {
+                                setIsLoading(false);
+                                Log.e("deleteSearchHistory", "deleteSearchHistory " + result);
+                                if (result.equals("complete")) {
+//                                    syncSearchHistory();
+                                    emitter.onNext("complete");
+                                    emitter.onComplete();
+                                }
+                            },
+                            error -> {
+                                setIsLoading(false);
+                            })
+            );
+        });
     }
     public void syncSuggestions() {
         setIsLoading(true);
