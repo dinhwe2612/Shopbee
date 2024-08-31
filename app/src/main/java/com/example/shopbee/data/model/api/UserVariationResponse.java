@@ -7,14 +7,21 @@ import java.util.List;
 
 public class UserVariationResponse {
     public static class Variation {
+        Integer quantity;
         String asin;
         List<Pair<String, String>> variation;
 
-        public Variation(String asin, List<Pair<String, String>> variation) {
+        public Variation(String asin, List<Pair<String, String>> variation, Integer quantity) {
             this.asin = asin;
             this.variation = variation;
+            this.quantity = quantity;
         }
-
+        public Integer getQuantity() {
+            return quantity;
+        }
+        public void setQuantity(Integer quantity) {
+            this.quantity = quantity;
+        }
         public String getAsin() {
             return asin;
         }
