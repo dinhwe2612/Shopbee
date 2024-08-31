@@ -121,7 +121,7 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
                 binding.sizeTag.setText(variations.get(position).get(1).first);
                 binding.sizeDescription.setText(variations.get(position).get(1).second);
             }
-            if (variations.get(position).size() <= 2) {
+            if (variations.get(position).size() > 2) {
                 binding.more.setVisibility(View.GONE);
             }
         }

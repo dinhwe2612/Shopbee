@@ -385,7 +385,7 @@ public class Repository {
         FAVORITE,
         BAG
     }
-    public void saveUserVariation(UserVariation userVariation, String asin, List<Pair<String, String>> variation) {
+    public void saveUserVariation(UserVariation userVariation, String asin, List<Pair<String, String>> variation, Integer quantity) {
         databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
         String userEmail = getUserResponse().getValue().getEmail();
         Query query = databaseReference.orderByChild("email").equalTo(userEmail);
@@ -406,6 +406,7 @@ public class Repository {
                 HashMap<String, Object> variation = new HashMap<>();
                 variation.put("asin", asin);
                 variation.put("variation", variation);
+                variation.put("quantity", quantity);
                 if (userVariation == UserVariation.FAVORITE) {
                     userReference.child("favorite").push().setValue(variation);
                 }
@@ -448,7 +449,8 @@ public class Repository {
                                             Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
                                             variations.add(pair);
                                         }
-                                        UserVariationResponse.Variation userVariation = new UserVariationResponse.Variation(asin, variations);
+                                        Integer quantity = variation.child("quantity").getValue(Integer.class);
+                                        UserVariationResponse.Variation userVariation = new UserVariationResponse.Variation(asin, variations, quantity);
                                         userVariationResponse.addVariation(userVariation);
 
                                     }
