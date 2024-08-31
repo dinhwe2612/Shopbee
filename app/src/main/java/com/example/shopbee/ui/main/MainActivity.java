@@ -48,6 +48,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = getViewDataBinding();
+        String email = getIntent().getStringExtra("email");
+        getDataResponse(email);
         bottomBar.bindView(binding.bottomBar, this);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.fragmentContainer.getId());
         navController = navHostFragment.getNavController();
@@ -77,5 +79,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 navController.navigate(R.id.profileFragment);
                 break;
         }
+    }
+    void getDataResponse(String email){
+        viewModel.getUserResponse(email);
+        viewModel.getListOrderResponse(email);
     }
 }

@@ -23,7 +23,7 @@ import com.example.shopbee.ui.shop.adapter.SubCategoriesAdapter;
 
 import java.io.IOException;
 
-public class ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> implements ShopNavigator,ToolbarView.NavigateUpClickListener, ToolbarView.SearchClickListener {
+public class     ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> implements ShopNavigator,ToolbarView.NavigateUpClickListener, ToolbarView.SearchClickListener {
     ToolbarView toolbarView;
     @Override
     public int getBindingVariable() {

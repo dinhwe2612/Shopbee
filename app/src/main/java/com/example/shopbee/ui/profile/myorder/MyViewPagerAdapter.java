@@ -4,9 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.shopbee.ui.profile.myorder.typeFragment.CancelledFragment;
-import com.example.shopbee.ui.profile.myorder.typeFragment.DeliveredFragment;
-import com.example.shopbee.ui.profile.myorder.typeFragment.ProcessingFragment;
+import com.example.shopbee.data.model.OrderProductItem;
+import com.example.shopbee.ui.profile.myorder.typeOrderFragment.TypeOrderFragment;
+
+import java.util.List;
 
 public class MyViewPagerAdapter extends FragmentStateAdapter {
     public MyViewPagerAdapter(@NonNull Fragment fragment) {
@@ -17,13 +18,13 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position){
             case 0:
-                return new DeliveredFragment();
+                return new TypeOrderFragment("delivered");
             case 1:
-                return new ProcessingFragment();
+                return new TypeOrderFragment("processing");
             case 2:
-                return new CancelledFragment();
+                return new TypeOrderFragment("cancelled");
             default:
-                return new DeliveredFragment();
+                return new TypeOrderFragment("delivered");
         }
     }
     @Override

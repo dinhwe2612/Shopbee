@@ -8,11 +8,11 @@ import com.example.shopbee.di.ViewModelProviderFactory;
 import com.example.shopbee.ui.bag.BagViewModel;
 import com.example.shopbee.ui.favorites.FavoritesViewModel;
 import com.example.shopbee.ui.home.HomeViewModel;
-import com.example.shopbee.ui.main.MainViewModel;
 import com.example.shopbee.ui.productdetail.ProductDetailViewModel;
 import com.example.shopbee.ui.profile.ProfileViewModel;
 import com.example.shopbee.ui.profile.myorder.MyOrderDetailViewModel;
 import com.example.shopbee.ui.profile.myorder.MyOrderViewModel;
+import com.example.shopbee.ui.profile.myorder.typeOrderFragment.TypeOrderViewModel;
 import com.example.shopbee.ui.profile.setting.SettingsViewModel;
 import com.example.shopbee.ui.search.SearchViewModel;
 import com.example.shopbee.ui.shop.ShopViewModel;
@@ -99,5 +99,11 @@ public class FragmentModule {
         Supplier<UserSearchViewModel> supplier = () -> new UserSearchViewModel(repository);
         ViewModelProviderFactory<UserSearchViewModel> factory = new ViewModelProviderFactory<UserSearchViewModel>(UserSearchViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(UserSearchViewModel.class);
+    }
+    @Provides
+    public TypeOrderViewModel provideCancelledViewModel(Repository repository) {
+        Supplier<TypeOrderViewModel> supplier = () -> new TypeOrderViewModel(repository);
+        ViewModelProviderFactory<TypeOrderViewModel> factory = new ViewModelProviderFactory<TypeOrderViewModel>(TypeOrderViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(TypeOrderViewModel.class);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.shopbee.data.model;
 
 public class OrderProductItem {
+    private int position;
     private String orderNumber;
     private String date;
     private String trackingNumber;
@@ -8,7 +9,8 @@ public class OrderProductItem {
     private String totalAmount;
     private String status;
 
-    public OrderProductItem(String orderNumber, String date, String trackingNumber, Integer quantity, String totalAmount, String status) {
+    public OrderProductItem(int position, String orderNumber, String date, String trackingNumber, Integer quantity, String totalAmount, String status) {
+        this.position = position;
         this.orderNumber = orderNumber;
         this.date = date;
         this.trackingNumber = trackingNumber;
@@ -16,7 +18,12 @@ public class OrderProductItem {
         this.totalAmount = totalAmount;
         this.status = status;
     }
-
+    public void setPosition(int position) {
+        this.position = position;
+    }
+    public int getPosition() {
+        return position;
+    }
     public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }

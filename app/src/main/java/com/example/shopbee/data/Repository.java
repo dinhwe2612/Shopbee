@@ -58,69 +58,83 @@ public class Repository {
     public Observable<AmazonProductByCategoryResponse> getAmazonProductBySearching(HashMap<String, String> map) {
         return amazonApiService.getAmazonProductBySearching(map);
     }
-    public void queryUserInformation(String email) {
-        databaseReference = FirebaseDatabase.getInstance().getReference("user");
-        Query query = databaseReference.orderByChild("email").equalTo(email);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        UserResponse user = userSnapshot.getValue(UserResponse.class);
-                        userResponse.setValue(userSnapshot.getValue(UserResponse.class));
+    public Observable<UserResponse> getUserInformation(String email) {
+        return Observable.create(emitter -> {
+            databaseReference = FirebaseDatabase.getInstance().getReference("user");
+            Query query = databaseReference.orderByChild("email").equalTo(email);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                            UserResponse user = userSnapshot.getValue(UserResponse.class);
+                            if (user != null) {
+                                emitter.onNext(user);
+                                userResponse.setValue(user);
+                            }
+                        }
+                        emitter.onComplete();
+                    } else {
+                        emitter.onError(new Exception("No user found with the email: " + email));
+                        userResponse.setValue(null);
                     }
                 }
-                else {
-                    userResponse.setValue(null);
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    emitter.onError(new Exception("The read failed: " + error.getMessage()));
                 }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("The read failed: " + error.getMessage());
-            }
+            });
         });
     }
-    public void queryListOrderInformation(String email){
-        databaseReference = FirebaseDatabase.getInstance().getReference("order");
-        Query query = databaseReference.orderByChild("email").equalTo(email);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot orderSnapshot : snapshot.getChildren()) {
-                        ListOrderResponse listOrderResponseObj = new ListOrderResponse();
-                        listOrderResponseObj.setEmail(orderSnapshot.child("email").getValue(String.class));
+    public Observable<ListOrderResponse> getListOrderInformation(String email){
+        return Observable.create(emitter -> {
+            databaseReference = FirebaseDatabase.getInstance().getReference("order");
+            Query query = databaseReference.orderByChild("email").equalTo(email);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot orderSnapshot : snapshot.getChildren()) {
+                            ListOrderResponse listOrderResponseObj = new ListOrderResponse();
+                            listOrderResponseObj.setEmail(orderSnapshot.child("email").getValue(String.class));
 
-                        List<OrderResponse> orderList = new ArrayList<>();
-                        for (DataSnapshot listOrderSnapshot : orderSnapshot.child("list_order").getChildren()) {
-                            OrderResponse orderResponseObj = new OrderResponse();
-                            orderResponseObj.setDate(listOrderSnapshot.child("date").getValue(String.class));
-                            orderResponseObj.setQuantity(listOrderSnapshot.child("quantity").getValue(Integer.class));
-                            orderResponseObj.setStatus(listOrderSnapshot.child("status").getValue(String.class));
+                            List<OrderResponse> orderList = new ArrayList<>();
+                            for (DataSnapshot listOrderSnapshot : orderSnapshot.child("list_order").getChildren()) {
+                                OrderResponse orderResponseObj = new OrderResponse();
+                                orderResponseObj.setDate(listOrderSnapshot.child("date").getValue(String.class));
+                                orderResponseObj.setQuantity(listOrderSnapshot.child("quantity").getValue(Integer.class));
+                                orderResponseObj.setStatus(listOrderSnapshot.child("status").getValue(String.class));
+                                orderResponseObj.setOrder_number(listOrderSnapshot.child("order_number").getValue(String.class));
+                                orderResponseObj.setTracking_number(listOrderSnapshot.child("tracking_number").getValue(String.class));
 
-                            List<OrderDetailResponse> orderDetailList = new ArrayList<>();
-                            for (DataSnapshot orderDetailSnapshot : listOrderSnapshot.child("order_detail").getChildren()) {
-                                OrderDetailResponse orderDetailResponseObj = new OrderDetailResponse();
-                                orderDetailResponseObj.setProduct_id(orderDetailSnapshot.child("product_id").getValue(String.class));
-                                orderDetailResponseObj.setQuantity(orderDetailSnapshot.child("quantity").getValue(Integer.class));
-                                orderDetailResponseObj.setPrice(orderDetailSnapshot.child("price").getValue(String.class));
-                                orderDetailResponseObj.setUrlImage(orderDetailSnapshot.child("urlImage").getValue(String.class));
-                                orderDetailList.add(orderDetailResponseObj);
+                                List<OrderDetailResponse> orderDetailList = new ArrayList<>();
+                                for (DataSnapshot orderDetailSnapshot : listOrderSnapshot.child("order_detail").getChildren()) {
+                                    OrderDetailResponse orderDetailResponseObj = new OrderDetailResponse();
+                                    orderDetailResponseObj.setProduct_id(orderDetailSnapshot.child("product_id").getValue(String.class));
+                                    orderDetailResponseObj.setQuantity(orderDetailSnapshot.child("quantity").getValue(Integer.class));
+                                    orderDetailResponseObj.setPrice(orderDetailSnapshot.child("price").getValue(String.class));
+                                    orderDetailResponseObj.setUrlImage(orderDetailSnapshot.child("urlImage").getValue(String.class));
+                                    orderDetailList.add(orderDetailResponseObj);
+                                }
+                                orderResponseObj.setOrder_detail(orderDetailList);
+                                orderList.add(orderResponseObj);
                             }
-                            orderResponseObj.setListOrderDetail(orderDetailList);
-                            orderList.add(orderResponseObj);
+                            listOrderResponseObj.setList_order(orderList);
+                            listOrderResponse.setValue(listOrderResponseObj);
+                            emitter.onNext(listOrderResponseObj);
+                            emitter.onComplete();
                         }
-                        listOrderResponseObj.setList_order(orderList);
-                        listOrderResponse.setValue(listOrderResponseObj);
+                    } else {
+                        listOrderResponse.setValue(null);
+                        emitter.onError(new Exception("No user found with the email: " + email));
                     }
-                } else {
-                    listOrderResponse.setValue(null);
                 }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("The read failed: " + error.getMessage());
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    System.out.println("The read failed: " + error.getMessage());
+                }
+            });
         });
     }
     public MutableLiveData<UserResponse> getUserResponse() {

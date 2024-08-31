@@ -53,4 +53,8 @@
         android:id="@+id/productDetailFragment"
         android:name="com.example.shopbee.ui.productdetail.ProductDetailFragment"
         android:label="ProductDetailFragment" />
+    <fragment
+        android:id="@+id/myOrderDetailFragment"
+        android:name="com.example.shopbee.ui.profile.myorder.MyOrderDetailFragment"
+        android:label="MyOrderDetailFragment" />
 </navigation>

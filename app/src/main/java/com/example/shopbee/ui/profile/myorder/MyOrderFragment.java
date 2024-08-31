@@ -20,6 +20,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.shopbee.R;
+import com.example.shopbee.data.model.api.ListOrderResponse;
 import com.example.shopbee.databinding.MyOrdersBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.testUI.PagerAdapter.ViewPagerAdapter;
@@ -33,6 +34,7 @@ public class MyOrderFragment extends BaseFragment<MyOrdersBinding, MyOrderViewMo
     private ViewPager2 mViewPage;
     private View mView;
     private MyViewPagerAdapter myViewPagerAdapter;
+    private ListOrderResponse listOrderResponse;
     private static final float padding = 32.0f;
 
     @Override
