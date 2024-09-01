@@ -17,10 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 
 import com.example.shopbee.R;
+import com.example.shopbee.data.Repository;
+import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.databinding.ProductDetailBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.example.shopbee.ui.common.dialogs.optiondialog.OptionEvent;
 import com.example.shopbee.ui.productdetail.adapter.AboutProductAdapter;
 import com.example.shopbee.ui.productdetail.adapter.ProductDetailAdapter;
 import com.example.shopbee.ui.productdetail.adapter.ProductPhotosAdapter;
@@ -35,10 +38,12 @@ import javax.inject.Inject;
 
 public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, ProductDetailViewModel> implements ProductDetailNavigator, DialogsManager.Listener{
     ProductDetailBinding binding;
+    String asin;
     ProductPhotosAdapter productPhotosAdapter = new ProductPhotosAdapter();
     ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter();
     AboutProductAdapter aboutProductAdapter = new AboutProductAdapter();
     RecommendedAdapter recommendedAdapter = new RecommendedAdapter();
+    AmazonProductDetailsResponse amazonProductDetailsResponse = new AmazonProductDetailsResponse();
     @Inject
     DialogsManager dialogsManager;
     @Override
@@ -59,20 +64,24 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        if (getArguments() == null) throw new IllegalArgumentException("Arguments ProductDetailFragment cannot be null");
+        asin = getArguments().getString("asin");
         binding = getViewDataBinding();
         viewModel.setNavigator(this);
         setUpRecyclerView();
-        syncData();
+        syncData(asin);
         observeData();
+        binding.sparkButton.setOnClickListener(v -> viewModel.getNavigator().addFavorite());
         return binding.getRoot();
     }
 
-    void syncData() {
-        viewModel.syncProductDetails(NetworkUtils.createProductDetailsQuery("B07ZPKBL9V"));
+    void syncData(String asin) {
+        viewModel.syncProductDetails(NetworkUtils.createProductDetailsQuery(asin));
     }
 
     void observeData() {
         viewModel.getProductDetails().observe(getViewLifecycleOwner(), productDetails -> {
+            amazonProductDetailsResponse = productDetails;
             // bind photo url
             List<String> imageUrls = new ArrayList<>();
             imageUrls.add(productDetails.getData().getProduct_photo());
@@ -129,13 +138,13 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     @Override
     public void addToBag() {
         Toast.makeText(getContext(), "Add to bag", Toast.LENGTH_SHORT).show();
-        dialogsManager.showOptionDialog("ADD TO BAG", "$11", "null", null);
+        dialogsManager.showOptionDialog("ADD TO BAG", amazonProductDetailsResponse.getData().getProduct_price(), amazonProductDetailsResponse.getData().getProduct_photo(), amazonProductDetailsResponse.getData().getProduct_variations());
     }
 
     @Override
     public void buyNow() {
         Toast.makeText(getContext(), "Buy now", Toast.LENGTH_SHORT).show();
-        dialogsManager.showOptionDialog("BUY NOW", "$11", "null", null);
+        dialogsManager.showOptionDialog("BUY NOW", amazonProductDetailsResponse.getData().getProduct_price(), amazonProductDetailsResponse.getData().getProduct_photo(), amazonProductDetailsResponse.getData().getProduct_variations());
     }
 
     @Override
@@ -146,7 +155,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
 
     @Override
     public void addFavorite() {
-
+        dialogsManager.showOptionDialog("ADD FAVORITE", amazonProductDetailsResponse.getData().getProduct_price(), amazonProductDetailsResponse.getData().getProduct_photo(), amazonProductDetailsResponse.getData().getProduct_variations());
     }
 
     @Override
@@ -172,6 +181,11 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
 
     @Override
     public void onDialogEvent(Object event) {
-
+        if (event instanceof OptionEvent) {
+            OptionEvent optionEvent = (OptionEvent) event;
+            if (optionEvent.getName() == "ADD FAVORITE") {
+                viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, optionEvent.getOptions());
+            }
+        }
     }
 }
