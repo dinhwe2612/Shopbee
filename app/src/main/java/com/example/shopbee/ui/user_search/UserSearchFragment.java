@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.user_search;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import com.example.shopbee.R;
 import com.example.shopbee.databinding.SearchLayoutBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
+import com.example.shopbee.ui.login.LoginActivity;
 import com.example.shopbee.ui.user_search.adapter.HistoryAdapter;
 import com.example.shopbee.ui.user_search.adapter.SuggestionAdapter;
 
@@ -54,9 +56,10 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.recyclerView.setAdapter(historyAdapter);
         historyAdapter.setOnHistorySearchClick(this);
-        viewModel.syncSearchHistory();
+//        viewModel.syncSearchHistory();
         viewModel.setHistoryIsShort(true);
-        viewModel.getHistoryIsShort().observe(getViewLifecycleOwner(), isShort -> {
+        if (viewModel.getRepository().getUserResponse() != null) {
+            viewModel.getHistoryIsShort().observe(getViewLifecycleOwner(), isShort -> {
                 if (isShort) {
                     binding.textView1.setText("Click for more...");
                     observeShortList();
@@ -65,7 +68,28 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
                     binding.textView1.setText("Click to show less...");
                     observeFullList();
                 }
-        });
+            });
+            viewModel.syncSearchHistory();
+            binding.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (viewModel.getHistoryIsShort().getValue()) {
+                        viewModel.setHistoryIsShort(false);
+                    }
+                    else {
+                        viewModel.setHistoryIsShort(true);
+                    }
+                }
+            });
+        } else {
+            binding.textView1.setText("Click to sign in to enable search history");
+            binding.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    navigateToSignInActivity();
+                }
+            });
+        }
         binding.textInputLayout.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,17 +105,6 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
                 binding.textInputLayout.clearFocus();
                 binding.textInputEditText.clearFocus();
                 clearSuggestions();
-            }
-        });
-        binding.relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (viewModel.getHistoryIsShort().getValue()) {
-                    viewModel.setHistoryIsShort(false);
-                }
-                else {
-                    viewModel.setHistoryIsShort(true);
-                }
             }
         });
         binding.textInputEditText.addTextChangedListener(new TextWatcher() {
@@ -137,6 +150,12 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
                 .setPopExitAnim(R.anim.fade_out)
                 .build();
         navController.navigate(R.id.searchFragment, bundle, navOptions);
+    }
+
+    @Override
+    public void navigateToSignInActivity() {
+        Intent intent = new Intent(requireContext(), LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override

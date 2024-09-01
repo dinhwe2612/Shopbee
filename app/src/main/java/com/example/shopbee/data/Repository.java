@@ -262,6 +262,10 @@ public class Repository {
     public Observable<SearchResponse> getSearchHistory() {
         return Observable.create(emitter -> {
             SearchResponse searchResponse = new SearchResponse();
+//            if (getUserResponse().getValue() == null) {
+//                emitter.onError(new Throwable("User response is null"));
+//                return;
+//            }
             String email = getUserResponse().getValue().getEmail();
             DatabaseReference databaseReference = FirebaseDatabase.getInstance()
                     .getReference("search_history");
@@ -286,8 +290,11 @@ public class Repository {
                         }
                         emitter.onNext(result);
                         emitter.onComplete();
+//                        return;
                         break;
                     }
+//                    emitter.onNext(null);
+//                    emitter.onComplete();
                 }
 
                 @Override
