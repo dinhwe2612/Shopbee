@@ -15,6 +15,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class UserSearchViewModel extends BaseViewModel {
+    MutableLiveData<Boolean> isUserNotSignedIn = new MutableLiveData<>();
     MutableLiveData<List<String>> suggestions = new MutableLiveData<>();
     // category suggestions
     MutableLiveData<List<String>> searchHistory = new MutableLiveData<>();
@@ -53,6 +54,10 @@ public class UserSearchViewModel extends BaseViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
                             setIsLoading(false);
+//                            if (result == null) {
+//                                isUserNotSignedIn.setValue(true);
+//                                return;
+//                            }
                             searchHistory.setValue(result.getHistorySearch());
                             if (result.getHistorySearch().size() == 0) {
                                 shortSearchHistory.setValue(new ArrayList<>());
