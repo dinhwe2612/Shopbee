@@ -52,7 +52,45 @@ public class AmazonProductDetailsResponse {
             }
         }
         List<Category> category_path = new ArrayList<>();
-        HashMap<String, List<String>> product_variations = new HashMap<>();
+        public static class VariationDetail {
+            String asin;
+            String value;
+            Boolean is_available;
+            String photo;
+
+            public String getAsin() {
+                return asin;
+            }
+
+            public void setAsin(String asin) {
+                this.asin = asin;
+            }
+
+            public String getValue() {
+                return value;
+            }
+
+            public void setValue(String value) {
+                this.value = value;
+            }
+
+            public Boolean getIs_available() {
+                return is_available;
+            }
+
+            public void setIs_available(Boolean is_available) {
+                this.is_available = is_available;
+            }
+
+            public String getPhoto() {
+                return photo;
+            }
+
+            public void setPhoto(String photo) {
+                this.photo = photo;
+            }
+        }
+        HashMap<String, List<VariationDetail>> product_variations = new HashMap<>();
 
         public String getAsin() {
             return asin;
@@ -190,11 +228,11 @@ public class AmazonProductDetailsResponse {
             this.category_path = category_path;
         }
 
-        public HashMap<String, List<String>> getProduct_variations() {
+        public HashMap<String, List<VariationDetail>> getProduct_variations() {
             return product_variations;
         }
 
-        public void setProduct_variations(HashMap<String, List<String>> product_variations) {
+        public void setProduct_variations(HashMap<String, List<VariationDetail>> product_variations) {
             this.product_variations = product_variations;
         }
     }

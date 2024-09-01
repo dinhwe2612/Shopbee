@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,24 +25,6 @@ public class ProductDetailsDeserializer implements JsonDeserializer<AmazonProduc
         AmazonProductDetailsResponse.Data data = new AmazonProductDetailsResponse.Data();
         try {
             if (obj.has("data")) {
-                //            String asin;
-                //            String product_title;
-                //            String product_price;
-                //            String product_original_price;
-                //            String product_byline;
-                //            String product_star_rating;
-                //            String product_num_ratings;
-                //            String product_url;
-                //            String product_photo;
-                //            String product_availability;
-                //            List<String> about_product;
-                //            String product_description;
-                //            String product_information;
-                //            List<String> product_photos;
-                //            HashMap<String, String> product_details;
-                //            String customers_say;
-                //            List<ProductDetailsResponse.Data.Category> category_path;
-                //            HashMap<String, List<String>> product_variations;
                 JsonObject dataObj = obj.getAsJsonObject("data");
                 if (dataObj.has("asin") && !dataObj.get("asin").isJsonNull()) {
                     data.setAsin(dataObj.get("asin").getAsString());
@@ -112,7 +95,30 @@ public class ProductDetailsDeserializer implements JsonDeserializer<AmazonProduc
                     Log.d("category_path", data.getCategory_path().toString());
                 }
                 if (dataObj.has("product_variations") && !dataObj.get("product_variations").isJsonNull()) {
-                    data.setProduct_variations(context.deserialize(dataObj.get("product_variations"), HashMap.class));
+//                    data.setProduct_variations(context.deserialize(dataObj.get("product_variations"), HashMap.class));
+                    HashMap<String, List<AmazonProductDetailsResponse.Data.VariationDetail>> variations = new HashMap<>();
+                    for (String key : dataObj.get("product_variations").getAsJsonObject().keySet()) {
+                        List<AmazonProductDetailsResponse.Data.VariationDetail> variationDetails = new ArrayList<>();
+                        for (JsonElement variationElement : dataObj.get("product_variations").getAsJsonObject().get(key).getAsJsonArray()) {
+                            AmazonProductDetailsResponse.Data.VariationDetail variationDetail = new AmazonProductDetailsResponse.Data.VariationDetail();
+                            JsonObject variationObj = variationElement.getAsJsonObject();
+                            if (variationObj.has("asin") && !variationObj.get("asin").isJsonNull()) {
+                                variationDetail.setAsin(variationObj.get("asin").getAsString());
+                                Log.d("variation_name", variationDetail.getAsin());
+                            }
+                            if (variationObj.has("value") && !variationObj.get("value").isJsonNull()) {
+                                variationDetail.setValue(variationObj.get("value").getAsString());
+                                Log.d("variation_value", variationDetail.getValue());
+                            }
+                            if (variationObj.has("photo") && !variationObj.get("photo").isJsonNull()) {
+                                variationDetail.setPhoto(variationObj.get("photo").getAsString());
+                                Log.d("variation_photo", variationDetail.getPhoto());
+                            }
+                            variationDetails.add(variationDetail);
+                        }
+                        variations.put(key, variationDetails);
+                    }
+                    data.setProduct_variations(variations);
                     Log.d("variations", data.getProduct_variations().toString());
                 }
                 productDetails.setData(data);

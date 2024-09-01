@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.fragment.app.FragmentManager;
 
+import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.data.model.api.CountryRespone;
 import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryDialog;
 import com.example.shopbee.ui.common.dialogs.optiondialog.OptionDialog;
@@ -55,7 +56,7 @@ public class DialogsManager {
         changeCountryDialog dialog = changeCountryDialog.newInstance(this, old_country, listCountry);
         dialog.show(fragmentManager, "change_country_dialog");
     }
-    public void showOptionDialog(String name, String money, String urlImage, HashMap<String, List<String>> options) {
+    public void showOptionDialog(String name, String money, String urlImage, HashMap<String, List<AmazonProductDetailsResponse.Data.VariationDetail>> options) {
         OptionDialog dialog = OptionDialog.newInstance(this, name, money, urlImage, options);
         dialog.show(fragmentManager, "option_dialog");
     }

@@ -104,4 +104,6 @@ dependencies {
     // spark button
     implementation("com.github.varunest:sparkbutton:1.0.6")
 
+    // Flow Layout Manager
+    implementation("com.github.simonebortolin:FlowLayoutManager:1.8.0")
 }
