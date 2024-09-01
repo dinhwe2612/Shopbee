@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 
 import com.example.shopbee.R;
+import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.databinding.ProductDetailBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
@@ -39,6 +40,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter();
     AboutProductAdapter aboutProductAdapter = new AboutProductAdapter();
     RecommendedAdapter recommendedAdapter = new RecommendedAdapter();
+    AmazonProductDetailsResponse amazonProductDetailsResponse = new AmazonProductDetailsResponse();
     @Inject
     DialogsManager dialogsManager;
     @Override
@@ -73,6 +75,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
 
     void observeData() {
         viewModel.getProductDetails().observe(getViewLifecycleOwner(), productDetails -> {
+            amazonProductDetailsResponse = productDetails;
             // bind photo url
             List<String> imageUrls = new ArrayList<>();
             imageUrls.add(productDetails.getData().getProduct_photo());
@@ -129,13 +132,13 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     @Override
     public void addToBag() {
         Toast.makeText(getContext(), "Add to bag", Toast.LENGTH_SHORT).show();
-        dialogsManager.showOptionDialog("ADD TO BAG", "$11", "null", null);
+        dialogsManager.showOptionDialog("ADD TO BAG", amazonProductDetailsResponse.getData().getProduct_price(), amazonProductDetailsResponse.getData().getProduct_photo(), amazonProductDetailsResponse.getData().getProduct_variations());
     }
 
     @Override
     public void buyNow() {
         Toast.makeText(getContext(), "Buy now", Toast.LENGTH_SHORT).show();
-        dialogsManager.showOptionDialog("BUY NOW", "$11", "null", null);
+        dialogsManager.showOptionDialog("BUY NOW", amazonProductDetailsResponse.getData().getProduct_price(), amazonProductDetailsResponse.getData().getProduct_photo(), amazonProductDetailsResponse.getData().getProduct_variations());
     }
 
     @Override
