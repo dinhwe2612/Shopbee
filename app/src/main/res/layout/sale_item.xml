@@ -144,21 +144,21 @@
         </TextView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <com.varunest.sparkbutton.SparkButton
-        android:layout_below="@+id/constraintLayout"
-        android:layout_alignEnd="@+id/constraintLayout"
-        android:layout_marginTop="-20dp"
-        app:sparkbutton_primaryColor="@color/red"
-        app:sparkbutton_secondaryColor="@color/red_stroke"
-        app:sparkbutton_iconSize="20dp"
-        app:sparkbutton_inActiveImage="@drawable/add_to_favorites_icon"
-        app:sparkbutton_activeImage="@drawable/red_heart_icon"
-        android:id="@+id/add_to_favorites"
-        android:layout_gravity="end|bottom"
-        android:layout_width="36dp"
-        android:layout_height="36dp">
+<!--    <com.varunest.sparkbutton.SparkButton-->
+<!--        android:layout_below="@+id/constraintLayout"-->
+<!--        android:layout_alignEnd="@+id/constraintLayout"-->
+<!--        android:layout_marginTop="-20dp"-->
+<!--        app:sparkbutton_primaryColor="@color/red"-->
+<!--        app:sparkbutton_secondaryColor="@color/red_stroke"-->
+<!--        app:sparkbutton_iconSize="20dp"-->
+<!--        app:sparkbutton_inActiveImage="@drawable/add_to_favorites_icon"-->
+<!--        app:sparkbutton_activeImage="@drawable/red_heart_icon"-->
+<!--        android:id="@+id/add_to_favorites"-->
+<!--        android:layout_gravity="end|bottom"-->
+<!--        android:layout_width="36dp"-->
+<!--        android:layout_height="36dp">-->
 
-    </com.varunest.sparkbutton.SparkButton>
+<!--    </com.varunest.sparkbutton.SparkButton>-->
 
 <!--    <ImageView-->
 <!--        android:layout_width="wrap_content"-->
