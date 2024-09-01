@@ -71,6 +71,7 @@ public class Repository {
     public Observable<List<String>> getUserSearchHistory() {
         return null;
     }
+    
     public Observable<UserResponse> getUserInformation(String email) {
         return Observable.create(emitter -> {
             databaseReference = FirebaseDatabase.getInstance().getReference("user");
@@ -128,6 +129,8 @@ public class Repository {
                                     orderDetailResponseObj.setQuantity(orderDetailSnapshot.child("quantity").getValue(Integer.class));
                                     orderDetailResponseObj.setPrice(orderDetailSnapshot.child("price").getValue(String.class));
                                     orderDetailResponseObj.setUrlImage(orderDetailSnapshot.child("urlImage").getValue(String.class));
+                                    Map<String, String> variationMap = (Map<String, String>) orderDetailSnapshot.child("variation").getValue();
+                                    orderDetailResponseObj.setVariation(variationMap);
                                     orderDetailList.add(orderDetailResponseObj);
                                 }
                                 orderResponseObj.setOrder_detail(orderDetailList);

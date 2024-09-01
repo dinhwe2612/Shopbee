@@ -1,5 +1,7 @@
 package com.example.shopbee.ui.profile.adapter;
 
+import android.util.Pair;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,11 +32,39 @@ public class OrderDetailProductAdapter extends RecyclerView.Adapter<OrderDetailP
     @Override
     public void onBindViewHolder(@NonNull OrderDetailProductViewHolder holder, int position) {
         OrderDetailResponse orderDetailResponse = orderDetailResponseList.get(position);
-        holder.binding.price.setText(orderDetailResponse.getPrice());
+        holder.binding.price.setText(orderDetailResponse.getTotalPrice());
+        int sizeInPixels = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 104, holder.itemView.getContext().getResources().getDisplayMetrics());
         Glide.with(holder.itemView.getContext())
                 .load(orderDetailResponse.getUrlImage())
+                .override(sizeInPixels, sizeInPixels)
                 .into(holder.binding.productImage);
         holder.binding.quantity.setText(String.valueOf(orderDetailResponse.getQuantity()));
+        holder.binding.productName.setText(orderDetailResponse.getProduct_id());
+        List<Pair<String, String>> variation = orderDetailResponse.getVariation();
+        if (variation != null && !variation.isEmpty()) {
+            if (variation.size() == 1) {
+                holder.binding.variationText1.setVisibility(View.VISIBLE);
+                holder.binding.variation1.setVisibility(View.VISIBLE);
+                holder.binding.variationText2.setVisibility(View.GONE);
+                holder.binding.variation2.setVisibility(View.GONE);
+                holder.binding.variationText1.setText(variation.get(0).first + ":");
+                holder.binding.variation1.setText(variation.get(0).second);
+            }
+            if (variation.size() >= 2) {
+                holder.binding.variationText1.setVisibility(View.VISIBLE);
+                holder.binding.variation1.setVisibility(View.VISIBLE);
+                holder.binding.variationText2.setVisibility(View.VISIBLE);
+                holder.binding.variation2.setVisibility(View.VISIBLE);
+                holder.binding.variationText1.setText(variation.get(0).first + ":");
+                holder.binding.variation1.setText(variation.get(0).second);
+                holder.binding.variationText2.setText(variation.get(1).first + ":");
+                holder.binding.variation2.setText(variation.get(1).second);
+                if (variation.size() > 2) {
+                    holder.binding.moreText.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
 
     @Override
