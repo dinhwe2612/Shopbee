@@ -53,8 +53,9 @@
                 tools:listitem="@layout/variation_item"
                 android:layout_marginTop="5dp"/>
             <RelativeLayout
+                android:id="@+id/layout_quantity"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="55dp">
                 <TextView
                     android:id="@+id/quantity_title"
                     android:layout_width="wrap_content"
@@ -91,8 +92,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/black_light_theme"
-                    android:layout_marginBottom="20dp"/>
+                    android:background="@color/black_light_theme"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

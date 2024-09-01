@@ -9,8 +9,10 @@ import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +38,9 @@ public class OptionDialog extends DialogFragment implements VariationAdapter.Lis
     DialogsManager dialogsManager;
     OptionDialogBinding binding;
     VariationAdapter variationAdapter = new VariationAdapter(this);
+    String name;
+    String money;
+    String urlImage;
     int quantity = 1;
     public static OptionDialog newInstance(DialogsManager dialogsManager, String name, String money, String urlImage, HashMap<String, List<AmazonProductDetailsResponse.Data.VariationDetail>> options) {
         Bundle args = new Bundle();
@@ -53,6 +58,13 @@ public class OptionDialog extends DialogFragment implements VariationAdapter.Lis
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         if (getArguments() == null) throw new IllegalArgumentException("Arguments of OptionDialog cannot be null");
         binding = OptionDialogBinding.inflate(getLayoutInflater());
+        name = getArguments().getString("name");
+        money = getArguments().getString("money");
+        urlImage = getArguments().getString("urlImage");
+        Toast.makeText(requireContext(), name, Toast.LENGTH_SHORT).show();
+        if (name == "ADD FAVORITE") {
+            binding.layoutQuantity.setVisibility(View.GONE);
+        }
         bindData();
         setClickListener();
         Dialog dialog = new Dialog(requireContext());
@@ -67,10 +79,10 @@ public class OptionDialog extends DialogFragment implements VariationAdapter.Lis
         return dialog;
     }
     void bindData() {
-        binding.buttonText.setText(getArguments().getString("name"));
-        binding.currentPrice.setText(getArguments().getString("money"));
+        binding.buttonText.setText(name);
+        binding.currentPrice.setText(money);
         Disposable d = Observable.fromCallable(()->{
-            FutureTarget<Bitmap> futureTarget = Glide.with(requireContext()).asBitmap().load(getArguments().getString("urlImage")).submit();
+            FutureTarget<Bitmap> futureTarget = Glide.with(requireContext()).asBitmap().load(urlImage).submit();
             return futureTarget.get();
         }).subscribe(bitmap -> {
             binding.image.setImageBitmap(bitmap);
@@ -84,7 +96,7 @@ public class OptionDialog extends DialogFragment implements VariationAdapter.Lis
     }
     void setClickListener() {
         binding.button.setOnClickListener(v -> {
-            OptionEvent event = new OptionEvent(null, 1);
+            OptionEvent event = new OptionEvent(variationAdapter.getDecisions(), 1, name);
             dialogsManager.postEvent(event);
             dismiss();
         });

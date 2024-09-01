@@ -95,31 +95,32 @@ public class ProductDetailsDeserializer implements JsonDeserializer<AmazonProduc
                     Log.d("category_path", data.getCategory_path().toString());
                 }
                 if (dataObj.has("product_variations") && !dataObj.get("product_variations").isJsonNull()) {
-//                    data.setProduct_variations(context.deserialize(dataObj.get("product_variations"), HashMap.class));
                     HashMap<String, List<AmazonProductDetailsResponse.Data.VariationDetail>> variations = new HashMap<>();
-                    for (String key : dataObj.get("product_variations").getAsJsonObject().keySet()) {
-                        List<AmazonProductDetailsResponse.Data.VariationDetail> variationDetails = new ArrayList<>();
-                        for (JsonElement variationElement : dataObj.get("product_variations").getAsJsonObject().get(key).getAsJsonArray()) {
-                            AmazonProductDetailsResponse.Data.VariationDetail variationDetail = new AmazonProductDetailsResponse.Data.VariationDetail();
-                            JsonObject variationObj = variationElement.getAsJsonObject();
-                            if (variationObj.has("asin") && !variationObj.get("asin").isJsonNull()) {
-                                variationDetail.setAsin(variationObj.get("asin").getAsString());
-                                Log.d("variation_name", variationDetail.getAsin());
+                    if (dataObj.get("product_variations").isJsonObject()) {
+                        for (String key : dataObj.get("product_variations").getAsJsonObject().keySet()) {
+                            List<AmazonProductDetailsResponse.Data.VariationDetail> variationDetails = new ArrayList<>();
+                            for (JsonElement variationElement : dataObj.get("product_variations").getAsJsonObject().get(key).getAsJsonArray()) {
+                                AmazonProductDetailsResponse.Data.VariationDetail variationDetail = new AmazonProductDetailsResponse.Data.VariationDetail();
+                                JsonObject variationObj = variationElement.getAsJsonObject();
+                                if (variationObj.has("asin") && !variationObj.get("asin").isJsonNull()) {
+                                    variationDetail.setAsin(variationObj.get("asin").getAsString());
+                                    Log.d("variation_name", variationDetail.getAsin());
+                                }
+                                if (variationObj.has("value") && !variationObj.get("value").isJsonNull()) {
+                                    variationDetail.setValue(variationObj.get("value").getAsString());
+                                    Log.d("variation_value", variationDetail.getValue());
+                                }
+                                if (variationObj.has("photo") && !variationObj.get("photo").isJsonNull()) {
+                                    variationDetail.setPhoto(variationObj.get("photo").getAsString());
+                                    Log.d("variation_photo", variationDetail.getPhoto());
+                                }
+                                variationDetails.add(variationDetail);
                             }
-                            if (variationObj.has("value") && !variationObj.get("value").isJsonNull()) {
-                                variationDetail.setValue(variationObj.get("value").getAsString());
-                                Log.d("variation_value", variationDetail.getValue());
-                            }
-                            if (variationObj.has("photo") && !variationObj.get("photo").isJsonNull()) {
-                                variationDetail.setPhoto(variationObj.get("photo").getAsString());
-                                Log.d("variation_photo", variationDetail.getPhoto());
-                            }
-                            variationDetails.add(variationDetail);
+                            variations.put(key, variationDetails);
                         }
-                        variations.put(key, variationDetails);
+                        data.setProduct_variations(variations);
+                        Log.d("variations", data.getProduct_variations().toString());
                     }
-                    data.setProduct_variations(variations);
-                    Log.d("variations", data.getProduct_variations().toString());
                 }
                 productDetails.setData(data);
             }
