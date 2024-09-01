@@ -116,8 +116,8 @@
                 <androidx.cardview.widget.CardView
                     android:background="@drawable/rounded_white_rectangle"
                     app:cardCornerRadius="32dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:layout_marginEnd="1dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
@@ -125,11 +125,13 @@
                     <com.varunest.sparkbutton.SparkButton
                         android:id="@+id/spark_button"
                         android:layout_gravity="center"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        app:sparkbutton_activeImage="@drawable/add_to_favorites_icon"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        app:sparkbutton_primaryColor="@color/red_stroke"
+                        app:sparkbutton_secondaryColor="@color/red_stroke"
+                        app:sparkbutton_activeImage="@drawable/red_heart_icon"
                         app:sparkbutton_inActiveImage="@drawable/add_to_favorites_icon"
-                        app:sparkbutton_iconSize="22dp" />
+                        app:sparkbutton_iconSize="22dp"/>
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
             <TextView

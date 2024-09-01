@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.shopbee.data.model.OrderProductItem;
+import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.databinding.MyOrdersDeliveredItemBinding;
 import com.example.shopbee.databinding.OrderDetailsBinding;
@@ -32,7 +33,8 @@ public class OrderDetailProductAdapter extends RecyclerView.Adapter<OrderDetailP
     @Override
     public void onBindViewHolder(@NonNull OrderDetailProductViewHolder holder, int position) {
         OrderDetailResponse orderDetailResponse = orderDetailResponseList.get(position);
-        holder.binding.price.setText(orderDetailResponse.getTotalPrice());
+
+        holder.binding.price.setText(orderDetailResponse.getPrice());
         int sizeInPixels = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 104, holder.itemView.getContext().getResources().getDisplayMetrics());
         Glide.with(holder.itemView.getContext())
@@ -40,7 +42,7 @@ public class OrderDetailProductAdapter extends RecyclerView.Adapter<OrderDetailP
                 .override(sizeInPixels, sizeInPixels)
                 .into(holder.binding.productImage);
         holder.binding.quantity.setText(String.valueOf(orderDetailResponse.getQuantity()));
-        holder.binding.productName.setText(orderDetailResponse.getProduct_id());
+        holder.binding.productName.setText(orderDetailResponse.getProduct_name());
         List<Pair<String, String>> variation = orderDetailResponse.getVariation();
         if (variation != null && !variation.isEmpty()) {
             if (variation.size() == 1) {

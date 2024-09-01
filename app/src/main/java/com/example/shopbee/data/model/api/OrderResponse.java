@@ -1,5 +1,9 @@
 package com.example.shopbee.data.model.api;
 
+import android.util.Log;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class OrderResponse {
@@ -8,16 +12,20 @@ public class OrderResponse {
     private String status;
     private String order_number;
     private String tracking_number;
+    private String payment;
+    private String discount;
     private List<OrderDetailResponse> order_detail;
 
     public OrderResponse(){
     }
-    public OrderResponse(String date, int quantity, String status, String order_number, String tracking_number, List<OrderDetailResponse> order_detail) {
+    public OrderResponse(String date, int quantity, String status, String order_number, String tracking_number, String payment, String discount, List<OrderDetailResponse> order_detail) {
         this.date = date;
         this.quantity = quantity;
         this.status = status;
         this.order_number = order_number;
         this.tracking_number = tracking_number;
+        this.payment = payment;
+        this.discount = discount;
         this.order_detail = order_detail;
     }
 
@@ -68,14 +76,37 @@ public class OrderResponse {
     public void setOrder_detail(List<OrderDetailResponse> order_detail) {
         this.order_detail = order_detail;
     }
-    public String getTotal_amount(){
-        float total = 0;
-        for (OrderDetailResponse orderDetailResponse : order_detail){
+
+    public String getPayment() {
+        return payment;
+    }
+
+    public void setPayment(String payment) {
+        this.payment = payment;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public String getTotal_amount() {
+        BigDecimal total = BigDecimal.valueOf(10);
+        for (OrderDetailResponse orderDetailResponse : order_detail) {
             String numericString = orderDetailResponse.getPrice().replace("$", "");
-            float price = Float.parseFloat(numericString);
-            total += price * orderDetailResponse.getQuantity();
+            BigDecimal price = new BigDecimal(numericString);
+            total = total.add(price.multiply(BigDecimal.valueOf(orderDetailResponse.getQuantity())));
         }
-        return "$" + String.valueOf(total);
+        if (discount.isEmpty()) {
+            return total.setScale(2, RoundingMode.HALF_UP).toString() + "$";
+        }
+
+        BigDecimal discountAmount = new BigDecimal(this.discount.replace("$", ""));
+        BigDecimal finalAmount = total.subtract(discountAmount);
+
+        return finalAmount.setScale(2, RoundingMode.HALF_UP).toString() + "$";
     }
 }
 

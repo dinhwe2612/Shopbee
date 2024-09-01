@@ -121,11 +121,14 @@ public class Repository {
                                 orderResponseObj.setStatus(listOrderSnapshot.child("status").getValue(String.class));
                                 orderResponseObj.setOrder_number(listOrderSnapshot.child("order_number").getValue(String.class));
                                 orderResponseObj.setTracking_number(listOrderSnapshot.child("tracking_number").getValue(String.class));
+                                orderResponseObj.setPayment(listOrderSnapshot.child("payment").getValue(String.class));
+                                orderResponseObj.setDiscount(listOrderSnapshot.child("discount").getValue(String.class));
 
                                 List<OrderDetailResponse> orderDetailList = new ArrayList<>();
                                 for (DataSnapshot orderDetailSnapshot : listOrderSnapshot.child("order_detail").getChildren()) {
                                     OrderDetailResponse orderDetailResponseObj = new OrderDetailResponse();
                                     orderDetailResponseObj.setProduct_id(orderDetailSnapshot.child("product_id").getValue(String.class));
+                                    orderDetailResponseObj.setProduct_name(orderDetailSnapshot.child("product_name").getValue(String.class));
                                     orderDetailResponseObj.setQuantity(orderDetailSnapshot.child("quantity").getValue(Integer.class));
                                     orderDetailResponseObj.setPrice(orderDetailSnapshot.child("price").getValue(String.class));
                                     orderDetailResponseObj.setUrlImage(orderDetailSnapshot.child("urlImage").getValue(String.class));

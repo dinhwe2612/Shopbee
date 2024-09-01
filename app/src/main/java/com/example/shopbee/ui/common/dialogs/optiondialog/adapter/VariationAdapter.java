@@ -25,7 +25,7 @@ public class VariationAdapter extends RecyclerView.Adapter<VariationAdapter.Vari
     Listener listener;
     List<Pair<String, List<AmazonProductDetailsResponse.Data.VariationDetail>>> variations = new ArrayList<>();
     List<VariationDetailsAdapter> adapters = new ArrayList<>();
-    List<String> decisions = new ArrayList<>();
+    List<Pair<String, String>> decisions = new ArrayList<>();
     int cnt = 0;
     public VariationAdapter(Listener listener){
         this.listener = listener;
@@ -35,7 +35,7 @@ public class VariationAdapter extends RecyclerView.Adapter<VariationAdapter.Vari
         for(String key : variations.keySet()){
             this.variations.add(new Pair<>(key, variations.get(key)));
             adapters.add(new VariationDetailsAdapter(this, this.variations.size() - 1, variations.get(key)));
-            decisions.add("");
+            decisions.add(new Pair<>(key, ""));
         }
         notifyDataSetChanged();
     }
@@ -65,14 +65,14 @@ public class VariationAdapter extends RecyclerView.Adapter<VariationAdapter.Vari
 
     @Override
     public void onClick(int posPar, int posChild) {
-        if (decisions.get(posPar) == "") ++cnt;
-        decisions.set(posPar, variations.get(posPar).second.get(posChild).getValue());
+        if (decisions.get(posPar).second == "") ++cnt;
+        decisions.set(posPar, new Pair<>(decisions.get(posPar).first, variations.get(posPar).second.get(posChild).getValue()));
         if (cnt == variations.size()) {
 
         }
     }
 
-    List<String> getDecisions(){
+    public List<Pair<String, String>> getDecisions(){
         return decisions;
     }
 

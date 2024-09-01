@@ -8,20 +8,26 @@ import java.util.Map;
 
 public class OrderDetailResponse {
     private String product_id;
+    private String product_name;
     private String price;
     private int quantity;
     private String urlImage;
     private List<Pair<String, String>> variation;
     public OrderDetailResponse(){
     }
-    public OrderDetailResponse(String product_id, int quantity, String price, String urlImage) {
+    public OrderDetailResponse(String product_id, String product_name, int quantity, String price, String urlImage) {
         this.product_id = product_id;
+        this.product_name = product_name;
         this.quantity = quantity;
         this.price = price;
         this.urlImage = urlImage;
     }
     public void setProduct_id(String product_id) {
         this.product_id = product_id;
+    }
+
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
     }
 
     public void setPrice(String price) {
@@ -47,7 +53,9 @@ public class OrderDetailResponse {
     public String getProduct_id() {
         return product_id;
     }
-
+    public String getProduct_name() {
+        return product_name;
+    }
     public String getUrlImage() {
         return urlImage;
     }

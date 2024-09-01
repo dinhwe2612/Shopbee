@@ -101,7 +101,6 @@ public class LoginActivity extends BaseActivity<LoginBinding, LoginViewModel>
     @Override
     public void openMainActivity() {
         Intent intent = MainActivity.newIntent(this);
-        intent.putExtra("email", loginBinding.emailText.getText().toString());
         startActivity(intent);
     }
 
@@ -110,5 +109,4 @@ public class LoginActivity extends BaseActivity<LoginBinding, LoginViewModel>
         Intent intent = ForgotPasswordActivity.newIntent(this);
         startActivity(intent);
     }
-
 }
