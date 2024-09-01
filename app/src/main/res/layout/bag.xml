@@ -61,6 +61,7 @@
             style="@style/AccountEditText_Background"
             android:padding="1dp">
             <EditText
+                android:visibility="gone"
                 android:textAppearance="@style/Black_Medium_14dp"
                 android:layout_width="343dp"
                 android:layout_height="50dp"
@@ -68,6 +69,7 @@
                 android:hint="Shopbee0000"
                 style="@style/EditText"/>
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/name_checkmark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
