@@ -28,21 +28,4 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
                                 error -> getNavigator().handleError(error.getMessage()))
         );
     }
-    public void getUserResponse(String email){
-        setIsLoading(true);
-        getCompositeDisposable().add(getRepository().getUserInformation(email)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(userResponse -> setIsLoading(false),
-                        error -> getNavigator().handleError(error.getMessage())));
-
-    }
-    public void getListOrderResponse(String email){
-        setIsLoading(true);
-        getCompositeDisposable().add(getRepository().getListOrderInformation(email)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(userResponse -> setIsLoading(false),
-                        error -> getNavigator().handleError(error.getMessage())));
-    }
 }

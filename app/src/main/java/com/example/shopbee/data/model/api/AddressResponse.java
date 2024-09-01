@@ -6,15 +6,17 @@ public class AddressResponse {
     private String country;
     private String state;
     private String zip_code;
+    private Boolean def;
 
     public AddressResponse(){}
 
-    public AddressResponse(String address, String city, String state, String country, String zip_code) {
+    public AddressResponse(String address, String city, String state, String country, String zip_code, Boolean def) {
         this.address = address;
         this.city = city;
         this.state = state;
         this.country = country;
         this.zip_code = zip_code;
+        this.def = def;
     }
     public String getAddress() {return address;}
     public String getCity() {
@@ -45,7 +47,15 @@ public class AddressResponse {
         this.zip_code = zip_code;
     }
 
+    public Boolean getDef() {
+        return def;
+    }
+
+    public void setDef(Boolean def) {
+        this.def = def;
+    }
+
     public String toString() {
-        return address + " " + city + " " + state + zip_code + " " + country;
+        return address + " ," + city + " ," + zip_code + " ," + state +  " ," + country;
     }
 }

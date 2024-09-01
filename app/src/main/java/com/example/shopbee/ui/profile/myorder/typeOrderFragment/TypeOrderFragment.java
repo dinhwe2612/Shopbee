@@ -97,6 +97,7 @@ public class TypeOrderFragment extends BaseFragment<TypeOrderFragmentBinding, Ty
     public void navigateToOrderDetailFragment(int position) {
         Bundle bundle = new Bundle();
         bundle.putInt("position", position);
+        bundle.putString("status", statusOfOrder);
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.myOrderDetailFragment, bundle);
     }

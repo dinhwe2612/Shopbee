@@ -11,10 +11,12 @@ public class UserResponse {
     private String dob;
     private String full_name;
     private List<AddressResponse> address = new ArrayList<>();
+    private List<PaymentResponse> payment = new ArrayList<>();
 
-    public UserResponse(){}
+    public UserResponse() {
+    }
 
-    public UserResponse(String user_name, String phone, String email, String country, String dob, String full_name, List<AddressResponse> address) {
+    public UserResponse(String user_name, String phone, String email, String country, String dob, String full_name, List<AddressResponse> address, List<PaymentResponse> payment) {
         this.user_name = user_name;
         this.phone = phone;
         this.email = email;
@@ -22,6 +24,7 @@ public class UserResponse {
         this.dob = dob;
         this.full_name = full_name;
         this.address = address;
+        this.payment = payment;
     }
 
     public String getUser_name() {
@@ -78,5 +81,13 @@ public class UserResponse {
 
     public void setAddress(List<AddressResponse> address) {
         this.address = address;
+    }
+
+    public List<PaymentResponse> getPayment() {
+        return payment;
+    }
+
+    public void setPayment(List<PaymentResponse> payment) {
+        this.payment = payment;
     }
 }

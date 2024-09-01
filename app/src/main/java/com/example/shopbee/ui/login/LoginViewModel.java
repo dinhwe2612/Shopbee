@@ -25,6 +25,7 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
         Log.d("LoginViewModel", "login called with email: " + email + ", password: " + password);
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                getDataResponse(email);
                 getNavigator().openMainActivity();
             } else {
                 getNavigator().handleError(Objects.requireNonNull(task.getException()).getMessage());
@@ -41,5 +42,17 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
                         getNavigator().handleError(Objects.requireNonNull(task.getException()).getMessage());
                     }
                 });
+    }
+    public void getDataResponse(String email){
+        setIsLoading(true);
+        getCompositeDisposable().add(getRepository().getUserInformation(email)
+                .subscribeOn(Schedulers.trampoline())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe());
+        getCompositeDisposable().add(getRepository().getListOrderInformation(email)
+                .subscribeOn(Schedulers.trampoline())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(userResponse -> setIsLoading(false),
+                        error -> getNavigator().handleError(error.getMessage())));
     }
 }
