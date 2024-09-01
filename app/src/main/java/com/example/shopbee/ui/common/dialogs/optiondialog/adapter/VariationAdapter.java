@@ -35,6 +35,7 @@ public class VariationAdapter extends RecyclerView.Adapter<VariationAdapter.Vari
         for(String key : variations.keySet()){
             this.variations.add(new Pair<>(key, variations.get(key)));
             adapters.add(new VariationDetailsAdapter(this, this.variations.size() - 1, variations.get(key)));
+            decisions.add("");
         }
         notifyDataSetChanged();
     }
@@ -64,7 +65,7 @@ public class VariationAdapter extends RecyclerView.Adapter<VariationAdapter.Vari
 
     @Override
     public void onClick(int posPar, int posChild) {
-        if (decisions.get(posPar) == null) ++cnt;
+        if (decisions.get(posPar) == "") ++cnt;
         decisions.set(posPar, variations.get(posPar).second.get(posChild).getValue());
         if (cnt == variations.size()) {
 
