@@ -20,7 +20,7 @@ import java.util.List;
 
 public class VariationAdapter extends RecyclerView.Adapter<VariationAdapter.VariationViewHolder> implements VariationDetailsAdapter.Listener{
     public interface Listener{
-        void fullDetails();
+        void setValid(boolean valid);
     }
     Listener listener;
     List<Pair<String, List<AmazonProductDetailsResponse.Data.VariationDetail>>> variations = new ArrayList<>();
@@ -38,6 +38,15 @@ public class VariationAdapter extends RecyclerView.Adapter<VariationAdapter.Vari
             decisions.add(new Pair<>(key, ""));
         }
         notifyDataSetChanged();
+        updateValid();
+    }
+    void updateValid() {
+        int sz = getItemCount();
+        if (cnt == sz) {
+            listener.setValid(true);
+        } else {
+            listener.setValid(false);
+        }
     }
     @NonNull
     @Override
@@ -64,12 +73,15 @@ public class VariationAdapter extends RecyclerView.Adapter<VariationAdapter.Vari
     }
 
     @Override
-    public void onClick(int posPar, int posChild) {
-        if (decisions.get(posPar).second == "") ++cnt;
-        decisions.set(posPar, new Pair<>(decisions.get(posPar).first, variations.get(posPar).second.get(posChild).getValue()));
-        if (cnt == variations.size()) {
-
+    public void onClick(int posPar, int posChild, boolean isUnselected) {
+        if (isUnselected) {
+            --cnt;
+            decisions.set(posPar, new Pair<>(decisions.get(posPar).first, ""));
+        } else {
+            if (decisions.get(posPar).second == "") ++cnt;
+            decisions.set(posPar, new Pair<>(decisions.get(posPar).first, variations.get(posPar).second.get(posChild).getValue()));
         }
+        updateValid();
     }
 
     public List<Pair<String, String>> getDecisions(){

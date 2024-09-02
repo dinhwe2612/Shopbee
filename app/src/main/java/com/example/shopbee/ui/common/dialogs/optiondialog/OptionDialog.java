@@ -41,6 +41,7 @@ public class OptionDialog extends DialogFragment implements VariationAdapter.Lis
     String name;
     String money;
     String urlImage;
+    boolean valid = false;
     int quantity = 1;
     public static OptionDialog newInstance(DialogsManager dialogsManager, String name, String money, String urlImage, HashMap<String, List<AmazonProductDetailsResponse.Data.VariationDetail>> options) {
         Bundle args = new Bundle();
@@ -96,9 +97,11 @@ public class OptionDialog extends DialogFragment implements VariationAdapter.Lis
     }
     void setClickListener() {
         binding.button.setOnClickListener(v -> {
-            OptionEvent event = new OptionEvent(variationAdapter.getDecisions(), 1, name);
-            dialogsManager.postEvent(event);
-            dismiss();
+            if (valid) {
+                OptionEvent event = new OptionEvent(variationAdapter.getDecisions(), 1, name);
+                dialogsManager.postEvent(event);
+                dismiss();
+            }
         });
         binding.minus.setOnClickListener(v -> {
             if (quantity > 1) {
@@ -120,7 +123,11 @@ public class OptionDialog extends DialogFragment implements VariationAdapter.Lis
     }
 
     @Override
-    public void fullDetails() {
-
+    public void setValid(boolean valid) {
+        this.valid = valid;
+        if (valid) binding.button.setCardBackgroundColor(getResources().getColor(R.color.red));
+        else {
+            binding.button.setCardBackgroundColor(getResources().getColor(R.color.gray));
+        }
     }
 }
