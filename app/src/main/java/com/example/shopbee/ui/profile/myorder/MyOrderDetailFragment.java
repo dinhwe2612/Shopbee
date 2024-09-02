@@ -1,6 +1,7 @@
 package com.example.shopbee.ui.profile.myorder;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +65,6 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
         status = getArguments().getString("status");
         loadRealtimeData();
         orderResponse = listOrderResponse.getList_order().get(position);
-
         binding.orderNumber.setText(orderResponse.getOrder_number());
         binding.date.setText(orderResponse.getDate());
         binding.trackingNumber.setText(orderResponse.getTracking_number());
@@ -76,10 +76,12 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                 binding.shippingAddress.setText(addressResponse.toString());
             }
         }
+        Log.d("TAG", "onViewCreated: " + orderResponse.getPayment());
         switch (orderResponse.getPayment()){
             case "shopbee":
                 binding.isShopbeePay.setVisibility(View.VISIBLE);
                 binding.paymentMethodImage.setBackgroundResource(R.drawable.wallet);
+                break;
             case "visa":
                 binding.isShopbeePay.setVisibility(View.GONE);
                 binding.paymentMethodImage.setBackgroundResource(R.drawable.visa);
@@ -88,6 +90,7 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                         binding.paymentMethod.setText("**** **** **** " + paymentResponse.getNumber().substring(12, 15));
                     }
                 }
+                break;
             case "master":
                 binding.isShopbeePay.setVisibility(View.GONE);
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) binding.paymentMethodImage.getLayoutParams();
@@ -100,6 +103,7 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                         binding.paymentMethod.setText("**** **** **** " + paymentResponse.getNumber().substring(12, 15));
                     }
                 }
+                break;
         }
         if (orderResponse.getDiscount().isEmpty()){
             binding.discountLayout.setVisibility(View.GONE);
@@ -111,12 +115,15 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
             case "delivered":
                 binding.reorder.setText("Reorder");
                 binding.leaveFeedback.setText("Leave feedback");
+                break;
             case "processing":
                 binding.reorder.setText("Cancel");
                 binding.leaveFeedback.setText("Go to shopping");
+                break;
             case "cancelled":
                 binding.reorder.setText("Reorder");
                 binding.leaveFeedback.setText("Go to shopping");
+                break;
         }
         orderDetailProductAdapter = new OrderDetailProductAdapter(orderResponse.getOrder_detail());
         recyclerView.setAdapter(orderDetailProductAdapter);

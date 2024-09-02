@@ -106,4 +106,7 @@ dependencies {
 
     // Flow Layout Manager
     implementation("com.github.simonebortolin:FlowLayoutManager:1.8.0")
+
+    //CheckBox
+    implementation("com.github.animsh:AnimatedCheckBox:1.0.0")
 }
