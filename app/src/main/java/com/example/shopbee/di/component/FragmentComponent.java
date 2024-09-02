@@ -14,6 +14,7 @@ import com.example.shopbee.ui.profile.myorder.MyOrderDetailFragment;
 import com.example.shopbee.ui.profile.myorder.MyOrderFragment;
 import com.example.shopbee.ui.profile.myorder.typeOrderFragment.TypeOrderFragment;
 import com.example.shopbee.ui.profile.setting.SettingsFragment;
+import com.example.shopbee.ui.review.ReviewFragment;
 import com.example.shopbee.ui.shop.ShopFragment;
 import com.example.shopbee.ui.search.SearchFragment;
 import com.example.shopbee.ui.user_search.UserSearchFragment;
@@ -37,4 +38,5 @@ public interface FragmentComponent {
     void inject(TypeOrderFragment typeOrderFragment);
     void inject(CheckoutFragment checkoutFragment);
     void inject(PaymentFragment paymentFragment);
+    void inject(ReviewFragment reviewFragment);
 }

@@ -39,6 +39,9 @@
                         android:text="LIME"
                         style="@style/Gray_Regular_11dp"/>
                     <TextView
+                        android:textAlignment="viewStart"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:id="@+id/item_favorite_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -171,11 +174,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
         <ImageView
+            android:id="@+id/delete_from_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/delete_icon"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginTop="3dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

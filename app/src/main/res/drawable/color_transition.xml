@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <!-- Forward transition from white_light_theme to loading_background -->
+    <item android:drawable="@color/white_light_theme" android:duration="280" />
+    <item android:drawable="@color/loading_background" android:duration="280" />
+
+    <!-- Reverse transition from loading_background back to white_light_theme -->
+    <item android:drawable="@color/loading_background" android:duration="250" />
+    <item android:drawable="@color/white_light_theme" android:duration="250" />
+</animation-list>
+

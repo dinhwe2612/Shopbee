@@ -61,7 +61,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="June 5, 2019"
+                android:text="Reviewed in the United States on December 29, 2023"
+                android:textAlignment="viewEnd"
                 style="@style/Gray_Regular_11dp"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -69,6 +70,7 @@
                 android:layout_marginTop="5dp"
                 android:maxLines="6"
                 android:ellipsize="end"
+                android:textAlignment="viewStart"
                 android:text="The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!The dress is great!"
                 style="@style/Black_Regular_14dp"/>
             <TextView

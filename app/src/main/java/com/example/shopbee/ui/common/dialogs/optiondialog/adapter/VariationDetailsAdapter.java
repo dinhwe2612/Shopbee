@@ -15,7 +15,7 @@ import java.util.List;
 
 public class VariationDetailsAdapter extends RecyclerView.Adapter<VariationDetailsAdapter.VariationDetailsViewHolder> {
     interface Listener {
-        void onClick(int posPar, int posChild);
+        void onClick(int posPar, int posChild, boolean isUnselected);
     }
     Listener listener;
     List<AmazonProductDetailsResponse.Data.VariationDetail> variationDetails = new ArrayList<>();
@@ -43,9 +43,15 @@ public class VariationDetailsAdapter extends RecyclerView.Adapter<VariationDetai
         holder.binding.button.setOnClickListener(v->{
             int oldPos = curPos;
             curPos = position;
-            listener.onClick(posPar, curPos);
-            notifyItemChanged(oldPos);
-            notifyItemChanged(curPos);
+            boolean isUnselected = (oldPos == curPos);
+            listener.onClick(posPar, curPos, isUnselected);
+            if (isUnselected) {
+                curPos = -1;
+                notifyItemChanged(oldPos);
+            } else {
+                notifyItemChanged(oldPos);
+                notifyItemChanged(curPos);
+            }
         });
     }
 

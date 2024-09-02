@@ -60,7 +60,7 @@ public class BagViewModel extends BaseViewModel<BagNavigator> {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(result -> {
-                                    setIsLoading(false);
+//                                    setIsLoading(false);
                                     List<String> asins = new ArrayList<>();
                                     List<List<Pair<String, String>>> variations = new ArrayList<>();
                                     List<Integer> quantities = new ArrayList<>();
@@ -85,6 +85,10 @@ public class BagViewModel extends BaseViewModel<BagNavigator> {
         // get information from Amazon asin
         // reload adapter many times?
         List<AmazonProductDetailsResponse> products = new ArrayList<>();
+        if (products.size() == bagLists.size()) {
+            setIsLoading(false);
+            return;
+        }
         for (String asin : bagLists) {
             HashMap<String, String> queryMap = new HashMap<>();
             queryMap.put("asin", asin);
@@ -94,12 +98,14 @@ public class BagViewModel extends BaseViewModel<BagNavigator> {
                     .subscribe(result -> {
                         products.add(result);
                         bagProducts.setValue(products);
+                        if (products.size() == bagLists.size()) {
+                            setIsLoading(false);
+                        }
                     }, error -> {
                         Log.e("syncBagProducts", "error: " + error.getMessage());
                     })
             );
         }
-        setIsLoading(false);
     }
     public void syncPromoCodes() {
         // promo code : list of user possessing

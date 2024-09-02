@@ -29,19 +29,20 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHolder> {
     public interface OnItemClickListener {
         void onItemClick(String asin);
+        void onItemDeleteClick(String asin, List<Pair<String, String>> variation);
     }
-    ProductAdapter.OnItemClickListener onItemClickListener;
+    OnItemClickListener onItemClickListener;
 
-    public void setOnItemClickListener(ProductAdapter.OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private List<AmazonProductDetailsResponse> products;
     List<List<Pair<String, String>>> variations;
-    public FavoriteAdapter(List<AmazonProductDetailsResponse> products) {
-        this.products = products;
-    }
+//    public FavoriteAdapter(List<AmazonProductDetailsResponse> products) {
+//        this.products = products;
+//    }
     public void setProducts(List<AmazonProductDetailsResponse> products) {
         this.products = products;
     }
@@ -83,6 +84,15 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
             this.binding = binding;
         }
         public void bindView(int position) {
+            binding.deleteFromList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onItemDeleteClick(products.get(position).getData().getAsin(), variations.get(position));
+                    products.remove(position);
+                    variations.remove(position);
+                    notifyItemRemoved(position);
+                }
+            });
             binding.itemFavoriteName.setText(products.get(position).getData().getProduct_title());
             if (products.get(position).getData().getProduct_star_rating() != null) {
                 binding.simpleRatingBar.setRating(Float.parseFloat(products.get(position).getData().getProduct_star_rating()));

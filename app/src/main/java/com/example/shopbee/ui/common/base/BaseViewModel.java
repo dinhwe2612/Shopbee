@@ -1,6 +1,7 @@
 package com.example.shopbee.ui.common.base;
 
 import androidx.databinding.ObservableBoolean;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.shopbee.data.Repository;
@@ -11,6 +12,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public abstract class BaseViewModel<N> extends ViewModel {
     final Repository repository;
+    MutableLiveData<Boolean> inProgress = new MutableLiveData<>();
     final ObservableBoolean loading = new ObservableBoolean();
     final CompositeDisposable disposable;
     WeakReference<N> navigator;
@@ -34,7 +36,16 @@ public abstract class BaseViewModel<N> extends ViewModel {
     }
     public void setIsLoading(boolean isLoading) {
         loading.set(isLoading);
+        inProgress.setValue(isLoading);
     }
+
+//    public void setInProgress(boolean isLoading) {
+//        inProgress.setValue(isLoading);
+//    }
+    public MutableLiveData<Boolean> getInProgress() {
+        return inProgress;
+    }
+
     public N getNavigator() {
         return navigator.get();
     }

@@ -82,7 +82,47 @@
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/grid_view_icon" />
+                android:src="@drawable/grid_view_icon" />
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/loading"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="343dp"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/loading1"
+            android:background="@drawable/color_transition"
+            android:layout_width="343dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="116dp">
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/loading2"
+            android:background="@drawable/color_transition"
+            android:layout_width="343dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="116dp">
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/loading3"
+            android:background="@drawable/color_transition"
+            android:layout_width="343dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="116dp">
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/loading4"
+            android:background="@drawable/color_transition"
+            android:layout_width="343dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="116dp">
+
         </RelativeLayout>
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView

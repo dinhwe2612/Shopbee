@@ -109,10 +109,4 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             }
         }
     }
-
-    @Override
-    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        compositeDisposable.clear();
-    }
 }

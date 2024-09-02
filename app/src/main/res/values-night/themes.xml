@@ -406,6 +406,7 @@
     <color name="Background_EditText">@color/black</color>
     <color name="white_background">@color/black_background</color>
     <color name="white_light_theme">@color/black</color>
+    <color name="loading_background">@color/dark_gray_background</color>
     <color name="black_light_theme">@color/white</color>
 
     <style name="CategoriesUnselected">

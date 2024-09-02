@@ -109,4 +109,6 @@ dependencies {
 
     //CheckBox
     implementation("com.github.animsh:AnimatedCheckBox:1.0.0")
+    // Show more text
+    implementation("com.github.mahimrocky:ShowMoreText:1.0.2")
 }

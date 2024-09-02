@@ -91,7 +91,28 @@ public class ProductDetailsDeserializer implements JsonDeserializer<AmazonProduc
                     Log.d("customers_say", data.getCustomers_say());
                 }
                 if (dataObj.has("category_path") && !dataObj.get("category_path").isJsonNull()) {
-                    data.setCategory_path(context.deserialize(dataObj.get("category_path"), List.class));
+//                    data.setCategory_path(context.deserialize(dataObj.get("category_path"), List.class));
+                    if (dataObj.get("category_path").isJsonArray()) {
+                        List<AmazonProductDetailsResponse.Data.Category> categoryPath = new ArrayList<>();
+                        for (JsonElement element : dataObj.get("category_path").getAsJsonArray()) {
+                            AmazonProductDetailsResponse.Data.Category category = new AmazonProductDetailsResponse.Data.Category();
+                            JsonObject categoryObj = element.getAsJsonObject();
+                            if (categoryObj.has("name") && !categoryObj.get("name").isJsonNull()) {
+                                category.setName(categoryObj.get("name").getAsString());
+                                Log.d("category_name", category.getName());
+                            }
+                            if (categoryObj.has("link") && !categoryObj.get("link").isJsonNull()) {
+                                category.setLink(categoryObj.get("link").getAsString());
+                                Log.d("category_url", category.getLink());
+                            }
+                            if (categoryObj.has("id") && !categoryObj.get("id").isJsonNull()) {
+                                category.setId(categoryObj.get("id").getAsString());
+                                Log.d("category_photo", category.getId());
+                            }
+                            categoryPath.add(category);
+                        }
+                        data.setCategory_path(categoryPath);
+                    }
                     Log.d("category_path", data.getCategory_path().toString());
                 }
                 if (dataObj.has("product_variations") && !dataObj.get("product_variations").isJsonNull()) {

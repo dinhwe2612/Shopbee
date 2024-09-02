@@ -17,12 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdapter.ProductDetailViewHolder> {
-    List<Pair<String, String>> productDetails;
-    public ProductDetailAdapter() {
-        productDetails = new ArrayList<>();
-    }
+    List<Pair<String, String>> productDetails = new ArrayList<>();
     public void setProductDetail(List<Pair<String, String>> productDetail) {
         this.productDetails = productDetail;
+        notifyDataSetChanged();
     }
     @NonNull
     @Override

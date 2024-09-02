@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.shopbee.data.model.api.AmazonDealsResponse;
 import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
+import com.example.shopbee.data.model.api.AmazonProductReviewResponse;
 import com.example.shopbee.data.model.api.AmazonSearchResponse;
 import com.example.shopbee.data.model.api.ListOrderResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
@@ -397,7 +398,10 @@ public class Repository {
         FAVORITE,
         BAG
     }
-    public void saveUserVariation(UserVariation userVariation, String asin, List<Pair<String, String>> variation) {
+    public void saveUserVariation(UserVariation userVariation, String asin, List<Pair<String, String>> variation, Integer quantity) {
+        if (isVariationInUserPick(UserVariation.FAVORITE, asin, variation).blockingFirst()) {
+            return;
+        }
         databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
         String userEmail = getUserResponse().getValue().getEmail();
         Query query = databaseReference.orderByChild("email").equalTo(userEmail);
@@ -410,30 +414,34 @@ public class Repository {
                 if (!snapshot.exists()) {
                     userReference = databaseReference.push();
                     userReference.setValue(userMap);
-                    HashMap<String, Object> variation = new HashMap<>();
-                    variation.put("asin", asin);
-                    variation.put("variation", variation);
-                    variation.put("quantity", 1);
+                    HashMap<String, Object> variations = new HashMap<>();
+                    variations.put("asin", asin);
+                    variations.put("variation", variation);
+                    if (userVariation == UserVariation.BAG) {
+                        variations.put("quantity", quantity);
+                    }
                     if (userVariation == UserVariation.FAVORITE) {
-                        userReference.child("favorite").push().setValue(variation);
+                        userReference.child("favorite").push().setValue(variations);
                     }
                     else {
-                        userReference.child("bag").push().setValue(variation);
+                        userReference.child("bag").push().setValue(variations);
                     }
 
                 }
                 else {
                     for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                         userReference = userSnapshot.getRef();
-                        HashMap<String, Object> variation = new HashMap<>();
-                        variation.put("asin", asin);
-                        variation.put("variation", variation);
-                        variation.put("quantity", 1);
+                        HashMap<String, Object> variations = new HashMap<>();
+                        variations.put("asin", asin);
+                        variations.put("variation", variation);
+                        if (userVariation == UserVariation.BAG) {
+                            variations.put("quantity", quantity);
+                        }
                         if (userVariation == UserVariation.FAVORITE) {
-                            userReference.child("favorite").push().setValue(variation);
+                            userReference.child("favorite").push().setValue(variations);
                         }
                         else {
-                            userReference.child("bag").push().setValue(variation);
+                            userReference.child("bag").push().setValue(variations);
                         }
                     }
 
@@ -578,7 +586,11 @@ public class Repository {
                     // Iterate through user data
                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                         DataSnapshot variationTypeSnapshot;
-                        variationTypeSnapshot = userSnapshot.child("bag");
+                        if (userVariation == UserVariation.FAVORITE) {
+                            variationTypeSnapshot = userSnapshot.child("favorite");
+                        } else {
+                            variationTypeSnapshot = userSnapshot.child("bag");
+                        }
                         for (DataSnapshot variationSnapshot : variationTypeSnapshot.getChildren()) {
                             if (!variationSnapshot.child("asin").getValue(String.class).equals(asin)) {
                                 break;
@@ -663,5 +675,8 @@ public class Repository {
                 // Handle any errors that occur during query
             }
         });
+    }
+    public Observable<AmazonProductReviewResponse> getAmazonProductReview(HashMap<String, String> map) {
+        return amazonApiService.getAmazonProductReviews(map);
     }
 }

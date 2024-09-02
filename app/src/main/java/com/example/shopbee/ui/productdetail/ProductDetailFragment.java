@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.productdetail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -15,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.R;
 import com.example.shopbee.data.Repository;
@@ -33,6 +35,7 @@ import com.example.shopbee.utils.NetworkUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -42,7 +45,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     ProductPhotosAdapter productPhotosAdapter = new ProductPhotosAdapter();
     ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter();
     AboutProductAdapter aboutProductAdapter = new AboutProductAdapter();
-    RecommendedAdapter recommendedAdapter = new RecommendedAdapter();
+    RecommendedAdapter recommendedAdapter;
     AmazonProductDetailsResponse amazonProductDetailsResponse = new AmazonProductDetailsResponse();
     @Inject
     DialogsManager dialogsManager;
@@ -88,27 +91,42 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
             imageUrls.addAll(productDetails.getData().getProduct_photos());
             imageUrls.remove(null);
             productPhotosAdapter.setUrlImages(imageUrls);
+            binding.totalPhotos.setText("/" + imageUrls.size());
             // bind product details
             List<Pair<String, String>> productDetailsList = new ArrayList<>();
             HashMap<String, String> productDetailsMap = productDetails.getData().getProduct_details();
             for (String key : productDetailsMap.keySet()) {
                 productDetailsList.add(new Pair<>(key, productDetailsMap.get(key)));
+                Log.d("productDetails", key + " " + productDetailsMap.get(key));
             }
             productDetailAdapter.setProductDetail(productDetailsList);
             // bind about product
             aboutProductAdapter.setAbouts(productDetails.getData().getAbout_product());
             // bind product name
             binding.productName.setText(productDetails.getData().getProduct_title());
+            binding.productName.setShowingLine(2);
+            binding.productName.addShowMoreText("");
+            binding.productName.addShowLessText("");
+            binding.searchBar.setText(productDetails.getData().getProduct_title());
             // bind description
             binding.descriptionContent.setText(productDetails.getData().getProduct_description());
+            binding.descriptionContent.addShowMoreText("");
+            binding.descriptionContent.addShowLessText("");
+            binding.descriptionContent.setShowingLine(3);
             // bind number of reviews
-            binding.numRatings.setText("(" + productDetails.getData().getProduct_num_ratings() + ")");
-            binding.numGlobalRatings.setText(productDetails.getData().getProduct_num_ratings() + " global ratings");
+            Integer numReviews = productDetails.getData().getProduct_num_ratings();
+            if (numReviews == null) numReviews = 0;
+            binding.numRatings.setText("(" + numReviews + ")");
+            binding.numGlobalRatings.setText(numReviews + " global ratings");
             // bind customers say
-            binding.customersayContent.setText(productDetails.getData().getCustomers_say());
+            String customersSay = productDetails.getData().getCustomers_say();
+            if (customersSay == null) binding.aigenerated.setVisibility(View.GONE);
+            else binding.customersayContent.setText(customersSay);
             // bind rating stars
-            binding.ratingOverall.setText(productDetails.getData().getProduct_star_rating());
-            binding.ratingBar.setRating(Float.parseFloat(productDetails.getData().getProduct_star_rating()));
+            String ratingStars = productDetails.getData().getProduct_star_rating();
+            if (ratingStars == null) ratingStars = "0";
+            binding.ratingOverall.setText(ratingStars);
+            binding.ratingBar.setRating(Float.parseFloat(ratingStars));
             // bind price
             if (productDetails.getData().getProduct_original_price() == null) {
                 binding.currentPrice.setText(productDetails.getData().getProduct_price());
@@ -116,6 +134,16 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
                 binding.currentPrice.setText(productDetails.getData().getProduct_price());
                 binding.originalPrice.setText(productDetails.getData().getProduct_original_price());
             }
+            // sync recommended products
+            HashMap<String, String> categoryMap = new HashMap<>();
+            String categories = productDetails.getData().getCategory_path().stream()
+                    .map(AmazonProductDetailsResponse.Data.Category::getId)
+                    .collect(Collectors.joining(","));
+            categoryMap.put("category_id", categories);
+            viewModel.syncProductByCategory(categoryMap);
+        });
+        viewModel.getProductByCategory().observe(getViewLifecycleOwner(), productByCategory -> {
+            recommendedAdapter.setProducts(productByCategory.getData().getProducts());
         });
     }
 
@@ -124,6 +152,15 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
         binding.prodPhotosRCV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.prodPhotosRCV.setAdapter(productPhotosAdapter);
         new PagerSnapHelper().attachToRecyclerView(binding.prodPhotosRCV);
+        binding.prodPhotosRCV.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int position = layoutManager.findFirstVisibleItemPosition();
+                binding.curPhoto.setText((position + 1)+"");
+            }
+        });
         // product details
         binding.pddetailsRCV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         binding.pddetailsRCV.setAdapter(productDetailAdapter);
@@ -131,8 +168,10 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
         binding.aboutProductRCV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         binding.aboutProductRCV.setAdapter(aboutProductAdapter);
         // recommended
+        recommendedAdapter = new RecommendedAdapter(getContext());
         binding.recommendRCV.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.recommendRCV.setAdapter(recommendedAdapter);
+
     }
 
     @Override
@@ -160,7 +199,13 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
 
     @Override
     public void shareProduct() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, amazonProductDetailsResponse.getData().getProduct_url());
+        sendIntent.setType("text/plain");
 
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        startActivity(sendIntent);
     }
 
     @Override
@@ -184,7 +229,10 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
         if (event instanceof OptionEvent) {
             OptionEvent optionEvent = (OptionEvent) event;
             if (optionEvent.getName() == "ADD FAVORITE") {
-                viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, optionEvent.getOptions());
+                viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, optionEvent.getOptions(), null);
+            }
+            else if (optionEvent.getName() == "ADD TO BAG") {
+                viewModel.getRepository().saveUserVariation(Repository.UserVariation.BAG, asin, optionEvent.getOptions(), optionEvent.getQuantity());
             }
         }
     }

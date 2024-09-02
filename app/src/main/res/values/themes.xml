@@ -434,6 +434,7 @@
     <color name="Black_Icon">@color/black</color>
     <color name="Background_EditText">@color/white</color>
     <color name="white_light_theme">@color/white</color>
+    <color name="loading_background">@color/gray_background</color>
     <color name="black_light_theme">@color/black</color>
 
     <style name="CollapsedAppBar" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -484,4 +485,5 @@
         <item name="android:windowEnterAnimation">@anim/slide_in_animation</item>
         <item name="android:windowExitAnimation">@anim/slide_out_animation</item>
     </style>
+
 </resources>

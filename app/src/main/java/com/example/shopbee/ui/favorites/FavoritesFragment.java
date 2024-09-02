@@ -1,6 +1,8 @@
 package com.example.shopbee.ui.favorites;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.shopbee.R;
+import com.example.shopbee.data.Repository;
 import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.databinding.FavoritesBinding;
@@ -80,17 +83,26 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         binding = getViewDataBinding();
         viewModel.syncFavoriteLists();
 
-        productAdapter = new FavoriteAdapter(null);
-        productAdapter.setOnItemClickListener(this::onItemClick);
+        productAdapter = new FavoriteAdapter();
+        productAdapter.setOnItemClickListener(this);
 
-        productAdapterGridView = new FavoriteAdapterGridView(null);
-        productAdapterGridView.setOnItemClickListener(this::onItemClick);
+        productAdapterGridView = new FavoriteAdapterGridView();
+        productAdapterGridView.setOnItemClickListener(this);
 
 //        getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         changeView(isInListView, null);
 
         viewModel.getFavoriteProducts().observe(getViewLifecycleOwner(), products -> {
             changeView(isInListView, products);
+        });
+        viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
+            if (inProgress) {
+                binding.loading.setVisibility(View.VISIBLE);
+                animateLoading();
+            } else {
+                stopLoadingAnimations();
+                binding.loading.setVisibility(View.GONE);
+            }
         });
 //        viewModel.getFavoriteVariations().observe(getViewLifecycleOwner(), variations -> {
 //            changeView(isInListView, viewModel.getFavoriteProducts().getValue());
@@ -106,26 +118,72 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         return binding.getRoot();
     }
 
+    public void animateLoading() {
+        AnimationDrawable animationDrawable1 = (AnimationDrawable) binding.loading1.getBackground();
+        if (!animationDrawable1.isRunning()) {
+            animationDrawable1.start();
+        }
+
+        AnimationDrawable animationDrawable2 = (AnimationDrawable) binding.loading2.getBackground();
+        if (!animationDrawable2.isRunning()) {
+            animationDrawable2.start();
+        }
+
+        AnimationDrawable animationDrawable3 = (AnimationDrawable) binding.loading3.getBackground();
+        if (!animationDrawable3.isRunning()) {
+            animationDrawable3.start();
+        }
+
+        AnimationDrawable animationDrawable4 = (AnimationDrawable) binding.loading4.getBackground();
+        if (!animationDrawable4.isRunning()) {
+            animationDrawable4.start();
+        }
+    }
+
+    public void stopLoadingAnimations() {
+        AnimationDrawable animationDrawable1 = (AnimationDrawable) binding.loading1.getBackground();
+        if (animationDrawable1.isRunning()) {
+            animationDrawable1.stop();
+        }
+
+        AnimationDrawable animationDrawable2 = (AnimationDrawable) binding.loading2.getBackground();
+        if (animationDrawable2.isRunning()) {
+            animationDrawable2.stop();
+        }
+
+        AnimationDrawable animationDrawable3 = (AnimationDrawable) binding.loading3.getBackground();
+        if (animationDrawable3.isRunning()) {
+            animationDrawable3.stop();
+        }
+
+        AnimationDrawable animationDrawable4 = (AnimationDrawable) binding.loading4.getBackground();
+        if (animationDrawable4.isRunning()) {
+            animationDrawable4.stop();
+        }
+    }
+
     @Override
     public void onDialogEvent(Object event) {
 
     }
     public void changeView(boolean isInListView, List<AmazonProductDetailsResponse> products) {
         if (isInListView) {
-            binding.imageView.setImageResource(R.drawable.list_view_icon);
+            binding.imageView.setImageResource(R.drawable.grid_view_icon);
 
-            productAdapter = new FavoriteAdapter(products);
+            productAdapter.setProducts(products);
             productAdapter.setVariations(viewModel.getFavoriteVariations().getValue());
+            productAdapter.notifyDataSetChanged();
 //            productAdapter.setOnItemClickListener(this::onItemClick);
 
             getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
             getViewDataBinding().recyclerView.setAdapter(productAdapter);
         }
         else {
-            binding.imageView.setImageResource(R.drawable.grid_view_icon);
+            binding.imageView.setImageResource(R.drawable.list_view_icon);
 
-            productAdapterGridView = new FavoriteAdapterGridView(products);
+            productAdapterGridView.setProducts(products);
             productAdapterGridView.setVariations(viewModel.getFavoriteVariations().getValue());
+            productAdapterGridView.notifyDataSetChanged();
 //            productAdapterGridView.setOnItemClickListener(this::onItemClick);
 
             getViewDataBinding().recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -139,5 +197,10 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         bundle.putString("asin", asin);
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.productDetailFragment, bundle);
+    }
+
+    @Override
+    public void onItemDeleteClick(String asin, List<Pair<String, String>> variation) {
+        viewModel.getRepository().deleteUserVariation(Repository.UserVariation.FAVORITE, asin, variation);
     }
 }

@@ -26,6 +26,41 @@
         android:layout_height="wrap_content">
 
     </TextView>
+    <LinearLayout
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        android:id="@+id/loading"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="343dp"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/loading1"
+            android:background="@drawable/color_transition"
+            android:layout_width="343dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="116dp">
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/loading2"
+            android:background="@drawable/color_transition"
+            android:layout_width="343dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="116dp">
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/loading3"
+            android:background="@drawable/color_transition"
+            android:layout_width="343dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="116dp">
+
+        </RelativeLayout>
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         tools:listitem="@layout/my_bag_item"
@@ -33,7 +68,7 @@
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView"
+        app:layout_constraintTop_toBottomOf="@id/loading"
         android:layout_width="343dp"
         android:layout_height="360dp">
 
@@ -61,6 +96,7 @@
             style="@style/AccountEditText_Background"
             android:padding="1dp">
             <EditText
+                android:visibility="gone"
                 android:textAppearance="@style/Black_Medium_14dp"
                 android:layout_width="343dp"
                 android:layout_height="50dp"
@@ -68,6 +104,7 @@
                 android:hint="Shopbee0000"
                 style="@style/EditText"/>
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/name_checkmark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
