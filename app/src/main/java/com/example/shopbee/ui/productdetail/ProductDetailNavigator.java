@@ -7,4 +7,5 @@ public interface ProductDetailNavigator {
     void addFavorite();
     void shareProduct();
     void option();
+    void goToReviews();
 }

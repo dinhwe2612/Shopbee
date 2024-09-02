@@ -17,7 +17,12 @@ public class AmazonProductReviewResponse {
             String review_author;
             String review_author_avatar;
             List<String> review_images;
-            String review_video;
+            static public class ReviewVideo {
+                String stream_url;
+                String closed_captions_url;
+                String thumbnail_url;
+            }
+            ReviewVideo review_video;
             String review_date;
             String helpful_vote_statement;
 
@@ -85,11 +90,11 @@ public class AmazonProductReviewResponse {
                 this.review_images = review_images;
             }
 
-            public String getReview_video() {
+            public ReviewVideo getReview_video() {
                 return review_video;
             }
 
-            public void setReview_video(String review_video) {
+            public void setReview_video(ReviewVideo review_video) {
                 this.review_video = review_video;
             }
 

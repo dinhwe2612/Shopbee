@@ -12,6 +12,7 @@ import com.example.shopbee.databinding.RatingAndReviewsBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.example.shopbee.ui.review.adapter.ReviewAdapter;
 
 import java.util.HashMap;
 
@@ -19,6 +20,8 @@ import javax.inject.Inject;
 
 public class ReviewFragment extends BaseFragment<RatingAndReviewsBinding, ReviewViewModel> implements DialogsManager.Listener {
     String asin;
+    ReviewAdapter reviewAdapter = new ReviewAdapter();
+    RatingAndReviewsBinding binding;
     @Inject
     DialogsManager dialogsManager;
     @Override
@@ -39,6 +42,7 @@ public class ReviewFragment extends BaseFragment<RatingAndReviewsBinding, Review
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        binding = getViewDataBinding();
         if (getArguments() == null) {
             throw new IllegalArgumentException("Arguments of ReviewFragment cannot be null");
         }
@@ -55,11 +59,11 @@ public class ReviewFragment extends BaseFragment<RatingAndReviewsBinding, Review
     }
     void observeData() {
         viewModel.getProductReviews().observe(getViewLifecycleOwner(), reviews -> {
-
+            reviewAdapter.setReviews(reviews);
         });
     }
     void setUpRecyclerView() {
-
+        binding.reviewRCV.setAdapter(reviewAdapter);
     }
 
     @Override
