@@ -25,7 +25,8 @@
             android:id="@+id/selector"
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="@color/red"/>
+            android:background="@color/red"
+            android:visibility="gone"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
 </layout>
