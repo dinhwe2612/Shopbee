@@ -60,14 +60,15 @@
                 android:layout_width="240dp"
                 android:layout_height="32dp"
                 android:background="@drawable/slight_rounded_white_rectangle_gray_stroke"
-                android:text="English Books"
+                tools:text="English Bookssssssssssssss"
+                android:maxLength="26"
                 android:textAlignment="center"
                 android:layout_toEndOf="@+id/back_icon"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/search_bar_card"
@@ -77,13 +78,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/prodPhotosRCV"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                tools:listitem="@layout/product_photo_item"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                android:layout_height="340dp">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/prodPhotosRCV"
+                    android:layout_width="match_parent"
+                    android:layout_height="340dp"
+                    android:orientation="horizontal"
+                    tools:listitem="@layout/product_photo_item"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_light_theme"
+                    android:layout_alignStart="@id/curPhoto"
+                    android:layout_alignEnd="@id/totalPhotos"
+                    android:layout_alignTop="@id/curPhoto"
+                    android:layout_alignBottom="@id/curPhoto"
+                    app:cardCornerRadius="5dp"/>
+                <TextView
+                    android:id="@+id/curPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:layout_toStartOf="@id/totalPhotos"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    style="@style/Black_Regular_16dp"
+                    android:elevation="5dp"/>
+                <TextView
+                    android:id="@+id/totalPhotos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="/10"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    style="@style/Black_Regular_16dp"
+                    android:elevation="5dp"/>
+            </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -134,11 +169,11 @@
                         app:sparkbutton_iconSize="22dp"/>
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
-            <TextView
+            <com.skyhope.showmoretextview.ShowMoreTextView
                 android:id="@+id/product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5 Pack Tank Top Bodysuit for Women Sexy Scoop Neck Sleeveless Tank Tops Bodysuits Thong Bodysuit"
+                tools:text="5 Pack Tank Top Bodysuit for Women Sexy Scoop Neck Sleeveless Tank Tops Bodysuits Thong Bodysuit"
                 style="@style/Black_Regular_16dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
@@ -192,12 +227,12 @@
                 android:layout_marginTop="10dp"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/pddetailsRCV"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                tools:listitem="@layout/productdetail_item"/>
+                android:overScrollMode="never"/>
             <TextView
                 android:id="@+id/description_title"
                 android:layout_width="wrap_content"
@@ -206,7 +241,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 style="@style/Black_SemiBold_18dp"/>
-            <TextView
+            <com.skyhope.showmoretextview.ShowMoreTextView
                 android:id="@+id/description_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -235,7 +270,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginEnd="20dp"
+                android:nestedScrollingEnabled="false"/>
             <View
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
@@ -312,7 +348,7 @@
                 android:id="@+id/customersay_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Customers like the ease of use, quality and comfort of the leotard. They mention that the snaps are easy to use, the fabric is good and the texture is smooth. Opinions are mixed on fit."
+                tools:text="Customers like the ease of use, quality and comfort of the leotard. They mention that the snaps are easy to use, the fabric is good and the texture is smooth. Opinions are mixed on fit."
                 style="@style/Black_Regular_16dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
@@ -348,7 +384,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"/>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/buy"

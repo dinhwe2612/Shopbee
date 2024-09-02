@@ -106,4 +106,7 @@ dependencies {
 
     // Flow Layout Manager
     implementation("com.github.simonebortolin:FlowLayoutManager:1.8.0")
+
+    // Show more text
+    implementation("com.github.mahimrocky:ShowMoreText:1.0.2")
 }
