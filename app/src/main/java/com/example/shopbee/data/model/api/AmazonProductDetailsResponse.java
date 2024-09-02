@@ -22,7 +22,7 @@ public class AmazonProductDetailsResponse {
         List<String> product_photos = new ArrayList<>();
         HashMap<String, String> product_details = new HashMap<>();
         String customers_say;
-        class Category {
+        static public class Category {
             String id;
             String name;
             String link;

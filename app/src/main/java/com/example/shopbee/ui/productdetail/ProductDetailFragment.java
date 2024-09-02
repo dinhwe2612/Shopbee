@@ -35,6 +35,7 @@ import com.example.shopbee.utils.NetworkUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -44,7 +45,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     ProductPhotosAdapter productPhotosAdapter = new ProductPhotosAdapter();
     ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter();
     AboutProductAdapter aboutProductAdapter = new AboutProductAdapter();
-    RecommendedAdapter recommendedAdapter = new RecommendedAdapter();
+    RecommendedAdapter recommendedAdapter;
     AmazonProductDetailsResponse amazonProductDetailsResponse = new AmazonProductDetailsResponse();
     @Inject
     DialogsManager dialogsManager;
@@ -133,6 +134,16 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
                 binding.currentPrice.setText(productDetails.getData().getProduct_price());
                 binding.originalPrice.setText(productDetails.getData().getProduct_original_price());
             }
+            // sync recommended products
+            HashMap<String, String> categoryMap = new HashMap<>();
+            String categories = productDetails.getData().getCategory_path().stream()
+                    .map(AmazonProductDetailsResponse.Data.Category::getId)
+                    .collect(Collectors.joining(","));
+            categoryMap.put("category_id", categories);
+            viewModel.syncProductByCategory(categoryMap);
+        });
+        viewModel.getProductByCategory().observe(getViewLifecycleOwner(), productByCategory -> {
+            recommendedAdapter.setProducts(productByCategory.getData().getProducts());
         });
     }
 
@@ -157,8 +168,10 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
         binding.aboutProductRCV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         binding.aboutProductRCV.setAdapter(aboutProductAdapter);
         // recommended
+        recommendedAdapter = new RecommendedAdapter(getContext());
         binding.recommendRCV.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.recommendRCV.setAdapter(recommendedAdapter);
+
     }
 
     @Override
