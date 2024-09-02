@@ -80,6 +80,10 @@ public class FavoritesViewModel extends BaseViewModel<FavoritesNavigator> {
         setIsLoading(true);
         // get information from Amazon asin
         List<AmazonProductDetailsResponse> products = new ArrayList<>();
+        if (products.size() == favoriteLists.size()) {
+            setIsLoading(false);
+            return;
+        }
         for (String asin : favoriteLists) {
             HashMap<String, String> queryMap = new HashMap<>();
             queryMap.put("asin", asin);
