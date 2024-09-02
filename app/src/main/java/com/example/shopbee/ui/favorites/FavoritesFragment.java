@@ -1,6 +1,7 @@
 package com.example.shopbee.ui.favorites;
 
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.shopbee.R;
+import com.example.shopbee.data.Repository;
 import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.databinding.FavoritesBinding;
@@ -81,10 +83,10 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         viewModel.syncFavoriteLists();
 
         productAdapter = new FavoriteAdapter(null);
-        productAdapter.setOnItemClickListener(this::onItemClick);
+        productAdapter.setOnItemClickListener(this);
 
         productAdapterGridView = new FavoriteAdapterGridView(null);
-        productAdapterGridView.setOnItemClickListener(this::onItemClick);
+        productAdapterGridView.setOnItemClickListener(this);
 
 //        getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         changeView(isInListView, null);
@@ -112,7 +114,7 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     }
     public void changeView(boolean isInListView, List<AmazonProductDetailsResponse> products) {
         if (isInListView) {
-            binding.imageView.setImageResource(R.drawable.list_view_icon);
+            binding.imageView.setImageResource(R.drawable.grid_view_icon);
 
             productAdapter = new FavoriteAdapter(products);
             productAdapter.setVariations(viewModel.getFavoriteVariations().getValue());
@@ -122,7 +124,7 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
             getViewDataBinding().recyclerView.setAdapter(productAdapter);
         }
         else {
-            binding.imageView.setImageResource(R.drawable.grid_view_icon);
+            binding.imageView.setImageResource(R.drawable.list_view_icon);
 
             productAdapterGridView = new FavoriteAdapterGridView(products);
             productAdapterGridView.setVariations(viewModel.getFavoriteVariations().getValue());
@@ -139,5 +141,10 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         bundle.putString("asin", asin);
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.productDetailFragment, bundle);
+    }
+
+    @Override
+    public void onItemDeleteClick(String asin, List<Pair<String, String>> variation) {
+        viewModel.getRepository().deleteUserVariation(Repository.UserVariation.FAVORITE, asin, variation);
     }
 }

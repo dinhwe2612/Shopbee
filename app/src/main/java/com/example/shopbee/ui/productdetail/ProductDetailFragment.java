@@ -216,7 +216,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
         if (event instanceof OptionEvent) {
             OptionEvent optionEvent = (OptionEvent) event;
             if (optionEvent.getName() == "ADD FAVORITE") {
-                viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, optionEvent.getOptions());
+                viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, optionEvent.getOptions(), null);
             }
         }
     }
