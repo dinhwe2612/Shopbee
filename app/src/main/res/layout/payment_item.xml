@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white_background"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+    <RelativeLayout
+        android:alpha="1"
+        android:layout_width="344dp"
+        android:layout_height="216dp"
+        android:background="@drawable/payment_card">
+        <ImageView
+            android:id="@+id/paymentIcon"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/visa"/>
+        <TextView
+            android:layout_below="@id/paymentIcon"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="* * * *   * * * *   * * * *  1 2 3 4"
+            style = "@style/White_Regular_24dp"/>
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginStart="30dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Card Holder Name"
+                style="@style/White_SemiBold_10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nguyen Mimikyu"
+                style="@style/White_SemiBold_14dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Expiry Date"
+                style="@style/White_SemiBold_10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="05/23"
+                style="@style/White_SemiBold_14dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.animsh.animatedcheckbox.AnimatedCheckBox
+            android:id="@+id/checkBoxCard"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="4dp"
+            app:border_stroke_width="2dp"
+            app:color_checked="@color/red"
+            app:color_tick="@color/white"
+            app:color_unchecked="@color/white"
+            app:color_unchecked_stroke="@color/black"
+            app:small_tick="true"
+            app:tick_stroke_width="1dp"/>
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use as default payment method"
+            style="@style/Black_Regular_14dp"/>
+    </LinearLayout>
+</LinearLayout>
+</layout>
