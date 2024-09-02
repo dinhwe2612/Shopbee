@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.shopbee.data.model.api.AmazonDealsResponse;
 import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
+import com.example.shopbee.data.model.api.AmazonProductReviewResponse;
 import com.example.shopbee.data.model.api.AmazonSearchResponse;
 import com.example.shopbee.data.model.api.ListOrderResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
@@ -674,5 +675,8 @@ public class Repository {
                 // Handle any errors that occur during query
             }
         });
+    }
+    public Observable<AmazonProductReviewResponse> getAmazonProductReview(HashMap<String, String> map) {
+        return amazonApiService.getAmazonProductReviews(map);
     }
 }
