@@ -62,6 +62,7 @@
         </RelativeLayout>
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
+        android:visibility="gone"
         android:id="@+id/recyclerView"
         tools:listitem="@layout/my_bag_item"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

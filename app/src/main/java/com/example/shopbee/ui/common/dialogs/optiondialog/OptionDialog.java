@@ -98,7 +98,7 @@ public class OptionDialog extends DialogFragment implements VariationAdapter.Lis
     void setClickListener() {
         binding.button.setOnClickListener(v -> {
             if (valid) {
-                OptionEvent event = new OptionEvent(variationAdapter.getDecisions(), 1, name);
+                OptionEvent event = new OptionEvent(variationAdapter.getDecisions(), quantity, name);
                 dialogsManager.postEvent(event);
                 dismiss();
             }

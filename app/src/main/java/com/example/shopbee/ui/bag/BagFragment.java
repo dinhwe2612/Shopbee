@@ -56,6 +56,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
             } else {
                 stopLoadingAnimations();
                 getViewDataBinding().loading.setVisibility(View.GONE);
+                getViewDataBinding().recyclerView.setVisibility(View.VISIBLE);
 //                hideProgressDialog();
             }
         });
