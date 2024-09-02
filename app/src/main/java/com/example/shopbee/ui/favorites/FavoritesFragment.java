@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.favorites;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -94,6 +95,15 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         viewModel.getFavoriteProducts().observe(getViewLifecycleOwner(), products -> {
             changeView(isInListView, products);
         });
+        viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
+            if (inProgress) {
+                binding.loading.setVisibility(View.VISIBLE);
+                animateLoading();
+            } else {
+                stopLoadingAnimations();
+                binding.loading.setVisibility(View.GONE);
+            }
+        });
 //        viewModel.getFavoriteVariations().observe(getViewLifecycleOwner(), variations -> {
 //            changeView(isInListView, viewModel.getFavoriteProducts().getValue());
 //        });
@@ -106,6 +116,50 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
             }
         });
         return binding.getRoot();
+    }
+
+    public void animateLoading() {
+        AnimationDrawable animationDrawable1 = (AnimationDrawable) binding.loading1.getBackground();
+        if (!animationDrawable1.isRunning()) {
+            animationDrawable1.start();
+        }
+
+        AnimationDrawable animationDrawable2 = (AnimationDrawable) binding.loading2.getBackground();
+        if (!animationDrawable2.isRunning()) {
+            animationDrawable2.start();
+        }
+
+        AnimationDrawable animationDrawable3 = (AnimationDrawable) binding.loading3.getBackground();
+        if (!animationDrawable3.isRunning()) {
+            animationDrawable3.start();
+        }
+
+        AnimationDrawable animationDrawable4 = (AnimationDrawable) binding.loading4.getBackground();
+        if (!animationDrawable4.isRunning()) {
+            animationDrawable4.start();
+        }
+    }
+
+    public void stopLoadingAnimations() {
+        AnimationDrawable animationDrawable1 = (AnimationDrawable) binding.loading1.getBackground();
+        if (animationDrawable1.isRunning()) {
+            animationDrawable1.stop();
+        }
+
+        AnimationDrawable animationDrawable2 = (AnimationDrawable) binding.loading2.getBackground();
+        if (animationDrawable2.isRunning()) {
+            animationDrawable2.stop();
+        }
+
+        AnimationDrawable animationDrawable3 = (AnimationDrawable) binding.loading3.getBackground();
+        if (animationDrawable3.isRunning()) {
+            animationDrawable3.stop();
+        }
+
+        AnimationDrawable animationDrawable4 = (AnimationDrawable) binding.loading4.getBackground();
+        if (animationDrawable4.isRunning()) {
+            animationDrawable4.stop();
+        }
     }
 
     @Override

@@ -398,6 +398,9 @@ public class Repository {
         BAG
     }
     public void saveUserVariation(UserVariation userVariation, String asin, List<Pair<String, String>> variation, Integer quantity) {
+        if (isVariationInUserPick(UserVariation.FAVORITE, asin, variation).blockingFirst()) {
+            return;
+        }
         databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
         String userEmail = getUserResponse().getValue().getEmail();
         Query query = databaseReference.orderByChild("email").equalTo(userEmail);

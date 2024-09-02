@@ -59,7 +59,7 @@ public class FavoritesViewModel extends BaseViewModel<FavoritesNavigator> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
-                            setIsLoading(false);
+//                            setIsLoading(false);
                             List<String> asins = new ArrayList<>();
                             List<List<Pair<String, String>>> variations = new ArrayList<>();
                             for (UserVariationResponse.Variation variation : result.getVariations()) {
@@ -71,7 +71,7 @@ public class FavoritesViewModel extends BaseViewModel<FavoritesNavigator> {
                             syncFavoriteProducts(favoriteLists.getValue());
                         },
                         error -> {
-                            setIsLoading(false);
+//                            setIsLoading(false);
 //                            Log.e("getUserSearchHistory", "getUserSearchHistory " + error.getMessage());
                         })
         );
@@ -89,11 +89,13 @@ public class FavoritesViewModel extends BaseViewModel<FavoritesNavigator> {
                     .subscribe(result -> {
                         products.add(result);
                         favoriteProducts.setValue(products);
+                        if (products.size() == favoriteLists.size()) {
+                            setIsLoading(false);
+                        }
                     }, error -> {
                         Log.e("syncFavoriteProducts", "error: " + error.getMessage());
                     })
             );
         }
-        setIsLoading(false);
     }
 }
