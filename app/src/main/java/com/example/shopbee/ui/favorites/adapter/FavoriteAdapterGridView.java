@@ -32,9 +32,9 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
     }
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private List<AmazonProductDetailsResponse> products;
-    public FavoriteAdapterGridView(List<AmazonProductDetailsResponse> products) {
-        this.products = products;
-    }
+//    public FavoriteAdapterGridView(List<AmazonProductDetailsResponse> products) {
+//        this.products = products;
+//    }
     public void setProducts(List<AmazonProductDetailsResponse> products) {
         this.products = products;
     }

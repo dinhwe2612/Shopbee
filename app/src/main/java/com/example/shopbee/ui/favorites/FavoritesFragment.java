@@ -82,10 +82,10 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         binding = getViewDataBinding();
         viewModel.syncFavoriteLists();
 
-        productAdapter = new FavoriteAdapter(null);
+        productAdapter = new FavoriteAdapter();
         productAdapter.setOnItemClickListener(this);
 
-        productAdapterGridView = new FavoriteAdapterGridView(null);
+        productAdapterGridView = new FavoriteAdapterGridView();
         productAdapterGridView.setOnItemClickListener(this);
 
 //        getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -116,8 +116,9 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         if (isInListView) {
             binding.imageView.setImageResource(R.drawable.grid_view_icon);
 
-            productAdapter = new FavoriteAdapter(products);
+            productAdapter.setProducts(products);
             productAdapter.setVariations(viewModel.getFavoriteVariations().getValue());
+            productAdapter.notifyDataSetChanged();
 //            productAdapter.setOnItemClickListener(this::onItemClick);
 
             getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -126,8 +127,9 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         else {
             binding.imageView.setImageResource(R.drawable.list_view_icon);
 
-            productAdapterGridView = new FavoriteAdapterGridView(products);
+            productAdapterGridView.setProducts(products);
             productAdapterGridView.setVariations(viewModel.getFavoriteVariations().getValue());
+            productAdapterGridView.notifyDataSetChanged();
 //            productAdapterGridView.setOnItemClickListener(this::onItemClick);
 
             getViewDataBinding().recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));

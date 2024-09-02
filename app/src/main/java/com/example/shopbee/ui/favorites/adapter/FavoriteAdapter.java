@@ -40,9 +40,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private List<AmazonProductDetailsResponse> products;
     List<List<Pair<String, String>>> variations;
-    public FavoriteAdapter(List<AmazonProductDetailsResponse> products) {
-        this.products = products;
-    }
+//    public FavoriteAdapter(List<AmazonProductDetailsResponse> products) {
+//        this.products = products;
+//    }
     public void setProducts(List<AmazonProductDetailsResponse> products) {
         this.products = products;
     }
