@@ -57,4 +57,12 @@
         android:id="@+id/myOrderDetailFragment"
         android:name="com.example.shopbee.ui.profile.myorder.MyOrderDetailFragment"
         android:label="MyOrderDetailFragment" />
+    <fragment
+        android:id="@+id/reviewFragment"
+        android:name="com.example.shopbee.ui.review.ReviewFragment"
+        android:label="ReviewFragment" />
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.example.shopbee.ui.checkout.CheckoutFragment"
+        android:label="CheckoutFragment" />
 </navigation>
