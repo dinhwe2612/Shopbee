@@ -120,6 +120,7 @@ public class FragmentModule {
         Supplier<PaymentViewModel> supplier = () -> new PaymentViewModel(repository);
         ViewModelProviderFactory<PaymentViewModel> factory = new ViewModelProviderFactory<PaymentViewModel>(PaymentViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(PaymentViewModel.class);
+    }
     @Provides
     public ReviewViewModel provideReviewViewModel(Repository repository) {
         Supplier<ReviewViewModel> supplier = () -> new ReviewViewModel(repository);
