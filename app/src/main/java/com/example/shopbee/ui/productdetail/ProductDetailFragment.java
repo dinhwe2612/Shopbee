@@ -231,6 +231,9 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
             if (optionEvent.getName() == "ADD FAVORITE") {
                 viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, optionEvent.getOptions(), null);
             }
+            else if (optionEvent.getName() == "ADD TO BAG") {
+                viewModel.getRepository().saveUserVariation(Repository.UserVariation.BAG, asin, optionEvent.getOptions(), optionEvent.getQuantity());
+            }
         }
     }
 }
