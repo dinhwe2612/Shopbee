@@ -35,11 +35,15 @@ public class ProductDetailsDeserializer implements JsonDeserializer<AmazonProduc
                     Log.d("title", data.getProduct_title());
                 }
                 if (dataObj.has("product_price") && !dataObj.get("product_price").isJsonNull()) {
-                    data.setProduct_price(dataObj.get("product_price").getAsString());
+                    String price = dataObj.get("product_price").getAsString();
+                    price = price.startsWith("$") ? price : "$" + price;
+                    data.setProduct_price(price);
                     Log.d("price", data.getProduct_price());
                 }
                 if (dataObj.has("product_original_price") && !dataObj.get("product_original_price").isJsonNull()) {
-                    data.setProduct_original_price(dataObj.get("product_original_price").getAsString());
+                    String price = dataObj.get("product_original_price").getAsString();
+                    price = price.startsWith("$") ? price : "$" + price;
+                    data.setProduct_original_price(price);
                     Log.d("original_price", data.getProduct_original_price());
                 }
                 if (dataObj.has("product_byline") && !dataObj.get("product_byline").isJsonNull()) {

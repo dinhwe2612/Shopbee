@@ -75,6 +75,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
         syncData(asin);
         observeData();
         binding.sparkButton.setOnClickListener(v -> viewModel.getNavigator().addFavorite());
+        binding.seeAll.setOnClickListener(v -> viewModel.getNavigator().goToReviews());
         return binding.getRoot();
     }
 
@@ -128,11 +129,13 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
             binding.ratingOverall.setText(ratingStars);
             binding.ratingBar.setRating(Float.parseFloat(ratingStars));
             // bind price
-            if (productDetails.getData().getProduct_original_price() == null) {
-                binding.currentPrice.setText(productDetails.getData().getProduct_price());
+            String currentPrice = productDetails.getData().getProduct_price();
+            String originalPrice = productDetails.getData().getProduct_original_price();
+            if (originalPrice == null) {
+                binding.currentPrice.setText(currentPrice);
             } else {
-                binding.currentPrice.setText(productDetails.getData().getProduct_price());
-                binding.originalPrice.setText(productDetails.getData().getProduct_original_price());
+                binding.currentPrice.setText(currentPrice);
+                binding.originalPrice.setText(originalPrice);
             }
             // sync recommended products
             HashMap<String, String> categoryMap = new HashMap<>();
@@ -214,6 +217,13 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     }
 
     @Override
+    public void goToReviews() {
+        Bundle bundle = new Bundle();
+        bundle.putString("asin", asin);
+        NavHostFragment.findNavController(this).navigate(R.id.reviewFragment, bundle);
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         dialogsManager.registerListener(this);
@@ -232,6 +242,9 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
                 viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, optionEvent.getOptions(), null);
             }
             else if (optionEvent.getName() == "ADD TO BAG") {
+                // print out optionEvent
+                Log.d("optionEvent", optionEvent.getName() + " " + optionEvent.getOptions().toString() + " " + optionEvent.getQuantity());
+
                 viewModel.getRepository().saveUserVariation(Repository.UserVariation.BAG, asin, optionEvent.getOptions(), optionEvent.getQuantity());
             }
         }
