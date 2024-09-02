@@ -14,6 +14,7 @@ import com.example.shopbee.data.model.api.AmazonSearchResponse;
 import com.example.shopbee.data.model.api.ListOrderResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.data.model.api.OrderResponse;
+import com.example.shopbee.data.model.api.PromoCodeResponse;
 import com.example.shopbee.data.model.api.SearchResponse;
 import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.data.model.api.UserVariationResponse;
@@ -397,6 +398,11 @@ public class Repository {
             }
         });
     }
+
+    public Observable<List<PromoCodeResponse>> getPromoCode() {
+        return null;
+    }
+
     public enum UserVariation {
         FAVORITE,
         BAG
