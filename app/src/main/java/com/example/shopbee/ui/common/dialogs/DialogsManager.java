@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.data.model.api.CountryRespone;
+import com.example.shopbee.ui.common.dialogs.addNewCard.addNewCardDialog;
 import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryDialog;
 import com.example.shopbee.ui.common.dialogs.optiondialog.OptionDialog;
 import com.example.shopbee.ui.common.dialogs.twooptiondialog.TwoOptionDialog;
@@ -59,5 +60,9 @@ public class DialogsManager {
     public void showOptionDialog(String name, String money, String urlImage, HashMap<String, List<AmazonProductDetailsResponse.Data.VariationDetail>> options) {
         OptionDialog dialog = OptionDialog.newInstance(this, name, money, urlImage, options);
         dialog.show(fragmentManager, "option_dialog");
+    }
+    public void addNewCardDialog() {
+        addNewCardDialog dialog = addNewCardDialog.newInstance(this);
+        dialog.show(fragmentManager, "add_new_card_dialog");
     }
 }

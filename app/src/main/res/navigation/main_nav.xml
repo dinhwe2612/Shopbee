@@ -65,4 +65,16 @@
         android:id="@+id/checkoutFragment"
         android:name="com.example.shopbee.ui.checkout.CheckoutFragment"
         android:label="CheckoutFragment" />
+    <fragment
+        android:id="@+id/modifyAddressFragment"
+        android:name="com.example.shopbee.ui.checkout.shipping.ModifyAddressFragment"
+        android:label="ModifyAddressFragment" />
+    <fragment
+        android:id="@+id/shippingFragment"
+        android:name="com.example.shopbee.ui.checkout.shipping.ShippingFragment"
+        android:label="ShippingFragment" />
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.shopbee.ui.checkout.payment.PaymentFragment"
+        android:label="PaymentFragment" />
 </navigation>

@@ -39,21 +39,24 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
     public void onBindViewHolder(@NonNull PaymentAdapter.PaymentViewHolder holder, int position) {
         PaymentResponse paymentResponse = listPaymentResponse.get(position);
         switch (paymentResponse.getType()){
+            case "shopbee":
+                holder.binding.layoutCard.setVisibility(View.GONE);
+                holder.binding.layoutWallet.setVisibility(View.VISIBLE);
+                break;
             case "visa":
                 holder.binding.paymentIcon.setBackgroundResource(R.drawable.visa);
+                holder.binding.cardName.setText(paymentResponse.getName());
+                holder.binding.cardNumber.setText("* * * *  * * * *  * * * *  " + paymentResponse.getNumber().substring(12, 15));
+                holder.binding.expiryDate.setText(paymentResponse.getExpiryDate());
                 break;
             case "master":
                 holder.binding.paymentIcon.setBackgroundResource(R.drawable.master);
+                holder.binding.cardName.setText(paymentResponse.getName());
+                holder.binding.cardNumber.setText("* * * *  * * * *  * * * *  " + paymentResponse.getNumber().substring(12, 15));
+                holder.binding.expiryDate.setText(paymentResponse.getExpiryDate());
                 break;
         }
-        holder.binding.cardName.setText(paymentResponse.getName());
-        holder.binding.cardNumber.setText("* * * *  * * * *  * * * *  " + paymentResponse.getNumber().substring(12, 15));
-        holder.binding.expiryDate.setText(paymentResponse.getExpiryDate());
-        if (currentPosition == position){
-            holder.binding.checkBoxCard.setChecked(true);
-        } else {
-            holder.binding.checkBoxCard.setChecked(false);
-        }
+        holder.binding.checkBoxCard.setChecked(currentPosition == position, true);
         holder.binding.checkBoxCard.setOnCheckedChangeListener(new AnimatedCheckBox.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(AnimatedCheckBox checkBox, boolean isChecked) {

@@ -8,22 +8,35 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.animsh.animatedcheckbox.AnimatedCheckBox;
 import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.ListOrderResponse;
+import com.example.shopbee.data.model.api.PaymentResponse;
 import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.databinding.PaymentBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.checkout.adapter.PaymentAdapter;
 import com.example.shopbee.ui.common.base.BaseFragment;
+import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.example.shopbee.ui.common.dialogs.addNewCard.addNewCardEvent;
 
-public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewModel> implements PaymentNavigator, PaymentAdapter.Listener {
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewModel> implements PaymentNavigator, PaymentAdapter.Listener, DialogsManager.Listener {
     private PaymentBinding binding;
     private UserResponse userResponse;
     private ListOrderResponse listOrderResponse;
     private PaymentAdapter paymentAdapter;
+    @Inject
+    DialogsManager dialogsManager;
     @Override
     public int getBindingVariable() {
         return BR.vm;
@@ -54,16 +67,17 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
         }
         paymentAdapter = new PaymentAdapter(this, userResponse.getPayment(), positionDef);
         recyclerView.setAdapter(paymentAdapter);
+
         binding.buttonBackSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                backToCheckout();
             }
         });
-        binding.layoutWallet.setOnClickListener(new View.OnClickListener() {
+        binding.addNewCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dialogsManager.addNewCardDialog();
             }
         });
         return binding.getRoot();
@@ -80,5 +94,36 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
             userResponse.getPayment().get(i).setDef(false);
         }
         userResponse.getPayment().get(position).setDef(true);
+    }
+
+    @Override
+    public void onDialogEvent(Object event) {
+        if (event instanceof addNewCardEvent){
+            addNewCardEvent mAddNewCardEvent = (addNewCardEvent) event;
+            PaymentResponse newPayment = new PaymentResponse(mAddNewCardEvent.getCvv()
+                    , mAddNewCardEvent.getDef(), mAddNewCardEvent.getExpiryDate()
+                    , mAddNewCardEvent.getName(), mAddNewCardEvent.getCardNumber()
+                    , mAddNewCardEvent.getType());
+            if (userResponse.getPayment() == null){
+                userResponse.setPayment(new ArrayList<>());
+                userResponse.getPayment().add(newPayment);
+            } else {
+                if (mAddNewCardEvent.getDef()) {
+                    for (int i = 0; i < userResponse.getPayment().size(); i++) {
+                        userResponse.getPayment().get(i).setDef(false);
+                    }
+                }
+                int sizeOfOldPayment = userResponse.getPayment().size();
+                userResponse.getPayment().add(sizeOfOldPayment - 1, newPayment);
+            }
+            viewModel.updateUserFirebase();
+            paymentAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void backToCheckout() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigateUp();
     }
 }
