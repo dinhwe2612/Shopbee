@@ -64,20 +64,20 @@ public class PromoCodeAdapter extends RecyclerView.Adapter<PromoCodeAdapter.View
             binding.textView.setText(String.valueOf(promoCodeList.get(position).getPercent()));
             binding.textView2.setText(String.valueOf(promoCodeList.get(position).getName()));
             binding.textView4.setText(String.valueOf(promoCodeList.get(position).getCode()));
-            if (promoCodeList.get(position).equals(currentItem)) {
-                binding.textView3.setText("Discard");
-                binding.textView3.setTextAppearance(R.style.Red_Button_White_Text);
-                binding.textView3.setBackgroundResource(R.drawable.rounded_red_rectangle);
+            if (currentItem != null && promoCodeList.get(position).equals(currentItem)) {
+                binding.textView5.setText("Discard");
+                binding.textView5.setTextAppearance(R.style.White_Button_Black_Stroke_Black_Text);
+                binding.textView5.setBackgroundResource(R.drawable.rounded_white_rectangle_black_stroke);
             }
             else {
-                binding.textView3.setText("Apply");
-                binding.textView3.setTextAppearance(R.style.White_Button_Black_Stroke_Black_Text);
-                binding.textView3.setBackgroundResource(R.drawable.rounded_white_rectangle_black_stroke);
+                binding.textView5.setText("Apply");
+                binding.textView5.setTextAppearance(R.style.Red_Button_White_Text);
+                binding.textView5.setBackgroundResource(R.drawable.rounded_red_rectangle);
             }
-            binding.textView3.setOnClickListener(new View.OnClickListener() {
+            binding.textView5.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (promoCodeList.get(position).equals(currentItem)) {
+                    if (currentItem != null && promoCodeList.get(position).equals(currentItem)) {
                         onItemClick.onItemClick(null);
                     }
                     else {

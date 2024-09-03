@@ -89,6 +89,7 @@ public class PromoCodeDialog extends BottomSheetDialogFragment implements  Promo
         binding.recyclerView.setAdapter(promoCodeAdapter);
         promoCodeAdapter.setPromoCodeList(promoCodeResponseList);
         promoCodeAdapter.setCurrentItem(promoCodeResponse);
+        promoCodeAdapter.setOnItemClick(this);
         binding.collectVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

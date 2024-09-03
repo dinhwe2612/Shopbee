@@ -1,15 +1,48 @@
 package com.example.shopbee.data.model.api;
 
+import android.util.Pair;
+
 import androidx.annotation.Nullable;
 
+import com.example.shopbee.R;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class PromoCodeResponse {
-    Float percent;
-    Float max_discount;
+    String style;
 
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    public List<Integer> getStyle() {
+        if ("red".equals(style)) {
+            return new ArrayList<>(Arrays.asList(R.drawable.slight_rounded_red_rectangle, R.style.White_Bold_34dp, R.style.White_Bold_14dp));
+        }
+        return null;
+    }
+
+    public PromoCodeResponse(Integer percent, Float max_discount, String name, String code, String due_date, String style) {
+        this.percent = percent;
+        this.max_discount = max_discount;
+        this.name = name;
+        this.code = code;
+        this.due_date = due_date;
+        this.style = style;
+    }
+    Integer percent;
+    Float max_discount;
+    String name;
+    String code;
+    String due_date;
     public Float getMax_discount() {
         return max_discount;
     }
@@ -22,9 +55,7 @@ public class PromoCodeResponse {
         this.due_date = due_date;
     }
 
-    String name;
-    String code;
-    String due_date;
+
     public Date getDueDate() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -62,21 +93,31 @@ public class PromoCodeResponse {
     public PromoCodeResponse() {
 
     }
+    private float roundToTwoDecimalPlaces(float value) {
+        BigDecimal bd = new BigDecimal(Float.toString(value));
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.floatValue();
+    }
+
     public float processDiscount(float price) {
-        return Math.min(price * percent, max_discount);
+        float discount = Math.min(price * percent / 100, max_discount);
+        return roundToTwoDecimalPlaces(discount);
     }
+
     public float processPrice(float price) {
-        return Math.max(price - max_discount, price - price * percent);
+        float finalPrice = Math.max(price - max_discount, price - price * percent / 100);
+        return roundToTwoDecimalPlaces(finalPrice);
     }
+
     public void syncDataFirebase() {
 
     }
 
-    public Float getPercent() {
+    public Integer getPercent() {
         return percent;
     }
 
-    public void setPercent(Float percent) {
+    public void setPercent(Integer percent) {
         this.percent = percent;
     }
 
@@ -93,12 +134,6 @@ public class PromoCodeResponse {
     }
 
     public void setCode(String code) {
-        this.code = code;
-    }
-
-    public PromoCodeResponse(Float percent, String name, String code) {
-        this.percent = percent;
-        this.name = name;
         this.code = code;
     }
 }

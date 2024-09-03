@@ -79,6 +79,7 @@
 
     </TextView>
     <TextView
+        android:id="@+id/textView5"
         android:layout_below="@id/textView3"
         style="@style/Red_Button_White_Text"
         android:layout_marginEnd="10dp"
