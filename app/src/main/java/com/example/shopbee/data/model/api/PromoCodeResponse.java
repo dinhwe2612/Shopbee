@@ -100,12 +100,12 @@ public class PromoCodeResponse {
     }
 
     public float processDiscount(float price) {
-        float discount = Math.min(price * percent, max_discount);
+        float discount = Math.min(price * percent / 100, max_discount);
         return roundToTwoDecimalPlaces(discount);
     }
 
     public float processPrice(float price) {
-        float finalPrice = Math.max(price - max_discount, price - price * percent);
+        float finalPrice = Math.max(price - max_discount, price - price * percent / 100);
         return roundToTwoDecimalPlaces(finalPrice);
     }
 
