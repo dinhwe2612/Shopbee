@@ -241,7 +241,12 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         List<OrderDetailResponse> orderDetailResponseList = new ArrayList<>();
         for (int i = 0; i < viewModel.getBagProducts().getValue().size(); i++) {
             AmazonProductDetailsResponse product = viewModel.getBagProducts().getValue().get(i);
-            OrderDetailResponse orderDetailResponse = new OrderDetailResponse(product.getData().getAsin(), product.getData().getProduct_title(), viewModel.getBagQuantities().getValue().get(i), product.getData().getProduct_price(), product.getData().getProduct_photo());
+            OrderDetailResponse orderDetailResponse = new OrderDetailResponse(product.getData().getAsin()
+                    , product.getData().getProduct_title()
+                    , viewModel.getBagQuantities().getValue().get(i)
+                    , product.getData().getProduct_price()
+                    , product.getData().getProduct_photo()
+                    , viewModel.getBagVariations().getValue().get(i));
             orderDetailResponseList.add(orderDetailResponse);
         }
         OrderResponse orderResponse;

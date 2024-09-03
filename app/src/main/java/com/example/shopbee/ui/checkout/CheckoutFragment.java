@@ -63,6 +63,12 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
                 submitOrder();
             }
         });
+        binding.buttonBackSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backToPreviousFragment();
+            }
+        });
         return binding.getRoot();
     }
     public void loadRealtimeData(){
@@ -165,5 +171,11 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         viewModel.updateOrderFirebase(orderResponse);
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.successFragment);
+    }
+
+    @Override
+    public void backToPreviousFragment() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigateUp();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.profile.myorder;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -30,6 +33,7 @@ import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.bag.BagFragment;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryDialog;
+import com.example.shopbee.ui.home.HomeFragment;
 import com.example.shopbee.ui.profile.adapter.OrderDetailProductAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -127,6 +131,47 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
         }
         orderDetailProductAdapter = new OrderDetailProductAdapter(orderResponse.getOrder_detail());
         recyclerView.setAdapter(orderDetailProductAdapter);
+
+        binding.buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backToMyOrder();
+            }
+        });
+
+        binding.reorder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (status){
+                    case "delivered":
+                    case "cancelled":
+                        reorder(orderResponse);
+                        break;
+                    case "processing":
+                        orderResponse.setStatus("cancelled");
+                        listOrderResponse.getList_order().get(position).setStatus("cancelled");
+                        binding.status.setText("Cancelled");
+                        binding.reorder.setText("Reorder");
+                        binding.leaveFeedback.setText("Go to shopping");
+                        viewModel.updateOrderFirebase(orderResponse);
+                        break;
+                }
+            }
+        });
+        binding.leaveFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (status){
+                    case "delivered":
+                    case "cancelled":
+                        break;
+                    case "processing":
+                        backToHomeFragment();
+                        break;
+
+                }
+            }
+        });
     }
     void loadRealtimeData(){
         viewModel.getUserResponse().observeForever(new Observer<UserResponse>() {
@@ -141,5 +186,25 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                 listOrderResponse = responses;
             }
         });
+    }
+
+    @Override
+    public void backToMyOrder() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigateUp();
+    }
+
+    @Override
+    public void reorder(OrderResponse orderResponse) {
+        NavController navController = NavHostFragment.findNavController(this);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("orderResponse", orderResponse);
+        navController.navigate(R.id.checkoutFragment, bundle);
+    }
+
+    @Override
+    public void backToHomeFragment() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.homeFragment);
     }
 }
