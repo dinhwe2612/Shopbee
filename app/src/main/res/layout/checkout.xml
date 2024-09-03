@@ -204,6 +204,7 @@
                     style = "@style/Black_SemiBold_16dp"/>
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/discountLayout"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -258,6 +259,7 @@
     </ScrollView>
     <androidx.cardview.widget.CardView
         android:id="@+id/submit_order"
+        android:layout_marginBottom="10dp"
         android:layout_width="343dp"
         android:layout_height="48dp"
         android:layout_centerHorizontal="true"

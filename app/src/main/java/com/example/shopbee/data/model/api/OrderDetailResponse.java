@@ -76,7 +76,7 @@ public class OrderDetailResponse implements Parcelable {
     public String getTotalPrice(){
         String numericString = price.replace("$", "");
         float price = Float.parseFloat(numericString);
-        return "$" + String.valueOf(price * quantity);
+        return String.valueOf(price * quantity) + "$";
     }
     protected OrderDetailResponse(Parcel in) {
         product_id = in.readString();

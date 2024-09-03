@@ -1,6 +1,7 @@
 package com.example.shopbee.ui.checkout;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +12,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.AddressResponse;
 import com.example.shopbee.data.model.api.ListOrderResponse;
+import com.example.shopbee.data.model.api.OrderResponse;
 import com.example.shopbee.data.model.api.PaymentResponse;
 import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.databinding.CheckoutBinding;
@@ -26,6 +30,7 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
     private UserResponse userResponse;
     private AddressResponse currentAddress;
     private PaymentResponse currentPayment;
+    private OrderResponse orderResponse;
     private ListOrderResponse listOrderResponse;
     @Override
     public int getBindingVariable() {
@@ -46,6 +51,8 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
+        orderResponse = getArguments().getParcelable("orderResponse");
+
         loadRealtimeData();
         setUpShippingAddress();
         setUpPaymentMethod();
@@ -53,7 +60,7 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         binding.submitOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                submitOrder();
             }
         });
         return binding.getRoot();
@@ -83,7 +90,7 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         binding.changeAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                changeShippingAddress();
             }
         });
     }
@@ -106,10 +113,10 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
                 break;
             case "master":
                 binding.isShopbeePay.setVisibility(View.GONE);
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) binding.paymentMethodImage.getLayoutParams();
+                /*RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) binding.paymentMethodImage.getLayoutParams();
                 params.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
                 params.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
-                binding.paymentMethodImage.setLayoutParams(params);
+                binding.paymentMethodImage.setLayoutParams(params);*/
                 binding.paymentMethodImage.setBackgroundResource(R.drawable.master);
                 binding.numberCard.setText("**** **** **** " + currentPayment.getNumber().substring(12, 15));
                 break;
@@ -117,15 +124,20 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         binding.changePayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                changePaymentMethod();
             }
         });
     }
     private void setUpAmount(){
-        binding.orderAmount.setText("112$");
-        binding.deliveryAmount.setText("10S");
-        binding.discountAmount.setText("-2$");
-        binding.totalAmount.setText("120$");
+        binding.orderAmount.setText(orderResponse.getOrderPrice());
+        binding.deliveryAmount.setText("10$");
+        if (orderResponse.getDiscount().equals("0$")){
+            binding.discountLayout.setVisibility(View.GONE);
+        } else {
+            binding.discountLayout.setVisibility(View.VISIBLE);
+            binding.discountAmount.setText("-" + orderResponse.getDiscount());
+        }
+        binding.totalAmount.setText(orderResponse.getTotal_amount());
     }
 
     @Override
@@ -135,16 +147,23 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
 
     @Override
     public void changeShippingAddress() {
-
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.shippingFragment);
     }
-
     @Override
     public void changePaymentMethod() {
-
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.paymentFragment);
     }
-
     @Override
     public void submitOrder() {
-
+        orderResponse.setPayment(currentPayment.getType());
+        listOrderResponse.getList_order().add(orderResponse);
+        for (OrderResponse order : listOrderResponse.getList_order()) {
+            Log.d("TAG", "submitOrder: " + order.getOrder_number());
+        }
+        viewModel.updateOrderFirebase(orderResponse);
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.successFragment);
     }
 }

@@ -80,6 +80,7 @@ public class ModifyAddressFragment extends BaseFragment<ModifyAddressBinding, Mo
         setUpCountryItems();
         String modify = getArguments().getString("modify");
         int position = getArguments().getInt("position");
+        addressResponse = new AddressResponse();
         if (modify.equals("edit")){
             String name = getArguments().getString("name");
             String address = getArguments().getString("address");
@@ -106,10 +107,6 @@ public class ModifyAddressFragment extends BaseFragment<ModifyAddressBinding, Mo
         handleStateOfInput(binding.city, binding.cityHint, binding.cityLayout);
         handleStateOfInput(binding.state, binding.stateHint, binding.stateLayout);
         handleStateOfInput(binding.zip, binding.zipHint, binding.zipLayout);
-        addressResponse.setAddress(binding.address.getText().toString());
-        addressResponse.setCity(binding.city.getText().toString());
-        addressResponse.setState(binding.state.getText().toString());
-        addressResponse.setZip_code(binding.zip.getText().toString());
 
         binding.buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,6 +153,12 @@ public class ModifyAddressFragment extends BaseFragment<ModifyAddressBinding, Mo
                         if (userResponse.getAddress() == null){
                             userResponse.setAddress(new ArrayList<>());
                         }
+                        addressResponse.setAddress(binding.address.getText().toString());
+                        addressResponse.setCity(binding.city.getText().toString());
+                        addressResponse.setState(binding.state.getText().toString());
+                        addressResponse.setZip_code(binding.zip.getText().toString());
+                        addressResponse.setDef(false);
+                        
                         userResponse.getAddress().add(addressResponse);
                     }
                     viewModel.updateUserFirebase();
@@ -215,7 +218,16 @@ public class ModifyAddressFragment extends BaseFragment<ModifyAddressBinding, Mo
             return -1;
         }
     }
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        dialogsManager.registerListener(this);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        dialogsManager.unregisterListener(this);
+    }
     @Override
     public void onDialogEvent(Object event) {
         if (event instanceof changeCountryEvent) {

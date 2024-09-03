@@ -95,7 +95,15 @@ public class OrderResponse implements Parcelable {
     public void setDiscount(String discount) {
         this.discount = discount;
     }
-
+    public String getOrderPrice(){
+        BigDecimal total = BigDecimal.valueOf(0);
+        for (OrderDetailResponse orderDetailResponse : order_detail) {
+            String numericString = orderDetailResponse.getPrice().replace("$", "");
+            BigDecimal price = new BigDecimal(numericString);
+            total = total.add(price.multiply(BigDecimal.valueOf(orderDetailResponse.getQuantity())));
+        }
+        return total.setScale(2, RoundingMode.HALF_UP).toString() + "$";
+    }
     public String getTotal_amount() {
         BigDecimal total = BigDecimal.valueOf(10);
         for (OrderDetailResponse orderDetailResponse : order_detail) {
