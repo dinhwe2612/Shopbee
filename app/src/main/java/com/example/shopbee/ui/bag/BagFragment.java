@@ -238,6 +238,6 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         bundle.putParcelable("orderResponse", orderResponse);
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.checkoutFragment, bundle);
-//        bundle.getParcelable("orderResponse");
+//        OrderResponse orderResponse1 = bundle.getParcelable("orderResponse");
     }
 }
