@@ -31,10 +31,12 @@ import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.common.dialogs.promoCode.PromoCodeDialog;
 import com.example.shopbee.ui.main.MainActivity;
 
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -242,28 +244,57 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         return PromoCodeResponse.roundToTwoDecimalPlaces(totalPrice);
     }
     private String generateUniqueOrderNumber() {
-        return "No" + UUID.randomUUID().toString().replace("-", "").toUpperCase();
+        String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        SecureRandom random = new SecureRandom();
+        StringBuilder builder = new StringBuilder(8);
+        for (int i = 0; i < 8; i++) {
+            int characterIndex = random.nextInt(ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(characterIndex));
+        }
+        return builder.toString();
     }
     private String generateUniqueTrackingNumber() {
-        return "TRK-" + UUID.randomUUID().toString().replace("-", "").toUpperCase();
-    }
+        String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        long timestamp = System.currentTimeMillis(); // Current timestamp in milliseconds
+        Random random = new Random();
+        StringBuilder builder = new StringBuilder();
 
+        // Generate 4 random alphanumeric characters
+        for (int i = 0; i < 4; i++) {
+            int index = random.nextInt(ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(index));
+        }
+
+        // Combine timestamp with random characters
+        return "BEE-" + timestamp + builder.toString();
+    }
+    private String DateTimeToFormat(){
+        Date now = new Date();
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("HH:mm yyyy-MM-dd");
+        String formattedDateTime = dateTimeFormat.format(now);
+        return formattedDateTime;
+    }
     @Override
     public void onClick(View view) {
         int sum_quantity = 0;
-        for (int quantity: viewModel.getBagQuantities().getValue()) {
+        for (int quantity : viewModel.getBagQuantities().getValue()) {
             sum_quantity += quantity;
         }
         List<OrderDetailResponse> orderDetailResponseList = new ArrayList<>();
         for (int i = 0; i < viewModel.getBagProducts().getValue().size(); i++) {
             AmazonProductDetailsResponse product = viewModel.getBagProducts().getValue().get(i);
-            OrderDetailResponse orderDetailResponse = new OrderDetailResponse(product.getData().getAsin(), product.getData().getProduct_title(), viewModel.getBagQuantities().getValue().get(i), product.getData().getProduct_price(), product.getData().getProduct_photo());
+            OrderDetailResponse orderDetailResponse = new OrderDetailResponse(product.getData().getAsin()
+                    , product.getData().getProduct_title()
+                    , viewModel.getBagQuantities().getValue().get(i)
+                    , product.getData().getProduct_price()
+                    , product.getData().getProduct_photo()
+                    , viewModel.getBagVariations().getValue().get(i));
             orderDetailResponseList.add(orderDetailResponse);
         }
         OrderResponse orderResponse;
         if (promoCodeResponse.getValue() == null) {
-            orderResponse = new OrderResponse (
-                    new Date().toString(),
+            orderResponse = new OrderResponse(
+                    DateTimeToFormat(),
                     sum_quantity,
                     "processing",
                     generateUniqueOrderNumber(),
@@ -272,8 +303,8 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                     "0$",
                     orderDetailResponseList);
         } else {
-            orderResponse = new OrderResponse (
-                    new Date().toString(),
+            orderResponse = new OrderResponse(
+                    DateTimeToFormat(),
                     sum_quantity,
                     "processing",
                     generateUniqueOrderNumber(),
@@ -286,7 +317,6 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         bundle.putParcelable("orderResponse", orderResponse);
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.checkoutFragment, bundle);
-//        OrderResponse orderResponse1 = bundle.getParcelable("orderResponse");
     }
 
     @Override

@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer;
 
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.data.model.api.ListOrderResponse;
+import com.example.shopbee.data.model.api.OrderResponse;
 import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.ui.common.base.BaseViewModel;
 
@@ -31,5 +32,11 @@ public class CheckoutViewModel extends BaseViewModel {
     }
     public MutableLiveData<UserResponse> getUserResponse() {
         return userResponse;
+    }
+    public void updateUserFirebase() {
+        getRepository().updateUserFirebase();
+    }
+    public void updateOrderFirebase(OrderResponse orderResponse) {
+        getRepository().updateOrderFirebase(orderResponse);
     }
 }

@@ -91,6 +91,18 @@ public class MyOrderFragment extends BaseFragment<MyOrdersBinding, MyOrderViewMo
                 }
             }
         });
+        binding.buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backToProfile();
+            }
+        });
+    }
+
+    @Override
+    public void backToProfile() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigateUp();
     }
 }
 

@@ -41,7 +41,7 @@ public class addNewCardDialog extends DialogFragment {
             throw new IllegalArgumentException("Arguments cannot be null");
         }
         binding = AddNewCardBinding.inflate(getLayoutInflater());
-        binding.checkBoxCard.setChecked(false, true);
+        binding.checkBoxCard.setChecked(false, false);
         handleStateOfInput(binding.name, binding.nameHint, binding.nameOnCardLayout);
         handleStateOfNumberCard(binding.cardNumber, binding.cardNumberHint, binding.cardNumberLayout, binding.typeCardIcon);
         handleStateOfInput(binding.expiryDate, binding.expiryDateHint, binding.expiryDateLayout);
@@ -78,7 +78,7 @@ public class addNewCardDialog extends DialogFragment {
                             , binding.cardNumber.getText().toString()
                             , binding.cvv.getText().toString()
                             , binding.expiryDate.getText().toString()
-                            , "visa"
+                            , "master"
                             , isTicked);
                     dialogsManager.postEvent(mAddNewCardEvent);
                     dismiss();

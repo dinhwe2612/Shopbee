@@ -774,4 +774,42 @@ public class Repository {
     public Observable<AmazonProductReviewResponse> getAmazonProductReview(HashMap<String, String> map) {
         return amazonApiService.getAmazonProductReviews(map);
     }
+    public void updateOrderFirebase(OrderResponse orderResponse){
+        Log.d("TAG", "updateOrderFirebase: " + orderResponse.getOrder_number());
+        databaseReference = FirebaseDatabase.getInstance().getReference("order");
+        Query query = databaseReference.orderByChild("email").equalTo(userResponse.getValue().getEmail());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    boolean orderFound = false;
+                    for (DataSnapshot orderSnapshot : snapshot.getChildren()) {
+                        for (DataSnapshot listOrderSnapshot : orderSnapshot.child("list_order").getChildren()) {
+                            String orderNumber = listOrderSnapshot.child("order_number").getValue(String.class);
+                            if (orderNumber.equals(orderResponse.getOrder_number())) {
+                                listOrderSnapshot.getRef().setValue(orderResponse);
+                                Log.d("updateOrderFirebase", "Order updated successfully for order number: " + orderNumber);
+                                orderFound = true;
+                                break;
+                            }
+                        }
+                        if (orderFound) {
+                            break;
+                        }
+                    }
+                    if (!orderFound) {
+                        DataSnapshot listOrderRef = snapshot.getChildren().iterator().next().child("list_order");
+                        listOrderRef.getRef().push().setValue(orderResponse);
+                        Log.d("updateOrderFirebase", "New order detail inserted for order number: " + orderResponse.getOrder_number());
+                    }
+                } else {
+                    Log.d("updateOrderFirebase", "No user found with email: " + userResponse.getValue().getEmail());
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("The read failed: " + error.getMessage());
+            }
+        });
+    }
 }

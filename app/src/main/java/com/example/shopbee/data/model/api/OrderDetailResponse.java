@@ -17,12 +17,13 @@ public class OrderDetailResponse implements Parcelable {
     private List<Pair<String, String>> variation;
     public OrderDetailResponse(){
     }
-    public OrderDetailResponse(String product_id, String product_name, int quantity, String price, String urlImage) {
+    public OrderDetailResponse(String product_id, String product_name, int quantity, String price, String urlImage, List<Pair<String, String>> variation) {
         this.product_id = product_id;
         this.product_name = product_name;
         this.quantity = quantity;
         this.price = price;
         this.urlImage = urlImage;
+        this.variation = variation;
     }
     public void setProduct_id(String product_id) {
         this.product_id = product_id;
@@ -76,7 +77,7 @@ public class OrderDetailResponse implements Parcelable {
     public String getTotalPrice(){
         String numericString = price.replace("$", "");
         float price = Float.parseFloat(numericString);
-        return "$" + String.valueOf(price * quantity);
+        return String.valueOf(price * quantity) + "$";
     }
     protected OrderDetailResponse(Parcel in) {
         product_id = in.readString();

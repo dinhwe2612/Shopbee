@@ -77,4 +77,8 @@
         android:id="@+id/paymentFragment"
         android:name="com.example.shopbee.ui.checkout.payment.PaymentFragment"
         android:label="PaymentFragment" />
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="com.example.shopbee.ui.checkout.SuccessFragment"
+        android:label="SuccessFragment" />
 </navigation>

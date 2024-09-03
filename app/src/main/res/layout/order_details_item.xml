@@ -7,6 +7,9 @@
     app:cardCornerRadius="10dp"
     android:background="@color/white_light_theme"
     android:layout_marginTop="15dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="5dp"
     android:layout_height="104dp">
     <LinearLayout
         android:orientation="horizontal"
@@ -37,6 +40,7 @@
                 android:ellipsize="end"
                 android:textAlignment="viewStart" />
             <TextView
+                android:visibility="gone"
                 android:text="Mango"
                 style="@style/Gray_Regular_11dp"
                 android:id="@+id/textView1"

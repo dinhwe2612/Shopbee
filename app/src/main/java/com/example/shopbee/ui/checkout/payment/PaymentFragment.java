@@ -35,6 +35,7 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
     private UserResponse userResponse;
     private ListOrderResponse listOrderResponse;
     private PaymentAdapter paymentAdapter;
+    private RecyclerView recyclerView;
     @Inject
     DialogsManager dialogsManager;
     @Override
@@ -56,18 +57,9 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
-        loadRealtimeData();
-        RecyclerView recyclerView = binding.recyclerView;
+        recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        int positionDef = -1;
-        for (int i = 0; i < userResponse.getPayment().size(); i++) {
-            if (userResponse.getPayment().get(i).getDef()){
-                positionDef = i;
-            }
-        }
-        paymentAdapter = new PaymentAdapter(this, userResponse.getPayment(), positionDef);
-        recyclerView.setAdapter(paymentAdapter);
-
+        loadRealtimeData();
         binding.buttonBackSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,10 +76,42 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
     }
 
     private void loadRealtimeData() {
-        viewModel.getUserResponse().observeForever(response -> userResponse = response);
-        viewModel.getOrderResponse().observeForever(response -> listOrderResponse = response);
+        viewModel.getUserResponse().observe(getViewLifecycleOwner(), new Observer<UserResponse>() {
+            @Override
+            public void onChanged(UserResponse response) {
+                userResponse = response;
+                updateUI();
+            }
+        });
+        viewModel.getOrderResponse().observe(getViewLifecycleOwner(), new Observer<ListOrderResponse>() {
+            @Override
+            public void onChanged(ListOrderResponse response) {
+                listOrderResponse = response;
+            }
+        });
     }
-
+    private void updateUI() {
+        if (userResponse.getPayment() != null) {
+            int positionDef = -1;
+            for (int i = 0; i < userResponse.getPayment().size(); i++) {
+                if (userResponse.getPayment().get(i).getDef()) {
+                    positionDef = i;
+                }
+            }
+            paymentAdapter = new PaymentAdapter(this, userResponse.getPayment(), positionDef);
+            recyclerView.setAdapter(paymentAdapter);
+        }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        dialogsManager.registerListener(this);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        dialogsManager.unregisterListener(this);
+    }
     @Override
     public void onClickItems(int position) {
         for (int i = 0; i < userResponse.getPayment().size(); i++) {
@@ -117,7 +141,7 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
                 userResponse.getPayment().add(sizeOfOldPayment - 1, newPayment);
             }
             viewModel.updateUserFirebase();
-            paymentAdapter.notifyDataSetChanged();
+            recyclerView.post(() -> paymentAdapter.notifyDataSetChanged());
         }
     }
 

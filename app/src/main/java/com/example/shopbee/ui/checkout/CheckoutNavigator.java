@@ -5,4 +5,5 @@ public interface CheckoutNavigator {
     void changeShippingAddress();
     void changePaymentMethod();
     void submitOrder();
+    void backToPreviousFragment();
 }
