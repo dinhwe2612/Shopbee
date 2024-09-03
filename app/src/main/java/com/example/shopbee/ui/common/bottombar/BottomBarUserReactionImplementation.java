@@ -1,13 +1,23 @@
 package com.example.shopbee.ui.component.bottombar;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.media.Image;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.shopbee.R;
+import com.example.shopbee.data.Repository;
 import com.example.shopbee.databinding.BottomBarBinding;
 
 public class BottomBarUserReactionImplementation {
@@ -95,4 +105,58 @@ public class BottomBarUserReactionImplementation {
             listener.onClick(position);
         }
     }
+    public void animateAddToFavorite(ImageView productImage, RelativeLayout rootView, Repository.UserVariation userVariation) {
+        ImageView copiedImage = new ImageView(productImage.getContext());
+        copiedImage.setImageDrawable(productImage.getDrawable());
+        rootView.addView(copiedImage);
+
+        int[] originalPos = new int[2];
+        productImage.getLocationOnScreen(originalPos);
+        copiedImage.setX(originalPos[0]);
+        copiedImage.setY(originalPos[1]);
+
+        int[] targetPos = new int[2];
+        ImageView button;
+        if (userVariation == Repository.UserVariation.FAVORITE) {
+            button = imageViews[3];
+        } else {
+            button = imageViews[2];
+        }
+
+        button.getLocationOnScreen(targetPos);
+
+        Log.d("BottomBarUserReaction", "targetPos: " + targetPos[0] + ", " + targetPos[1]);
+
+        // ObjectAnimators for translation
+        ObjectAnimator translateX = ObjectAnimator.ofFloat(copiedImage, "x", targetPos[0]);
+        ObjectAnimator translateY = ObjectAnimator.ofFloat(copiedImage, "y", targetPos[1]);
+
+        // Keyframes for faster shrinking
+        Keyframe kf0 = Keyframe.ofFloat(0f, 1f); // Start at full size
+        Keyframe kf1 = Keyframe.ofFloat(0.3f, 0.4f); // Shrink to 40% size faster
+        Keyframe kf2 = Keyframe.ofFloat(1f, 0f); // Shrink to 0% size at the end
+
+        PropertyValuesHolder scaleXHolder = PropertyValuesHolder.ofKeyframe("scaleX", kf0, kf1, kf2);
+        PropertyValuesHolder scaleYHolder = PropertyValuesHolder.ofKeyframe("scaleY", kf0, kf1, kf2);
+
+        // Create ObjectAnimators for scaling with keyframes
+        ObjectAnimator scaleX = ObjectAnimator.ofPropertyValuesHolder(copiedImage, scaleXHolder);
+        ObjectAnimator scaleY = ObjectAnimator.ofPropertyValuesHolder(copiedImage, scaleYHolder);
+
+        // Combine all animations into AnimatorSet
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(translateX, translateY, scaleX, scaleY);
+//        animatorSet.playTogether(translateX, translateY);
+        animatorSet.setDuration(1000); // Total duration remains the same
+
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                rootView.removeView(copiedImage);
+            }
+        });
+
+        animatorSet.start();
+    }
+
 }

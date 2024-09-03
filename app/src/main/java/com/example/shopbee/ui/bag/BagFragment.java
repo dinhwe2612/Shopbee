@@ -3,9 +3,11 @@ package com.example.shopbee.ui.bag;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.shopbee.BR;
 import com.example.shopbee.R;
+import com.example.shopbee.data.Repository;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.data.model.api.OrderResponse;
@@ -26,6 +29,7 @@ import com.example.shopbee.ui.bag.adapter.BagAdapter;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.common.dialogs.promoCode.PromoCodeDialog;
+import com.example.shopbee.ui.main.MainActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,7 +39,12 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implements BagNavigator, ToolbarView.SearchClickListener, DialogsManager.Listener, View.OnClickListener {
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
+public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implements BagNavigator, ToolbarView.SearchClickListener, DialogsManager.Listener, View.OnClickListener, BagAdapter.onChangeQuantityListener {
+    boolean doneLoadingProducts = false;
+    // handle blank bag
     @Inject
     DialogsManager dialogsManager;
     MutableLiveData<PromoCodeResponse> promoCodeResponse = new MutableLiveData<>();
@@ -61,63 +70,96 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        getViewDataBinding().topBar.addView(toolbarView.getRootView());
-        viewModel.syncBagLists();
-        getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        getViewDataBinding().recyclerView.setAdapter(bagAdapter);
-        viewModel.getBagProducts().observe(getViewLifecycleOwner(), products -> {
-            bagAdapter.setQuantities(viewModel.getBagQuantities().getValue());
-            bagAdapter.setVariations(viewModel.getBagVariations().getValue());
-            bagAdapter.setProducts(products);
-            getViewDataBinding().priceTotal.setText(getPriceTotal() + "$");
-            getViewDataBinding().discountTotal.setText("-" + 0 + "$");
-            getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
-            getViewDataBinding().promoCodeText.setText("");
-        });
-        viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
-            if (inProgress) {
-                getViewDataBinding().loading.setVisibility(View.VISIBLE);
-                animateLoading();
-//                showProgressDialog();
-            } else {
-                stopLoadingAnimations();
-                getViewDataBinding().loading.setVisibility(View.GONE);
-                getViewDataBinding().recyclerView.setVisibility(View.VISIBLE);
-//                hideProgressDialog();
-            }
-        });
-        viewModel.getPromoCodes().observe(getViewLifecycleOwner(), result -> {
-            Log.d("result", "open promoCodeDialog");
-            PromoCodeDialog promoCodeDialog = PromoCodeDialog.newInstance(dialogsManager);
-            promoCodeDialog.setPromoCodeResponseList(result);
-            promoCodeDialog.setPromoCodeResponse(promoCodeResponse.getValue());
-            promoCodeDialog.setOnCollectVoucherListener(new PromoCodeDialog.onCollectVoucherListener() {
-                @Override
-                public void onCollectVoucher() {
-                    // navigate to collect voucher fragment
+        if (viewModel.getRepository().getUserResponse() != null) {
+            viewModel.syncBagLists();
+            getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+            getViewDataBinding().recyclerView.setAdapter(bagAdapter);
+            bagAdapter.setOnChangeQuantityListener(this);
+            viewModel.getBagProducts().observe(getViewLifecycleOwner(), products -> {
+                doneLoadingProducts = true;
+                bagAdapter.setQuantities(viewModel.getBagQuantities().getValue());
+                bagAdapter.setVariations(viewModel.getBagVariations().getValue());
+                bagAdapter.setProducts(products);
+                bagAdapter.notifyDataSetChanged();
+                getViewDataBinding().priceTotal.setText(getPriceTotal() + "$");
+                if (promoCodeResponse.getValue() != null) {
+                    getViewDataBinding().promoCodeText.setText("");
+                    getViewDataBinding().discountTotal.setText("-" + 0 + "$");
+                    getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
+                } else {
+                    getViewDataBinding().discountTotal.setText("-" + 0 + "$");
+                    getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
+                    getViewDataBinding().promoCodeText.setText("");
                 }
             });
-            promoCodeDialog.show(requireActivity().getSupportFragmentManager(), promoCodeDialog.getTag());
-        });
-        getViewDataBinding().promoCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            viewModel.getBagQuantities().observe(getViewLifecycleOwner(), lists -> {
+//                bagAdapter.setQuantities(viewModel.getBagQuantities().getValue());
+//                bagAdapter.setVariations(viewModel.getBagVariations().getValue());
+//                bagAdapter.setProducts(viewModel.getBagProducts().getValue());
+//                bagAdapter.notifyDataSetChanged();
+                if (doneLoadingProducts) {
+                    Log.d("update price", "update price");
+                    getViewDataBinding().priceTotal.setText(getPriceTotal() + "$");
+                    if (promoCodeResponse.getValue() != null) {
+                        getViewDataBinding().promoCodeText.setText("");
+                        getViewDataBinding().discountTotal.setText("-" + 0 + "$");
+                        getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
+                    } else {
+                        getViewDataBinding().discountTotal.setText("-" + 0 + "$");
+                        getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
+                        getViewDataBinding().promoCodeText.setText("");
+                    }
+                }
+            });
+            viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
+                if (inProgress) {
+                    getViewDataBinding().loading.setVisibility(View.VISIBLE);
+                    animateLoading();
+//                showProgressDialog();
+                } else {
+                    stopLoadingAnimations();
+                    getViewDataBinding().loading.setVisibility(View.GONE);
+                    getViewDataBinding().recyclerView.setVisibility(View.VISIBLE);
+//                hideProgressDialog();
+                }
+            });
+            viewModel.getPromoCodes().observe(getViewLifecycleOwner(), result -> {
+                Log.d("result", "open promoCodeDialog");
+                PromoCodeDialog promoCodeDialog = PromoCodeDialog.newInstance(dialogsManager);
+                promoCodeDialog.setPromoCodeResponseList(result);
+                promoCodeDialog.setPromoCodeResponse(promoCodeResponse.getValue());
+                promoCodeDialog.setOnCollectVoucherListener(new PromoCodeDialog.onCollectVoucherListener() {
+                    @Override
+                    public void onCollectVoucher() {
+                        // navigate to collect voucher fragment
+                    }
+                });
+                promoCodeDialog.show(requireActivity().getSupportFragmentManager(), promoCodeDialog.getTag());
+            });
+            getViewDataBinding().promoCode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     viewModel.syncPromoCodes();
 
-            }
-        });
-        promoCodeResponse.observe(getViewLifecycleOwner(), updatedPromoCode ->{
-            if (updatedPromoCode != null) {
-                getViewDataBinding().promoCodeText.setText(updatedPromoCode.getCode());
-                getViewDataBinding().discountTotal.setText("-" + updatedPromoCode.processDiscount(getPriceTotal()) + "$");
-                getViewDataBinding().afterDiscountTotal.setText(updatedPromoCode.processPrice(getPriceTotal()) + "$");
-            }
-            else {
-                getViewDataBinding().promoCodeText.setText("");
-                getViewDataBinding().discountTotal.setText("-" + 0 + "$");
-                getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
-            }
-        });
-        getViewDataBinding().checkOut.setOnClickListener(this);
+                }
+            });
+            promoCodeResponse.observe(getViewLifecycleOwner(), updatedPromoCode ->{
+                if (updatedPromoCode != null) {
+                    getViewDataBinding().promoCodeText.setText(updatedPromoCode.getCode());
+                    getViewDataBinding().discountTotal.setText("-" + updatedPromoCode.processDiscount(getPriceTotal()) + "$");
+                    getViewDataBinding().afterDiscountTotal.setText(updatedPromoCode.processPrice(getPriceTotal()) + "$");
+                }
+                else {
+                    getViewDataBinding().promoCodeText.setText("");
+                    getViewDataBinding().discountTotal.setText("-" + 0 + "$");
+                    getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
+                }
+            });
+            getViewDataBinding().checkOut.setOnClickListener(this);
+        }
+        else {
+            getViewDataBinding().signIn.setVisibility(View.VISIBLE);
+        }
     }
     public void animateLoading() {
         AnimationDrawable animationDrawable1 = (AnimationDrawable) getViewDataBinding().loading1.getBackground();
@@ -197,7 +239,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
             price = price.replace("$", "");
             totalPrice += Float.parseFloat(price) * viewModel.getBagQuantities().getValue().get(i);
         }
-        return totalPrice;
+        return PromoCodeResponse.roundToTwoDecimalPlaces(totalPrice);
     }
     private String generateUniqueOrderNumber() {
         return "No" + UUID.randomUUID().toString().replace("-", "").toUpperCase();
@@ -245,5 +287,53 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.checkoutFragment, bundle);
 //        OrderResponse orderResponse1 = bundle.getParcelable("orderResponse");
+    }
+
+    @Override
+    public void onChangeQuantity(String asin, List<Pair<String, String>> variations, boolean increase) {
+        viewModel.getCompositeDisposable().add(viewModel.getRepository().updateUserBagVariation(asin, variations, increase)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(success -> {
+                                    if (success) {
+                                        Log.d("success", "success" + success);
+                                        viewModel.syncBagListsOnly();
+//                        viewModel.getBagProducts().setValue(viewModel.getBagProducts().getValue());
+                                        // Handle successful deletion
+                                    } else {
+                                        // Handle failure
+                                    }
+                                },
+                                error -> {
+
+                                })
+        );
+    }
+
+    @Override
+    public void onSaveToFavorites(String asin, List<Pair<String, String>> variations, ImageView imageView) {
+        viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, variations, null);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.getBottomBar().animateAddToFavorite(imageView, mainActivity.findViewById(R.id.main), Repository.UserVariation.FAVORITE);
+    }
+
+    @Override
+    public void onDeleteFromList(String asin, List<Pair<String, String>> variations, int position) {
+        viewModel.getCompositeDisposable().add(viewModel.getRepository().deleteUserVariation(Repository.UserVariation.BAG, asin, variations)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(success -> {
+                            if (success) {
+                                // Handle successful update
+                                viewModel.syncBagListsOnly();
+                                viewModel.getBagProducts().getValue().remove(position);
+                            } else {
+                                // Handle failure
+                            }
+                        },
+                        error -> {
+
+                        })
+        );
     }
 }

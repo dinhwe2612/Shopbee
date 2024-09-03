@@ -28,6 +28,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     ActivityMainBinding binding;
     @Inject
     BottomBarUserReactionImplementation bottomBar;
+    public BottomBarUserReactionImplementation getBottomBar() {
+        return bottomBar;
+    }
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
     }

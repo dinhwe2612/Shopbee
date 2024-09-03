@@ -168,6 +168,7 @@
                 style="@style/Gray_Regular_11dp"/>
         </LinearLayout>
         <ImageView
+            android:id="@+id/add_to_bag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/cart_icon"

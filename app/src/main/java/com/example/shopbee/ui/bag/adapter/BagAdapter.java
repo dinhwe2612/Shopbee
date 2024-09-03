@@ -1,17 +1,22 @@
 package com.example.shopbee.ui.bag.adapter;
 
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
+import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.databinding.FavoriteItemBinding;
@@ -27,6 +32,15 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
+    public interface onChangeQuantityListener {
+        void onChangeQuantity(String asin, List<Pair<String, String>> variations, boolean increase);
+        void onSaveToFavorites(String asin, List<Pair<String, String>> variations, ImageView imageView);
+        void onDeleteFromList(String asin, List<Pair<String, String>> variations, int position);
+    }
+    onChangeQuantityListener onChangeQuantityListener;
+    public void setOnChangeQuantityListener(onChangeQuantityListener onChangeQuantityListener) {
+        this.onChangeQuantityListener = onChangeQuantityListener;
+    }
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     List<Integer> quantities = new ArrayList<>();
     List<AmazonProductDetailsResponse> products = new ArrayList<>();
@@ -122,6 +136,62 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
                 binding.textView8.setVisibility(View.GONE);
             }
             binding.textView5.setText(String.valueOf(quantities.get(position)));
+            binding.imageView3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onChangeQuantityListener.onChangeQuantity(products.get(position).getData().getAsin(), variations.get(position), true);
+                    quantities.set(position, quantities.get(position) + 1);
+//                    Log.e("quantity", "quantity: " + quantities.get(position));
+//                    notifyItemChanged(position);
+                    binding.textView5.setText(String.valueOf(quantities.get(position)));
+                }
+            });
+            binding.popupMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PopupMenu popupMenu = new PopupMenu(itemView.getContext(), view);
+                    popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            if (item.getItemId() == R.id.add_to_favorites_popup) {
+                                onChangeQuantityListener.onSaveToFavorites(products.get(position).getData().getAsin(), variations.get(position), binding.imageView);
+                                return true;
+                            } else if (item.getItemId() == R.id.delete_from_list_popup) {
+                                onChangeQuantityListener.onDeleteFromList(products.get(position).getData().getAsin(), variations.get(position), position);
+                                quantities.remove(position);
+                                products.remove(position);
+                                variations.remove(position);
+//                                notifyDataSetChanged();
+                                notifyItemRemoved(position);
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
+                    popupMenu.show();
+                }
+            });
+            binding.imageView2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (quantities.get(position) > 1) {
+                        onChangeQuantityListener.onChangeQuantity(products.get(position).getData().getAsin(), variations.get(position), false);
+                        quantities.set(position, quantities.get(position) - 1);
+//                        notifyItemChanged(position);
+                        binding.textView5.setText(String.valueOf(quantities.get(position)));
+                    }
+                    else {
+                        onChangeQuantityListener.onDeleteFromList(products.get(position).getData().getAsin(), variations.get(position), position);
+                        quantities.remove(position);
+                        products.remove(position);
+                        variations.remove(position);
+//                        notifyDataSetChanged();
+                        notifyItemRemoved(position);
+//                        notifyItemRangeChanged(position, getItemCount());
+                    }
+                }
+            });
         }
     }
 }

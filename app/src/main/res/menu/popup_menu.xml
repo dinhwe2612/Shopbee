@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/add_to_favorites"
+        android:id="@+id/add_to_favorites_popup"
         android:title="Add to favorites"/>
     <item
-        android:id="@+id/delete_from_list"
+        android:id="@+id/delete_from_list_popup"
         android:title="Delete from the list"/>
 </menu>

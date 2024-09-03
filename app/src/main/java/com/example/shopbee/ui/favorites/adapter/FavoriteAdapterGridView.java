@@ -88,7 +88,8 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
                     onItemClickListener.onItemDeleteClick(products.get(position).getData().getAsin(), variations.get(position));
                     products.remove(position);
                     variations.remove(position);
-                    notifyItemRemoved(position);
+//                    notifyItemRemoved(position);
+                    notifyDataSetChanged();
                 }
             });
             binding.itemFavoriteName.setText(products.get(position).getData().getProduct_title());

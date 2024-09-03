@@ -6,6 +6,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
@@ -25,6 +26,7 @@ import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.favorites.adapter.FavoriteAdapter;
 import com.example.shopbee.ui.favorites.adapter.FavoriteAdapterGridView;
+import com.example.shopbee.ui.main.MainActivity;
 
 import java.util.List;
 
@@ -81,40 +83,44 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
-        viewModel.syncFavoriteLists();
+        if (viewModel.getRepository().getUserResponse() != null) {
+            viewModel.syncFavoriteLists();
 
-        productAdapter = new FavoriteAdapter();
-        productAdapter.setOnItemClickListener(this);
+            productAdapter = new FavoriteAdapter();
+            productAdapter.setOnItemClickListener(this);
 
-        productAdapterGridView = new FavoriteAdapterGridView();
-        productAdapterGridView.setOnItemClickListener(this);
+            productAdapterGridView = new FavoriteAdapterGridView();
+            productAdapterGridView.setOnItemClickListener(this);
 
 //        getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        changeView(isInListView, null);
+            changeView(isInListView, null);
 
-        viewModel.getFavoriteProducts().observe(getViewLifecycleOwner(), products -> {
-            changeView(isInListView, products);
-        });
-        viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
-            if (inProgress) {
-                binding.loading.setVisibility(View.VISIBLE);
-                animateLoading();
-            } else {
-                stopLoadingAnimations();
-                binding.loading.setVisibility(View.GONE);
-            }
-        });
+            viewModel.getFavoriteProducts().observe(getViewLifecycleOwner(), products -> {
+                changeView(isInListView, products);
+            });
+            viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
+                if (inProgress) {
+                    binding.loading.setVisibility(View.VISIBLE);
+                    animateLoading();
+                } else {
+                    stopLoadingAnimations();
+                    binding.loading.setVisibility(View.GONE);
+                }
+            });
 //        viewModel.getFavoriteVariations().observe(getViewLifecycleOwner(), variations -> {
 //            changeView(isInListView, viewModel.getFavoriteProducts().getValue());
 //        });
-        binding.imageView.setVisibility(View.VISIBLE);
-        binding.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isInListView = !isInListView;
-                changeView(isInListView, viewModel.getFavoriteProducts().getValue());
-            }
-        });
+//        binding.imageView.setVisibility(View.VISIBLE);
+            binding.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    isInListView = !isInListView;
+                    changeView(isInListView, viewModel.getFavoriteProducts().getValue());
+                }
+            });
+        } else {
+            getViewDataBinding().signIn.setVisibility(View.VISIBLE);
+        }
         return binding.getRoot();
     }
 
@@ -202,5 +208,12 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     @Override
     public void onItemDeleteClick(String asin, List<Pair<String, String>> variation) {
         viewModel.getRepository().deleteUserVariation(Repository.UserVariation.FAVORITE, asin, variation);
+    }
+
+    @Override
+    public void onAddToBagClick(String asin, List<Pair<String, String>> variation, ImageView imageView) {
+        viewModel.getRepository().saveUserVariation(Repository.UserVariation.BAG, asin, variation, 1);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.getBottomBar().animateAddToFavorite(imageView, mainActivity.findViewById(R.id.main), Repository.UserVariation.BAG);
     }
 }
