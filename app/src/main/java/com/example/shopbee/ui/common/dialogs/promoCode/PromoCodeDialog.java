@@ -25,7 +25,16 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class PromoCodeDialog extends BottomSheetDialogFragment {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PromoCodeDialog extends BottomSheetDialogFragment implements  PromoCodeAdapter.OnItemClick{
+    List<PromoCodeResponse> promoCodeResponseList = new ArrayList<>();
+
+    public void setPromoCodeResponseList(List<PromoCodeResponse> promoCodeResponseList) {
+        this.promoCodeResponseList = promoCodeResponseList;
+    }
+
     String promoCode;
     PromoCodeResponse promoCodeResponse;
     PromoCodeAdapter promoCodeAdapter = new PromoCodeAdapter();
@@ -71,5 +80,13 @@ public class PromoCodeDialog extends BottomSheetDialogFragment {
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.recyclerView.setAdapter(promoCodeAdapter);
+        promoCodeAdapter.setPromoCodeList(promoCodeResponseList);
+        promoCodeAdapter.setCurrentItem(promoCodeResponse);
+    }
+
+    @Override
+    public void onItemClick(PromoCodeResponse promoCodeResponse) {
+        dialogsManager.postEvent(promoCodeResponse);
+        dismiss();
     }
 }
