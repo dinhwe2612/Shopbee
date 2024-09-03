@@ -1,12 +1,14 @@
 package com.example.shopbee.data.model.api;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class OrderDetailResponse {
+public class OrderDetailResponse implements Parcelable {
     private String product_id;
     private String product_name;
     private String price;
@@ -76,4 +78,40 @@ public class OrderDetailResponse {
         float price = Float.parseFloat(numericString);
         return "$" + String.valueOf(price * quantity);
     }
+    protected OrderDetailResponse(Parcel in) {
+        product_id = in.readString();
+        product_name = in.readString();
+        price = in.readString();
+        quantity = in.readInt();
+        urlImage = in.readString();
+        variation = new ArrayList<>();
+        in.readList(variation, Pair.class.getClassLoader());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(product_id);
+        dest.writeString(product_name);
+        dest.writeString(price);
+        dest.writeInt(quantity);
+        dest.writeString(urlImage);
+        dest.writeList(variation);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<OrderDetailResponse> CREATOR = new Creator<OrderDetailResponse>() {
+        @Override
+        public OrderDetailResponse createFromParcel(Parcel in) {
+            return new OrderDetailResponse(in);
+        }
+
+        @Override
+        public OrderDetailResponse[] newArray(int size) {
+            return new OrderDetailResponse[size];
+        }
+    };
 }

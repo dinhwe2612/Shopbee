@@ -8,10 +8,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.shopbee.BR;
 import com.example.shopbee.R;
+import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
+import com.example.shopbee.data.model.api.OrderDetailResponse;
+import com.example.shopbee.data.model.api.OrderResponse;
 import com.example.shopbee.data.model.api.PromoCodeResponse;
 import com.example.shopbee.databinding.BagBinding;
 import com.example.shopbee.di.component.FragmentComponent;
@@ -21,9 +26,15 @@ import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.common.dialogs.promoCode.PromoCodeDialog;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
 import javax.inject.Inject;
 
-public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implements BagNavigator, ToolbarView.SearchClickListener, DialogsManager.Listener {
+public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implements BagNavigator, ToolbarView.SearchClickListener, DialogsManager.Listener, View.OnClickListener {
     @Inject
     DialogsManager dialogsManager;
     MutableLiveData<PromoCodeResponse> promoCodeResponse = new MutableLiveData<>();
@@ -81,6 +92,12 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                     PromoCodeDialog promoCodeDialog = PromoCodeDialog.newInstance(dialogsManager);
                     promoCodeDialog.setPromoCodeResponseList(result);
                     promoCodeDialog.setPromoCodeResponse(promoCodeResponse.getValue());
+                    promoCodeDialog.setOnCollectVoucherListener(new PromoCodeDialog.onCollectVoucherListener() {
+                        @Override
+                        public void onCollectVoucher() {
+                            // navigate to collect voucher fragment
+                        }
+                    });
                 });
             }
         });
@@ -96,6 +113,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                 getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
             }
         });
+        getViewDataBinding().checkOut.setOnClickListener(this);
     }
     public void animateLoading() {
         AnimationDrawable animationDrawable1 = (AnimationDrawable) getViewDataBinding().loading1.getBackground();
@@ -174,5 +192,52 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
             totalPrice += Float.parseFloat(price) * viewModel.getBagQuantities().getValue().get(i);
         }
         return totalPrice;
+    }
+    private String generateUniqueOrderNumber() {
+        return "No" + UUID.randomUUID().toString().replace("-", "").toUpperCase();
+    }
+    private String generateUniqueTrackingNumber() {
+        return "TRK-" + UUID.randomUUID().toString().replace("-", "").toUpperCase();
+    }
+
+    @Override
+    public void onClick(View view) {
+        int sum_quantity = 0;
+        for (int quantity: viewModel.getBagQuantities().getValue()) {
+            sum_quantity += quantity;
+        }
+        List<OrderDetailResponse> orderDetailResponseList = new ArrayList<>();
+        for (int i = 0; i < viewModel.getBagProducts().getValue().size(); i++) {
+            AmazonProductDetailsResponse product = viewModel.getBagProducts().getValue().get(i);
+            OrderDetailResponse orderDetailResponse = new OrderDetailResponse(product.getData().getAsin(), product.getData().getProduct_title(), viewModel.getBagQuantities().getValue().get(i), product.getData().getProduct_price(), product.getData().getProduct_photo());
+            orderDetailResponseList.add(orderDetailResponse);
+        }
+        OrderResponse orderResponse;
+        if (promoCodeResponse.getValue() == null) {
+            orderResponse = new OrderResponse (
+                    new Date().toString(),
+                    sum_quantity,
+                    "processing",
+                    generateUniqueOrderNumber(),
+                    generateUniqueTrackingNumber(),
+                    "",
+                    "0$",
+                    orderDetailResponseList);
+        } else {
+            orderResponse = new OrderResponse (
+                    new Date().toString(),
+                    sum_quantity,
+                    "processing",
+                    generateUniqueOrderNumber(),
+                    generateUniqueTrackingNumber(),
+                    "",
+                    promoCodeResponse.getValue().processDiscount(getPriceTotal()) + "$",
+                    orderDetailResponseList);
+        }
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("orderResponse", orderResponse);
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.checkoutFragment, bundle);
+//        bundle.getParcelable("orderResponse");
     }
 }

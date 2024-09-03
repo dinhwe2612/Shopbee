@@ -1,12 +1,16 @@
 package com.example.shopbee.data.model.api;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-public class OrderResponse {
+public class OrderResponse implements Parcelable {
     private String date;
     private int quantity;
     private String status;
@@ -108,5 +112,43 @@ public class OrderResponse {
 
         return finalAmount.setScale(2, RoundingMode.HALF_UP).toString() + "$";
     }
+    protected OrderResponse(Parcel in) {
+        date = in.readString();
+        quantity = in.readInt();
+        status = in.readString();
+        order_number = in.readString();
+        tracking_number = in.readString();
+        payment = in.readString();
+        discount = in.readString();
+        order_detail = in.createTypedArrayList(OrderDetailResponse.CREATOR);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(date);
+        dest.writeInt(quantity);
+        dest.writeString(status);
+        dest.writeString(order_number);
+        dest.writeString(tracking_number);
+        dest.writeString(payment);
+        dest.writeString(discount);
+        dest.writeTypedList(order_detail);
+    }
+    public static final Creator<OrderResponse> CREATOR = new Creator<OrderResponse>() {
+        @Override
+        public OrderResponse createFromParcel(Parcel in) {
+            return new OrderResponse(in);
+        }
+
+        @Override
+        public OrderResponse[] newArray(int size) {
+            return new OrderResponse[size];
+        }
+    };
 }
 
