@@ -129,16 +129,16 @@ public class BagViewModel extends BaseViewModel<BagNavigator> {
 
     }
     public void syncPromoCodes() {
-//        getCompositeDisposable().add(getRepository().getPromoCode()
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(result -> {
-//                                promoCodes.setValue(result);
-//                                },
-//                                error -> {
-//
-//                                })
-//        );
+        getCompositeDisposable().add(getRepository().getPromoCode()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(result -> {
+                                promoCodes.setValue(result);
+                                },
+                                error -> {
+
+                                })
+        );
         // promo code : list of user possessing
     }
 }

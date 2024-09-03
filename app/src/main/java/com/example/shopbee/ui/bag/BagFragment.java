@@ -2,6 +2,7 @@ package com.example.shopbee.ui.bag;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,21 +85,24 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
 //                hideProgressDialog();
             }
         });
+        viewModel.getPromoCodes().observe(getViewLifecycleOwner(), result -> {
+            Log.d("result", "open promoCodeDialog");
+            PromoCodeDialog promoCodeDialog = PromoCodeDialog.newInstance(dialogsManager);
+            promoCodeDialog.setPromoCodeResponseList(result);
+            promoCodeDialog.setPromoCodeResponse(promoCodeResponse.getValue());
+            promoCodeDialog.setOnCollectVoucherListener(new PromoCodeDialog.onCollectVoucherListener() {
+                @Override
+                public void onCollectVoucher() {
+                    // navigate to collect voucher fragment
+                }
+            });
+            promoCodeDialog.show(requireActivity().getSupportFragmentManager(), promoCodeDialog.getTag());
+        });
         getViewDataBinding().promoCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.syncPromoCodes();
-                viewModel.getPromoCodes().observe(getViewLifecycleOwner(), result -> {
-                    PromoCodeDialog promoCodeDialog = PromoCodeDialog.newInstance(dialogsManager);
-                    promoCodeDialog.setPromoCodeResponseList(result);
-                    promoCodeDialog.setPromoCodeResponse(promoCodeResponse.getValue());
-                    promoCodeDialog.setOnCollectVoucherListener(new PromoCodeDialog.onCollectVoucherListener() {
-                        @Override
-                        public void onCollectVoucher() {
-                            // navigate to collect voucher fragment
-                        }
-                    });
-                });
+                    viewModel.syncPromoCodes();
+
             }
         });
         promoCodeResponse.observe(getViewLifecycleOwner(), updatedPromoCode ->{
@@ -179,6 +183,8 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     public void onDialogEvent(Object event) {
         if (event instanceof PromoCodeResponse) {
             promoCodeResponse.setValue((PromoCodeResponse) event);
+        } else {
+            promoCodeResponse.setValue(null);
         }
     }
 

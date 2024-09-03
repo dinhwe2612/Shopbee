@@ -400,7 +400,55 @@ public class Repository {
     }
 
     public Observable<List<PromoCodeResponse>> getPromoCode() {
-        return null;
+        return Observable.create(emitter -> {
+            List<PromoCodeResponse> list = new ArrayList<>();
+            String email = getUserResponse().getValue().getEmail();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("promo_code");
+
+            // Retrieve all promo codes
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot promoSnapshot : snapshot.getChildren()) {
+                            boolean userHasPromo = false;
+
+                            // Check if users node exists and loop through it
+                            DataSnapshot usersSnapshot = promoSnapshot.child("users");
+                            for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                                String userEmail = userSnapshot.child("email").getValue(String.class);
+                                if (email.equals(userEmail)) {
+                                    userHasPromo = true;
+                                    break; // Exit loop if user's email is found
+                                }
+                            }
+
+                            if (userHasPromo) {
+                                // Get promo code details if user possesses it
+                                String name = promoSnapshot.child("name").getValue(String.class);
+                                String code = promoSnapshot.child("code").getValue(String.class);
+                                Integer percent = promoSnapshot.child("percent").getValue(Integer.class);
+                                Float maxDiscount = promoSnapshot.child("max_discount").getValue(Float.class);
+                                String dueDate = promoSnapshot.child("due_date").getValue(String.class);
+                                String style = promoSnapshot.child("style").getValue(String.class);
+
+                                PromoCodeResponse promoCodeResponse = new PromoCodeResponse(percent, maxDiscount, name, code, dueDate, style);
+                                list.add(promoCodeResponse);
+                            }
+                        }
+                    }
+
+                    // Emit the retrieved promo codes and complete the observable
+                    emitter.onNext(list);
+                    emitter.onComplete();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    emitter.onError(error.toException()); // Emit error if the operation is cancelled
+                }
+            });
+        });
     }
 
     public enum UserVariation {
