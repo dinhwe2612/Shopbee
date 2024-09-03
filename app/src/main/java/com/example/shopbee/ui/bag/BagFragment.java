@@ -7,17 +7,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.shopbee.BR;
 import com.example.shopbee.R;
+import com.example.shopbee.data.model.api.PromoCodeResponse;
 import com.example.shopbee.databinding.BagBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.toolbar.ToolbarView;
 import com.example.shopbee.ui.bag.adapter.BagAdapter;
 import com.example.shopbee.ui.common.base.BaseFragment;
+import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.example.shopbee.ui.common.dialogs.promoCode.PromoCodeDialog;
 
-public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implements BagNavigator, ToolbarView.SearchClickListener {
+import javax.inject.Inject;
+
+public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implements BagNavigator, ToolbarView.SearchClickListener, DialogsManager.Listener {
+    @Inject
+    DialogsManager dialogsManager;
+    MutableLiveData<PromoCodeResponse> promoCodeResponse = new MutableLiveData<>();
     BagAdapter bagAdapter = new BagAdapter();
     ToolbarView toolbarView;
     @Override
@@ -39,7 +48,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getViewDataBinding().topBar.addView(toolbarView.getRootView());
+//        getViewDataBinding().topBar.addView(toolbarView.getRootView());
         viewModel.syncBagLists();
         getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         getViewDataBinding().recyclerView.setAdapter(bagAdapter);
@@ -47,6 +56,10 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
             bagAdapter.setQuantities(viewModel.getBagQuantities().getValue());
             bagAdapter.setVariations(viewModel.getBagVariations().getValue());
             bagAdapter.setProducts(products);
+            getViewDataBinding().priceTotal.setText(getPriceTotal() + "$");
+            getViewDataBinding().discountTotal.setText("-" + 0 + "$");
+            getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
+            getViewDataBinding().promoCodeText.setText("");
         });
         viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
             if (inProgress) {
@@ -56,7 +69,31 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
             } else {
                 stopLoadingAnimations();
                 getViewDataBinding().loading.setVisibility(View.GONE);
+                getViewDataBinding().recyclerView.setVisibility(View.VISIBLE);
 //                hideProgressDialog();
+            }
+        });
+        getViewDataBinding().promoCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.syncPromoCodes();
+                viewModel.getPromoCodes().observe(getViewLifecycleOwner(), result -> {
+                    PromoCodeDialog promoCodeDialog = PromoCodeDialog.newInstance(dialogsManager);
+                    promoCodeDialog.setPromoCodeResponseList(result);
+                    promoCodeDialog.setPromoCodeResponse(promoCodeResponse.getValue());
+                });
+            }
+        });
+        promoCodeResponse.observe(getViewLifecycleOwner(), updatedPromoCode ->{
+            if (updatedPromoCode != null) {
+                getViewDataBinding().promoCodeText.setText(updatedPromoCode.getCode());
+                getViewDataBinding().discountTotal.setText("-" + updatedPromoCode.processDiscount(getPriceTotal()) + "$");
+                getViewDataBinding().afterDiscountTotal.setText(updatedPromoCode.processPrice(getPriceTotal()) + "$");
+            }
+            else {
+                getViewDataBinding().promoCodeText.setText("");
+                getViewDataBinding().discountTotal.setText("-" + 0 + "$");
+                getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
             }
         });
     }
@@ -106,5 +143,36 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     @Override
     public void onSearchClick() {
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        dialogsManager.registerListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        dialogsManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onDialogEvent(Object event) {
+        if (event instanceof PromoCodeResponse) {
+            promoCodeResponse.setValue((PromoCodeResponse) event);
+        }
+    }
+
+    public float getPriceTotal() {
+        // get total price from String price (may contain $) of each product in list viewModel.getBagProducts().getValue()
+        float totalPrice = 0f;
+        for (int i = 0; i < viewModel.getBagProducts().getValue().size(); i++) {
+            // convert each product's price into float
+            String price = viewModel.getBagProducts().getValue().get(i).getData().getProduct_price();
+            price = price.replace("$", "");
+            totalPrice += Float.parseFloat(price) * viewModel.getBagQuantities().getValue().get(i);
+        }
+        return totalPrice;
     }
 }

@@ -14,6 +14,7 @@ import com.example.shopbee.data.model.api.AmazonSearchResponse;
 import com.example.shopbee.data.model.api.ListOrderResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.data.model.api.OrderResponse;
+import com.example.shopbee.data.model.api.PromoCodeResponse;
 import com.example.shopbee.data.model.api.SearchResponse;
 import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.data.model.api.UserVariationResponse;
@@ -34,11 +35,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @Singleton
 public class Repository {
@@ -394,116 +398,127 @@ public class Repository {
             }
         });
     }
+
+    public Observable<List<PromoCodeResponse>> getPromoCode() {
+        return null;
+    }
+
     public enum UserVariation {
         FAVORITE,
         BAG
     }
     public void saveUserVariation(UserVariation userVariation, String asin, List<Pair<String, String>> variation, Integer quantity) {
-        if (isVariationInUserPick(UserVariation.FAVORITE, asin, variation).blockingFirst()) {
-            return;
-        }
-        databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
-        String userEmail = getUserResponse().getValue().getEmail();
-        Query query = databaseReference.orderByChild("email").equalTo(userEmail);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                HashMap<String, Object> userMap = new HashMap<>();
-                userMap.put("email", userEmail);
-                DatabaseReference userReference;
-                if (!snapshot.exists()) {
-                    userReference = databaseReference.push();
-                    userReference.setValue(userMap);
-                    HashMap<String, Object> variations = new HashMap<>();
-                    variations.put("asin", asin);
-                    variations.put("variation", variation);
-                    if (userVariation == UserVariation.BAG) {
-                        variations.put("quantity", quantity);
-                    }
-                    if (userVariation == UserVariation.FAVORITE) {
-                        userReference.child("favorite").push().setValue(variations);
-                    }
-                    else {
-                        userReference.child("bag").push().setValue(variations);
+        isVariationInUserPick(userVariation, asin, variation)
+                .subscribeOn(Schedulers.io())  // Run on IO thread
+                .observeOn(AndroidSchedulers.mainThread())  // Observe on Main Thread
+                .subscribe(isInUserPick -> {
+                    if (isInUserPick) {
+                        return;  // If variation is already in user pick, do nothing
                     }
 
-                }
-                else {
-                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        userReference = userSnapshot.getRef();
-                        HashMap<String, Object> variations = new HashMap<>();
-                        variations.put("asin", asin);
-                        variations.put("variation", variation);
-                        if (userVariation == UserVariation.BAG) {
-                            variations.put("quantity", quantity);
+                    databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
+                    String userEmail = getUserResponse().getValue().getEmail();
+                    Query query = databaseReference.orderByChild("email").equalTo(userEmail);
+
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            HashMap<String, Object> userMap = new HashMap<>();
+                            userMap.put("email", userEmail);
+                            DatabaseReference userReference;
+                            HashMap<String, Object> variations = new HashMap<>();
+                            variations.put("asin", asin);
+                            if (variation == null || variation.isEmpty()) {
+                                variations.put("variation", variation);
+                            }
+                            if (userVariation == UserVariation.BAG) {
+                                variations.put("quantity", quantity);
+                            }
+
+                            if (!snapshot.exists()) {
+                                userReference = databaseReference.push();
+                                userReference.setValue(userMap);
+                            } else {
+                                userReference = snapshot.getChildren().iterator().next().getRef();
+                            }
+
+                            if (userVariation == UserVariation.FAVORITE) {
+                                userReference.child("favorite").push().setValue(variations);
+                            } else {
+                                userReference.child("bag").push().setValue(variations);
+                            }
                         }
-                        if (userVariation == UserVariation.FAVORITE) {
-                            userReference.child("favorite").push().setValue(variations);
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Handle error
                         }
-                        else {
-                            userReference.child("bag").push().setValue(variations);
-                        }
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+                    });
+                }, throwable -> {
+                    // Handle error
+                });
     }
+
     public Observable<Boolean> isVariationInUserPick(UserVariation userVariation, String asin, List<Pair<String, String>> variation) {
-        final Boolean[] isVariationInUserPick = {false};
         return Observable.create(emitter -> {
             String email = getUserResponse().getValue().getEmail();
             databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
             Query query = databaseReference.orderByChild("email").equalTo(email);
+
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        // Iterate through user data
                         for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                            DataSnapshot variationTypeSnapshot;
-                            if (userVariation == UserVariation.FAVORITE) {
-                                variationTypeSnapshot = userSnapshot.child("favorite");
-                            } else {
-                                variationTypeSnapshot = userSnapshot.child("bag");
-                            }
-                            for (DataSnapshot variationSnapshot : variationTypeSnapshot.getChildren()) {
-                                if (!variationSnapshot.child("asin").getValue(String.class).equals(asin)) {
-                                    break;
-                                }
-                                else {
-                                    int index = 0;
-                                    for (DataSnapshot variationMap : variationSnapshot.child("variation").getChildren()) {
-                                        Map<String, String> map = (Map<String, String>) variationMap.getValue();
-                                        Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
-                                        if (!variation.get(index).first.equals(pair.first) || !variation.get(index).second.equals(pair.second)) {
-                                            break;
+                            DataSnapshot variationTypeSnapshot = userVariation == UserVariation.FAVORITE
+                                    ? userSnapshot.child("favorite")
+                                    : userSnapshot.child("bag");
+
+                            if (variationTypeSnapshot.exists()) {
+                                for (DataSnapshot variationSnapshot : variationTypeSnapshot.getChildren()) {
+                                    if (Objects.equals(variationSnapshot.child("asin").getValue(String.class), asin)) {
+                                        if (!variationSnapshot.child("variation").exists()) {
+                                            emitter.onNext(true);
+                                            emitter.onComplete();
+                                            return;
                                         }
-                                        else {
-                                            index++;
+
+                                        List<DataSnapshot> variationList = new ArrayList<>();
+                                        for (DataSnapshot variationMap : variationSnapshot.child("variation").getChildren()) {
+                                            variationList.add(variationMap);
+                                        }
+
+                                        if (variation.size() != variationList.size()) {
+                                            continue;
+                                        }
+
+                                        boolean match = true;
+                                        for (int i = 0; i < variation.size(); i++) {
+                                            DataSnapshot variationMap = variationList.get(i);
+                                            Map<String, String> map = (Map<String, String>) variationMap.getValue();
+                                            Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
+                                            if (!variation.get(i).first.equals(pair.first) || !variation.get(i).second.equals(pair.second)) {
+                                                match = false;
+                                                break;
+                                            }
+                                        }
+
+                                        if (match) {
+                                            emitter.onNext(true);
+                                            emitter.onComplete();
+                                            return;
                                         }
                                     }
-                                    isVariationInUserPick[0] = true;
-                                    emitter.onNext(isVariationInUserPick[0]);
-                                    emitter.onComplete();
-                                    return;
                                 }
                             }
                         }
                     }
-                    // If we get here, no match was found
-                    emitter.onNext(isVariationInUserPick[0]);
+                    emitter.onNext(false);
                     emitter.onComplete();
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    // Handle any errors that occur during query
                     emitter.onError(databaseError.toException());
                 }
             });
@@ -533,10 +548,12 @@ public class Repository {
                                         for (DataSnapshot variation : snapshot.getChildren()) {
                                             String asin = variation.child("asin").getValue(String.class);
                                             List<Pair<String, String>> variations = new ArrayList<>();
-                                            for (DataSnapshot variationReference : variation.child("variation").getChildren()) {
-                                                Map<String, String> map = (Map<String, String>) variationReference.getValue();
-                                                Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
-                                                variations.add(pair);
+                                            if (variation.child("variation").exists()) {
+                                                for (DataSnapshot variationReference : variation.child("variation").getChildren()) {
+                                                    Map<String, String> map = (Map<String, String>) variationReference.getValue();
+                                                    Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
+                                                    variations.add(pair);
+                                                }
                                             }
                                             Integer quantity = variation.child("quantity").getValue(Integer.class);
                                             UserVariationResponse.Variation userVariation = new UserVariationResponse.Variation(asin, variations, quantity);

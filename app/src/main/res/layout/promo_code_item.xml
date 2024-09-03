@@ -55,6 +55,7 @@
 
     </TextView>
     <TextView
+        android:id="@+id/textView4"
         android:layout_marginBottom="10dp"
         android:layout_centerVertical="true"
         android:layout_below="@id/textView2"
