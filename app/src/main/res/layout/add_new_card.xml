@@ -45,7 +45,7 @@
                     style="@style/AccountEditText_Background"
                     android:padding="1dp">
                     <EditText
-                        android:id="@+id/old_password"
+                        android:id="@+id/name"
                         style="@style/EditText"
                         android:layout_width="325dp"
                         android:layout_height="47dp"
