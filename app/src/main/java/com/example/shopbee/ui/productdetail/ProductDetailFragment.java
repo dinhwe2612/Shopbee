@@ -76,6 +76,13 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
         observeData();
         binding.sparkButton.setOnClickListener(v -> viewModel.getNavigator().addFavorite());
         binding.seeAll.setOnClickListener(v -> viewModel.getNavigator().goToReviews());
+        binding.productName.setOnClickListener(v->{
+            if (binding.productName.getMaxLines() == 2) {
+                binding.productName.setMaxLines(Integer.MAX_VALUE);
+            } else {
+                binding.productName.setMaxLines(2);
+            }
+        });
         return binding.getRoot();
     }
 
@@ -105,9 +112,6 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
             aboutProductAdapter.setAbouts(productDetails.getData().getAbout_product());
             // bind product name
             binding.productName.setText(productDetails.getData().getProduct_title());
-            binding.productName.setShowingLine(2);
-            binding.productName.addShowMoreText("");
-            binding.productName.addShowLessText("");
             binding.searchBar.setText(productDetails.getData().getProduct_title());
             // bind description
             binding.descriptionContent.setText(productDetails.getData().getProduct_description());

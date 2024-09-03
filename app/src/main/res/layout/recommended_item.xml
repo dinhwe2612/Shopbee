@@ -54,7 +54,8 @@
                 android:layout_alignStart="@id/ratingBar"
                 android:layout_marginTop="5dp"
                 android:maxLines="1"
-                tools:text="Hello capybara..."
+                android:ellipsize="end"
+                tools:text="Hello capybara hihi hihi"
                 style="@style/Black_SemiBold_16dp"
                 android:layout_marginEnd="6dp"
                 android:textAlignment="viewStart"/>
