@@ -69,6 +69,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.forgotpassword.ForgotPasswordActivity"
+            android:exported="true"/>
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true">

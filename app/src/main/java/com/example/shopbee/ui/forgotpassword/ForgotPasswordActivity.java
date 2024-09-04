@@ -42,7 +42,13 @@ public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordBinding, 
 
     @Override
     public void sendEmail() {
-        viewModel.sentEmail(binding.emailText.toString());
+        String email = binding.emailText.getText().toString();
+        // check if email is valid
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.emailText.setError("Please enter a valid email address");
+            return;
+        }
+        viewModel.sentEmail(email);
     }
 
     @Override
