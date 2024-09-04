@@ -14,6 +14,7 @@ import com.example.shopbee.ui.common.dialogs.imagepreviewdialog.ImagePreviewDial
 import com.example.shopbee.ui.common.dialogs.optiondialog.OptionDialog;
 import com.example.shopbee.ui.common.dialogs.twooptiondialog.TwoOptionDialog;
 import com.example.shopbee.ui.common.dialogs.changePassword.changePassDialog;
+import com.example.shopbee.ui.common.dialogs.writereivewdialog.WriteReviewDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -75,5 +76,9 @@ public class DialogsManager {
     public void addNewCardDialog() {
         addNewCardDialog dialog = addNewCardDialog.newInstance(this);
         dialog.show(fragmentManager, "add_new_card_dialog");
+    }
+    public void showWriteReviewDialog() {
+        WriteReviewDialog dialog = WriteReviewDialog.newInstance(this);
+        dialog.show(fragmentManager, "write_review_dialog");
     }
 }
