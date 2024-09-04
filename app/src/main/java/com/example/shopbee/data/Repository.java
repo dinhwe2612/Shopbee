@@ -1,5 +1,7 @@
 package com.example.shopbee.data;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.util.Pair;
 
@@ -19,6 +21,7 @@ import com.example.shopbee.data.model.api.SearchResponse;
 import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.data.model.api.UserVariationResponse;
 import com.example.shopbee.data.remote.AmazonApiService;
+import com.example.shopbee.data.remote.TexelVirtualTryOnApiService;
 import com.example.shopbee.ui.user_search.UserSearchViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,6 +33,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ktx.Firebase;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -43,17 +47,26 @@ import javax.inject.Singleton;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 @Singleton
 public class Repository {
     final AmazonApiService amazonApiService;
+    final TexelVirtualTryOnApiService texelVirtualTryOnApiService;
     private DatabaseReference databaseReference;
     private MutableLiveData<UserResponse> userResponse = new MutableLiveData<>();
     private MutableLiveData<ListOrderResponse> listOrderResponse = new MutableLiveData<>();
 
     @Inject
-    Repository(AmazonApiService amazonApiService) {
+    Repository(AmazonApiService amazonApiService, TexelVirtualTryOnApiService texelVirtualTryOnApiService) {
         this.amazonApiService = amazonApiService;
+        this.texelVirtualTryOnApiService = texelVirtualTryOnApiService;
     }
     // query, page, country, sort_by, product_condition
     public Observable<AmazonSearchResponse> search(HashMap<String, String> query) {
@@ -695,5 +708,11 @@ public class Repository {
     }
     public Observable<AmazonProductReviewResponse> getAmazonProductReview(HashMap<String, String> map) {
         return amazonApiService.getAmazonProductReviews(map);
+    }
+    public Observable<ResponseBody> getTryOnImage(String personUrl, String garmentUrl) {
+        // Create the request body
+        RequestBody personBody = RequestBody.create(MultipartBody.FORM, personUrl);
+        RequestBody garmentBody = RequestBody.create(MultipartBody.FORM, garmentUrl);
+        return texelVirtualTryOnApiService.tryOn(garmentBody, personBody);
     }
 }

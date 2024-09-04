@@ -1,12 +1,15 @@
 package com.example.shopbee.ui.common.dialogs;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import androidx.fragment.app.FragmentManager;
 
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.data.model.api.CountryRespone;
 import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryDialog;
+import com.example.shopbee.ui.common.dialogs.imagepickerdialog.ImagePickerDialog;
+import com.example.shopbee.ui.common.dialogs.imagepreviewdialog.ImagePreviewDialog;
 import com.example.shopbee.ui.common.dialogs.optiondialog.OptionDialog;
 import com.example.shopbee.ui.common.dialogs.twooptiondialog.TwoOptionDialog;
 import com.example.shopbee.ui.common.dialogs.changePassword.changePassDialog;
@@ -59,5 +62,13 @@ public class DialogsManager {
     public void showOptionDialog(String name, String money, String urlImage, HashMap<String, List<AmazonProductDetailsResponse.Data.VariationDetail>> options) {
         OptionDialog dialog = OptionDialog.newInstance(this, name, money, urlImage, options);
         dialog.show(fragmentManager, "option_dialog");
+    }
+    public void showImagePickerDialog() {
+        ImagePickerDialog dialog = ImagePickerDialog.newInstance(this);
+        dialog.show(fragmentManager, "image_picker_dialog");
+    }
+    public void showImagePreviewDialog(Bitmap bitmap) {
+        ImagePreviewDialog dialog = ImagePreviewDialog.newInstance(bitmap);
+        dialog.show(fragmentManager, "image_preview_dialog");
     }
 }

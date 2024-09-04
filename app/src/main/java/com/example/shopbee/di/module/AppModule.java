@@ -6,6 +6,7 @@ import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.data.model.api.jsondeserializer.ProductDetailsDeserializer;
 import com.example.shopbee.data.remote.AmazonApiService;
 import com.example.shopbee.data.remote.CountryApiService;
+import com.example.shopbee.data.remote.TexelVirtualTryOnApiService;
 import com.example.shopbee.ui.component.bottombar.BottomBarUserReactionImplementation;
 import com.example.shopbee.utils.NetworkUtils;
 import com.google.gson.Gson;
@@ -69,6 +70,22 @@ public class AppModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(CountryApiService.class);
+    }
+    @Provides
+    @Singleton
+    public static TexelVirtualTryOnApiService provideTexelVirtualTryOnApiService(){
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build();
+        return new Retrofit.Builder()
+                .baseUrl(NetworkUtils.BASE_URL_TEXEL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .client(okHttpClient)
+                .build()
+                .create(TexelVirtualTryOnApiService.class);
     }
     @Provides
     @Singleton

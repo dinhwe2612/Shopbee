@@ -1,5 +1,7 @@
 package com.example.shopbee.ui.productdetail;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -17,6 +19,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class ProductDetailViewModel extends BaseViewModel<ProductDetailNavigator> {
     MutableLiveData<AmazonProductDetailsResponse> productDetails = new MutableLiveData<>();
     MutableLiveData<AmazonProductByCategoryResponse> productByCategory = new MutableLiveData<>();
+    MutableLiveData<Bitmap> tryOnImage = new MutableLiveData<>();
     public ProductDetailViewModel(Repository repository) {
         super(repository);
     }
@@ -48,10 +51,24 @@ public class ProductDetailViewModel extends BaseViewModel<ProductDetailNavigator
                 })
         );
     }
+    public void syncTryOnImage(String personUrl, String garmentUrl) {
+        getCompositeDisposable().add(getRepository().getTryOnImage(personUrl, garmentUrl)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                    tryOnImage.setValue(BitmapFactory.decodeStream(result.byteStream()));
+                }, error -> {
+                    Log.e("syncTryOnImage", "error on getTryOnImage: " + error.getMessage());
+                })
+        );
+    }
     public MutableLiveData<AmazonProductDetailsResponse> getProductDetails() {
         return productDetails;
     }
     public MutableLiveData<AmazonProductByCategoryResponse> getProductByCategory() {
         return productByCategory;
+    }
+    public MutableLiveData<Bitmap> getTryOnImage() {
+        return tryOnImage;
     }
 }

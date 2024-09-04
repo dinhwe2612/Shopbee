@@ -173,6 +173,7 @@
                         app:sparkbutton_iconSize="22dp"/>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/tryItOn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:cardElevation="5dp"
@@ -182,7 +183,8 @@
                     app:cardBackgroundColor="@color/red"
                     android:layout_toStartOf="@id/spark_button_background"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="5dp">
+                    android:layout_marginEnd="5dp"
+                    android:onClick="@{()->vm.navigator.tryItOn()}">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
