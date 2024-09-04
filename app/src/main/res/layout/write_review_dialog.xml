@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="600dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="606dp"
+        android:layout_height="600dp"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:background="@drawable/select_background">
         <ImageView
+            android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -25,10 +27,11 @@
             android:text="What is your rate?"
             style="@style/Black_SemiBold_18dp"/>
         <com.willy.ratingbar.ScaleRatingBar
+            android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srb_numStars="5"
-            app:srb_rating="4"
+            app:srb_rating="0"
             app:srb_starWidth="36dp"
             app:srb_starHeight="36dp"
             app:srb_starPadding="15dp"
@@ -41,42 +44,67 @@
             app:srb_drawableEmpty="@drawable/star_empty_icon"
             app:srb_drawableFilled="@drawable/star_full_icon"/>
         <TextView
-            android:layout_width="227dp"
+            android:layout_width="300dp"
             android:layout_height="44dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:text="Please share your opinion about the product"
             android:textAlignment="center"
             style="@style/Black_SemiBold_18dp"/>
         <androidx.cardview.widget.CardView
-            android:layout_width="343dp"
-            android:layout_height="154dp"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="4dp">
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp">
             <EditText
-                android:layout_marginTop="10dp"
-                android:layout_width="327dp"
-                android:layout_height="wrap_content"
-                android:hint="Your review"
-                android:maxLines="6"
+                android:id="@+id/reviewTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Title"
+                android:inputType="textMultiLine"
+                android:textAlignment="viewStart"
+                android:gravity="top|left"
                 android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
                 android:background="@color/transparent"
-                style="@style/Gray_Regular_14dp"/>
+                style="@style/Gray_Regular_16dp"/>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="350dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="4dp"
+            android:id="@+id/reviewCard">
+            <EditText
+                android:id="@+id/reviewContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Write your review here!"
+                android:inputType="textMultiLine"
+                android:textAlignment="viewStart"
+                android:gravity="top|left"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:background="@color/transparent"
+                style="@style/Gray_Regular_16dp"/>
+
         </androidx.cardview.widget.CardView>
         <HorizontalScrollView
             android:layout_width="344dp"
             android:layout_height="104dp"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="20dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/imagesRCV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/image_review_item"/>
+                    tools:listitem="@layout/image_review_item"
+                    android:nestedScrollingEnabled="false"/>
                 <LinearLayout
+                    android:id="@+id/addImage"
                     android:layout_width="104dp"
                     android:layout_height="104dp"
                     android:gravity="center"
@@ -96,6 +124,7 @@
         </HorizontalScrollView>
     </LinearLayout>
     <androidx.cardview.widget.CardView
+        android:id="@+id/sendButton"
         android:layout_width="343dp"
         android:layout_height="48dp"
         android:layout_centerHorizontal="true"
@@ -114,3 +143,4 @@
             style="@style/White_Medium_14dp"/>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>
+</layout>
