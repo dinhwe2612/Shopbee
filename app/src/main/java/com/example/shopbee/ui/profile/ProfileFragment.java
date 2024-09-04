@@ -1,10 +1,21 @@
 package com.example.shopbee.ui.profile;
 
+import static android.app.Activity.RESULT_OK;
+import static android.content.ContentValues.TAG;
+
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.Observer;
@@ -20,6 +31,8 @@ import com.example.shopbee.databinding.ProfileBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.profile.adapter.ProfileAdapter;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +42,7 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
     private ProfileAdapter adapter;
     private UserResponse userResponse;
     private ListOrderResponse listOrderResponse;
+    private ActivityResultLauncher<Intent> imagePickerLauncher;
 
     Map<Integer, Runnable> triggered = Map.of(
             0, this::myOrder,
@@ -59,6 +73,16 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
         binding = getViewDataBinding();
         loadRealtimeData();
 
+        viewModel.getAvatar().observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
+            @Override
+            public void onChanged(Bitmap bitmap) {
+                if (bitmap == null){
+                    binding.userAvatar.setImageResource(R.drawable.def_avatar);
+                } else {
+                    binding.userAvatar.setImageBitmap(bitmap);
+                }
+            }
+        });
         binding.fullName.setText(userResponse.getFull_name());
         binding.email.setText(userResponse.getEmail());
 
@@ -66,6 +90,49 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
         adapter = new ProfileAdapter(this, getContentEachOption());
         adapter.setUpListProfileItem();
         recyclerView.setAdapter(adapter);
+
+        binding.userAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CharSequence[] options = {"Take Photo", "Choose from Gallery"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Select an Option");
+                builder.setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                            imagePickerLauncher.launch(takePictureIntent);
+                        }
+                    } else if (which == 1) {
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        intent.setType("image/*");
+                        imagePickerLauncher.launch(intent);
+                    }
+                });
+                builder.show();
+            }
+        });
+        imagePickerLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult()
+                , result -> {
+            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                if (result.getData().getExtras() != null) {
+                    // Image captured from the camera
+                    Bitmap photo = (Bitmap) result.getData().getExtras().get("data");
+                    binding.userAvatar.setImageBitmap(photo);
+                    viewModel.uploadImageBitmapFirebase(photo, "avatar", userResponse.getEmail());
+                } else {
+                    Uri imageUri = result.getData().getData();
+                    try {
+                        Bitmap photo = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri);
+                        binding.userAvatar.setImageBitmap(photo);
+                        viewModel.uploadImageBitmapFirebase(photo, "avatar", userResponse.getEmail());
+                    } catch (IOException e) {
+                        Log.e(TAG, "Failed to load image from gallery", e);
+                    }
+                }
+            }
+        });
     }
     @Override
     public void handleError(String message) {
@@ -115,7 +182,6 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
         triggered.get(position).run();
     }
     public void loadRealtimeData(){
-
         viewModel.getUserResponse().observeForever(new Observer<UserResponse>() {
             @Override
             public void onChanged(UserResponse response) {
@@ -128,6 +194,8 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
                 listOrderResponse = responses;
             }
         });
+        viewModel.syncImageBitmapFirebase("avatar", userResponse.getEmail());
+
     }
     public List<String> getContentEachOption(){
         List<String> listContent = new ArrayList<>();

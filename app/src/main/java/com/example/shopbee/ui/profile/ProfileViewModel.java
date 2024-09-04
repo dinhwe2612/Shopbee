@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.profile;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -13,9 +14,14 @@ import com.example.shopbee.ui.common.base.BaseViewModel;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class ProfileViewModel extends BaseViewModel {
     private final MutableLiveData<UserResponse> userResponse = new MutableLiveData<>();
     private final MutableLiveData<ListOrderResponse> listOrderResponse = new MutableLiveData<>();
+    private final MutableLiveData<Bitmap> avatar = new MutableLiveData<>();
     public ProfileViewModel(Repository repository) {
         super(repository);
         repository.getUserResponse().observeForever(new Observer<UserResponse>() {
@@ -36,5 +42,27 @@ public class ProfileViewModel extends BaseViewModel {
     }
     public MutableLiveData<UserResponse> getUserResponse() {
         return userResponse;
+    }
+    public void syncImageBitmapFirebase(String imageName, String userEmail){
+        setIsLoading(true);
+        getCompositeDisposable().add(getRepository().getImageBitmapFirebase(imageName, userEmail)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                            setIsLoading(false);
+                            avatar.setValue(result);
+                            Log.d("TAG1", "syncImageBitmapFirebase: " + avatar.toString());
+                        },
+                        error -> {
+                            setIsLoading(false);
+                            Log.e("getImageBitmapFirebase", "getImageBitmapFirebase " + error.getMessage());
+                        })
+        );
+    }
+    public void uploadImageBitmapFirebase(Bitmap bitmap, String imageName, String userEmail){
+        getRepository().uploadImageBitmapFirebase(bitmap, imageName, userEmail);
+    }
+    public MutableLiveData<Bitmap> getAvatar() {
+        return avatar;
     }
 }
