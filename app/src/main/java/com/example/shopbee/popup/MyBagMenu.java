@@ -39,10 +39,10 @@ public class MyBagMenu extends PopupMenu {
         this.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.add_to_favorites) {
+                if (item.getItemId() == R.id.add_to_favorites_popup) {
                     return true;
                 }
-                else if (item.getItemId() == R.id.delete_from_list) {
+                else if (item.getItemId() == R.id.delete_from_list_popup) {
                     return true;
                 }
                 return false;

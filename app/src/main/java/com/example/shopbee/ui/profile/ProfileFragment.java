@@ -79,12 +79,14 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
 
     @Override
     public void shippingAddresses() {
-
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.shippingFragment);
     }
 
     @Override
     public void paymentMethods() {
-
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.paymentFragment);
     }
 
     @Override

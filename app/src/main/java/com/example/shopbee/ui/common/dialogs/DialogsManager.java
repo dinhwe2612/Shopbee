@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.data.model.api.CountryRespone;
+import com.example.shopbee.ui.common.dialogs.addNewCard.addNewCardDialog;
 import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryDialog;
 import com.example.shopbee.ui.common.dialogs.imagepickerdialog.ImagePickerDialog;
 import com.example.shopbee.ui.common.dialogs.imagepreviewdialog.ImagePreviewDialog;
@@ -70,5 +71,9 @@ public class DialogsManager {
     public void showImagePreviewDialog(Bitmap bitmap) {
         ImagePreviewDialog dialog = ImagePreviewDialog.newInstance(bitmap);
         dialog.show(fragmentManager, "image_preview_dialog");
+    }
+    public void addNewCardDialog() {
+        addNewCardDialog dialog = addNewCardDialog.newInstance(this);
+        dialog.show(fragmentManager, "add_new_card_dialog");
     }
 }

@@ -6,6 +6,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -30,6 +31,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
     public interface OnItemClickListener {
         void onItemClick(String asin);
         void onItemDeleteClick(String asin, List<Pair<String, String>> variation);
+        void onAddToBagClick(String asin, List<Pair<String, String>> variation, ImageView imageView);
     }
     OnItemClickListener onItemClickListener;
 
@@ -90,7 +92,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                     onItemClickListener.onItemDeleteClick(products.get(position).getData().getAsin(), variations.get(position));
                     products.remove(position);
                     variations.remove(position);
-                    notifyItemRemoved(position);
+//                    notifyItemRemoved(position);
+                    notifyDataSetChanged();
                 }
             });
             binding.itemFavoriteName.setText(products.get(position).getData().getProduct_title());
@@ -99,6 +102,12 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
             } else {
                 binding.simpleRatingBar.setRating(0);
             }
+            binding.addToBag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onAddToBagClick(products.get(position).getData().getAsin(), variations.get(position), binding.image);
+                }
+            });
             binding.numRating.setText("(" + products.get(position).getData().getProduct_num_ratings() + ")");
             binding.favoriteItemPrice.setText(products.get(position).getData().getProduct_price());
             // variation

@@ -7,7 +7,10 @@ import com.example.shopbee.data.Repository;
 import com.example.shopbee.di.ViewModelProviderFactory;
 import com.example.shopbee.ui.bag.BagViewModel;
 import com.example.shopbee.ui.checkout.CheckoutViewModel;
+import com.example.shopbee.ui.checkout.SuccessViewModel;
 import com.example.shopbee.ui.checkout.payment.PaymentViewModel;
+import com.example.shopbee.ui.checkout.shipping.ModifyAddressViewModel;
+import com.example.shopbee.ui.checkout.shipping.ShippingViewModel;
 import com.example.shopbee.ui.favorites.FavoritesViewModel;
 import com.example.shopbee.ui.home.HomeViewModel;
 import com.example.shopbee.ui.productdetail.ProductDetailViewModel;
@@ -126,5 +129,23 @@ public class FragmentModule {
         Supplier<ReviewViewModel> supplier = () -> new ReviewViewModel(repository);
         ViewModelProviderFactory<ReviewViewModel> factory = new ViewModelProviderFactory<ReviewViewModel>(ReviewViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(ReviewViewModel.class);
+    }
+    @Provides
+    public ShippingViewModel provideShippingViewModel(Repository repository) {
+        Supplier<ShippingViewModel> supplier = () -> new ShippingViewModel(repository);
+        ViewModelProviderFactory<ShippingViewModel> factory = new ViewModelProviderFactory<ShippingViewModel>(ShippingViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(ShippingViewModel.class);
+    }
+    @Provides
+    public ModifyAddressViewModel provideModifyAddressViewModel(Repository repository) {
+        Supplier<ModifyAddressViewModel> supplier = () -> new ModifyAddressViewModel(repository);
+        ViewModelProviderFactory<ModifyAddressViewModel> factory = new ViewModelProviderFactory<ModifyAddressViewModel>(ModifyAddressViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(ModifyAddressViewModel.class);
+    }
+    @Provides
+    public SuccessViewModel provideSuccessViewModel(Repository repository) {
+        Supplier<SuccessViewModel> supplier = () -> new SuccessViewModel(repository);
+        ViewModelProviderFactory<SuccessViewModel> factory = new ViewModelProviderFactory<SuccessViewModel>(SuccessViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(SuccessViewModel.class);
     }
 }

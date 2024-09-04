@@ -9,6 +9,7 @@ import com.example.shopbee.data.Repository;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.data.model.api.ListOrderResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
+import com.example.shopbee.data.model.api.OrderResponse;
 import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.ui.common.base.BaseViewModel;
 
@@ -39,26 +40,6 @@ public class MyOrderDetailViewModel extends BaseViewModel {
             }
         });
     }
-    public void syncOrderDetailProduct(List<OrderDetailResponse> orderDetailResponse) {
-        setIsLoading(true);
-        List<AmazonProductDetailsResponse> products = new ArrayList<>();
-        for (OrderDetailResponse detail : orderDetailResponse) {
-            String asin = detail.getProduct_id();
-            HashMap<String, String> queryMap = new HashMap<>();
-            queryMap.put("asin", asin);
-            getCompositeDisposable().add(getRepository().getAmazonProductDetails(queryMap)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(result -> {
-                        products.add(result);
-                        listDetailProducts.setValue(products);
-                    }, error -> {
-                        Log.e("syncOrderDetailProduct", "error: " + error.getMessage());
-                    })
-            );
-        }
-        setIsLoading(false);
-    }
     public MutableLiveData<ListOrderResponse> getOrderResponse() {
         return listOrderResponse;
     }
@@ -66,4 +47,7 @@ public class MyOrderDetailViewModel extends BaseViewModel {
         return userResponse;
     }
     public MutableLiveData<List<AmazonProductDetailsResponse>> getListDetailProducts() {return listDetailProducts;}
+    public void updateOrderFirebase(OrderResponse orderResponse){
+        getRepository().updateOrderFirebase(orderResponse);
+    }
 }

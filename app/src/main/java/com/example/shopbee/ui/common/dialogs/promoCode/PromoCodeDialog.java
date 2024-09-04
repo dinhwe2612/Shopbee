@@ -29,6 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PromoCodeDialog extends BottomSheetDialogFragment implements  PromoCodeAdapter.OnItemClick{
+    public interface onCollectVoucherListener {
+        void onCollectVoucher();
+    }
+    public void setOnCollectVoucherListener(onCollectVoucherListener onCollectVoucherListener) {
+        this.onCollectVoucherListener = onCollectVoucherListener;
+    }
+    private onCollectVoucherListener onCollectVoucherListener;
     List<PromoCodeResponse> promoCodeResponseList = new ArrayList<>();
 
     public void setPromoCodeResponseList(List<PromoCodeResponse> promoCodeResponseList) {
@@ -82,6 +89,13 @@ public class PromoCodeDialog extends BottomSheetDialogFragment implements  Promo
         binding.recyclerView.setAdapter(promoCodeAdapter);
         promoCodeAdapter.setPromoCodeList(promoCodeResponseList);
         promoCodeAdapter.setCurrentItem(promoCodeResponse);
+        promoCodeAdapter.setOnItemClick(this);
+        binding.collectVoucher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCollectVoucherListener.onCollectVoucher();
+            }
+        });
     }
 
     @Override

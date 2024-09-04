@@ -413,7 +413,55 @@ public class Repository {
     }
 
     public Observable<List<PromoCodeResponse>> getPromoCode() {
-        return null;
+        return Observable.create(emitter -> {
+            List<PromoCodeResponse> list = new ArrayList<>();
+            String email = getUserResponse().getValue().getEmail();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("promo_code");
+
+            // Retrieve all promo codes
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot promoSnapshot : snapshot.getChildren()) {
+                            boolean userHasPromo = false;
+
+                            // Check if users node exists and loop through it
+                            DataSnapshot usersSnapshot = promoSnapshot.child("users");
+                            for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                                String userEmail = userSnapshot.child("email").getValue(String.class);
+                                if (email.equals(userEmail)) {
+                                    userHasPromo = true;
+                                    break; // Exit loop if user's email is found
+                                }
+                            }
+
+                            if (userHasPromo) {
+                                // Get promo code details if user possesses it
+                                String name = promoSnapshot.child("name").getValue(String.class);
+                                String code = promoSnapshot.child("code").getValue(String.class);
+                                Integer percent = promoSnapshot.child("percent").getValue(Integer.class);
+                                Float maxDiscount = promoSnapshot.child("max_discount").getValue(Float.class);
+                                String dueDate = promoSnapshot.child("due_date").getValue(String.class);
+                                String style = promoSnapshot.child("style").getValue(String.class);
+
+                                PromoCodeResponse promoCodeResponse = new PromoCodeResponse(percent, maxDiscount, name, code, dueDate, style);
+                                list.add(promoCodeResponse);
+                            }
+                        }
+                    }
+
+                    // Emit the retrieved promo codes and complete the observable
+                    emitter.onNext(list);
+                    emitter.onComplete();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    emitter.onError(error.toException()); // Emit error if the operation is cancelled
+                }
+            });
+        });
     }
 
     public enum UserVariation {
@@ -540,6 +588,10 @@ public class Repository {
     public Observable<UserVariationResponse> getUserVariation(UserVariation userVariation) {
         UserVariationResponse userVariationResponse = new UserVariationResponse();
         return Observable.create(emitter -> {
+            if (getUserResponse().getValue() == null) {
+                emitter.onError(new Throwable("User response is null"));
+                return;
+            }
             String email = getUserResponse().getValue().getEmail();
             databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
             Query query = databaseReference.orderByChild("email").equalTo(email);
@@ -568,17 +620,22 @@ public class Repository {
                                                     variations.add(pair);
                                                 }
                                             }
-                                            Integer quantity = variation.child("quantity").getValue(Integer.class);
+                                            Integer quantity = null;
+                                            if (userVariation == UserVariation.BAG) {
+                                                quantity = variation.child("quantity").getValue(Integer.class);
+                                            }
                                             UserVariationResponse.Variation userVariation = new UserVariationResponse.Variation(asin, variations, quantity);
                                             userVariationResponse.addVariation(userVariation);
 
                                         }
                                         UserVariationResponse result = new UserVariationResponse();
                                         for (int i = userVariationResponse.getVariations().size() - 1; i >= 0; i--) {
+//                                            Log.d("TAG", "syncBagLists: " + userVariationResponse.getVariations().get(i).getAsin());
                                             result.addVariation(userVariationResponse.getVariations().get(i));
                                             emitter.onNext(result);
                                         }
                                         emitter.onComplete();
+                                        Log.d("TAG", "syncBagLists: " + userVariationResponse.getVariations().size());
                                     } else {
                                         emitter.onNext(userVariationResponse);
                                         emitter.onComplete();
@@ -605,107 +662,128 @@ public class Repository {
             });
         });
     }
-    public void deleteUserVariation(UserVariation userVariation, String asin, List<Pair<String, String>> variation) {
-        String email = getUserResponse().getValue().getEmail();
-        databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
-        Query query = databaseReference.orderByChild("email").equalTo(email);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // Iterate through user data
-                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                        DataSnapshot variationTypeSnapshot;
-                        if (userVariation == UserVariation.FAVORITE) {
-                            variationTypeSnapshot = userSnapshot.child("favorite");
-                        } else {
-                            variationTypeSnapshot = userSnapshot.child("bag");
-                        }
-                        for (DataSnapshot variationSnapshot : variationTypeSnapshot.getChildren()) {
-                            if (!variationSnapshot.child("asin").getValue(String.class).equals(asin)) {
-                                break;
+    public Observable<Boolean> deleteUserVariation(UserVariation userVariation, String asin, List<Pair<String, String>> variation) {
+        return Observable.create(emitter -> {
+            String email = getUserResponse().getValue().getEmail();
+            databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
+            Query query = databaseReference.orderByChild("email").equalTo(email);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        boolean itemDeleted = false;
+                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                            DataSnapshot variationTypeSnapshot;
+                            if (userVariation == UserVariation.FAVORITE) {
+                                variationTypeSnapshot = userSnapshot.child("favorite");
+                            } else {
+                                variationTypeSnapshot = userSnapshot.child("bag");
                             }
-                            else {
-                                int index = 0;
-                                for (DataSnapshot variationMap : variationSnapshot.child("variation").getChildren()) {
-                                    Map<String, String> map = (Map<String, String>) variationMap.getValue();
-                                    Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
-                                    if (!variation.get(index).first.equals(pair.first) || !variation.get(index).second.equals(pair.second)) {
-                                        break;
+                            for (DataSnapshot variationSnapshot : variationTypeSnapshot.getChildren()) {
+                                if (variationSnapshot.child("asin").getValue(String.class).equals(asin)) {
+                                    int index = 0;
+                                    for (DataSnapshot variationMap : variationSnapshot.child("variation").getChildren()) {
+                                        Map<String, String> map = (Map<String, String>) variationMap.getValue();
+                                        Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
+                                        if (!variation.get(index).first.equals(pair.first) || !variation.get(index).second.equals(pair.second)) {
+                                            break;
+                                        } else {
+                                            index++;
+                                        }
                                     }
-                                    else {
-                                        index++;
+                                    if (index == variation.size()) {
+                                        variationSnapshot.getRef().removeValue();
+                                        itemDeleted = true;
                                     }
+                                    break;
                                 }
-                                variationSnapshot.getRef().removeValue();
-                                return;
                             }
+
+                            if (itemDeleted) break;
                         }
+                        emitter.onNext(itemDeleted);  // Emit true if an item was deleted, false otherwise
+                        emitter.onComplete();
+                    } else {
+                        emitter.onNext(false);
+                        emitter.onComplete();
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle any errors that occur during query
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    emitter.onError(databaseError.toException());  // Emit error if query is cancelled
+                }
+            });
         });
     }
-    public void updateUserBagVariation(String asin, List<Pair<String, String>> variation, boolean increase) {
-        String email = getUserResponse().getValue().getEmail();
-        databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
-        Query query = databaseReference.orderByChild("email").equalTo(email);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // Iterate through user data
-                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                        DataSnapshot variationTypeSnapshot;
-                        variationTypeSnapshot = userSnapshot.child("bag");
-                        for (DataSnapshot variationSnapshot : variationTypeSnapshot.getChildren()) {
-                            if (!variationSnapshot.child("asin").getValue(String.class).equals(asin)) {
-                                break;
-                            }
-                            else {
-                                int index = 0;
-                                for (DataSnapshot variationMap : variationSnapshot.child("variation").getChildren()) {
-                                    Map<String, String> map = (Map<String, String>) variationMap.getValue();
-                                    Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
-                                    if (!variation.get(index).first.equals(pair.first) || !variation.get(index).second.equals(pair.second)) {
+    public Observable<Boolean> updateUserBagVariation(String asin, List<Pair<String, String>> variation, boolean increase) {
+        return Observable.create(emitter -> {
+            String email = getUserResponse().getValue().getEmail();
+            databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
+            Query query = databaseReference.orderByChild("email").equalTo(email);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        boolean itemUpdated = false;
+                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                            DataSnapshot variationTypeSnapshot = userSnapshot.child("bag");
+
+                            for (DataSnapshot variationSnapshot : variationTypeSnapshot.getChildren()) {
+                                if (variationSnapshot.child("asin").getValue(String.class).equals(asin)) {
+                                    int index = 0;
+                                    for (DataSnapshot variationMap : variationSnapshot.child("variation").getChildren()) {
+                                        Map<String, String> map = (Map<String, String>) variationMap.getValue();
+                                        Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
+                                        if (!variation.get(index).first.equals(pair.first) || !variation.get(index).second.equals(pair.second)) {
+                                            break;
+                                        } else {
+                                            index++;
+                                        }
+                                    }
+                                    if (index == variation.size()) {
+                                        Integer quantity = variationSnapshot.child("quantity").getValue(Integer.class);
+                                        if (increase) {
+                                            quantity += 1;
+                                            variationSnapshot.child("quantity").getRef().setValue(quantity);
+                                        } else {
+                                            quantity = Math.max(quantity - 1, 0);
+                                            if (quantity == 0) {
+                                                deleteUserVariation(UserVariation.BAG, asin, variation)
+                                                        .subscribe(result -> {
+                                                            emitter.onNext(result);
+                                                            emitter.onComplete();
+                                                        }, emitter::onError);
+                                                return;
+                                            } else {
+                                                variationSnapshot.child("quantity").getRef().setValue(quantity);
+                                            }
+                                        }
+                                        itemUpdated = true;
                                         break;
                                     }
-                                    else {
-                                        index++;
-                                    }
                                 }
-                                Integer quantity = variationSnapshot.child("quantity").getValue(Integer.class);
-                                if (increase) {
-                                    quantity += 1;
-                                    variationSnapshot.child("quantity").getRef().setValue(quantity);
-                                }
-                                else {
-                                    quantity = Math.min(quantity - 1, 0);
-                                    if (quantity == 0) {
-                                        deleteUserVariation(UserVariation.BAG, asin, variation);
-                                    }
-                                    else {
-                                        variationSnapshot.child("quantity").getRef().setValue(quantity);
-                                    }
-                                }
-                                return;
                             }
+                            if (itemUpdated) break;
                         }
+                        emitter.onNext(itemUpdated);  // Emit true if an item was updated, false otherwise
+                        emitter.onComplete();
+                    } else {
+                        emitter.onNext(false);
+                        emitter.onComplete();
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle any errors that occur during query
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    emitter.onError(databaseError.toException());  // Emit error if query is cancelled
+                }
+            });
         });
     }
+
     public Observable<AmazonProductReviewResponse> getAmazonProductReview(HashMap<String, String> map) {
         return amazonApiService.getAmazonProductReviews(map);
     }
@@ -714,5 +792,43 @@ public class Repository {
         RequestBody personBody = RequestBody.create(MultipartBody.FORM, personUrl);
         RequestBody garmentBody = RequestBody.create(MultipartBody.FORM, garmentUrl);
         return texelVirtualTryOnApiService.tryOn(garmentBody, personBody);
+    }
+    public void updateOrderFirebase(OrderResponse orderResponse){
+        Log.d("TAG", "updateOrderFirebase: " + orderResponse.getOrder_number());
+        databaseReference = FirebaseDatabase.getInstance().getReference("order");
+        Query query = databaseReference.orderByChild("email").equalTo(userResponse.getValue().getEmail());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    boolean orderFound = false;
+                    for (DataSnapshot orderSnapshot : snapshot.getChildren()) {
+                        for (DataSnapshot listOrderSnapshot : orderSnapshot.child("list_order").getChildren()) {
+                            String orderNumber = listOrderSnapshot.child("order_number").getValue(String.class);
+                            if (orderNumber.equals(orderResponse.getOrder_number())) {
+                                listOrderSnapshot.getRef().setValue(orderResponse);
+                                Log.d("updateOrderFirebase", "Order updated successfully for order number: " + orderNumber);
+                                orderFound = true;
+                                break;
+                            }
+                        }
+                        if (orderFound) {
+                            break;
+                        }
+                    }
+                    if (!orderFound) {
+                        DataSnapshot listOrderRef = snapshot.getChildren().iterator().next().child("list_order");
+                        listOrderRef.getRef().push().setValue(orderResponse);
+                        Log.d("updateOrderFirebase", "New order detail inserted for order number: " + orderResponse.getOrder_number());
+                    }
+                } else {
+                    Log.d("updateOrderFirebase", "No user found with email: " + userResponse.getValue().getEmail());
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("The read failed: " + error.getMessage());
+            }
+        });
     }
 }

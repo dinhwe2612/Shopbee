@@ -11,6 +11,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,7 @@ import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.common.dialogs.imagepickerdialog.ImagePickerEvent;
 import com.example.shopbee.ui.common.dialogs.optiondialog.OptionEvent;
+import com.example.shopbee.ui.main.MainActivity;
 import com.example.shopbee.ui.productdetail.adapter.AboutProductAdapter;
 import com.example.shopbee.ui.productdetail.adapter.ProductDetailAdapter;
 import com.example.shopbee.ui.productdetail.adapter.ProductPhotosAdapter;
@@ -262,10 +264,16 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
             OptionEvent optionEvent = (OptionEvent) event;
             if (optionEvent.getName() == "ADD FAVORITE") {
                 viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, optionEvent.getOptions(), null);
+                MainActivity mainActivity = (MainActivity) getActivity();
+                LinearLayoutManager layoutManager = (LinearLayoutManager) binding.prodPhotosRCV.getLayoutManager();
+                mainActivity.getBottomBar().animateAddToFavorite((ImageView) layoutManager.getChildAt(layoutManager.findFirstVisibleItemPosition()), mainActivity.findViewById(R.id.main), Repository.UserVariation.FAVORITE);
             }
             else if (optionEvent.getName() == "ADD TO BAG") {
                 // print out optionEvent
                 viewModel.getRepository().saveUserVariation(Repository.UserVariation.BAG, asin, optionEvent.getOptions(), optionEvent.getQuantity());
+                MainActivity mainActivity = (MainActivity) getActivity();
+                LinearLayoutManager layoutManager = (LinearLayoutManager) binding.prodPhotosRCV.getLayoutManager();
+                mainActivity.getBottomBar().animateAddToFavorite((ImageView) layoutManager.getChildAt(layoutManager.findFirstVisibleItemPosition()), mainActivity.findViewById(R.id.main), Repository.UserVariation.BAG);
             }
         } else if (event instanceof ImagePickerEvent) {
             ImagePickerEvent imagePickerEvent = (ImagePickerEvent) event;

@@ -18,6 +18,18 @@
         android:layout_height="wrap_content">
 
     </TextView>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/sign_in"
+        app:layout_constraintBottom_toBottomOf="@id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="15dp"
+        style="@style/White_Button_Gray_Stroke_Black_Text"
+        android:text="Sign in"
+        android:gravity="center"
+        android:layout_width="80dp"
+        android:layout_height="30dp">
+    </TextView>
     <LinearLayout
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -168,6 +180,7 @@
         <!--        android:text="153$"-->
     </TextView>
     <TextView
+        android:id="@+id/check_out"
         android:layout_marginTop="15dp"
         app:layout_constraintTop_toBottomOf="@id/after_discount_total"
         app:layout_constraintStart_toStartOf="parent"
