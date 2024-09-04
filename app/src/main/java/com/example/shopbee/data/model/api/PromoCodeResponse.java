@@ -57,15 +57,53 @@ public class PromoCodeResponse {
 
 
     public Date getDueDate() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            // Parse the string into a Date object
+            // Parse the string into a Date object with both date and time
             return formatter.parse(due_date);
         } catch (ParseException e) {
             e.printStackTrace();
-            return null; // or handle it another way if you prefer
+            return null; // Handle parsing errors appropriately
         }
     }
+    public String getRemainingTime() {
+        Date dueDate = getDueDate();
+        if (dueDate == null) {
+            return "Invalid due date"; // Handle the case where the due date couldn't be parsed
+        }
+
+        Date currentDate = new Date(); // Get the current date and time
+        long diffInMillies = dueDate.getTime() - currentDate.getTime();
+
+        if (diffInMillies <= 0) {
+            return "Expired";
+        }
+
+        long diffInSeconds = diffInMillies / 1000;
+        long days = diffInSeconds / (60 * 60 * 24);
+        diffInSeconds %= (60 * 60 * 24);
+
+        if (days > 0) {
+            return days + " day(s) remaining";
+        }
+
+        long hours = diffInSeconds / (60 * 60);
+        diffInSeconds %= (60 * 60);
+
+        if (hours > 0) {
+            return hours + " hour(s) remaining";
+        }
+
+        long minutes = diffInSeconds / 60;
+        diffInSeconds %= 60;
+
+        if (minutes > 0) {
+            return minutes + " minute(s) remaining";
+        }
+
+        return diffInSeconds + " second(s) remaining";
+    }
+
     public boolean hasPassedDueDate() {
         Date dueDate = getDueDate();
         if (dueDate == null) {

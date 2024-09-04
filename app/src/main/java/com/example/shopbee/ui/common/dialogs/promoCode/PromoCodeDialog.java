@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PromoCodeDialog extends BottomSheetDialogFragment implements  PromoCodeAdapter.OnItemClick{
     public interface onCollectVoucherListener {
@@ -36,11 +39,15 @@ public class PromoCodeDialog extends BottomSheetDialogFragment implements  Promo
         this.onCollectVoucherListener = onCollectVoucherListener;
     }
     private onCollectVoucherListener onCollectVoucherListener;
-    List<PromoCodeResponse> promoCodeResponseList = new ArrayList<>();
+    private List<PromoCodeResponse> originalPromoCodeList = new ArrayList<>();
+    private List<PromoCodeResponse> filteredPromoCodeList = new ArrayList<>();
 
     public void setPromoCodeResponseList(List<PromoCodeResponse> promoCodeResponseList) {
         this.promoCodeResponseList = promoCodeResponseList;
+        this.originalPromoCodeList = new ArrayList<>(promoCodeResponseList); // Keep the original list
+        this.filteredPromoCodeList = new ArrayList<>(promoCodeResponseList); // Initialize with the full list
     }
+    List<PromoCodeResponse> promoCodeResponseList = new ArrayList<>();
 
     String promoCode;
     PromoCodeResponse promoCodeResponse;
@@ -96,6 +103,34 @@ public class PromoCodeDialog extends BottomSheetDialogFragment implements  Promo
                 onCollectVoucherListener.onCollectVoucher();
             }
         });
+        binding.promoCodeEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No action needed before text is changed
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterPromoCodes(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No action needed after text is changed
+            }
+        });
+
+    }
+    private void filterPromoCodes(String query) {
+        if (query.isEmpty()) {
+            filteredPromoCodeList = new ArrayList<>(originalPromoCodeList);
+        } else {
+            filteredPromoCodeList = originalPromoCodeList.stream()
+                    .filter(promo -> promo.getCode().toLowerCase().contains(query.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+        promoCodeAdapter.setPromoCodeList(filteredPromoCodeList);
+        promoCodeAdapter.notifyDataSetChanged();
     }
 
     @Override

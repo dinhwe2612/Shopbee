@@ -61,6 +61,12 @@ public class PromoCodeAdapter extends RecyclerView.Adapter<PromoCodeAdapter.View
             this.binding = binding;
         }
         public void bindView(int position) {
+            if (promoCodeList.get(position).getRemainingTime().equals("Expired")) {
+                binding.promoCodeLayout.setAlpha(0.45f);
+                binding.textView3.setText(promoCodeList.get(position).getRemainingTime());
+                binding.textView5.setVisibility(View.GONE);
+                binding.textView3.setTextAppearance(R.style.Red_Regular_10dp);
+            }
             binding.textView.setText(String.valueOf(promoCodeList.get(position).getPercent()));
             binding.textView2.setText(String.valueOf(promoCodeList.get(position).getName()));
             binding.textView4.setText(String.valueOf(promoCodeList.get(position).getCode()));

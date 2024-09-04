@@ -82,25 +82,9 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                 bagAdapter.setQuantities(viewModel.getBagQuantities().getValue());
                 bagAdapter.setVariations(viewModel.getBagVariations().getValue());
                 bagAdapter.setProducts(products);
-                bagAdapter.notifyDataSetChanged();
-                getViewDataBinding().priceTotal.setText(getPriceTotal() + "$");
-                if (promoCodeResponse.getValue() != null) {
-                    getViewDataBinding().promoCodeText.setText("");
-                    getViewDataBinding().discountTotal.setText("-" + 0 + "$");
-                    getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
-                } else {
-                    getViewDataBinding().discountTotal.setText("-" + 0 + "$");
-                    getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
-                    getViewDataBinding().promoCodeText.setText("");
-                }
-            });
-            viewModel.getBagQuantities().observe(getViewLifecycleOwner(), lists -> {
-//                bagAdapter.setQuantities(viewModel.getBagQuantities().getValue());
-//                bagAdapter.setVariations(viewModel.getBagVariations().getValue());
-//                bagAdapter.setProducts(viewModel.getBagProducts().getValue());
-//                bagAdapter.notifyDataSetChanged();
-                if (doneLoadingProducts) {
-                    Log.d("update price", "update price");
+                if (products.size() != 0) {
+                    displayOptionsForBag(View.VISIBLE, View.GONE);
+                    bagAdapter.notifyDataSetChanged();
                     getViewDataBinding().priceTotal.setText(getPriceTotal() + "$");
                     if (promoCodeResponse.getValue() != null) {
                         getViewDataBinding().promoCodeText.setText("");
@@ -110,6 +94,40 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                         getViewDataBinding().discountTotal.setText("-" + 0 + "$");
                         getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
                         getViewDataBinding().promoCodeText.setText("");
+                    }
+                }
+                else {
+                    displayOptionsForBag(View.GONE, View.VISIBLE);
+                }
+            });
+            viewModel.getBagQuantities().observe(getViewLifecycleOwner(), lists -> {
+                if (lists.isEmpty()) {
+                    displayOptionsForBag(View.GONE, View.VISIBLE);
+                }
+                else {
+                    displayOptionsForBag(View.VISIBLE, View.GONE);
+                }
+//                bagAdapter.setQuantities(viewModel.getBagQuantities().getValue());
+//                bagAdapter.setVariations(viewModel.getBagVariations().getValue());
+//                bagAdapter.setProducts(viewModel.getBagProducts().getValue());
+//                bagAdapter.notifyDataSetChanged();
+                if (doneLoadingProducts) {
+                    if (!lists.isEmpty()) {
+                        displayOptionsForBag(View.VISIBLE, View.GONE);
+                        Log.d("update price", "update price");
+                        getViewDataBinding().priceTotal.setText(getPriceTotal() + "$");
+                        if (promoCodeResponse.getValue() != null) {
+                            getViewDataBinding().promoCodeText.setText("");
+                            getViewDataBinding().discountTotal.setText("-" + 0 + "$");
+                            getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
+                        } else {
+                            getViewDataBinding().discountTotal.setText("-" + 0 + "$");
+                            getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
+                            getViewDataBinding().promoCodeText.setText("");
+                        }
+                    }
+                    else {
+                        displayOptionsForBag(View.GONE, View.VISIBLE);
                     }
                 }
             });
@@ -365,5 +383,17 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
 
                         })
         );
+    }
+    public void displayOptionsForBag(int visibility, int emptyBagVisibility) {
+        getViewDataBinding().emptyBag.setVisibility(emptyBagVisibility);
+        getViewDataBinding().linearLayout.setVisibility(visibility);
+        getViewDataBinding().textView2.setVisibility(visibility);
+        getViewDataBinding().priceTotal.setVisibility(visibility);
+        getViewDataBinding().promoCodeText.setVisibility(visibility);
+        getViewDataBinding().discountTotal.setVisibility(visibility);
+        getViewDataBinding().afterDiscountTotal.setVisibility(visibility);
+        getViewDataBinding().promoCode.setVisibility(visibility);
+        getViewDataBinding().discount.setVisibility(visibility);
+        getViewDataBinding().checkOut.setVisibility(visibility);
     }
 }
