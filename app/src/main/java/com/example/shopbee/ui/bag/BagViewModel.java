@@ -53,6 +53,32 @@ public class BagViewModel extends BaseViewModel<BagNavigator> {
     public void getBagVariationFromFirebase() {
 
     }
+    public void syncBagListsOnly() {
+//        setIsLoading(true);
+        getCompositeDisposable().add(getRepository().getUserVariation(Repository.UserVariation.BAG)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(result -> {
+//                                    setIsLoading(false);
+                                    List<String> asins = new ArrayList<>();
+                                    List<List<Pair<String, String>>> variations = new ArrayList<>();
+                                    List<Integer> quantities = new ArrayList<>();
+                                    for (UserVariationResponse.Variation variation : result.getVariations()) {
+                                        asins.add(variation.getAsin());
+                                        variations.add(variation.getVariation());
+                                        quantities.add(variation.getQuantity());
+                                    }
+                                    bagLists.setValue(asins);
+                                    bagVariations.setValue(variations);
+                                    bagQuantities.setValue(quantities);
+//                                    syncBagProducts(bagLists.getValue());
+                                },
+                                error -> {
+//                                    setIsLoading(false);
+//                            Log.e("getUserSearchHistory", "getUserSearchHistory " + error.getMessage());
+                                })
+        );
+    }
 
     public void syncBagLists() {
         // get users' favorite asins and variations
@@ -70,13 +96,19 @@ public class BagViewModel extends BaseViewModel<BagNavigator> {
                                         variations.add(variation.getVariation());
                                         quantities.add(variation.getQuantity());
                                     }
+                                    Log.d("syncBagLists", "syncBagLists: " + asins);
                                     bagLists.setValue(asins);
+                                    Log.d("syncBagLists", "syncBagLists: " + variations);
+                                    Log.d("syncBagLists", "syncBagLists: " + quantities);
                                     bagVariations.setValue(variations);
                                     bagQuantities.setValue(quantities);
                                     syncBagProducts(bagLists.getValue());
+                                    Log.d("syncBagLists", "syncBagLists: " + bagLists.getValue());
                                 },
                                 error -> {
                                     setIsLoading(false);
+                                    error.printStackTrace();
+                                    Log.e("syncBagLists", "syncBagLists: " + error.getMessage());
 //                            Log.e("getUserSearchHistory", "getUserSearchHistory " + error.getMessage());
                                 })
         );

@@ -93,7 +93,7 @@ public class PromoCodeResponse {
     public PromoCodeResponse() {
 
     }
-    private float roundToTwoDecimalPlaces(float value) {
+    public static float roundToTwoDecimalPlaces(float value) {
         BigDecimal bd = new BigDecimal(Float.toString(value));
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.floatValue();

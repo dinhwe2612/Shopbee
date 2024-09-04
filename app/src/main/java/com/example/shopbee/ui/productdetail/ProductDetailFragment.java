@@ -1,12 +1,17 @@
 package com.example.shopbee.ui.productdetail;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,13 +30,23 @@ import com.example.shopbee.databinding.ProductDetailBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.example.shopbee.ui.common.dialogs.imagepickerdialog.ImagePickerEvent;
 import com.example.shopbee.ui.common.dialogs.optiondialog.OptionEvent;
+import com.example.shopbee.ui.main.MainActivity;
 import com.example.shopbee.ui.productdetail.adapter.AboutProductAdapter;
 import com.example.shopbee.ui.productdetail.adapter.ProductDetailAdapter;
 import com.example.shopbee.ui.productdetail.adapter.ProductPhotosAdapter;
 import com.example.shopbee.ui.productdetail.adapter.RecommendedAdapter;
 import com.example.shopbee.utils.NetworkUtils;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -228,6 +243,11 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     }
 
     @Override
+    public void tryItOn() {
+        dialogsManager.showImagePickerDialog();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         dialogsManager.registerListener(this);
@@ -244,13 +264,25 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
             OptionEvent optionEvent = (OptionEvent) event;
             if (optionEvent.getName() == "ADD FAVORITE") {
                 viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, optionEvent.getOptions(), null);
+                MainActivity mainActivity = (MainActivity) getActivity();
+                LinearLayoutManager layoutManager = (LinearLayoutManager) binding.prodPhotosRCV.getLayoutManager();
+                mainActivity.getBottomBar().animateAddToFavorite((ImageView) layoutManager.getChildAt(layoutManager.findFirstVisibleItemPosition()), mainActivity.findViewById(R.id.main), Repository.UserVariation.FAVORITE);
             }
             else if (optionEvent.getName() == "ADD TO BAG") {
                 // print out optionEvent
-                Log.d("optionEvent", optionEvent.getName() + " " + optionEvent.getOptions().toString() + " " + optionEvent.getQuantity());
-
                 viewModel.getRepository().saveUserVariation(Repository.UserVariation.BAG, asin, optionEvent.getOptions(), optionEvent.getQuantity());
+                MainActivity mainActivity = (MainActivity) getActivity();
+                LinearLayoutManager layoutManager = (LinearLayoutManager) binding.prodPhotosRCV.getLayoutManager();
+                mainActivity.getBottomBar().animateAddToFavorite((ImageView) layoutManager.getChildAt(layoutManager.findFirstVisibleItemPosition()), mainActivity.findViewById(R.id.main), Repository.UserVariation.BAG);
             }
+        } else if (event instanceof ImagePickerEvent) {
+            ImagePickerEvent imagePickerEvent = (ImagePickerEvent) event;
+            // call api to try it on
+            viewModel.getTryOnImage().observe(getViewLifecycleOwner(), bitmap -> {
+                dialogsManager.showImagePreviewDialog(bitmap);
+            });
+            viewModel.syncTryOnImage("https://cdn.shopify.com/s/files/1/0023/1342/0889/products/ClassicShirt_White_1_5cd5bf10-af18-4d0b-a477-bc3422d8401a.jpg?v=1688497040", amazonProductDetailsResponse.getData().getProduct_photo());
+            Log.d("tryItOn", amazonProductDetailsResponse.getData().getProduct_photo());
         }
     }
 }

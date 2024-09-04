@@ -21,6 +21,7 @@ import com.example.shopbee.data.model.api.SearchResponse;
 import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.data.model.api.UserVariationResponse;
 import com.example.shopbee.data.remote.AmazonApiService;
+import com.example.shopbee.data.remote.TexelVirtualTryOnApiService;
 import com.example.shopbee.ui.user_search.UserSearchViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +39,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -51,17 +53,26 @@ import javax.inject.Singleton;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 @Singleton
 public class Repository {
     final AmazonApiService amazonApiService;
+    final TexelVirtualTryOnApiService texelVirtualTryOnApiService;
     private DatabaseReference databaseReference;
     private MutableLiveData<UserResponse> userResponse = new MutableLiveData<>();
     private MutableLiveData<ListOrderResponse> listOrderResponse = new MutableLiveData<>();
 
     @Inject
-    Repository(AmazonApiService amazonApiService) {
+    Repository(AmazonApiService amazonApiService, TexelVirtualTryOnApiService texelVirtualTryOnApiService) {
         this.amazonApiService = amazonApiService;
+        this.texelVirtualTryOnApiService = texelVirtualTryOnApiService;
     }
     // query, page, country, sort_by, product_condition
     public Observable<AmazonSearchResponse> search(HashMap<String, String> query) {
@@ -583,6 +594,10 @@ public class Repository {
     public Observable<UserVariationResponse> getUserVariation(UserVariation userVariation) {
         UserVariationResponse userVariationResponse = new UserVariationResponse();
         return Observable.create(emitter -> {
+            if (getUserResponse().getValue() == null) {
+                emitter.onError(new Throwable("User response is null"));
+                return;
+            }
             String email = getUserResponse().getValue().getEmail();
             databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
             Query query = databaseReference.orderByChild("email").equalTo(email);
@@ -611,17 +626,22 @@ public class Repository {
                                                     variations.add(pair);
                                                 }
                                             }
-                                            Integer quantity = variation.child("quantity").getValue(Integer.class);
+                                            Integer quantity = null;
+                                            if (userVariation == UserVariation.BAG) {
+                                                quantity = variation.child("quantity").getValue(Integer.class);
+                                            }
                                             UserVariationResponse.Variation userVariation = new UserVariationResponse.Variation(asin, variations, quantity);
                                             userVariationResponse.addVariation(userVariation);
 
                                         }
                                         UserVariationResponse result = new UserVariationResponse();
                                         for (int i = userVariationResponse.getVariations().size() - 1; i >= 0; i--) {
+//                                            Log.d("TAG", "syncBagLists: " + userVariationResponse.getVariations().get(i).getAsin());
                                             result.addVariation(userVariationResponse.getVariations().get(i));
                                             emitter.onNext(result);
                                         }
                                         emitter.onComplete();
+                                        Log.d("TAG", "syncBagLists: " + userVariationResponse.getVariations().size());
                                     } else {
                                         emitter.onNext(userVariationResponse);
                                         emitter.onComplete();
@@ -648,109 +668,136 @@ public class Repository {
             });
         });
     }
-    public void deleteUserVariation(UserVariation userVariation, String asin, List<Pair<String, String>> variation) {
-        String email = getUserResponse().getValue().getEmail();
-        databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
-        Query query = databaseReference.orderByChild("email").equalTo(email);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // Iterate through user data
-                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                        DataSnapshot variationTypeSnapshot;
-                        if (userVariation == UserVariation.FAVORITE) {
-                            variationTypeSnapshot = userSnapshot.child("favorite");
-                        } else {
-                            variationTypeSnapshot = userSnapshot.child("bag");
-                        }
-                        for (DataSnapshot variationSnapshot : variationTypeSnapshot.getChildren()) {
-                            if (!variationSnapshot.child("asin").getValue(String.class).equals(asin)) {
-                                break;
+    public Observable<Boolean> deleteUserVariation(UserVariation userVariation, String asin, List<Pair<String, String>> variation) {
+        return Observable.create(emitter -> {
+            String email = getUserResponse().getValue().getEmail();
+            databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
+            Query query = databaseReference.orderByChild("email").equalTo(email);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        boolean itemDeleted = false;
+                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                            DataSnapshot variationTypeSnapshot;
+                            if (userVariation == UserVariation.FAVORITE) {
+                                variationTypeSnapshot = userSnapshot.child("favorite");
+                            } else {
+                                variationTypeSnapshot = userSnapshot.child("bag");
                             }
-                            else {
-                                int index = 0;
-                                for (DataSnapshot variationMap : variationSnapshot.child("variation").getChildren()) {
-                                    Map<String, String> map = (Map<String, String>) variationMap.getValue();
-                                    Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
-                                    if (!variation.get(index).first.equals(pair.first) || !variation.get(index).second.equals(pair.second)) {
-                                        break;
+                            for (DataSnapshot variationSnapshot : variationTypeSnapshot.getChildren()) {
+                                if (variationSnapshot.child("asin").getValue(String.class).equals(asin)) {
+                                    int index = 0;
+                                    for (DataSnapshot variationMap : variationSnapshot.child("variation").getChildren()) {
+                                        Map<String, String> map = (Map<String, String>) variationMap.getValue();
+                                        Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
+                                        if (!variation.get(index).first.equals(pair.first) || !variation.get(index).second.equals(pair.second)) {
+                                            break;
+                                        } else {
+                                            index++;
+                                        }
                                     }
-                                    else {
-                                        index++;
+                                    if (index == variation.size()) {
+                                        variationSnapshot.getRef().removeValue();
+                                        itemDeleted = true;
                                     }
+                                    break;
                                 }
-                                variationSnapshot.getRef().removeValue();
-                                return;
                             }
+
+                            if (itemDeleted) break;
                         }
+                        emitter.onNext(itemDeleted);  // Emit true if an item was deleted, false otherwise
+                        emitter.onComplete();
+                    } else {
+                        emitter.onNext(false);
+                        emitter.onComplete();
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle any errors that occur during query
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    emitter.onError(databaseError.toException());  // Emit error if query is cancelled
+                }
+            });
         });
     }
-    public void updateUserBagVariation(String asin, List<Pair<String, String>> variation, boolean increase) {
-        String email = getUserResponse().getValue().getEmail();
-        databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
-        Query query = databaseReference.orderByChild("email").equalTo(email);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // Iterate through user data
-                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                        DataSnapshot variationTypeSnapshot;
-                        variationTypeSnapshot = userSnapshot.child("bag");
-                        for (DataSnapshot variationSnapshot : variationTypeSnapshot.getChildren()) {
-                            if (!variationSnapshot.child("asin").getValue(String.class).equals(asin)) {
-                                break;
-                            }
-                            else {
-                                int index = 0;
-                                for (DataSnapshot variationMap : variationSnapshot.child("variation").getChildren()) {
-                                    Map<String, String> map = (Map<String, String>) variationMap.getValue();
-                                    Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
-                                    if (!variation.get(index).first.equals(pair.first) || !variation.get(index).second.equals(pair.second)) {
+    public Observable<Boolean> updateUserBagVariation(String asin, List<Pair<String, String>> variation, boolean increase) {
+        return Observable.create(emitter -> {
+            String email = getUserResponse().getValue().getEmail();
+            databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
+            Query query = databaseReference.orderByChild("email").equalTo(email);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        boolean itemUpdated = false;
+                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                            DataSnapshot variationTypeSnapshot = userSnapshot.child("bag");
+
+                            for (DataSnapshot variationSnapshot : variationTypeSnapshot.getChildren()) {
+                                if (variationSnapshot.child("asin").getValue(String.class).equals(asin)) {
+                                    int index = 0;
+                                    for (DataSnapshot variationMap : variationSnapshot.child("variation").getChildren()) {
+                                        Map<String, String> map = (Map<String, String>) variationMap.getValue();
+                                        Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
+                                        if (!variation.get(index).first.equals(pair.first) || !variation.get(index).second.equals(pair.second)) {
+                                            break;
+                                        } else {
+                                            index++;
+                                        }
+                                    }
+                                    if (index == variation.size()) {
+                                        Integer quantity = variationSnapshot.child("quantity").getValue(Integer.class);
+                                        if (increase) {
+                                            quantity += 1;
+                                            variationSnapshot.child("quantity").getRef().setValue(quantity);
+                                        } else {
+                                            quantity = Math.max(quantity - 1, 0);
+                                            if (quantity == 0) {
+                                                deleteUserVariation(UserVariation.BAG, asin, variation)
+                                                        .subscribe(result -> {
+                                                            emitter.onNext(result);
+                                                            emitter.onComplete();
+                                                        }, emitter::onError);
+                                                return;
+                                            } else {
+                                                variationSnapshot.child("quantity").getRef().setValue(quantity);
+                                            }
+                                        }
+                                        itemUpdated = true;
                                         break;
                                     }
-                                    else {
-                                        index++;
-                                    }
                                 }
-                                Integer quantity = variationSnapshot.child("quantity").getValue(Integer.class);
-                                if (increase) {
-                                    quantity += 1;
-                                    variationSnapshot.child("quantity").getRef().setValue(quantity);
-                                }
-                                else {
-                                    quantity = Math.min(quantity - 1, 0);
-                                    if (quantity == 0) {
-                                        deleteUserVariation(UserVariation.BAG, asin, variation);
-                                    }
-                                    else {
-                                        variationSnapshot.child("quantity").getRef().setValue(quantity);
-                                    }
-                                }
-                                return;
                             }
+                            if (itemUpdated) break;
                         }
+                        emitter.onNext(itemUpdated);  // Emit true if an item was updated, false otherwise
+                        emitter.onComplete();
+                    } else {
+                        emitter.onNext(false);
+                        emitter.onComplete();
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle any errors that occur during query
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    emitter.onError(databaseError.toException());  // Emit error if query is cancelled
+                }
+            });
         });
     }
+
     public Observable<AmazonProductReviewResponse> getAmazonProductReview(HashMap<String, String> map) {
         return amazonApiService.getAmazonProductReviews(map);
+    }
+    public Observable<ResponseBody> getTryOnImage(String personUrl, String garmentUrl) {
+        // Create the request body
+        RequestBody personBody = RequestBody.create(MultipartBody.FORM, personUrl);
+        RequestBody garmentBody = RequestBody.create(MultipartBody.FORM, garmentUrl);
+        return texelVirtualTryOnApiService.tryOn(garmentBody, personBody);
     }
     public void updateOrderFirebase(OrderResponse orderResponse){
         Log.d("TAG", "updateOrderFirebase: " + orderResponse.getOrder_number());
