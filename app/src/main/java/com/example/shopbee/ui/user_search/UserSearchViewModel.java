@@ -97,5 +97,22 @@ public class UserSearchViewModel extends BaseViewModel {
     }
     public void syncSuggestions() {
         setIsLoading(true);
+        getCompositeDisposable().add(getRepository().getAllUserSearchHistory()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(result -> {
+                                    setIsLoading(false);
+//                            if (result == null) {
+//                                isUserNotSignedIn.setValue(true);
+//                                return;
+//                            }
+                                    Log.e("Suggestions", "getUserSearchHistory " + result);
+                                    suggestions.setValue(result);
+                                },
+                                error -> {
+                                    setIsLoading(false);
+                                    Log.e("getUserSearchHistory", "getUserSearchHistory " + error.getMessage());
+                                })
+        );
     }
 }

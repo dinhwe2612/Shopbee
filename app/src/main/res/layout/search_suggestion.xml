@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/slight_rounded_white_rectangle_bottom_red_stroke"
     android:layout_width="370dp"
@@ -28,3 +29,4 @@
 
     </ImageView>
 </RelativeLayout>
+</layout>

@@ -90,6 +90,7 @@
 
         </TextView>
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView2"
             tools:listitem="@layout/sale_item"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

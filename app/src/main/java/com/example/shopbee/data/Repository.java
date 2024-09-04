@@ -288,7 +288,34 @@ public class Repository {
         });
     }
 
+    public Observable<List<String>> getAllUserSearchHistory() {
+        return Observable.create(emitter -> {
+            List<String> search = new ArrayList<>();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+                    .getReference("search_history");
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                            DataSnapshot historySnapshot = userSnapshot.child("history");
+                            for (DataSnapshot searchSnapshot : historySnapshot.getChildren()) {
+                                String searchString = searchSnapshot.child("search").getValue(String.class);
+                                search.add(searchString);
+                            }
+                        }
+                        emitter.onNext(search);
+                        emitter.onComplete();
+                    }
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        });
+    }
     public Observable<SearchResponse> getSearchHistory() {
         return Observable.create(emitter -> {
             SearchResponse searchResponse = new SearchResponse();

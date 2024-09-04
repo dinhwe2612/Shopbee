@@ -24,13 +24,19 @@ import com.example.shopbee.ui.login.LoginActivity;
 import com.example.shopbee.ui.user_search.adapter.HistoryAdapter;
 import com.example.shopbee.ui.user_search.adapter.SuggestionAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSearchViewModel> implements UserSearchNavigator, HistoryAdapter.OnHistorySearchClick {
+public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSearchViewModel> implements UserSearchNavigator, HistoryAdapter.OnHistorySearchClick, SuggestionAdapter.OnSearchClickListener {
     CompositeDisposable compositeDisposable;
     SearchLayoutBinding binding;
+    List<String> originalSuggestions = new ArrayList<>();
+    List<String> filterSuggestions = new ArrayList<>();
     HistoryAdapter historyAdapter = new HistoryAdapter();
     SuggestionAdapter suggestionAdapter = new SuggestionAdapter();
     @Override
@@ -69,7 +75,16 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
                     observeFullList();
                 }
             });
+            viewModel.getSuggestions().observe(getViewLifecycleOwner(), suggestions -> {
+                originalSuggestions = suggestions;
+//                suggestionAdapter.setSuggestions(suggestions);
+//                suggestionAdapter.notifyDataSetChanged();
+            });
             viewModel.syncSearchHistory();
+            viewModel.syncSuggestions();
+            suggestionAdapter.setOnSearchClickListener(this);
+            binding.recyclerView1.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+            binding.recyclerView1.setAdapter(suggestionAdapter);
             binding.relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -118,6 +133,8 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
                 // Trigger suggestion logic here
                 String userInput = s.toString();
                 if (!userInput.isEmpty()) {
+                    binding.recyclerView2.setVisibility(View.GONE);
+                    binding.textView.setVisibility(View.GONE);
                     binding.recyclerView.setVisibility(View.GONE);
                     binding.relativeLayout.setVisibility(View.GONE);
                     binding.recyclerView1.setVisibility(View.VISIBLE);
@@ -198,6 +215,13 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
         });
     }
     private void updateSuggestions(String userInput) {
+        if (!originalSuggestions.isEmpty()) {
+            filterSuggestions = originalSuggestions.stream()
+                    .filter(string -> string.toLowerCase().contains(userInput.toLowerCase()))
+                    .collect(Collectors.toList());
+            suggestionAdapter.setSuggestions(filterSuggestions);
+            suggestionAdapter.notifyDataSetChanged();
+        }
         // Here you would typically query your data source for suggestions matching the user input
 //        List<String> suggestions = getSuggestionsFromDataSource(userInput);
 
@@ -210,6 +234,8 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
         // Clear your suggestions list
 //        suggestionAdapter.setSuggestions(new ArrayList<>());
 //        suggestionAdapter.notifyDataSetChanged();
+        binding.recyclerView2.setVisibility(View.VISIBLE);
+        binding.textView.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.VISIBLE);
         binding.relativeLayout.setVisibility(View.VISIBLE);
         binding.recyclerView1.setVisibility(View.GONE);
@@ -225,5 +251,10 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
     public void onStop() {
         super.onStop();
         compositeDisposable.clear();
+    }
+
+    @Override
+    public void onSearchClick(String query) {
+        navigateToSearchFragment(query);
     }
 }
