@@ -1,5 +1,8 @@
 package com.example.shopbee.ui.checkout.shipping;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +23,14 @@ import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.checkout.adapter.PaymentAdapter;
 import com.example.shopbee.ui.checkout.adapter.ShippingAdapter;
 import com.example.shopbee.ui.common.base.BaseFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingViewModel> implements ShippingNavigator, ShippingAdapter.Listener {
     private ShippingBinding binding;
     private UserResponse userResponse;
     private ShippingAdapter shippingAdapter;
+    private FloatingActionButton fab, write_fab, map_fab;
+    private Boolean isAllFabsVisible;
     @Override
     public int getBindingVariable() {
         return BR.vm;
@@ -62,12 +68,6 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
                 backToCheckout();
             }
         });
-        binding.addNewCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addNewAddress();
-            }
-        });
         return binding.getRoot();
     }
 
@@ -90,7 +90,7 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
     }
 
     @Override
-    public void addNewAddress() {
+    public void addNewAddressByHand() {
         NavController navController = NavHostFragment.findNavController(this);
         Bundle bundle = new Bundle();
         bundle.putString("modify", "add");
@@ -117,5 +117,85 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
     public void backToCheckout() {
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigateUp();
+    }
+    public void ExtendFloatingActionButton(){
+        fab = binding.addFab;
+        write_fab = binding.addByWrite;
+        map_fab = binding.addByLocation;
+        isAllFabsVisible = false;
+
+        write_fab.setVisibility(View.GONE);
+        map_fab.setVisibility(View.GONE);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isAllFabsVisible){
+                    showFabs();
+                } else {
+                    hideFabs();
+                }
+            }
+        });
+        write_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNewAddressByHand();
+            }
+        });
+        map_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+    private void showFabs() {
+        write_fab.setVisibility(View.VISIBLE);
+        map_fab.setVisibility(View.VISIBLE);
+
+        ObjectAnimator animatorXWrite = ObjectAnimator.ofFloat(write_fab, "translationX", -200f); // Replace with actual position
+        ObjectAnimator animatorYWrite = ObjectAnimator.ofFloat(write_fab, "translationY", -200f); // Replace with actual position
+
+        ObjectAnimator animatorXMap = ObjectAnimator.ofFloat(map_fab, "translationX", -100f); // Replace with actual position
+        ObjectAnimator animatorYMap = ObjectAnimator.ofFloat(map_fab, "translationY", -300f); // Replace with actual position
+
+        animatorXWrite.setDuration(300);
+        animatorYWrite.setDuration(300);
+        animatorXMap.setDuration(300);
+        animatorYMap.setDuration(300);
+
+        animatorXWrite.start();
+        animatorYWrite.start();
+        animatorXMap.start();
+        animatorYMap.start();
+
+        isAllFabsVisible = true;
+    }
+    private void hideFabs() {
+        ObjectAnimator animatorXWrite = ObjectAnimator.ofFloat(write_fab, "translationX", 0f);
+        ObjectAnimator animatorYWrite = ObjectAnimator.ofFloat(write_fab, "translationY", 0f);
+
+        ObjectAnimator animatorXMap = ObjectAnimator.ofFloat(map_fab, "translationX", 0f);
+        ObjectAnimator animatorYMap = ObjectAnimator.ofFloat(map_fab, "translationY", 0f);
+
+        animatorXWrite.setDuration(300);
+        animatorYWrite.setDuration(300);
+        animatorXMap.setDuration(300);
+        animatorYMap.setDuration(300);
+
+        animatorXWrite.start();
+        animatorYWrite.start();
+        animatorXMap.start();
+        animatorYMap.start();
+
+        animatorYMap.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                write_fab.setVisibility(View.GONE);
+                map_fab.setVisibility(View.GONE);
+            }
+        });
+
+        isAllFabsVisible = false;
     }
 }

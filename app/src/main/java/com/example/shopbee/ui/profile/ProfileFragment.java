@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
@@ -101,11 +104,12 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
                 builder.setItems(options, (dialog, which) -> {
                     if (which == 0) {
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        imagePickerLauncher.launch(takePictureIntent);
                         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                             imagePickerLauncher.launch(takePictureIntent);
                         }
                     } else if (which == 1) {
-                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                         intent.setType("image/*");
                         imagePickerLauncher.launch(intent);
                     }
@@ -117,7 +121,6 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
                 , result -> {
             if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                 if (result.getData().getExtras() != null) {
-                    // Image captured from the camera
                     Bitmap photo = (Bitmap) result.getData().getExtras().get("data");
                     binding.userAvatar.setImageBitmap(photo);
                     viewModel.uploadImageBitmapFirebase(photo, "avatar", userResponse.getEmail());
