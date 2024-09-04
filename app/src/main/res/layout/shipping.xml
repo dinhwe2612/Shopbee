@@ -45,6 +45,7 @@
     </ScrollView>
 
     <androidx.cardview.widget.CardView
+        android:visibility="gone"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_alignParentBottom="true"
@@ -64,5 +65,41 @@
             android:layout_height="wrap_content"
             android:background="@drawable/plus_icon"/>
     </androidx.cardview.widget.CardView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/add_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/plus_icon"
+        app:fabSize="normal"
+        app:backgroundTint="@color/black_light_theme"
+        app:tint="@color/white_light_theme"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_above="@id/add_fab"
+        android:id="@+id/add_by_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/location"
+        app:fabSize="normal"
+        app:backgroundTint="@color/pastel_red"
+        app:tint="@color/white_light_theme"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/add_fab"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/add_by_write"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/write"
+        app:fabSize="normal"
+        app:backgroundTint="@color/pastel_red"
+        app:tint="@color/white_light_theme"/>
 </RelativeLayout>
 </layout>
