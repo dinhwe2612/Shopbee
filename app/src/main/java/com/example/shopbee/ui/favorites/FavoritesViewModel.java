@@ -77,6 +77,27 @@ public class FavoritesViewModel extends BaseViewModel<FavoritesNavigator> {
                         })
         );
     }
+    public void syncFavoriteListsOnly() {
+        getCompositeDisposable().add(getRepository().getUserVariation(Repository.UserVariation.FAVORITE)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(result -> {
+//                            setIsLoading(false);
+                                    List<String> asins = new ArrayList<>();
+                                    List<List<Pair<String, String>>> variations = new ArrayList<>();
+                                    for (UserVariationResponse.Variation variation : result.getVariations()) {
+                                        asins.add(variation.getAsin());
+                                        variations.add(variation.getVariation());
+                                    }
+                                    favoriteLists.setValue(asins);
+                                    favoriteVariations.setValue(variations);
+                                },
+                                error -> {
+//                            setIsLoading(false);
+//                            Log.e("getUserSearchHistory", "getUserSearchHistory " + error.getMessage());
+                                })
+        );
+    }
     public void syncFavoriteProducts(List<String> favoriteLists) {
         setIsLoading(true);
         // get information from Amazon asin

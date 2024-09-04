@@ -72,6 +72,12 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
+//        compositeDisposable.clear();
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
         compositeDisposable.clear();
     }
 

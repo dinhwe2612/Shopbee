@@ -45,6 +45,7 @@
                     style="@style/AccountEditText_Background"
                     android:padding="1dp">
                     <EditText
+                        android:id="@+id/promo_code_edit_text"
                         android:textAppearance="@style/Black_Medium_14dp"
                         android:layout_width="343dp"
                         android:layout_height="50dp"

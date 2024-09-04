@@ -2,6 +2,7 @@ package com.example.shopbee.ui.favorites;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,11 +33,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesViewModel> implements  FavoritesNavigator, DialogsManager.Listener, FavoriteAdapter.OnItemClickListener {
     @Inject
     DialogsManager dialogsManager;
-    FavoriteAdapter productAdapter;
-    FavoriteAdapterGridView productAdapterGridView;
+    FavoriteAdapter productAdapter = new FavoriteAdapter();
+    FavoriteAdapterGridView productAdapterGridView = new FavoriteAdapterGridView();
     boolean isInListView = true;
     FavoritesBinding binding;
     @Override
@@ -85,39 +89,47 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         binding = getViewDataBinding();
         if (viewModel.getRepository().getUserResponse() != null) {
             viewModel.syncFavoriteLists();
+            viewModel.getFavoriteLists().observe(getViewLifecycleOwner(), lists ->{
+                if (lists.isEmpty()) {
+                    binding.emptyFavorites.setVisibility(View.VISIBLE);
+                }
+                else {
+                    binding.emptyFavorites.setVisibility(View.GONE);
+//                    productAdapter = new FavoriteAdapter();
+                    productAdapter.setOnItemClickListener(this);
 
-            productAdapter = new FavoriteAdapter();
-            productAdapter.setOnItemClickListener(this);
-
-            productAdapterGridView = new FavoriteAdapterGridView();
-            productAdapterGridView.setOnItemClickListener(this);
+//                    productAdapterGridView = new FavoriteAdapterGridView();
+                    productAdapterGridView.setOnItemClickListener(this);
 
 //        getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-            changeView(isInListView, null);
+                    changeView(isInListView, null);
 
-            viewModel.getFavoriteProducts().observe(getViewLifecycleOwner(), products -> {
-                changeView(isInListView, products);
-            });
-            viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
-                if (inProgress) {
-                    binding.loading.setVisibility(View.VISIBLE);
-                    animateLoading();
-                } else {
-                    stopLoadingAnimations();
-                    binding.loading.setVisibility(View.GONE);
-                }
-            });
+                    viewModel.getFavoriteProducts().observe(getViewLifecycleOwner(), products -> {
+                        changeView(isInListView, products);
+                    });
+                    viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
+                        if (inProgress) {
+                            binding.loading.setVisibility(View.VISIBLE);
+                            animateLoading();
+                        } else {
+                            stopLoadingAnimations();
+                            binding.loading.setVisibility(View.GONE);
+                        }
+                    });
 //        viewModel.getFavoriteVariations().observe(getViewLifecycleOwner(), variations -> {
 //            changeView(isInListView, viewModel.getFavoriteProducts().getValue());
 //        });
 //        binding.imageView.setVisibility(View.VISIBLE);
-            binding.imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    isInListView = !isInListView;
-                    changeView(isInListView, viewModel.getFavoriteProducts().getValue());
+                    binding.imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            isInListView = !isInListView;
+                            changeView(isInListView, viewModel.getFavoriteProducts().getValue());
+                        }
+                    });
                 }
             });
+
         } else {
             getViewDataBinding().signIn.setVisibility(View.VISIBLE);
         }
@@ -207,7 +219,22 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
 
     @Override
     public void onItemDeleteClick(String asin, List<Pair<String, String>> variation) {
-        viewModel.getRepository().deleteUserVariation(Repository.UserVariation.FAVORITE, asin, variation);
+        viewModel.getCompositeDisposable().add(viewModel.getRepository().deleteUserVariation(Repository.UserVariation.FAVORITE, asin, variation)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(success -> {
+                                    if (success) {
+                                        viewModel.syncFavoriteListsOnly();
+//                        viewModel.getBagProducts().setValue(viewModel.getBagProducts().getValue());
+                                        // Handle successful deletion
+                                    } else {
+                                        // Handle failure
+                                    }
+                                },
+                                error -> {
+
+                                })
+        );
     }
 
     @Override

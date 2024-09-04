@@ -32,7 +32,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ktx.Firebase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -829,6 +835,44 @@ public class Repository {
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("The read failed: " + error.getMessage());
             }
+        });
+    }
+    public Observable<Bitmap> getImageBitmapFirebase(String imageName, String userEmail) {
+        return Observable.create(emitter -> {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            String encodeEmail = userEmail.replace("@", "_").replace(".", "_");
+            StorageReference storageRef = storage.getReference()
+                    .child("user")
+                    .child(encodeEmail)
+                    .child(imageName + ".jpg");
+            storageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes -> {
+                InputStream is = new ByteArrayInputStream(bytes);
+                Bitmap bitmap = BitmapFactory.decodeStream(is);
+                emitter.onNext(bitmap);
+                emitter.onComplete();
+            }).addOnFailureListener(exception -> {
+                Log.e("FirebaseImageService", "Failed to load image", exception);
+                emitter.onError(exception);
+            });
+        });
+    }
+    public void uploadImageBitmapFirebase(Bitmap bitmap, String imageName, String userEmail) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        String encodeEmail = userEmail.replace("@", "_").replace(".", "_");
+        StorageReference storageRef = storage.getReference()
+                .child("user")
+                .child(encodeEmail)
+                .child(imageName + ".jpg");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = storageRef.putBytes(data);
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            Log.d("FirebaseImageService", "Image uploaded successfully: " + imageName);
+        }).addOnFailureListener(exception -> {
+            Log.e("FirebaseImageService", "Failed to upload image", exception);
         });
     }
 }

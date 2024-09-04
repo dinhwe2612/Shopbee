@@ -83,12 +83,13 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
     @Override
     public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
+        compositeDisposable.clear();
     }
 
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        compositeDisposable.clear();
+//        compositeDisposable.clear();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -98,6 +99,9 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
             this.binding = binding;
         }
         public void bindView(int position) {
+            if (position >= products.size() || position >= quantities.size() || position >= variations.size()) {
+                return; // Position out of bounds
+            }
             binding.textView2.setText(products.get(position).getData().getProduct_title());
             if (products.get(position).getData().getProduct_price() != null) {
                 binding.textView6.setText(products.get(position).getData().getProduct_price());
@@ -162,8 +166,8 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
                                 quantities.remove(position);
                                 products.remove(position);
                                 variations.remove(position);
-//                                notifyDataSetChanged();
-                                notifyItemRemoved(position);
+                                notifyDataSetChanged();
+//                                notifyItemRemoved(position);
                                 return true;
                             }
                             return false;
@@ -186,8 +190,8 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
                         quantities.remove(position);
                         products.remove(position);
                         variations.remove(position);
-//                        notifyDataSetChanged();
-                        notifyItemRemoved(position);
+                        notifyDataSetChanged();
+//                        notifyItemRemoved(position);
 //                        notifyItemRangeChanged(position, getItemCount());
                     }
                 }

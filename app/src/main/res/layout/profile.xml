@@ -22,20 +22,17 @@
         android:layout_height="wrap_content">
 
     </TextView>
-    <ImageView
-        android:id="@+id/imageView"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userAvatar"
         android:layout_marginStart="15dp"
-        android:src="@drawable/image7"
         android:layout_below="@id/textView"
-        android:scaleType="centerCrop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </ImageView>
+        android:src="@drawable/def_avatar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"/>
     <TextView
         android:id="@+id/full_name"
         android:layout_marginStart="15dp"
-        android:layout_toRightOf="@id/imageView"
+        android:layout_toRightOf="@id/userAvatar"
         android:layout_below="@id/textView"
         android:text="Matilda Brown"
         style="@style/Black_SemiBold_18dp"
@@ -47,7 +44,7 @@
         android:id="@+id/email"
         style="@style/Gray_Medium_14dp"
         android:layout_marginStart="15dp"
-        android:layout_toRightOf="@id/imageView"
+        android:layout_toRightOf="@id/userAvatar"
         android:text="matildabrown@mail.com"
         android:layout_below="@id/full_name"
         android:layout_width="wrap_content"
@@ -59,7 +56,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
         android:layout_marginTop="25dp"
-        android:layout_below="@id/imageView"
+        android:layout_below="@id/userAvatar"
         android:layout_width="match_parent"
         android:layout_height="432dp">
     </androidx.recyclerview.widget.RecyclerView>

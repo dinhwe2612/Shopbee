@@ -1,5 +1,8 @@
 package com.example.shopbee.data.model.api;
 
+import android.graphics.Bitmap;
+import android.util.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,4 +93,5 @@ public class UserResponse {
     public void setPayment(List<PaymentResponse> payment) {
         this.payment = payment;
     }
+
 }
