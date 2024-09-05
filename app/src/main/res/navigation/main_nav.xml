@@ -81,4 +81,8 @@
         android:id="@+id/successFragment"
         android:name="com.example.shopbee.ui.checkout.SuccessFragment"
         android:label="SuccessFragment" />
+    <fragment
+        android:id="@+id/modifyByMapFragment"
+        android:name="com.example.shopbee.ui.checkout.shipping.ModifyByMapFragment"
+        android:label="ModifyByMapFragment" />
 </navigation>

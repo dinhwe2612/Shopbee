@@ -21,6 +21,7 @@ import com.example.shopbee.ui.review.ReviewFragment;
 import com.example.shopbee.ui.shop.ShopFragment;
 import com.example.shopbee.ui.search.SearchFragment;
 import com.example.shopbee.ui.user_search.UserSearchFragment;
+import com.example.shopbee.ui.checkout.shipping.ModifyByMapFragment;
 
 import dagger.Component;
 
@@ -45,4 +46,5 @@ public interface FragmentComponent {
     void inject(ShippingFragment shippingFragment);
     void inject(ModifyAddressFragment modifyAddressFragment);
     void inject(SuccessFragment successFragment);
+    void inject(ModifyByMapFragment modifyByMapFragment);
 }

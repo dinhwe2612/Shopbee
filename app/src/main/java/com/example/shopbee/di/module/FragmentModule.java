@@ -10,6 +10,7 @@ import com.example.shopbee.ui.checkout.CheckoutViewModel;
 import com.example.shopbee.ui.checkout.SuccessViewModel;
 import com.example.shopbee.ui.checkout.payment.PaymentViewModel;
 import com.example.shopbee.ui.checkout.shipping.ModifyAddressViewModel;
+import com.example.shopbee.ui.checkout.shipping.ModifyByMapViewModel;
 import com.example.shopbee.ui.checkout.shipping.ShippingViewModel;
 import com.example.shopbee.ui.favorites.FavoritesViewModel;
 import com.example.shopbee.ui.home.HomeViewModel;
@@ -147,5 +148,11 @@ public class FragmentModule {
         Supplier<SuccessViewModel> supplier = () -> new SuccessViewModel(repository);
         ViewModelProviderFactory<SuccessViewModel> factory = new ViewModelProviderFactory<SuccessViewModel>(SuccessViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(SuccessViewModel.class);
+    }
+    @Provides
+    public ModifyByMapViewModel provideModifyByMapViewModel(Repository repository) {
+        Supplier<ModifyByMapViewModel> supplier = () -> new ModifyByMapViewModel(repository);
+        ViewModelProviderFactory<ModifyByMapViewModel> factory = new ViewModelProviderFactory<ModifyByMapViewModel>(ModifyByMapViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(ModifyByMapViewModel.class);
     }
 }

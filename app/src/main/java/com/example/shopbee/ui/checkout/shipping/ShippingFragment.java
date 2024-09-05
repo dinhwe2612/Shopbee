@@ -21,10 +21,8 @@ import com.example.shopbee.data.model.api.AddressResponse;
 import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.databinding.ShippingBinding;
 import com.example.shopbee.di.component.FragmentComponent;
-import com.example.shopbee.ui.checkout.adapter.PaymentAdapter;
 import com.example.shopbee.ui.checkout.adapter.ShippingAdapter;
 import com.example.shopbee.ui.common.base.BaseFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingViewModel> implements ShippingNavigator, ShippingAdapter.Listener {
     private ShippingBinding binding;
@@ -120,6 +118,15 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigateUp();
     }
+
+    @Override
+    public void addNewAddressByMap(String country_def) {
+        NavController navController = NavHostFragment.findNavController(this);
+        Bundle bundle = new Bundle();
+        bundle.putString("country_def", country_def);
+        navController.navigate(R.id.modifyByMapFragment, bundle);
+    }
+
     public void ExtendFloatingActionButton(){
         fab = binding.addNewCard;
         write_fab = binding.addByHand;
@@ -147,7 +154,7 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
         map_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                addNewAddressByMap(userResponse.getCountry());
             }
         });
     }

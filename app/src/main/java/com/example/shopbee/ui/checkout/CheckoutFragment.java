@@ -24,6 +24,7 @@ import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.databinding.CheckoutBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
+import com.example.shopbee.ui.main.MainActivity;
 
 public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutViewModel> implements CheckoutNavigator{
     private CheckoutBinding binding;
@@ -52,6 +53,8 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
         orderResponse = getArguments().getParcelable("orderResponse");
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.getBottomBar().hideBottomBar();
 
         loadRealtimeData();
         setUpShippingAddress();
