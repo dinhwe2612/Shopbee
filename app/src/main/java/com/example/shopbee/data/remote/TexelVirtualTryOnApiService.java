@@ -12,7 +12,7 @@ import retrofit2.http.Part;
 
 public interface TexelVirtualTryOnApiService {
     @Headers({
-            "x-rapidapi-key: 9be58ff088msh3ba71c036a6b06ep10c081jsn8a800bf06a92",
+            "x-rapidapi-key: a7a42c4af8msh32044ae53611ffdp1eada2jsnabfc4ee1426b",
             "x-rapidapi-host: texel-virtual-try-on.p.rapidapi.com",
     })
     @Multipart

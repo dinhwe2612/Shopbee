@@ -22,7 +22,7 @@ import com.example.shopbee.databinding.BottomBarBinding;
 
 public class BottomBarUserReactionImplementation {
     BottomBarBinding bottomBarBinding;
-    BottomBarUserReactionListener listener;
+    com.example.shopbee.ui.component.bottombar.BottomBarUserReactionListener listener;
     int currentPosition = 0;
     int[] selectedImages = new int[]{
             R.drawable.red_home_icon,
@@ -46,7 +46,7 @@ public class BottomBarUserReactionImplementation {
     TextView[] textViews = new TextView[5];
     LinearLayout[] layout = new LinearLayout[5];
     View animatedBackground;
-    public void bindView(BottomBarBinding binding, BottomBarUserReactionListener listener) {
+    public void bindView(BottomBarBinding binding, com.example.shopbee.ui.component.bottombar.BottomBarUserReactionListener listener) {
         this.bottomBarBinding = binding;
         this.listener = listener;
         imageViews[0] = binding.homeIcon;
@@ -75,7 +75,9 @@ public class BottomBarUserReactionImplementation {
             @Override
             public void onGlobalLayout() {
                 binding.getRoot().getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                onClick(currentPosition);
+                UISelected(currentPosition);
+                animatedBackground.setX(getTranslationX(currentPosition));
+                Log.d("BottomBarUserReaction", "onGlobalLayout: " + currentPosition);
             }
         });
     }
