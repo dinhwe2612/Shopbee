@@ -51,8 +51,8 @@ public class ProductDetailViewModel extends BaseViewModel<ProductDetailNavigator
                 })
         );
     }
-    public void syncTryOnImage(String personUrl, String garmentUrl) {
-        getCompositeDisposable().add(getRepository().getTryOnImage(personUrl, garmentUrl)
+    public void syncTryOnImage(Bitmap personBitmap, String garmentUrl) {
+        getCompositeDisposable().add(getRepository().getTryOnImage(personBitmap, garmentUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {

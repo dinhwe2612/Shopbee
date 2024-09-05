@@ -281,7 +281,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
             viewModel.getTryOnImage().observe(getViewLifecycleOwner(), bitmap -> {
                 dialogsManager.showImagePreviewDialog(bitmap);
             });
-            viewModel.syncTryOnImage("https://cdn.shopify.com/s/files/1/0023/1342/0889/products/ClassicShirt_White_1_5cd5bf10-af18-4d0b-a477-bc3422d8401a.jpg?v=1688497040", amazonProductDetailsResponse.getData().getProduct_photo());
+            viewModel.syncTryOnImage(imagePickerEvent.getBitmap(), amazonProductDetailsResponse.getData().getProduct_photo());
             Log.d("tryItOn", amazonProductDetailsResponse.getData().getProduct_photo());
         }
     }

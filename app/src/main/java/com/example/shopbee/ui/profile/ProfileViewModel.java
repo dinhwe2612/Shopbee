@@ -60,7 +60,10 @@ public class ProfileViewModel extends BaseViewModel {
         );
     }
     public void uploadImageBitmapFirebase(Bitmap bitmap, String imageName, String userEmail){
-        getRepository().uploadImageBitmapFirebase(bitmap, imageName, userEmail);
+        getCompositeDisposable().add(getRepository().uploadImageBitmapFirebase(bitmap, imageName, userEmail)
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+        );
     }
     public MutableLiveData<Bitmap> getAvatar() {
         return avatar;
