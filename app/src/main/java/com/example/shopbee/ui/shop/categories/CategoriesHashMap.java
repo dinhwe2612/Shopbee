@@ -5,12 +5,20 @@ import com.example.shopbee.ui.shop.adapter.CategoriesAdapter;
 
 import java.nio.channels.ScatteringByteChannel;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CategoriesHashMap {
     private static final CategoriesHashMap instance = new CategoriesHashMap();
     public static CategoriesHashMap getInstance() {
         return instance;
     }
+
+    public Set<String> getClothingCategories() {
+        return clothingCategories;
+    }
+
+    private Set<String> clothingCategories;
     private HashMap<String, String> categories;
     private HashMap<String, Integer> categoriesImage;
     private HashMap<String, String> categoriesLink;
@@ -262,5 +270,286 @@ public class CategoriesHashMap {
         categories.put("12097478011", "Earbud Headphones");
         categories.put("12097480011", "On-Ear Headphones");
         categories.put("12097479011", "Over-Ear Headphones");
+
+        clothingCategories = new HashSet<>();
+        clothingCategories.add("1040660");
+
+        clothingCategories.add("1045024");
+        clothingCategories.add("2368343011");
+        clothingCategories.add("1044456");
+        clothingCategories.add("1258603011");
+        clothingCategories.add("1048188");
+        clothingCategories.add("1048184");
+        clothingCategories.add("1045022");
+        clothingCategories.add("1048186");
+        clothingCategories.add("1258967011");
+        clothingCategories.add("3456051");
+        clothingCategories.add("1046622");
+        clothingCategories.add("9522931011");
+        clothingCategories.add("9522930011");
+        clothingCategories.add("1044646");
+        clothingCategories.add("9522932011");
+        clothingCategories.add("1044886");
+
+        clothingCategories.add("11300395011");
+
+        clothingCategories.add("11300396011");
+        clothingCategories.add("11300408011");
+        clothingCategories.add("11300418011");
+        clothingCategories.add("11300423011");
+        clothingCategories.add("11300426011");
+        clothingCategories.add("11300427011");
+        clothingCategories.add("11300431011");
+        clothingCategories.add("11300435011");
+        clothingCategories.add("11300439011");
+        clothingCategories.add("11300440011");
+        clothingCategories.add("11300464011");
+        clothingCategories.add("11300476011");
+        clothingCategories.add("11300536011");
+        clothingCategories.add("11300539011");
+        clothingCategories.add("11300568011");
+        clothingCategories.add("11300578011");
+
+        clothingCategories.add("7581674011");
+
+        clothingCategories.add("9650170011");
+        clothingCategories.add("9650277011");
+        clothingCategories.add("9650260011");
+        clothingCategories.add("9650175011");
+        clothingCategories.add("9650178011");
+        clothingCategories.add("9650231011");
+        clothingCategories.add("9650239011");
+        clothingCategories.add("9650235011");
+        clothingCategories.add("9650182011");
+        clothingCategories.add("9650113011");
+        clothingCategories.add("9650265011");
+        clothingCategories.add("9650183011");
+        clothingCategories.add("9650179011");
+        clothingCategories.add("9650141011");
+        clothingCategories.add("9650252011");
+        clothingCategories.add("9650243011");
+
+        clothingCategories.add("7581675011");
+
+        clothingCategories.add("5674527011");
+        clothingCategories.add("1285229011");
+        clothingCategories.add("2379250011");
+        clothingCategories.add("1285248011");
+        clothingCategories.add("1285237011");
+        clothingCategories.add("1285239011");
+        clothingCategories.add("1285244011");
+        clothingCategories.add("1285243011");
+        clothingCategories.add("2379251011");
+        clothingCategories.add("1285249011");
+        clothingCategories.add("1285245011");
+        clothingCategories.add("1285230011");
+        clothingCategories.add("1285238011");
+        clothingCategories.add("2349107011");
+        clothingCategories.add("1285246011");
+        clothingCategories.add("5674523011");
+
+        clothingCategories.add("7581676011");
+
+        clothingCategories.add("6114042011");
+        clothingCategories.add("6114000011");
+        clothingCategories.add("6114010011");
+        clothingCategories.add("6114015011");
+        clothingCategories.add("6114053011");
+        clothingCategories.add("6114055011");
+        clothingCategories.add("6114064011");
+        clothingCategories.add("6114060011");
+        clothingCategories.add("6114059011");
+        clothingCategories.add("6114018011");
+        clothingCategories.add("6114155011");
+        clothingCategories.add("6114098011");
+        clothingCategories.add("6114109011");
+        clothingCategories.add("6114052011");
+        clothingCategories.add("6114054011");
+        clothingCategories.add("6114072011");
+        clothingCategories.add("6114080011");
+        clothingCategories.add("6114068011");
+        clothingCategories.add("6114076011");
+        clothingCategories.add("6114090011");
+
+        clothingCategories.add("7581677011");
+
+        clothingCategories.add("5605285011");
+        clothingCategories.add("5605244011");
+        clothingCategories.add("5605254011");
+        clothingCategories.add("5605259011");
+        clothingCategories.add("5605296011");
+        clothingCategories.add("5605298011");
+        clothingCategories.add("5605307011");
+        clothingCategories.add("5605303011");
+        clothingCategories.add("5605302011");
+        clothingCategories.add("5605262011");
+        clothingCategories.add("5605387011");
+        clothingCategories.add("5605338011");
+        clothingCategories.add("5605344011");
+        clothingCategories.add("5605315011");
+        clothingCategories.add("5605323011");
+        clothingCategories.add("5605311011");
+        clothingCategories.add("5605319011");
+        clothingCategories.add("5605334011");
+        clothingCategories.add("5605400011");
+        clothingCategories.add("5605409011");
+
+        clothingCategories.add("7606660011");
+
+        clothingCategories.add("6567206011");
+        clothingCategories.add("6575936011");
+        clothingCategories.add("2492613011");
+        clothingCategories.add("6572910011");
+
+        clothingCategories.add("1040658");
+        clothingCategories.add("2476517011");
+        clothingCategories.add("1258644011");
+        clothingCategories.add("1044442");
+        clothingCategories.add("1045830");
+        clothingCategories.add("1045564");
+        clothingCategories.add("1045558");
+        clothingCategories.add("1045560");
+        clothingCategories.add("3455821");
+        clothingCategories.add("1046670");
+        clothingCategories.add("1045684");
+        clothingCategories.add("1045706");
+//        clothingCategories.add("1045708");
+        clothingCategories.add("3455861");
+        clothingCategories.add("15697821011");
+
+        clothingCategories.add("11307731011");
+
+        clothingCategories.add("11307732011");
+        clothingCategories.add("11307740011");
+        clothingCategories.add("11307743011");
+        clothingCategories.add("11307748011");
+        clothingCategories.add("11307775011");
+        clothingCategories.add("11307776011");
+        clothingCategories.add("11307779011");
+        clothingCategories.add("11307784011");
+        clothingCategories.add("11307803011");
+        clothingCategories.add("11307808011");
+        clothingCategories.add("11307818011");
+//        clothingCategories.add("11307831011");
+        clothingCategories.add("11307835011");
+
+//        clothingCategories.add("7581681011");
+
+        clothingCategories.add("6002100011");
+        clothingCategories.add("6002109011");
+        clothingCategories.add("6002131011");
+        clothingCategories.add("6002154011");
+        clothingCategories.add("6002145011");
+        clothingCategories.add("6002146011");
+        clothingCategories.add("6002149011");
+        clothingCategories.add("6002112011");
+        clothingCategories.add("6002191011");
+        clothingCategories.add("6002136011");
+        clothingCategories.add("6002174011");
+        clothingCategories.add("6002181011");
+        clothingCategories.add("6002165011");
+
+        clothingCategories.add("7606661011");
+
+        clothingCategories.add("6567198011");
+        clothingCategories.add("6575930011");
+        clothingCategories.add("2492606011");
+        clothingCategories.add("6572900011");
+
+        clothingCategories.add("9564526011");
+
+        clothingCategories.add("9626546011");
+        clothingCategories.add("9626511011");
+        clothingCategories.add("9626577011");
+        clothingCategories.add("9626514011");
+        clothingCategories.add("9626541011");
+        clothingCategories.add("9626543011");
+        clothingCategories.add("9626554011");
+        clothingCategories.add("9626491011");
+        clothingCategories.add("9626582011");
+        clothingCategories.add("9626568011");
+        clothingCategories.add("9626587011");
+        clothingCategories.add("9626559011");
+
+        clothingCategories.add("1040664");
+
+        clothingCategories.add("3455761");
+        clothingCategories.add("1288617011");
+        clothingCategories.add("1045470");
+        clothingCategories.add("5604818011");
+        clothingCategories.add("1045206");
+        clothingCategories.add("1045268");
+        clothingCategories.add("5468988011");
+        clothingCategories.add("2412731011");
+        clothingCategories.add("1045272");
+        clothingCategories.add("1045264");
+        clothingCategories.add("1045266");
+        clothingCategories.add("1045468");
+        clothingCategories.add("1045424");
+        clothingCategories.add("1045426");
+        clothingCategories.add("3455741");
+        clothingCategories.add("3455751");
+        clothingCategories.add("1044490");
+        clothingCategories.add("1045428");
+
+        clothingCategories.add("1040666");
+
+        clothingCategories.add("3455641");
+        clothingCategories.add("1288606011");
+        clothingCategories.add("5604815011");
+        clothingCategories.add("1046120");
+        clothingCategories.add("1045910");
+        clothingCategories.add("3455421");
+        clothingCategories.add("1045904");
+        clothingCategories.add("1045906");
+        clothingCategories.add("3455651");
+//        clothingCategories.add("1046030");
+        clothingCategories.add("699914011");
+        clothingCategories.add("3455451");
+        clothingCategories.add("3455631");
+        clothingCategories.add("2422483011");
+        clothingCategories.add("1046028");
+
+        clothingCategories.add("12035955011");
+
+        clothingCategories.add("9056921011");
+        clothingCategories.add("9056985011");
+        clothingCategories.add("9057038011");
+        clothingCategories.add("9057092011");
+
+        clothingCategories.add("7586174011");
+
+        clothingCategories.add("2491298011");
+        clothingCategories.add("1261192011");
+
+        clothingCategories.add("1265851011");
+
+        clothingCategories.add("1268047011");
+        clothingCategories.add("1267999011");
+        clothingCategories.add("1283420011");
+        clothingCategories.add("2492620011");
+        clothingCategories.add("1268073011");
+        clothingCategories.add("1268067011");
+
+        clothingCategories.add("14194714011");
+
+        clothingCategories.add("14194715011");
+        clothingCategories.add("14194720011");
+        clothingCategories.add("14194719011");
+        clothingCategories.add("14194718011");
+        clothingCategories.add("14194717011");
+        clothingCategories.add("14194716011");
+
+        clothingCategories.add("14194729011");
+
+        clothingCategories.add("14194730011");
+        clothingCategories.add("14194731011");
+        clothingCategories.add("14194732011");
+        clothingCategories.add("14194733011");
+        clothingCategories.add("14194734011");
+
+        clothingCategories.add("14194744011");
+        clothingCategories.add("14194752011");
     }
+
 }
