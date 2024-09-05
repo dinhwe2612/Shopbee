@@ -964,8 +964,8 @@ public class Repository {
                                         .child("user_reviews")
                                         .child(encodeEmail)
                                         .child(reviewDate)
-                                        .child(product_id).listAll();
-                                storageRef.addOnSuccessListener(listResult -> {
+                                        .child(product_id);
+                                storageRef.listAll().addOnSuccessListener(listResult -> {
                                     // Loop through prefixes (subfolders)
                                     for (StorageReference prefix : listResult.getPrefixes()) {
 //                                        Log.d("FirebaseStorage", "Folder: " + prefix.getName());
@@ -1039,9 +1039,9 @@ public class Repository {
             StorageReference imageRef = storageRef.child("review_image" + writeReviewEvent.getReviewImages().indexOf(bitmap));
             UploadTask uploadTask = imageRef.putBytes(data);
             uploadTask.addOnSuccessListener(taskSnapshot -> {
-                Log.d("FirebaseImageService", "Image uploaded successfully: " + imageName);
+//                Log.d("FirebaseImageService", "Image uploaded successfully: " + imageName);
             }).addOnFailureListener(exception -> {
-                Log.e("FirebaseImageService", "Failed to upload image", exception);
+//                Log.e("FirebaseImageService", "Failed to upload image", exception);
             });
         }
     }
