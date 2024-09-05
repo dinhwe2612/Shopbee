@@ -21,6 +21,7 @@ import com.example.shopbee.data.Repository;
 import com.example.shopbee.databinding.BottomBarBinding;
 
 public class BottomBarUserReactionImplementation {
+    BottomBarBinding bottomBarBinding;
     BottomBarUserReactionListener listener;
     int currentPosition = 0;
     int[] selectedImages = new int[]{
@@ -46,6 +47,7 @@ public class BottomBarUserReactionImplementation {
     LinearLayout[] layout = new LinearLayout[5];
     View animatedBackground;
     public void bindView(BottomBarBinding binding, BottomBarUserReactionListener listener) {
+        this.bottomBarBinding = binding;
         this.listener = listener;
         imageViews[0] = binding.homeIcon;
         imageViews[1] = binding.shopIcon;
@@ -158,5 +160,7 @@ public class BottomBarUserReactionImplementation {
 
         animatorSet.start();
     }
-
+    public void hideBottomBar() {
+        bottomBarBinding.bottomBar.setVisibility(View.GONE);
+    }
 }
