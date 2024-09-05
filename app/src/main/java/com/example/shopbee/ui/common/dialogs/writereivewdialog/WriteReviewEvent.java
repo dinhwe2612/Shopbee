@@ -2,18 +2,28 @@ package com.example.shopbee.ui.common.dialogs.writereivewdialog;
 
 import android.graphics.Bitmap;
 
+import com.example.shopbee.data.model.api.OrderDetailResponse;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class WriteReviewEvent {
-    int starRating;
+    OrderDetailResponse orderDetailResponse;
+    public void setOrderDetailResponse(OrderDetailResponse orderDetailResponse) {
+        this.orderDetailResponse = orderDetailResponse;
+    }
+
+    public OrderDetailResponse getOrderDetailResponse() {
+        return orderDetailResponse;
+    }
+    Integer starRating;
     String reviewTitle;
     String reviewContent;
     List<Bitmap> reviewImages;
     String reviewDate; // Format: "yyyy-MM-dd HH:mm:ss"
-    WriteReviewEvent(int starRating, String reviewTitle, String reviewContent, List<Bitmap> reviewImages) {
+    public WriteReviewEvent(Integer starRating, String reviewTitle, String reviewContent, List<Bitmap> reviewImages) {
         this.starRating = starRating;
         this.reviewTitle = reviewTitle;
         this.reviewContent = reviewContent;
@@ -21,11 +31,11 @@ public class WriteReviewEvent {
         this.reviewDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
     }
 
-    public int getStarRating() {
+    public Integer getStarRating() {
         return starRating;
     }
 
-    public void setStarRating(int starRating) {
+    public void setStarRating(Integer starRating) {
         this.starRating = starRating;
     }
 

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.shopbee.data.model.api.AmazonDealsResponse;
@@ -22,6 +23,7 @@ import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.data.model.api.UserVariationResponse;
 import com.example.shopbee.data.remote.AmazonApiService;
 import com.example.shopbee.data.remote.TexelVirtualTryOnApiService;
+import com.example.shopbee.ui.common.dialogs.writereivewdialog.WriteReviewEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -924,5 +926,123 @@ public class Repository {
                 Log.e("FirebaseImageService", "Failed to upload image", exception);
             });
         });
+    }
+    public Observable<List<WriteReviewEvent>> getReviewsForUser() {
+        // list 0 -> 5 sublist search suggestions
+        return Observable.create(emitter -> {
+            List<WriteReviewEvent> events = new ArrayList<>();
+            String email = getUserResponse().getValue().getEmail();
+            databaseReference = FirebaseDatabase.getInstance().getReference("user_reviews");
+            Query query = databaseReference.orderByChild("email").equalTo(email);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                            for (DataSnapshot reviewsSnapshot: userSnapshot.child("reviews").getChildren()) {
+                                DataSnapshot reviewSnapshot = reviewsSnapshot.child("review");
+                                Integer starRating = reviewSnapshot.child("starRating").getValue(Integer.class);
+                                String reviewTitle = reviewSnapshot.child("reviewTitle").getValue(String.class);
+                                String reviewContent = reviewSnapshot.child("reviewContent").getValue(String.class);
+                                String reviewDate = reviewSnapshot.child("reviewDate").getValue(String.class);
+                                DataSnapshot productSnapshot = reviewsSnapshot.child("product");
+                                String product_id = productSnapshot.child("product_id").getValue(String.class);
+                                String product_name = productSnapshot.child("product_name").getValue(String.class);
+                                String urlImage = productSnapshot.child("urlImage").getValue(String.class);
+                                String price = productSnapshot.child("price").getValue(String.class);
+                                Integer quantity = productSnapshot.child("quantity").getValue(Integer.class);
+                                List<Pair<String, String>> variation = new ArrayList<>();
+                                for (DataSnapshot variationSnapshot : productSnapshot.child("variation").getChildren()) {
+                                    HashMap<String, String> variationMap = (HashMap<String, String>) variationSnapshot.getValue();
+                                    variation.add(new Pair<>(variationMap.get("first"), variationMap.get("second")));
+                                }
+                                List<Bitmap> reviewImages = new ArrayList<>();
+
+                                FirebaseStorage storage = FirebaseStorage.getInstance();
+                                String encodeEmail = email.replace("@", "_").replace(".", "_");
+                                StorageReference storageRef = storage.getReference()
+                                        .child("user_reviews")
+                                        .child(encodeEmail)
+                                        .child(reviewDate)
+                                        .child(product_id).listAll();
+                                storageRef.addOnSuccessListener(listResult -> {
+                                    // Loop through prefixes (subfolders)
+                                    for (StorageReference prefix : listResult.getPrefixes()) {
+//                                        Log.d("FirebaseStorage", "Folder: " + prefix.getName());
+                                        // Recursively call listAll() on this prefix if needed
+                                    }
+
+                                    // Loop through items (files)
+                                    for (StorageReference item : listResult.getItems()) {
+//                                        Log.d("FirebaseStorage", "File: " + item.getName());
+                                        item.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes -> {
+                                            InputStream is = new ByteArrayInputStream(bytes);
+                                            Bitmap bitmap = BitmapFactory.decodeStream(is);
+                                            reviewImages.add(bitmap);
+                                        }).addOnFailureListener(exception -> {
+                                            Log.e("FirebaseImageService", "Failed to load image", exception);
+//                                            emitter.onError(exception);
+                                        });
+                                        // You can also download the file or get its metadata
+                                    }
+                                }).addOnFailureListener(e -> {
+//                                    Log.e("FirebaseStorage", "Error: " + e.getMessage());
+                                });
+                                OrderDetailResponse orderDetailResponse = new OrderDetailResponse(product_id, product_name, quantity, price, urlImage, variation);
+                                WriteReviewEvent writeReviewEvent = new WriteReviewEvent(starRating, reviewTitle, reviewContent, reviewImages);
+                                writeReviewEvent.setOrderDetailResponse(orderDetailResponse);
+                                writeReviewEvent.setReviewDate(reviewDate);
+                                events.add(writeReviewEvent);
+                            }
+                        }
+                    }
+                    emitter.onNext(events);
+                    emitter.onComplete();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        });
+    }
+    public void saveReviewForUser(WriteReviewEvent writeReviewEvent) {
+        // save on database realtime
+        String email = getUserResponse().getValue().getEmail();
+        databaseReference = FirebaseDatabase.getInstance().getReference("user_reviews").push();
+        HashMap<String, String> userMap = new HashMap<>();
+        userMap.put("email", email);
+        databaseReference.setValue(userMap);
+        DatabaseReference reviewsReference = databaseReference.child("reviews").push();
+        DatabaseReference reviewReference = reviewsReference.child("review");
+        reviewReference.child("starRating").setValue(writeReviewEvent.getStarRating());
+        reviewReference.child("reviewTitle").setValue(writeReviewEvent.getReviewTitle());
+        reviewReference.child("reviewContent").setValue(writeReviewEvent.getReviewContent());
+        reviewReference.child("reviewDate").setValue(writeReviewEvent.getReviewDate());
+        DatabaseReference productReference = reviewsReference.child("product");
+        productReference.child("product_id").setValue(writeReviewEvent.getOrderDetailResponse().getProduct_id());
+        productReference.child("product_name").setValue(writeReviewEvent.getOrderDetailResponse().getProduct_name());
+        productReference.child("urlImage").setValue(writeReviewEvent.getOrderDetailResponse().getUrlImage());
+        productReference.child("price").setValue(writeReviewEvent.getOrderDetailResponse().getPrice());
+        productReference.child("quantity").setValue(writeReviewEvent.getOrderDetailResponse().getQuantity());
+        productReference.child("variation").setValue(writeReviewEvent.getOrderDetailResponse().getVariation());
+        // save on firebase storage
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        String encodeEmail = email.replace("@", "_").replace(".", "_");
+        StorageReference storageRef = storage.getReference().child("user_reviews").child(encodeEmail).child(writeReviewEvent.getReviewDate()).child(writeReviewEvent.getOrderDetailResponse().getProduct_id());
+
+        for (Bitmap bitmap : writeReviewEvent.getReviewImages()) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] data = baos.toByteArray();
+            StorageReference imageRef = storageRef.child("review_image" + writeReviewEvent.getReviewImages().indexOf(bitmap));
+            UploadTask uploadTask = imageRef.putBytes(data);
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                Log.d("FirebaseImageService", "Image uploaded successfully: " + imageName);
+            }).addOnFailureListener(exception -> {
+                Log.e("FirebaseImageService", "Failed to upload image", exception);
+            });
+        }
     }
 }

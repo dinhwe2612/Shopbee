@@ -32,6 +32,7 @@ import com.example.shopbee.databinding.OrderDetailsBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.bag.BagFragment;
 import com.example.shopbee.ui.common.base.BaseFragment;
+import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryDialog;
 import com.example.shopbee.ui.home.HomeFragment;
 import com.example.shopbee.ui.profile.adapter.OrderDetailProductAdapter;
@@ -40,7 +41,11 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyOrderDetailViewModel> implements MyOrderDetailNavigator {
+    @Inject
+    DialogsManager dialogsManager;
     OrderDetailsBinding binding;
     private UserResponse userResponse;
     private ListOrderResponse listOrderResponse;
@@ -163,6 +168,7 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
             public void onClick(View v) {
                 switch (status){
                     case "delivered":
+//                        dialogsManager.showWriteReviewDialog();
                     case "cancelled":
                         break;
                     case "processing":

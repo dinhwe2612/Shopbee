@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.bag;
 
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.example.shopbee.ui.bag.adapter.BagAdapter;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.common.dialogs.promoCode.PromoCodeDialog;
+import com.example.shopbee.ui.login.LoginActivity;
 import com.example.shopbee.ui.main.MainActivity;
 
 import java.security.SecureRandom;
@@ -179,6 +181,13 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         }
         else {
             getViewDataBinding().signIn.setVisibility(View.VISIBLE);
+            getViewDataBinding().signIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(requireContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
     }
     public void animateLoading() {
