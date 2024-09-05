@@ -112,4 +112,8 @@ dependencies {
     implementation("com.github.animsh:AnimatedCheckBox:1.0.0")
     // Show more text
     implementation("com.github.mahimrocky:ShowMoreText:1.0.2")
+
+    //FAB buttom
+    implementation("com.google.android.material:material:1.3.0-alpha02")
+
 }

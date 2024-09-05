@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -29,7 +30,7 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
     private ShippingBinding binding;
     private UserResponse userResponse;
     private ShippingAdapter shippingAdapter;
-    private FloatingActionButton fab, write_fab, map_fab;
+    private CardView fab, write_fab, map_fab;
     private Boolean isAllFabsVisible;
     @Override
     public int getBindingVariable() {
@@ -51,6 +52,7 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
         loadRealtimeData();
+        ExtendFloatingActionButton();
         RecyclerView recyclerView = binding.recyclerViewShipping;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         int positionDef = -1;
@@ -119,9 +121,9 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
         navController.navigateUp();
     }
     public void ExtendFloatingActionButton(){
-        fab = binding.addFab;
-        write_fab = binding.addByWrite;
-        map_fab = binding.addByLocation;
+        fab = binding.addNewCard;
+        write_fab = binding.addByHand;
+        map_fab = binding.addByLocate;
         isAllFabsVisible = false;
 
         write_fab.setVisibility(View.GONE);
@@ -153,11 +155,11 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
         write_fab.setVisibility(View.VISIBLE);
         map_fab.setVisibility(View.VISIBLE);
 
-        ObjectAnimator animatorXWrite = ObjectAnimator.ofFloat(write_fab, "translationX", -200f); // Replace with actual position
-        ObjectAnimator animatorYWrite = ObjectAnimator.ofFloat(write_fab, "translationY", -200f); // Replace with actual position
+        ObjectAnimator animatorXWrite = ObjectAnimator.ofFloat(write_fab, "translationX", -30f); // Replace with actual position
+        ObjectAnimator animatorYWrite = ObjectAnimator.ofFloat(write_fab, "translationY", -150f); // Replace with actual position
 
-        ObjectAnimator animatorXMap = ObjectAnimator.ofFloat(map_fab, "translationX", -100f); // Replace with actual position
-        ObjectAnimator animatorYMap = ObjectAnimator.ofFloat(map_fab, "translationY", -300f); // Replace with actual position
+        ObjectAnimator animatorXMap = ObjectAnimator.ofFloat(map_fab, "translationX", -150f); // Replace with actual position
+        ObjectAnimator animatorYMap = ObjectAnimator.ofFloat(map_fab, "translationY", 0f); // Replace with actual position
 
         animatorXWrite.setDuration(300);
         animatorYWrite.setDuration(300);

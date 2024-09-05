@@ -41,7 +41,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.Shippi
         holder.binding.fullName.setText(fullName);
         holder.binding.address.setText(addressResponse.toString());
         if (position == currentPosition){
-            holder.binding.checkBoxCard.setChecked(true, true);
+            holder.binding.checkBoxCard.setChecked(true, false);
         } else {
             holder.binding.checkBoxCard.setChecked(false, true);
         }
