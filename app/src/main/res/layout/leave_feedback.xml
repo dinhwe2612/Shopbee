@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.99"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/Background"
+        android:orientation="vertical">
+        <include
+            layout="@layout/element_toolbar"/>
+        <LinearLayout
+            android:background="@color/white_light_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/favorites"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Black_Bold_34dp"
+                    android:text="Leave feedback"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/loading"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="343dp"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/loading1"
+                android:background="@drawable/color_transition"
+                android:layout_width="343dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="150dp">
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/loading2"
+                android:background="@drawable/color_transition"
+                android:layout_width="343dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="150dp">
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/loading3"
+                android:background="@drawable/color_transition"
+                android:layout_width="343dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="150dp">
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/loading4"
+                android:background="@drawable/color_transition"
+                android:layout_width="343dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="150dp">
+
+            </RelativeLayout>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            style="@style/Background"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/leave_feedback_item">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+</layout>

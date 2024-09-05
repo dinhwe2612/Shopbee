@@ -927,6 +927,44 @@ public class Repository {
             });
         });
     }
+    public Observable<List<Boolean>> isProductReviewed(OrderResponse orderResponse) {
+        List<Boolean> list = new ArrayList<>();
+        for (int i = 0; i < orderResponse.getOrder_detail().size(); i++) {
+            list.add(false);
+        }
+        return Observable.create(emitter -> {
+            String email = getUserResponse().getValue().getEmail();
+            databaseReference = FirebaseDatabase.getInstance().getReference("user_reviews");
+            Query query = databaseReference.orderByChild("email").equalTo(email);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                            for (DataSnapshot reviewsSnapshot: userSnapshot.child("reviews").getChildren()) {
+                                DataSnapshot productSnapshot = reviewsSnapshot.child("product");
+                                if (productSnapshot.child("order_number").getValue(String.class).equals(orderResponse.getOrder_number())) {
+                                    for (int i = 0; i < orderResponse.getOrder_detail().size(); i++) {
+                                        if (orderResponse.getOrder_detail().get(i).getProduct_id().equals(productSnapshot.child("product_id").getValue(String.class))) {
+                                            list.set(i, true);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    emitter.onNext(list);
+                    emitter.onComplete();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        });
+    }
     public Observable<List<WriteReviewEvent>> getReviewsForUser() {
         // list 0 -> 5 sublist search suggestions
         return Observable.create(emitter -> {
@@ -946,6 +984,7 @@ public class Repository {
                                 String reviewContent = reviewSnapshot.child("reviewContent").getValue(String.class);
                                 String reviewDate = reviewSnapshot.child("reviewDate").getValue(String.class);
                                 DataSnapshot productSnapshot = reviewsSnapshot.child("product");
+                                String order_number = productSnapshot.child("order_number").getValue(String.class);
                                 String product_id = productSnapshot.child("product_id").getValue(String.class);
                                 String product_name = productSnapshot.child("product_name").getValue(String.class);
                                 String urlImage = productSnapshot.child("urlImage").getValue(String.class);
@@ -992,6 +1031,7 @@ public class Repository {
                                 WriteReviewEvent writeReviewEvent = new WriteReviewEvent(starRating, reviewTitle, reviewContent, reviewImages);
                                 writeReviewEvent.setOrderDetailResponse(orderDetailResponse);
                                 writeReviewEvent.setReviewDate(reviewDate);
+                                writeReviewEvent.setOrder_number(order_number);
                                 events.add(writeReviewEvent);
                             }
                         }
@@ -1021,6 +1061,7 @@ public class Repository {
         reviewReference.child("reviewContent").setValue(writeReviewEvent.getReviewContent());
         reviewReference.child("reviewDate").setValue(writeReviewEvent.getReviewDate());
         DatabaseReference productReference = reviewsReference.child("product");
+        productReference.child("order_number").setValue(writeReviewEvent.getOrder_number());
         productReference.child("product_id").setValue(writeReviewEvent.getOrderDetailResponse().getProduct_id());
         productReference.child("product_name").setValue(writeReviewEvent.getOrderDetailResponse().getProduct_name());
         productReference.child("urlImage").setValue(writeReviewEvent.getOrderDetailResponse().getUrlImage());
