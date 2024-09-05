@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.favorites;
 
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.favorites.adapter.FavoriteAdapter;
 import com.example.shopbee.ui.favorites.adapter.FavoriteAdapterGridView;
+import com.example.shopbee.ui.login.LoginActivity;
 import com.example.shopbee.ui.main.MainActivity;
 
 import java.util.List;
@@ -132,6 +134,13 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
 
         } else {
             getViewDataBinding().signIn.setVisibility(View.VISIBLE);
+            getViewDataBinding().signIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
         return binding.getRoot();
     }

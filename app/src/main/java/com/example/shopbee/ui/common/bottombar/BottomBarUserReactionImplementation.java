@@ -163,4 +163,7 @@ public class BottomBarUserReactionImplementation {
     public void hideBottomBar() {
         bottomBarBinding.bottomBar.setVisibility(View.GONE);
     }
+    public void showBottomBar() {
+        bottomBarBinding.bottomBar.setVisibility(View.VISIBLE);
+    }
 }

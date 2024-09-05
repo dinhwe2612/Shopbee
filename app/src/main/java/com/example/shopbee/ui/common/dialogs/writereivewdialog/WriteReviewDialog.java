@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.shopbee.R;
+import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.databinding.WriteReviewDialogBinding;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.common.dialogs.writereivewdialog.adapter.ImagesAdapter;
@@ -35,6 +36,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WriteReviewDialog extends DialogFragment implements ImagesAdapter.Listener {
+    OrderDetailResponse orderDetailResponse;
+    public void setOrderDetailResponse(OrderDetailResponse orderDetailResponse) {
+        this.orderDetailResponse = orderDetailResponse;
+    }
+    public OrderDetailResponse getOrderDetailResponse() {
+        return orderDetailResponse;
+    }
+
     DialogsManager dialogsManager;
     public static WriteReviewDialog newInstance(DialogsManager dialogsManager) {
         WriteReviewDialog fragment = new WriteReviewDialog();
@@ -68,7 +77,9 @@ public class WriteReviewDialog extends DialogFragment implements ImagesAdapter.L
                 String reviewTitle = binding.reviewTitle.getText().toString();
                 String reviewContent = binding.reviewContent.getText().toString();
                 List<Bitmap> images = imagesAdapter.getImages();
-                dialogsManager.postEvent(new WriteReviewEvent(rating, reviewTitle, reviewContent, images));
+                WriteReviewEvent event = new WriteReviewEvent(rating, reviewTitle, reviewContent, images);
+                event.setOrderDetailResponse(orderDetailResponse);
+                dialogsManager.postEvent(event);
                 dismiss();
             }
         });
