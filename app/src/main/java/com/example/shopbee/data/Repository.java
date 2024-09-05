@@ -22,7 +22,6 @@ import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.data.model.api.UserVariationResponse;
 import com.example.shopbee.data.remote.AmazonApiService;
 import com.example.shopbee.data.remote.TexelVirtualTryOnApiService;
-import com.example.shopbee.ui.user_search.UserSearchViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +30,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.ktx.Firebase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -39,27 +37,23 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 @Singleton
 public class Repository {
@@ -820,12 +814,38 @@ public class Repository {
     public Observable<AmazonProductReviewResponse> getAmazonProductReview(HashMap<String, String> map) {
         return amazonApiService.getAmazonProductReviews(map);
     }
-    public Observable<ResponseBody> getTryOnImage(String personUrl, String garmentUrl) {
-        // Create the request body
-        RequestBody personBody = RequestBody.create(MultipartBody.FORM, personUrl);
-        RequestBody garmentBody = RequestBody.create(MultipartBody.FORM, garmentUrl);
-        return texelVirtualTryOnApiService.tryOn(garmentBody, personBody);
+    public Observable<ResponseBody> getTryOnImage(Bitmap personBitmap, String garmentUrl) {
+        String email = getUserResponse().getValue().getEmail();
+        // perform upload and get image url in serial fashion
+        return uploadImageBitmapFirebase(personBitmap, "tryiton", email)
+                .andThen(getDownloadUrlFirebase("tryiton", email)
+                        .flatMap(personUrl -> {
+                            if (personUrl == null) {
+                                return Observable.error(new Throwable("Person url is null"));
+                            }
+                            Log.d("TAG", "getTryOnImage: " + personUrl);
+                            // Create the request body
+                            RequestBody personBody = RequestBody.create(MultipartBody.FORM, personUrl);
+                            RequestBody garmentBody = RequestBody.create(MultipartBody.FORM, garmentUrl);
+                            return texelVirtualTryOnApiService.tryOn(garmentBody, personBody);
+                        })
+                );
     }
+
+    private Observable<String> getDownloadUrlFirebase(String tryiton, String email) {
+        // get download url from firebase storage
+        return Observable.create(emitter -> {
+                String encodeEmail = email.replace("@", "_").replace(".", "_");
+                FirebaseStorage.getInstance().getReference().child("user").child(encodeEmail).child(tryiton + ".jpg").getDownloadUrl()
+                        .addOnSuccessListener(uri -> {
+                            Log.d("TAG", "getDownloadUrlFirebase: " + uri.toString());
+                            emitter.onNext(uri.toString());
+                            emitter.onComplete();
+                        });
+            }
+        );
+    }
+
     public void updateOrderFirebase(OrderResponse orderResponse){
         Log.d("TAG", "updateOrderFirebase: " + orderResponse.getOrder_number());
         databaseReference = FirebaseDatabase.getInstance().getReference("order");
@@ -883,23 +903,26 @@ public class Repository {
             });
         });
     }
-    public void uploadImageBitmapFirebase(Bitmap bitmap, String imageName, String userEmail) {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        String encodeEmail = userEmail.replace("@", "_").replace(".", "_");
-        StorageReference storageRef = storage.getReference()
-                .child("user")
-                .child(encodeEmail)
-                .child(imageName + ".jpg");
+    public Completable uploadImageBitmapFirebase(Bitmap bitmap, String imageName, String userEmail) {
+        return Completable.create(emitter -> {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            String encodeEmail = userEmail.replace("@", "_").replace(".", "_");
+            StorageReference storageRef = storage.getReference()
+                    .child("user")
+                    .child(encodeEmail)
+                    .child(imageName + ".jpg");
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] data = baos.toByteArray();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] data = baos.toByteArray();
 
-        UploadTask uploadTask = storageRef.putBytes(data);
-        uploadTask.addOnSuccessListener(taskSnapshot -> {
-            Log.d("FirebaseImageService", "Image uploaded successfully: " + imageName);
-        }).addOnFailureListener(exception -> {
-            Log.e("FirebaseImageService", "Failed to upload image", exception);
+            UploadTask uploadTask = storageRef.putBytes(data);
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                Log.d("FirebaseImageService", "Image uploaded successfully: " + imageName);
+                emitter.onComplete();
+            }).addOnFailureListener(exception -> {
+                Log.e("FirebaseImageService", "Failed to upload image", exception);
+            });
         });
     }
 }
