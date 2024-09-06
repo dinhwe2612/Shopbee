@@ -2,7 +2,6 @@ package com.example.shopbee.ui.common.dialogs;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Pair;
 
 import androidx.fragment.app.FragmentManager;
 
@@ -80,8 +79,10 @@ public class DialogsManager {
         addNewCardDialog dialog = addNewCardDialog.newInstance(this);
         dialog.show(fragmentManager, "add_new_card_dialog");
     }
-    public void showWriteReviewDialog() {
+    public void showWriteReviewDialog(String order_number, OrderDetailResponse orderDetailResponse) {
         WriteReviewDialog dialog = WriteReviewDialog.newInstance(this);
+        dialog.setOrder_number(order_number);
+        dialog.setOrderDetailResponse(orderDetailResponse);
         dialog.show(fragmentManager, "write_review_dialog");
     }
     public void moreVariation(OrderDetailResponse orderDetailResponse){
