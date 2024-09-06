@@ -85,4 +85,8 @@
         android:id="@+id/modifyByMapFragment"
         android:name="com.example.shopbee.ui.checkout.shipping.ModifyByMapFragment"
         android:label="ModifyByMapFragment" />
+    <fragment
+        android:id="@+id/leaveFeedBackFragment"
+        android:name="com.example.shopbee.ui.leave_feedback.LeaveFeedbackFragment"
+        android:label="LeaveFeedbackFragment"/>
 </navigation>

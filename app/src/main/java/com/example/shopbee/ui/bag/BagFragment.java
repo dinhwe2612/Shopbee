@@ -104,6 +104,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
             });
             viewModel.getBagQuantities().observe(getViewLifecycleOwner(), lists -> {
                 if (lists.isEmpty()) {
+                    getViewDataBinding().loading.setVisibility(View.GONE);
                     displayOptionsForBag(View.GONE, View.VISIBLE);
                 }
                 else {
@@ -129,6 +130,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                         }
                     }
                     else {
+                        getViewDataBinding().loading.setVisibility(View.GONE);
                         displayOptionsForBag(View.GONE, View.VISIBLE);
                     }
                 }
