@@ -112,6 +112,7 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
                                     FutureTarget<Bitmap> futureTarget = Glide.with(binding.image.getContext())
                                             .asBitmap()
                                             .load(products.get(position).getData().getProduct_photo())
+                                            .timeout(60000)
                                             .submit();
                                     return futureTarget.get();
                                 })
