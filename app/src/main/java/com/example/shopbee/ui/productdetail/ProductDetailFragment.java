@@ -15,14 +15,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.library.baseAdapters.BR;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shopbee.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
@@ -37,6 +36,7 @@ import com.example.shopbee.ui.productdetail.adapter.AboutProductAdapter;
 import com.example.shopbee.ui.productdetail.adapter.ProductDetailAdapter;
 import com.example.shopbee.ui.productdetail.adapter.ProductPhotosAdapter;
 import com.example.shopbee.ui.productdetail.adapter.RecommendedAdapter;
+import com.example.shopbee.ui.shop.categories.CategoriesHashMap;
 import com.example.shopbee.utils.NetworkUtils;
 
 import java.io.BufferedInputStream;
@@ -99,6 +99,14 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
             }
         });
         return binding.getRoot();
+    }
+    void showTryItOnButtonOrNot(List<AmazonProductDetailsResponse.Data.Category> categoryList) {
+        binding.tryItOn.setVisibility(View.GONE);
+        for (AmazonProductDetailsResponse.Data.Category category : categoryList) {
+            if (CategoriesHashMap.getInstance().getClothingCategories().contains(category.getId())) {
+                binding.tryItOn.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     void syncData(String asin) {
@@ -163,6 +171,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
                     .collect(Collectors.joining(","));
             categoryMap.put("category_id", categories);
             viewModel.syncProductByCategory(categoryMap);
+            showTryItOnButtonOrNot(productDetails.getData().getCategory_path());
         });
         viewModel.getProductByCategory().observe(getViewLifecycleOwner(), productByCategory -> {
             recommendedAdapter.setProducts(productByCategory.getData().getProducts());
@@ -245,6 +254,11 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     @Override
     public void tryItOn() {
         dialogsManager.showImagePickerDialog();
+    }
+
+    @Override
+    public void navigateUp() {
+        NavHostFragment.findNavController(this).navigateUp();
     }
 
     @Override
