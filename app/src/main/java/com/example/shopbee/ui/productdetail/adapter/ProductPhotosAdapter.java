@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,12 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ProductPhotosAdapter extends RecyclerView.Adapter<ProductPhotosAdapter.ProductPhotosViewHolder> {
+    ImageView currentView;
+
+    public ImageView getCurrentView() {
+        return currentView;
+    }
+
     List<String> urlImages;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     public ProductPhotosAdapter() {
@@ -51,6 +58,7 @@ public class ProductPhotosAdapter extends RecyclerView.Adapter<ProductPhotosAdap
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(bitmap -> {
                             holder.binding.image.setImageBitmap(bitmap);
+                            currentView = holder.binding.image;
                         }, throwable -> {
                             Log.e("error", throwable.getMessage());
                         })

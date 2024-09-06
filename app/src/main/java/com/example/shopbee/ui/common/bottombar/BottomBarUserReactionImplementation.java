@@ -110,6 +110,7 @@ public class BottomBarUserReactionImplementation {
         }
     }
     public void animateAddToFavorite(ImageView productImage, RelativeLayout rootView, Repository.UserVariation userVariation) {
+        // null productImage Attempt to invoke virtual method 'android.content.Context android.widget.ImageView.getContext()' on a null object reference
         ImageView copiedImage = new ImageView(productImage.getContext());
         copiedImage.setImageDrawable(productImage.getDrawable());
         rootView.addView(copiedImage);

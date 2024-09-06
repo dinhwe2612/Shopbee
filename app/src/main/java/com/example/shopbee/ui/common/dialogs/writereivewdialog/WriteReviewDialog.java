@@ -36,6 +36,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WriteReviewDialog extends DialogFragment implements ImagesAdapter.Listener {
+    String order_number;
+
+    public void setOrder_number(String order_number) {
+        this.order_number = order_number;
+    }
+
+    public String getOrder_number() {
+        return order_number;
+    }
+
     OrderDetailResponse orderDetailResponse;
     public void setOrderDetailResponse(OrderDetailResponse orderDetailResponse) {
         this.orderDetailResponse = orderDetailResponse;
@@ -79,6 +89,7 @@ public class WriteReviewDialog extends DialogFragment implements ImagesAdapter.L
                 List<Bitmap> images = imagesAdapter.getImages();
                 WriteReviewEvent event = new WriteReviewEvent(rating, reviewTitle, reviewContent, images);
                 event.setOrderDetailResponse(orderDetailResponse);
+                event.setOrder_number(order_number);
                 dialogsManager.postEvent(event);
                 dismiss();
             }

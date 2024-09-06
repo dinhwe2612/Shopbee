@@ -10,6 +10,16 @@ import java.util.List;
 import java.util.Locale;
 
 public class WriteReviewEvent {
+    String order_number;
+
+    public String getOrder_number() {
+        return order_number;
+    }
+
+    public void setOrder_number(String order_number) {
+        this.order_number = order_number;
+    }
+
     OrderDetailResponse orderDetailResponse;
     public void setOrderDetailResponse(OrderDetailResponse orderDetailResponse) {
         this.orderDetailResponse = orderDetailResponse;
