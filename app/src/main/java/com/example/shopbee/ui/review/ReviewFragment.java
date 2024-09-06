@@ -6,7 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import com.example.shopbee.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.RatingAndReviewsBinding;
 import com.example.shopbee.di.component.FragmentComponent;
@@ -18,7 +21,7 @@ import java.util.HashMap;
 
 import javax.inject.Inject;
 
-public class ReviewFragment extends BaseFragment<RatingAndReviewsBinding, ReviewViewModel> implements DialogsManager.Listener {
+public class ReviewFragment extends BaseFragment<RatingAndReviewsBinding, ReviewViewModel> implements DialogsManager.Listener, ReviewNavigator {
     String asin;
     ReviewAdapter reviewAdapter = new ReviewAdapter();
     RatingAndReviewsBinding binding;
@@ -26,7 +29,7 @@ public class ReviewFragment extends BaseFragment<RatingAndReviewsBinding, Review
     DialogsManager dialogsManager;
     @Override
     public int getBindingVariable() {
-        return 0;
+        return BR.vm;
     }
 
     @Override
@@ -80,5 +83,10 @@ public class ReviewFragment extends BaseFragment<RatingAndReviewsBinding, Review
     @Override
     public void onDialogEvent(Object event) {
 
+    }
+
+    @Override
+    public void navigateUp() {
+        Navigation.findNavController(binding.getRoot()).navigateUp();
     }
 }

@@ -30,7 +30,8 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/back_icon"
                 android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"/>
+                android:layout_alignParentStart="true"
+                android:onClick="@{()->vm.navigator.navigateUp()}"/>
             <LinearLayout
                 android:id="@+id/right_icons"
                 android:layout_width="match_parent"
