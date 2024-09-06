@@ -1,5 +1,9 @@
 package com.example.shopbee.ui.checkout.shipping;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,15 +13,20 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.shopbee.R;
+import com.example.shopbee.data.model.api.AddressResponse;
+import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.databinding.ModifyByMapBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.main.MainActivity;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -25,13 +34,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class ModifyByMapFragment extends BaseFragment<ModifyByMapBinding, ModifyByMapViewModel> implements OnMapReadyCallback {
     private ModifyByMapBinding binding;
@@ -40,6 +45,9 @@ public class ModifyByMapFragment extends BaseFragment<ModifyByMapBinding, Modify
     private LatLng selectedLatLng;
     private ImageView saveButton;
     private String countryDef;
+    private UserResponse userResponse;
+    private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     public int getBindingVariable() {
         return BR.vm;
@@ -55,10 +63,12 @@ public class ModifyByMapFragment extends BaseFragment<ModifyByMapBinding, Modify
         buildComponent.inject(this);
         viewModel.setNavigator(this);
     }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
+        loadRealtimeData();
         countryDef = getArguments().getString("country_def");
         mapView = binding.mapView;
         saveButton = binding.buttonSave;
@@ -70,7 +80,24 @@ public class ModifyByMapFragment extends BaseFragment<ModifyByMapBinding, Modify
 
         saveButton.setOnClickListener(v -> {
             if (selectedLatLng != null) {
-                Toast.makeText(getContext(), "Location: " + selectedLatLng.latitude + ", " + selectedLatLng.longitude, Toast.LENGTH_SHORT).show();
+                Address address = getAddressFromCoordinates(selectedLatLng.latitude, selectedLatLng.longitude);
+                if (address != null) {
+                    Toast.makeText(getContext(), "Address: " + address.getAddressLine(0), Toast.LENGTH_SHORT).show();
+                    String newAddress = getAddressBeforeFirstComma(address.getAddressLine(0));
+                    String city = address.getLocality();
+                    String state = address.getAdminArea();
+                    String country = address.getCountryName();
+                    String postalCode = address.getPostalCode();
+                    AddressResponse addressResponse = new AddressResponse(newAddress, city, state, country, postalCode, false);
+                    userResponse.getAddress().add(addressResponse);
+                    viewModel.updateUserFirebase();
+                    NavController navController = NavHostFragment.findNavController(ModifyByMapFragment.this);
+                    navController.navigateUp();
+                } else {
+                    Toast.makeText(getContext(), "Unable to get address from coordinates", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getContext(), "No location selected", Toast.LENGTH_SHORT).show();
             }
         });
         binding.buttonBackSettings.setOnClickListener(new View.OnClickListener() {
@@ -83,19 +110,39 @@ public class ModifyByMapFragment extends BaseFragment<ModifyByMapBinding, Modify
 
         return binding.getRoot();
     }
+
+    private void loadRealtimeData() {
+        viewModel.getUserResponse().observeForever(response -> userResponse = response);
+    }
+
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.googleMap = googleMap;
-        googleMap.setOnMapClickListener(latLng -> {
-            selectedLatLng = latLng;
-            googleMap.clear();
-            googleMap.addMarker(new MarkerOptions().position(latLng).title("Selected Location"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-        });
-        Log.d("TAGGG", "onMapReady: " + countryDef);
-        LatLng def_Lat = getLatLngFromCountry(countryDef, "AIzaSyC3c-TFmjbhJaN1YZlAQ4l-1kxpuo0tO3s");
-        LatLng defaultLocation = new LatLng(def_Lat.latitude, def_Lat.longitude);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10));
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        getCurrentLocation();
+    }
+
+    private void getCurrentLocation() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                if (location != null) {
+                    LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15));
+                    googleMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your Location"));
+                    selectedLatLng = currentLatLng;
+
+                    googleMap.setOnMapClickListener(latLng -> {
+                        googleMap.clear();
+                        googleMap.addMarker(new MarkerOptions().position(latLng).title("Pinned Location"));
+                        selectedLatLng = latLng;
+                    });
+                } else {
+                    Toast.makeText(getContext(), "Unable to get current location", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(getContext(), "Location permission is required to access the map.", Toast.LENGTH_SHORT).show();
+        }
     }
     @Override
     public void onResume() {
@@ -120,40 +167,66 @@ public class ModifyByMapFragment extends BaseFragment<ModifyByMapBinding, Modify
         super.onLowMemory();
         mapView.onLowMemory();
     }
-    private static LatLng getLatLngFromCountry(String countryName, String apiKey) {
-        LatLng latLng = null;
+    private void convertLocationToCoordinates(String location) {
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
         try {
-            String url = "https://maps.googleapis.com/maps/api/geocode/json?address="
-                    + countryName + "&key=" + apiKey;
-            URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-            con.setRequestMethod("GET");
+            List<Address> addresses = geocoder.getFromLocationName(location, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                googleMap.addMarker(new MarkerOptions().position(latLng).title(address.getAddressLine(0)));
+            } else {
+                Toast.makeText(getContext(), "Location not found", Toast.LENGTH_SHORT).show();
             }
-            in.close();
-
-            JSONObject jsonObject = new JSONObject(response.toString());
-            JSONArray results = jsonObject.getJSONArray("results");
-            if (results.length() > 0) {
-                JSONObject location = results.getJSONObject(0)
-                        .getJSONObject("geometry")
-                        .getJSONObject("location");
-
-                double lat = location.getDouble("lat");
-                double lng = location.getDouble("lng");
-
-                latLng = new LatLng(lat, lng);
-            }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
+            Toast.makeText(getContext(), "Unable to get location", Toast.LENGTH_SHORT).show();
         }
+    }
+    private void convertCoordinatesToAddress(double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
-        return latLng;
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                googleMap.addMarker(new MarkerOptions().position(latLng).title(address.getAddressLine(0)));
+            } else {
+                Toast.makeText(getContext(), "Address not found", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Unable to get address", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private Address getAddressFromCoordinates(double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                return addresses.get(0);
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    private String getAddressBeforeFirstComma(String addressLine) {
+        if (addressLine != null && !addressLine.isEmpty()) {
+            int commaIndex = addressLine.indexOf(",");
+            if (commaIndex != -1) {
+                return addressLine.substring(0, commaIndex).trim();
+            } else {
+                return addressLine.trim(); // No comma found, return the whole string
+            }
+        }
+        return ""; // Return empty string if input is null or empty
     }
 }

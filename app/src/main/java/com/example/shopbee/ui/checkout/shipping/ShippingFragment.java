@@ -1,15 +1,22 @@
 package com.example.shopbee.ui.checkout.shipping;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -30,6 +37,8 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
     private ShippingAdapter shippingAdapter;
     private CardView fab, write_fab, map_fab;
     private Boolean isAllFabsVisible;
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
+    private ActivityResultLauncher<String> requestPermissionLauncher;
     @Override
     public int getBindingVariable() {
         return BR.vm;
@@ -66,6 +75,13 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
             @Override
             public void onClick(View v) {
                 backToCheckout();
+            }
+        });
+        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+            if (isGranted) {
+                addNewAddressByMap(userResponse.getCountry());
+            } else {
+                Toast.makeText(getActivity(), "Location permission is required to access the map.", Toast.LENGTH_SHORT).show();
             }
         });
         return binding.getRoot();
@@ -154,7 +170,11 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
         map_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addNewAddressByMap(userResponse.getCountry());
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+                } else {
+                    addNewAddressByMap(userResponse.getCountry());
+                }
             }
         });
     }
