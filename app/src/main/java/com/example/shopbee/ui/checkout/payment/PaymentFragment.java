@@ -57,9 +57,17 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
+        loadRealtimeData();
         recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        loadRealtimeData();
+        int positionDef = -1;
+        for (int i = 0; i < userResponse.getPayment().size(); i++) {
+            if (userResponse.getPayment().get(i).getDef()) {
+                positionDef = i;
+            }
+        }
+        paymentAdapter = new PaymentAdapter(this, userResponse.getPayment(), positionDef);
+        recyclerView.setAdapter(paymentAdapter);
         binding.buttonBackSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,31 +84,8 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
     }
 
     private void loadRealtimeData() {
-        viewModel.getUserResponse().observe(getViewLifecycleOwner(), new Observer<UserResponse>() {
-            @Override
-            public void onChanged(UserResponse response) {
-                userResponse = response;
-                updateUI();
-            }
-        });
-        viewModel.getOrderResponse().observe(getViewLifecycleOwner(), new Observer<ListOrderResponse>() {
-            @Override
-            public void onChanged(ListOrderResponse response) {
-                listOrderResponse = response;
-            }
-        });
-    }
-    private void updateUI() {
-        if (userResponse.getPayment() != null) {
-            int positionDef = -1;
-            for (int i = 0; i < userResponse.getPayment().size(); i++) {
-                if (userResponse.getPayment().get(i).getDef()) {
-                    positionDef = i;
-                }
-            }
-            paymentAdapter = new PaymentAdapter(this, userResponse.getPayment(), positionDef);
-            recyclerView.setAdapter(paymentAdapter);
-        }
+        userResponse = viewModel.getUserResponse().getValue();
+        listOrderResponse = viewModel.getOrderResponse().getValue();
     }
     @Override
     public void onStart() {
@@ -118,6 +103,7 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
             userResponse.getPayment().get(i).setDef(false);
         }
         userResponse.getPayment().get(position).setDef(true);
+        recyclerView.post(() -> paymentAdapter.notifyItemChanged(position));
     }
 
     @Override
@@ -141,7 +127,6 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
                 userResponse.getPayment().add(sizeOfOldPayment - 1, newPayment);
             }
             viewModel.updateUserFirebase();
-            recyclerView.post(() -> paymentAdapter.notifyDataSetChanged());
         }
     }
 

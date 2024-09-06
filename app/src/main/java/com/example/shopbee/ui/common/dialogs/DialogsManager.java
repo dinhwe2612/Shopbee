@@ -2,15 +2,18 @@ package com.example.shopbee.ui.common.dialogs;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Pair;
 
 import androidx.fragment.app.FragmentManager;
 
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.data.model.api.CountryRespone;
+import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.ui.common.dialogs.addNewCard.addNewCardDialog;
 import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryDialog;
 import com.example.shopbee.ui.common.dialogs.imagepickerdialog.ImagePickerDialog;
 import com.example.shopbee.ui.common.dialogs.imagepreviewdialog.ImagePreviewDialog;
+import com.example.shopbee.ui.common.dialogs.morevariation.moreVariationDialog;
 import com.example.shopbee.ui.common.dialogs.optiondialog.OptionDialog;
 import com.example.shopbee.ui.common.dialogs.twooptiondialog.TwoOptionDialog;
 import com.example.shopbee.ui.common.dialogs.changePassword.changePassDialog;
@@ -80,5 +83,9 @@ public class DialogsManager {
     public void showWriteReviewDialog() {
         WriteReviewDialog dialog = WriteReviewDialog.newInstance(this);
         dialog.show(fragmentManager, "write_review_dialog");
+    }
+    public void moreVariation(OrderDetailResponse orderDetailResponse){
+        moreVariationDialog dialog = moreVariationDialog.newInstance(this, orderDetailResponse);
+        dialog.show(fragmentManager, "more_variation_dialog");
     }
 }

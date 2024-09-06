@@ -71,6 +71,14 @@
                     android:text="Use as shipping address"
                     style="@style/Black_Regular_14dp"/>
             </LinearLayout>
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/address"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/delete"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

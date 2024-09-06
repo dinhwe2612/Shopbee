@@ -63,6 +63,13 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
         RecyclerView recyclerView = binding.recyclerViewShipping;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         int positionDef = -1;
+        if (userResponse.getAddress().isEmpty()){
+            binding.emptyShipping.setVisibility(View.VISIBLE);
+            binding.recyclerViewShipping.setVisibility(View.GONE);
+        } else {
+            binding.emptyShipping.setVisibility(View.GONE);
+            binding.recyclerViewShipping.setVisibility(View.VISIBLE);
+        }
         for (int i = 0; i < userResponse.getAddress().size(); i++) {
             if (userResponse.getAddress().get(i).getDef()){
                 positionDef = i;
@@ -97,6 +104,7 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
             userResponse.getAddress().get(i).setDef(false);
         }
         userResponse.getAddress().get(position).setDef(true);
+        viewModel.updateUserFirebase();
     }
 
     @Override
@@ -105,6 +113,13 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
         editAddress(addressResponse, position);
     }
 
+    @Override
+    public void onClickDeleteItems(int position) {
+        userResponse.getAddress().remove(position);
+        shippingAdapter.notifyItemChanged(position);
+        shippingAdapter.notifyItemRangeChanged(position, userResponse.getAddress().size());
+        viewModel.updateUserFirebase();
+    }
     @Override
     public void addNewAddressByHand() {
         NavController navController = NavHostFragment.findNavController(this);
