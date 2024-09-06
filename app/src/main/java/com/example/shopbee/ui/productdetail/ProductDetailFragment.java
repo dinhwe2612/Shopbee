@@ -36,6 +36,7 @@ import com.example.shopbee.ui.productdetail.adapter.AboutProductAdapter;
 import com.example.shopbee.ui.productdetail.adapter.ProductDetailAdapter;
 import com.example.shopbee.ui.productdetail.adapter.ProductPhotosAdapter;
 import com.example.shopbee.ui.productdetail.adapter.RecommendedAdapter;
+import com.example.shopbee.ui.shop.categories.CategoriesHashMap;
 import com.example.shopbee.utils.NetworkUtils;
 
 import java.io.BufferedInputStream;
@@ -98,6 +99,14 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
             }
         });
         return binding.getRoot();
+    }
+    void showTryItOnButtonOrNot(List<AmazonProductDetailsResponse.Data.Category> categoryList) {
+        binding.tryItOn.setVisibility(View.GONE);
+        for (AmazonProductDetailsResponse.Data.Category category : categoryList) {
+            if (CategoriesHashMap.getInstance().getClothingCategories().contains(category.getId())) {
+                binding.tryItOn.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     void syncData(String asin) {
@@ -162,6 +171,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
                     .collect(Collectors.joining(","));
             categoryMap.put("category_id", categories);
             viewModel.syncProductByCategory(categoryMap);
+            showTryItOnButtonOrNot(productDetails.getData().getCategory_path());
         });
         viewModel.getProductByCategory().observe(getViewLifecycleOwner(), productByCategory -> {
             recommendedAdapter.setProducts(productByCategory.getData().getProducts());
