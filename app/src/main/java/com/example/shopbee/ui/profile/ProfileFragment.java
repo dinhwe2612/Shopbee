@@ -144,7 +144,7 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
     @Override
     public void myOrder() {
         NavController navController = NavHostFragment.findNavController(this);
-        navController.navigate(R.id.myOrderFragment);
+        navController.navigate(R.id.action_profileFragment_to_myOrderFragment);
     }
 
     @Override
@@ -201,13 +201,33 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
 
     }
     public List<String> getContentEachOption(){
+        if (userResponse == null){
+            List<String> listContent = new ArrayList<>();
+            if (listOrderResponse.getList_order().isEmpty()) listContent.add("You have no order yet.");
+            else listContent.add("Already have " + String.valueOf(listOrderResponse.getList_order().size()) + " order(s)");
+            if (userResponse.getAddress().isEmpty()){
+                listContent.add("You have no address yet.");
+            } else listContent.add(String.valueOf(userResponse.getAddress().size()) + " address(es)");
+            if (userResponse.getPayment().isEmpty()){
+                listContent.add("You have no payment method yet.");
+            } else {
+                listContent.add("You have " + String.valueOf(userResponse.getPayment().size()) + " payment method(s)");
+            }
+            listContent.add("You have special promocodes");
+            listContent.add("Review for 3 item(s)");
+            listContent.add("Notification, password");
+        }
         List<String> listContent = new ArrayList<>();
         if (listOrderResponse.getList_order().isEmpty()) listContent.add("You have no order yet.");
         else listContent.add("Already have " + String.valueOf(listOrderResponse.getList_order().size()) + " order(s)");
         if (userResponse.getAddress().isEmpty()){
             listContent.add("You have no address yet.");
         } else listContent.add(String.valueOf(userResponse.getAddress().size()) + " address(es)");
-        listContent.add("Visa **3");
+        if (userResponse.getPayment().isEmpty()){
+            listContent.add("You have no payment method yet.");
+        } else {
+            listContent.add("You have " + String.valueOf(userResponse.getPayment().size()) + " payment method(s)");
+        }
         listContent.add("You have special promocodes");
         listContent.add("Review for 3 item(s)");
         listContent.add("Notification, password");

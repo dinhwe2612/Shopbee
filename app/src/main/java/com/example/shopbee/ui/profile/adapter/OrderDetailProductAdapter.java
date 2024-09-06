@@ -20,9 +20,14 @@ import com.example.shopbee.databinding.OrderDetailsItemBinding;
 import java.util.List;
 
 public class OrderDetailProductAdapter extends RecyclerView.Adapter<OrderDetailProductAdapter.OrderDetailProductViewHolder> {
-    List<OrderDetailResponse> orderDetailResponseList;
-    public OrderDetailProductAdapter(List<OrderDetailResponse> orderDetailResponseList) {
+    private List<OrderDetailResponse> orderDetailResponseList;
+    public interface Listener{
+        void onItemClicked(int position);
+    }
+    private Listener listener;
+    public OrderDetailProductAdapter(List<OrderDetailResponse> orderDetailResponseList, Listener listener) {
         this.orderDetailResponseList = orderDetailResponseList;
+        this.listener = listener;
     }
     @NonNull
     @Override
@@ -64,6 +69,12 @@ public class OrderDetailProductAdapter extends RecyclerView.Adapter<OrderDetailP
                 holder.binding.variation2.setText(variation.get(1).second);
                 if (variation.size() > 2) {
                     holder.binding.moreText.setVisibility(View.VISIBLE);
+                    holder.binding.moreText.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            listener.onItemClicked(position);
+                        }
+                    });
                 }
             }
         }

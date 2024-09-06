@@ -1,4 +1,5 @@
 package com.example.shopbee.ui.review;
 
-public class ReviewNavigator {
+public interface ReviewNavigator {
+    void navigateUp();
 }

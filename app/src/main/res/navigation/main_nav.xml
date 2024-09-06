@@ -27,7 +27,12 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.shopbee.ui.profile.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_myOrderFragment"
+            app:destination="@id/myOrderFragment"
+            />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.shopbee.ui.profile.setting.SettingsFragment"
@@ -40,10 +45,6 @@
         android:id="@+id/searchFragment"
         android:name="com.example.shopbee.ui.search.SearchFragment"
         android:label="SearchFragment" >
-        <argument
-            android:name="categoryId"
-            app:argType="string"
-            android:defaultValue=""/>
     </fragment>
     <fragment
         android:id="@+id/userSearchFragment"
@@ -52,7 +53,8 @@
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.example.shopbee.ui.productdetail.ProductDetailFragment"
-        android:label="ProductDetailFragment" />
+        android:label="ProductDetailFragment" >
+    </fragment>
     <fragment
         android:id="@+id/myOrderDetailFragment"
         android:name="com.example.shopbee.ui.profile.myorder.MyOrderDetailFragment"

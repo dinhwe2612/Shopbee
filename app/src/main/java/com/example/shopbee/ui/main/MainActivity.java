@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
+import androidx.navigation.NavGraph;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.shopbee.BR;
@@ -62,22 +65,37 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @Override
     public void onClick(int position) {
+        int fromFragmentId = NavGraph.findStartDestination(navController.getGraph()).getId();
         switch (position) {
             case 0:
-                navController.navigate(R.id.homeFragment);
+                navigateWithOptions(fromFragmentId, R.id.homeFragment, navController);
                 break;
             case 1:
-                navController.navigate(R.id.shopFragment);
+                navigateWithOptions(fromFragmentId, R.id.shopFragment, navController);
                 break;
             case 2:
-                navController.navigate(R.id.bagFragment);
+                navigateWithOptions(fromFragmentId, R.id.bagFragment, navController);
                 break;
             case 3:
-                navController.navigate(R.id.favoritesFragment);
+                navigateWithOptions(fromFragmentId, R.id.favoritesFragment, navController);
                 break;
             case 4:
-                navController.navigate(R.id.profileFragment);
+                navigateWithOptions(fromFragmentId, R.id.profileFragment, navController);
                 break;
         }
+    }
+
+    public void navigateWithOptions(int fromFragmentId, int toFragmentId, NavController navController) {
+        // Set up navigation options
+        NavOptions navOptions = new NavOptions.Builder()
+                .setLaunchSingleTop(true)  // Ensure we do not recreate the fragment if it's already on top
+                .setRestoreState(true)     // Restore state of the destination fragment
+                .setPopUpTo(fromFragmentId, true, true)  // Pop up to the fromFragmentId and remove all fragments above it
+                .build();
+
+        // Perform the navigation
+        navController.navigate(toFragmentId, null, navOptions);
+
+        Log.d("TAG", "navigateWithOptions: Navigated to " + toFragmentId + " from " + fromFragmentId);
     }
 }

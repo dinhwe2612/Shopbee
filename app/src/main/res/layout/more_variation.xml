@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    android:background="@color/white_light_theme">
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:background="@drawable/medium_rounded_white_rectangle">
+        <ImageView
+            android:id="@+id/image_product"
+            android:layout_width="300dp"
+            android:layout_height="200dp"/>
+        <TextView
+            android:id="@+id/name"
+            style="@style/Black_Medium_14dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PDP Afterglow Wave Enhanced Wireless Nintendo Switch Pro Controller, 8 Colors RGB LED, Dual Programmable Gaming Buttons, 40 Hour Rechargeable Battery Power, Officially Licensed by Nintendo: Purple"
+            android:textAlignment="viewStart"/>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/Black_Regular_14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price: "/>
+            <TextView
+                style="@style/Black_Medium_14dp"
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2$"/>
+            <TextView
+                style="@style/Black_Regular_14dp"
+                android:layout_marginStart="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Units: "/>
+            <TextView
+                style="@style/Black_Medium_14dp"
+                android:id="@+id/quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"/>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="10dp"
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+</layout>

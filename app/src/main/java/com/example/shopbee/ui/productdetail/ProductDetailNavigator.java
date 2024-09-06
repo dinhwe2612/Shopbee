@@ -9,4 +9,5 @@ public interface ProductDetailNavigator {
     void option();
     void goToReviews();
     void tryItOn();
+    void navigateUp();
 }

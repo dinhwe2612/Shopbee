@@ -21,6 +21,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.Shippi
     public interface Listener{
         void onClickItems(int position);
         void onEditItems(int position);
+        void onClickDeleteItems(int position);
     }
     private Listener listener;
     public ShippingAdapter(Listener listener, List<AddressResponse> addressResponses, int currentPosition, String fullName) {
@@ -58,6 +59,12 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.Shippi
             @Override
             public void onClick(View v) {
                 listener.onEditItems(position);
+            }
+        });
+        holder.binding.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onClickDeleteItems(position);
             }
         });
     }

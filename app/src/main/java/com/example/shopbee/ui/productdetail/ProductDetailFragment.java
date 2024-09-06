@@ -15,14 +15,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.library.baseAdapters.BR;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shopbee.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
@@ -255,6 +254,11 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     @Override
     public void tryItOn() {
         dialogsManager.showImagePickerDialog();
+    }
+
+    @Override
+    public void navigateUp() {
+        NavHostFragment.findNavController(this).navigateUp();
     }
 
     @Override

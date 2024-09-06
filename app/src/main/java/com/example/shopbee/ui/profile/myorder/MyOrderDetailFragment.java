@@ -44,7 +44,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyOrderDetailViewModel> implements MyOrderDetailNavigator {
+public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyOrderDetailViewModel> implements MyOrderDetailNavigator, OrderDetailProductAdapter.Listener, DialogsManager.Listener {
     @Inject
     DialogsManager dialogsManager;
     OrderDetailsBinding binding;
@@ -135,7 +135,7 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                 binding.leaveFeedback.setText("Go to shopping");
                 break;
         }
-        orderDetailProductAdapter = new OrderDetailProductAdapter(orderResponse.getOrder_detail());
+        orderDetailProductAdapter = new OrderDetailProductAdapter(orderResponse.getOrder_detail(), this);
         recyclerView.setAdapter(orderDetailProductAdapter);
 
         binding.buttonBack.setOnClickListener(new View.OnClickListener() {
@@ -231,5 +231,26 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
     public void backToHomeFragment() {
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.homeFragment);
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+        OrderDetailResponse orderDetailResponse = orderResponse.getOrder_detail().get(position);
+        dialogsManager.moreVariation(orderDetailResponse);
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        dialogsManager.registerListener(this);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        dialogsManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onDialogEvent(Object event) {
+
     }
 }

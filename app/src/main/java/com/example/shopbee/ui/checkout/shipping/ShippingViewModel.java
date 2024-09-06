@@ -21,4 +21,7 @@ public class ShippingViewModel extends BaseViewModel {
     public MutableLiveData<UserResponse> getUserResponse() {
         return userResponse;
     }
+    public void updateUserFirebase(){
+        getRepository().updateUserFirebase();
+    }
 }

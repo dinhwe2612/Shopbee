@@ -63,8 +63,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/visa"/>
+            android:layout_height="40dp"/>
         <TextView
             android:id="@+id/cardNumber"
             android:layout_below="@id/paymentIcon"
