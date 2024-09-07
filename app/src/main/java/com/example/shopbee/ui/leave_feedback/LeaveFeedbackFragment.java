@@ -148,6 +148,7 @@ public class LeaveFeedbackFragment extends BaseFragment<LeaveFeedbackBinding, Le
     public void onDialogEvent(Object event) {
         if (event instanceof WriteReviewEvent) {
             viewModel.saveReview((WriteReviewEvent) event);
+            viewModel.syncIsReviewedList(orderResponse);
         }
     }
 }
