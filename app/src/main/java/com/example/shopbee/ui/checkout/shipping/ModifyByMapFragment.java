@@ -75,8 +75,7 @@ public class ModifyByMapFragment extends BaseFragment<ModifyByMapBinding, Modify
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.getBottomBar().hideBottomBar();
+        bottomBar.hideBottomBar();
 
         saveButton.setOnClickListener(v -> {
             if (selectedLatLng != null) {

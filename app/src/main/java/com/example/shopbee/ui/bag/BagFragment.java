@@ -392,8 +392,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     @Override
     public void onSaveToFavorites(String asin, List<Pair<String, String>> variations, ImageView imageView) {
         viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, variations, null);
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.getBottomBar().animateAddToFavorite(imageView, mainActivity.findViewById(R.id.main), Repository.UserVariation.FAVORITE);
+        bottomBar.animateAddToFavorite(imageView, requireActivity().findViewById(R.id.main), Repository.UserVariation.FAVORITE);
     }
 
     @Override

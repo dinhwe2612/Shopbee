@@ -53,8 +53,7 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
         orderResponse = getArguments().getParcelable("orderResponse");
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.getBottomBar().hideBottomBar();
+        bottomBar.hideBottomBar();
 
         loadRealtimeData();
         setUpShippingAddress();

@@ -61,6 +61,11 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
     }
 
     @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.SELECT_HOME_ICON;
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();

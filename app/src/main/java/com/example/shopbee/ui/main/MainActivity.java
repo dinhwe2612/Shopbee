@@ -21,6 +21,7 @@ import com.example.shopbee.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.ActivityMainBinding;
 import com.example.shopbee.di.component.ActivityComponent;
+import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.bottombar.BottomBarUserReactionImplementation;
 import com.example.shopbee.ui.common.bottombar.BottomBarUserReactionListener;
 import com.example.shopbee.ui.common.base.BaseActivity;
@@ -38,11 +39,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 , BottomBarUserReactionListener {
     private NavController navController;
     ActivityMainBinding binding;
-    @Inject
-    BottomBarUserReactionImplementation bottomBar;
-    public BottomBarUserReactionImplementation getBottomBar() {
-        return bottomBar;
-    }
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
     }
@@ -92,13 +88,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 navigateWithOptions(fromFragmentId, R.id.profileFragment, navController);
                 break;
         }
-    }
-
-    @Override
-    public void onFragmentAttached(String tag) {
-        super.onFragmentAttached(tag);
-        Log.d("TAG", "onFragmentAttached: " + tag);
-
     }
 
     public void navigateWithOptions(int fromFragmentId, int toFragmentId, NavController navController) {

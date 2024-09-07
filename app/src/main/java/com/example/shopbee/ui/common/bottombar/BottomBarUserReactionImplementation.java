@@ -68,9 +68,11 @@ public class BottomBarUserReactionImplementation {
         animatedBackground = binding.animatedBackground;
         for(int i = 0; i < 5; ++i) {
             int position = i;
-            layout[i].setOnClickListener(
-                    v -> onClick(position)
-            );
+            layout[i].setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onClick(position);
+                }
+            });
         }
         binding.getRoot().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -101,14 +103,11 @@ public class BottomBarUserReactionImplementation {
         textViews[position].setTextAppearance(textAppearances[1]);
     }
 
-    public void onClick(int position) {
+    public void update(int newPosition) {
         UIUnselected(currentPosition);
-        UISelected(position);
-        animateBackground(position);
-        currentPosition = position;
-        if (listener != null) {
-            listener.onClick(position);
-        }
+        UISelected(newPosition);
+        animateBackground(newPosition);
+        currentPosition = newPosition;
     }
     public void animateAddToFavorite(ImageView productImage, RelativeLayout rootView, Repository.UserVariation userVariation) {
         // null productImage Attempt to invoke virtual method 'android.content.Context android.widget.ImageView.getContext()' on a null object reference
