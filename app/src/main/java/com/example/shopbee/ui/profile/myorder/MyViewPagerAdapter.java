@@ -17,14 +17,12 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         switch (position){
-            case 0:
-                return new TypeOrderFragment("delivered");
             case 1:
-                return new TypeOrderFragment("processing");
+                return TypeOrderFragment.newInstance("processing");
             case 2:
-                return new TypeOrderFragment("cancelled");
+                return TypeOrderFragment.newInstance("cancelled");
             default:
-                return new TypeOrderFragment("delivered");
+                return TypeOrderFragment.newInstance("delivered");
         }
     }
     @Override

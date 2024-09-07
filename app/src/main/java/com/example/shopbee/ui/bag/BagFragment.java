@@ -54,6 +54,12 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     MutableLiveData<PromoCodeResponse> promoCodeResponse = new MutableLiveData<>();
     BagAdapter bagAdapter = new BagAdapter();
     ToolbarView toolbarView;
+
+    @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.SELECT_BAG_ICON;
+    }
+
     @Override
     public int getBindingVariable() {
         return BR.vm;

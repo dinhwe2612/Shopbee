@@ -64,6 +64,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     AmazonProductDetailsResponse amazonProductDetailsResponse = new AmazonProductDetailsResponse();
     @Inject
     DialogsManager dialogsManager;
+
     @Override
     public int getBindingVariable() {
         return BR.vm;

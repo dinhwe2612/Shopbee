@@ -45,6 +45,12 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     FavoriteAdapterGridView productAdapterGridView = new FavoriteAdapterGridView();
     boolean isInListView = true;
     FavoritesBinding binding;
+
+    @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.SELECT_FAVORITE_ICON;
+    }
+
     @Override
     public int getBindingVariable() {
         return BR.vm;
