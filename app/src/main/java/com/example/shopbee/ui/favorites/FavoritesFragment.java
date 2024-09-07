@@ -94,6 +94,7 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
             viewModel.getFavoriteLists().observe(getViewLifecycleOwner(), lists ->{
                 if (lists.isEmpty()) {
                     binding.emptyFavorites.setVisibility(View.VISIBLE);
+                    binding.loading.setVisibility(View.GONE);
                 }
                 else {
                     binding.emptyFavorites.setVisibility(View.GONE);

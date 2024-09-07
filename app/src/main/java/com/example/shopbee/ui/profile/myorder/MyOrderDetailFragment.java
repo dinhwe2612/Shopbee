@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -200,6 +201,7 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
             public void onClick(View v) {
                 switch (status){
                     case "delivered":
+                        navigateToFeedbackPage();
 //                        dialogsManager.showWriteReviewDialog();
                     case "cancelled":
                         backToHomeFragment();
@@ -225,6 +227,23 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                 listOrderResponse = responses;
             }
         });
+    }
+
+    @Override
+    public void navigateToFeedbackPage() {
+        NavController navController = NavHostFragment.findNavController(this);
+
+        NavOptions navOptions = new NavOptions.Builder()
+                .setEnterAnim(R.anim.fade_in)
+                .setExitAnim(R.anim.fade_out)
+                .setPopEnterAnim(R.anim.fade_in)
+                .setPopExitAnim(R.anim.fade_out)
+                .build();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("orderResponse", orderResponse);
+
+        navController.navigate(R.id.leaveFeedBackFragment, bundle, navOptions);
     }
 
     @Override
