@@ -119,4 +119,10 @@ dependencies {
     //Google Map
     implementation("com.google.android.gms:play-services-maps:18.0.2")
     implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    //Loading Button
+    implementation("com.github.yatindeokar:MyLoadingButton:v1.0.1")
+
+    //Alert Dialog
+    implementation("com.saadahmedev.popup-dialog:popup-dialog:2.0.0")
 }
