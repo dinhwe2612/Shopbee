@@ -1,4 +1,4 @@
-package com.example.shopbee.ui.component.bottombar;
+package com.example.shopbee.ui.common.bottombar;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -19,10 +19,11 @@ import android.widget.TextView;
 import com.example.shopbee.R;
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.databinding.BottomBarBinding;
+import com.example.shopbee.ui.common.bottombar.BottomBarUserReactionListener;
 
 public class BottomBarUserReactionImplementation {
     BottomBarBinding bottomBarBinding;
-    com.example.shopbee.ui.component.bottombar.BottomBarUserReactionListener listener;
+    BottomBarUserReactionListener listener;
     int currentPosition = 0;
     int[] selectedImages = new int[]{
             R.drawable.red_home_icon,
@@ -46,7 +47,7 @@ public class BottomBarUserReactionImplementation {
     TextView[] textViews = new TextView[5];
     LinearLayout[] layout = new LinearLayout[5];
     View animatedBackground;
-    public void bindView(BottomBarBinding binding, com.example.shopbee.ui.component.bottombar.BottomBarUserReactionListener listener) {
+    public void bindView(BottomBarBinding binding, BottomBarUserReactionListener listener) {
         this.bottomBarBinding = binding;
         this.listener = listener;
         imageViews[0] = binding.homeIcon;

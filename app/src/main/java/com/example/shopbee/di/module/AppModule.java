@@ -7,7 +7,7 @@ import com.example.shopbee.data.model.api.jsondeserializer.ProductDetailsDeseria
 import com.example.shopbee.data.remote.AmazonApiService;
 import com.example.shopbee.data.remote.CountryApiService;
 import com.example.shopbee.data.remote.TexelVirtualTryOnApiService;
-import com.example.shopbee.ui.component.bottombar.BottomBarUserReactionImplementation;
+import com.example.shopbee.ui.common.bottombar.BottomBarUserReactionImplementation;
 import com.example.shopbee.utils.NetworkUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

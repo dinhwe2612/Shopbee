@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.profile.myorder;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,8 @@ import com.example.shopbee.ui.home.HomeFragment;
 import com.example.shopbee.ui.profile.adapter.OrderDetailProductAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.saadahmedev.popupdialog.PopupDialog;
+import com.saadahmedev.popupdialog.listener.StandardDialogActionListener;
 
 import java.util.List;
 
@@ -86,7 +89,6 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                 binding.shippingAddress.setText(addressResponse.toString());
             }
         }
-        Log.d("TAG", "onViewCreated: " + orderResponse.getPayment());
         switch (orderResponse.getPayment()){
             case "shopbee":
                 binding.isShopbeePay.setVisibility(View.VISIBLE);
@@ -150,16 +152,46 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
             public void onClick(View v) {
                 switch (status){
                     case "delivered":
+                        reorder(orderResponse);
                     case "cancelled":
                         reorder(orderResponse);
                         break;
                     case "processing":
-                        orderResponse.setStatus("cancelled");
-                        listOrderResponse.getList_order().get(position).setStatus("cancelled");
-                        binding.status.setText("Cancelled");
-                        binding.reorder.setText("Reorder");
-                        binding.leaveFeedback.setText("Go to shopping");
-                        viewModel.updateOrderFirebase(orderResponse);
+                        PopupDialog.getInstance(v.getContext())
+                                .standardDialogBuilder()
+                                .createStandardDialog()
+                                .setHeading("Cancel an order!")
+                                .setPositiveButtonBackgroundColor(R.color.dark_red)
+                                .setPositiveButtonTextColor(R.color.white_light_theme)
+                                .setDescription("Are you sure you want to cancel?" +
+                                        " This action cannot be undone")
+                                .setIcon(R.drawable.cancel)
+                                .build(new StandardDialogActionListener() {
+                                    @Override
+                                    public void onPositiveButtonClicked(Dialog dialog) {
+                                        orderResponse.setStatus("cancelled");
+                                        listOrderResponse.getList_order().get(position).setStatus("cancelled");
+                                        binding.status.setText("Cancelled");
+                                        binding.reorder.setText("Reorder");
+                                        binding.leaveFeedback.setText("Go to shopping");
+                                        viewModel.updateOrderFirebase(orderResponse);
+                                        PopupDialog.getInstance(dialog.getContext())
+                                                .statusDialogBuilder()
+                                                .createSuccessDialog()
+                                                .setHeading("Done")
+                                                .setDescription("You have successfully" +
+                                                        " cancelled your order")
+                                                .build(Dialog::dismiss)
+                                                .show();
+                                        dialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onNegativeButtonClicked(Dialog dialog) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
                         break;
                 }
             }
@@ -172,6 +204,7 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                         navigateToFeedbackPage();
 //                        dialogsManager.showWriteReviewDialog();
                     case "cancelled":
+                        backToHomeFragment();
                         break;
                     case "processing":
                         backToHomeFragment();

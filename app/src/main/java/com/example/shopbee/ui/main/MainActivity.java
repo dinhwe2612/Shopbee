@@ -1,5 +1,7 @@
 package com.example.shopbee.ui.main;
 
+import static java.util.Map.entry;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavGraph;
 import androidx.navigation.NavOptions;
@@ -18,9 +21,15 @@ import com.example.shopbee.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.ActivityMainBinding;
 import com.example.shopbee.di.component.ActivityComponent;
-import com.example.shopbee.ui.component.bottombar.BottomBarUserReactionImplementation;
-import com.example.shopbee.ui.component.bottombar.BottomBarUserReactionListener;
+import com.example.shopbee.ui.common.bottombar.BottomBarUserReactionImplementation;
+import com.example.shopbee.ui.common.bottombar.BottomBarUserReactionListener;
 import com.example.shopbee.ui.common.base.BaseActivity;
+
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -85,12 +94,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         }
     }
 
+    @Override
+    public void onFragmentAttached(String tag) {
+        super.onFragmentAttached(tag);
+        Log.d("TAG", "onFragmentAttached: " + tag);
+
+    }
+
     public void navigateWithOptions(int fromFragmentId, int toFragmentId, NavController navController) {
         // Set up navigation options
         NavOptions navOptions = new NavOptions.Builder()
                 .setLaunchSingleTop(true)  // Ensure we do not recreate the fragment if it's already on top
                 .setRestoreState(true)     // Restore state of the destination fragment
-                .setPopUpTo(fromFragmentId, true, true)  // Pop up to the fromFragmentId and remove all fragments above it
+                .setPopUpTo(fromFragmentId, false, true)  // Pop up to the fromFragmentId and remove all fragments above it
                 .build();
 
         // Perform the navigation

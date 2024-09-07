@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
 
 import com.example.shopbee.BaseApplication;
 import com.example.shopbee.di.component.ActivityComponent;
@@ -53,7 +54,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
 
 
     @Override
-    public void onFragmentAttached() {
+    public void onFragmentAttached(String tag) {
 
     }
 
