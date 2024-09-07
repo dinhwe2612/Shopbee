@@ -26,7 +26,6 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
     private View rootView;
     private T viewDataBinding;
 
-
     @Inject
     protected V viewModel;
 
@@ -51,7 +50,6 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
         if (context instanceof BaseActivity) {
             BaseActivity activity = (BaseActivity) context;
             this.activity = activity;
-            activity.onFragmentAttached();
         }
     }
 
@@ -120,7 +118,7 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
 
     public interface Callback {
 
-        void onFragmentAttached();
+        void onFragmentAttached(String tag);
 
         void onFragmentDetached(String tag);
     }

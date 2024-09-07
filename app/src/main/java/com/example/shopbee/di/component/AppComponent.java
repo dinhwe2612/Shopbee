@@ -3,7 +3,7 @@ package com.example.shopbee.di.component;
 import com.example.shopbee.BaseApplication;
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.di.module.AppModule;
-import com.example.shopbee.ui.component.bottombar.BottomBarUserReactionImplementation;
+import com.example.shopbee.ui.common.bottombar.BottomBarUserReactionImplementation;
 
 import javax.inject.Singleton;
 
