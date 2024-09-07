@@ -60,10 +60,16 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
         holder.binding.checkBoxCard.setOnCheckedChangeListener(new AnimatedCheckBox.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(AnimatedCheckBox checkBox, boolean isChecked) {
-                notifyItemChanged(currentPosition);
-                currentPosition = position;
-                notifyItemChanged(currentPosition);
-                listener.onClickItems(position);
+                if (isChecked) {
+                    int previousPosition = currentPosition;
+                    currentPosition = position;
+                    notifyItemChanged(position);
+                    listener.onClickItems(position);
+                } else {
+                    if (currentPosition == position) {
+                        currentPosition = -1; // No item selected
+                    }
+                }
             }
         });
     }

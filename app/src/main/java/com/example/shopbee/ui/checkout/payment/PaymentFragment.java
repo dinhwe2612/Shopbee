@@ -103,7 +103,7 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
             userResponse.getPayment().get(i).setDef(false);
         }
         userResponse.getPayment().get(position).setDef(true);
-        recyclerView.post(() -> paymentAdapter.notifyItemChanged(position));
+        viewModel.updateUserFirebase();
     }
 
     @Override

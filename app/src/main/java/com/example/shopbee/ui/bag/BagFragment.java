@@ -207,6 +207,16 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         if (!animationDrawable3.isRunning()) {
             animationDrawable3.start();
         }
+
+        AnimationDrawable animationDrawable4 = (AnimationDrawable) getViewDataBinding().loading4.getBackground();
+        if (!animationDrawable4.isRunning()) {
+            animationDrawable4.start();
+        }
+
+        AnimationDrawable animationDrawable5 = (AnimationDrawable) getViewDataBinding().loading5.getBackground();
+        if (!animationDrawable5.isRunning()) {
+            animationDrawable5.start();
+        }
     }
 
     public void stopLoadingAnimations() {
@@ -223,6 +233,16 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         AnimationDrawable animationDrawable3 = (AnimationDrawable) getViewDataBinding().loading3.getBackground();
         if (animationDrawable3.isRunning()) {
             animationDrawable3.stop();
+        }
+
+        AnimationDrawable animationDrawable4 = (AnimationDrawable) getViewDataBinding().loading4.getBackground();
+        if (animationDrawable4.isRunning()) {
+            animationDrawable4.stop();
+        }
+
+        AnimationDrawable animationDrawable5 = (AnimationDrawable) getViewDataBinding().loading5.getBackground();
+        if (animationDrawable5.isRunning()) {
+            animationDrawable5.stop();
         }
     }
 
