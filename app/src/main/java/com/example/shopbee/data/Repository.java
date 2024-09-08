@@ -1018,34 +1018,47 @@ public class Repository {
 //                                        Log.d("FirebaseStorage", "Folder: " + prefix.getName());
                                         // Recursively call listAll() on this prefix if needed
                                     }
-
-                                    // Loop through items (files)
-                                    for (StorageReference item : listResult.getItems()) {
-//                                        Log.d("FirebaseStorage", "File: " + item.getName());
-                                        item.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes -> {
-                                            InputStream is = new ByteArrayInputStream(bytes);
-                                            Bitmap bitmap = BitmapFactory.decodeStream(is);
-                                            reviewImages.add(bitmap);
-                                        }).addOnFailureListener(exception -> {
-                                            Log.e("FirebaseImageService", "Failed to load image", exception);
-//                                            emitter.onError(exception);
-                                        });
-                                        // You can also download the file or get its metadata
+                                    if (listResult.getItems().isEmpty()) {
+                                        OrderDetailResponse orderDetailResponse = new OrderDetailResponse(product_id, product_name, quantity, price, urlImage, variation);
+                                        WriteReviewEvent writeReviewEvent = new WriteReviewEvent(starRating, reviewTitle, reviewContent, reviewImages);
+                                        writeReviewEvent.setOrderDetailResponse(orderDetailResponse);
+                                        writeReviewEvent.setReviewDate(reviewDate);
+                                        writeReviewEvent.setOrder_number(order_number);
+                                        emitter.onNext(events);
+                                        emitter.onComplete();
                                     }
+                                    else {
+                                        for (StorageReference item : listResult.getItems()) {
+//                                        Log.d("FirebaseStorage", "File: " + item.getName());
+                                            item.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes -> {
+                                                InputStream is = new ByteArrayInputStream(bytes);
+                                                Bitmap bitmap = BitmapFactory.decodeStream(is);
+                                                reviewImages.add(bitmap);
+                                                Log.d("FirebaseImageService", "Image loaded successfully: " + item.getName());
+                                                OrderDetailResponse orderDetailResponse = new OrderDetailResponse(product_id, product_name, quantity, price, urlImage, variation);
+                                                WriteReviewEvent writeReviewEvent = new WriteReviewEvent(starRating, reviewTitle, reviewContent, reviewImages);
+                                                writeReviewEvent.setOrderDetailResponse(orderDetailResponse);
+                                                writeReviewEvent.setReviewDate(reviewDate);
+                                                writeReviewEvent.setOrder_number(order_number);
+                                                events.add(writeReviewEvent);
+                                                emitter.onNext(events);
+                                                emitter.onComplete();
+                                            }).addOnFailureListener(exception -> {
+                                                Log.e("FirebaseImageService", "Failed to load image", exception);
+//                                            emitter.onError(exception);
+                                            });
+                                            // You can also download the file or get its metadata
+                                        }
+                                    }
+                                    // Loop through items (files)
                                 }).addOnFailureListener(e -> {
 //                                    Log.e("FirebaseStorage", "Error: " + e.getMessage());
                                 });
-                                OrderDetailResponse orderDetailResponse = new OrderDetailResponse(product_id, product_name, quantity, price, urlImage, variation);
-                                WriteReviewEvent writeReviewEvent = new WriteReviewEvent(starRating, reviewTitle, reviewContent, reviewImages);
-                                writeReviewEvent.setOrderDetailResponse(orderDetailResponse);
-                                writeReviewEvent.setReviewDate(reviewDate);
-                                writeReviewEvent.setOrder_number(order_number);
-                                events.add(writeReviewEvent);
+
                             }
                         }
                     }
-                    emitter.onNext(events);
-                    emitter.onComplete();
+
                 }
 
                 @Override

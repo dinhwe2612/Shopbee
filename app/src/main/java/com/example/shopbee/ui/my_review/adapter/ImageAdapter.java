@@ -2,6 +2,7 @@ package com.example.shopbee.ui.my_review.adapter;
 
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
+        Log.d("FirebaseImageService", "getItemCount: " + images.size());
         return images.size();
     }
 

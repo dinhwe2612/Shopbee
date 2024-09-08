@@ -143,10 +143,12 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
             });
             viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
                 if (inProgress) {
+                    displayOptionsForBag(View.GONE, View.GONE);
                     getViewDataBinding().loading.setVisibility(View.VISIBLE);
                     animateLoading();
 //                showProgressDialog();
                 } else {
+                    displayOptionsForBag(View.VISIBLE, View.GONE);
                     stopLoadingAnimations();
                     getViewDataBinding().loading.setVisibility(View.GONE);
                     getViewDataBinding().recyclerView.setVisibility(View.VISIBLE);
