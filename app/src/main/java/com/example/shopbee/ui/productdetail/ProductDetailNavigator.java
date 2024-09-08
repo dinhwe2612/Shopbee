@@ -11,4 +11,5 @@ public interface ProductDetailNavigator {
     void tryItOn();
     void search();
     void navigateUp();
+    void tryItOnFailed();
 }

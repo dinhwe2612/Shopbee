@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.productdetail;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -283,6 +284,18 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     @Override
     public void navigateUp() {
         NavHostFragment.findNavController(this).navigateUp();
+    }
+
+    @Override
+    public void tryItOnFailed() {
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
+                .setTitle("Try it on failed")
+                .setMessage("Your avatar is not suitable for this product or the product is not available for try it on.")
+                .setPositiveButton("OK", (dialog1, which) -> {
+                    dialog1.dismiss();
+                })
+                .create();
+        dialog.show();
     }
 
     @Override

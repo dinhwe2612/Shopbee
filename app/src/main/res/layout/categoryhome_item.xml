@@ -8,8 +8,8 @@
         type="com.example.shopbee.ui.home.adapter.CategoryAdapter.CategoryHomeList" />
 </data>
 <androidx.cardview.widget.CardView
-    android:layout_width="190dp"
-    android:layout_height="225dp"
+    android:layout_width="160dp"
+    android:layout_height="160dp"
     android:layout_margin="6dp"
     app:cardCornerRadius="8dp"
     android:background="@color/white_background">
@@ -30,7 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/title"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             app:imageUrl="@{ch.imageUrl}"
             tools:src="@drawable/image4"/>
     </RelativeLayout>
