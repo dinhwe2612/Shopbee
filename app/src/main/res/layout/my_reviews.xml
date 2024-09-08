@@ -78,12 +78,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical">
                 <TextView
+                    android:id="@+id/num_reviews"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:text="8 reviews"
+                    android:text=""
                     style="@style/Black_SemiBold_24dp"/>
                 <LinearLayout
+                    android:layout_alignBottom="@id/num_reviews"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

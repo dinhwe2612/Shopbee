@@ -120,6 +120,7 @@ public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsVi
     }
     public void observeReviewList() {
         viewModel.getReviewList().observe(getViewLifecycleOwner(), reviewList -> {
+            binding.numReviews.setText(reviewList.size() + " Reviews");
             myReviewAdapter.setReviewList(reviewList);
             myReviewAdapter.notifyDataSetChanged();
         });
