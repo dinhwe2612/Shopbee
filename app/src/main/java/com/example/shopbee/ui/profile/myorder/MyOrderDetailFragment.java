@@ -43,9 +43,14 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.saadahmedev.popupdialog.PopupDialog;
 import com.saadahmedev.popupdialog.listener.StandardDialogActionListener;
 
+import java.security.SecureRandom;
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyOrderDetailViewModel> implements MyOrderDetailNavigator, OrderDetailProductAdapter.Listener, DialogsManager.Listener {
     @Inject
@@ -158,45 +163,13 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
             public void onClick(View v) {
                 switch (status){
                     case "delivered":
-                        reorder(orderResponse);
                     case "cancelled":
+                        orderResponse.setOrder_number(generateUniqueOrderNumber());
+                        orderResponse.setTracking_number(generateUniqueTrackingNumber());
                         reorder(orderResponse);
                         break;
                     case "processing":
-                        PopupDialog.getInstance(v.getContext())
-                                .standardDialogBuilder()
-                                .createStandardDialog()
-                                .setHeading("Cancel an order!")
-                                .setPositiveButtonBackgroundColor(R.color.dark_red)
-                                .setPositiveButtonTextColor(R.color.white_light_theme)
-                                .setDescription("Are you sure you want to cancel?" +
-                                        " This action cannot be undone")
-                                .setIcon(R.drawable.cancel)
-                                .build(new StandardDialogActionListener() {
-                                    @Override
-                                    public void onPositiveButtonClicked(Dialog dialog) {
-                                        orderResponse.setStatus("cancelled");
-                                        listOrderResponse.getList_order().get(position).setStatus("cancelled");
-                                        binding.status.setText("Cancelled");
-                                        binding.reorder.setText("Reorder");
-                                        binding.leaveFeedback.setText("Go to shopping");
-                                        viewModel.updateOrderFirebase(orderResponse);
-                                        PopupDialog.getInstance(dialog.getContext())
-                                                .statusDialogBuilder()
-                                                .createSuccessDialog()
-                                                .setHeading("Done")
-                                                .setDescription("You have successfully" +
-                                                        " cancelled your order")
-                                                .build(Dialog::dismiss)
-                                                .show();
-                                        dialog.dismiss();
-                                    }
-                                    @Override
-                                    public void onNegativeButtonClicked(Dialog dialog) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
+                        cancelAnOrder(v);
                         break;
                 }
             }
@@ -208,6 +181,7 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                     case "delivered":
                         navigateToFeedbackPage();
 //                        dialogsManager.showWriteReviewDialog();
+                        break;
                     case "cancelled":
                         backToHomeFragment();
                         break;
@@ -290,5 +264,75 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
     @Override
     public void onDialogEvent(Object event) {
 
+    }
+    private void cancelAnOrder(View v){
+        PopupDialog.getInstance(v.getContext())
+            .standardDialogBuilder()
+            .createStandardDialog()
+            .setHeading("Cancel an order!")
+            .setPositiveButtonBackgroundColor(R.color.dark_red)
+            .setPositiveButtonTextColor(R.color.white_light_theme)
+            .setDescription("Are you sure you want to cancel?" +
+                    " This action cannot be undone")
+            .setIcon(R.drawable.cancel)
+            .build(new StandardDialogActionListener() {
+                @Override
+                public void onPositiveButtonClicked(Dialog dialog) {
+                    orderResponse.setStatus("cancelled");
+                    listOrderResponse.getList_order().get(position).setStatus("cancelled");
+                    binding.status.setText("Cancelled");
+                    binding.reorder.setText("Reorder");
+                    binding.leaveFeedback.setText("Go to shopping");
+                    viewModel.getCompositeDisposable().add(viewModel.getRepository().updateOrderFirebase(orderResponse)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(success -> {
+                                        if (success) {
+                                            PopupDialog.getInstance(dialog.getContext())
+                                                .statusDialogBuilder()
+                                                .createSuccessDialog()
+                                                .setHeading("Done")
+                                                .setDescription("You have successfully" +
+                                                        " cancelled your order")
+                                                .build(Dialog::dismiss)
+                                                .show();
+                                        } else {
+
+                                        }
+                                    },
+                                    error -> {
+
+                                    })
+                    );
+                    dialog.dismiss();
+                }
+                @Override
+                public void onNegativeButtonClicked(Dialog dialog) {
+                    dialog.dismiss();
+                }
+            })
+            .show();
+    }
+    private String generateUniqueOrderNumber() {
+        String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        SecureRandom random = new SecureRandom();
+        StringBuilder builder = new StringBuilder(8);
+        for (int i = 0; i < 8; i++) {
+            int characterIndex = random.nextInt(ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(characterIndex));
+        }
+        return builder.toString();
+    }
+    private String generateUniqueTrackingNumber() {
+        String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        long timestamp = System.currentTimeMillis();
+        Random random = new Random();
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < 4; i++) {
+            int index = random.nextInt(ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(index));
+        }
+        return "BEE-" + timestamp + builder.toString();
     }
 }

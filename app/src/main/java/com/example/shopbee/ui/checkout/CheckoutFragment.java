@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.checkout;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -25,6 +26,13 @@ import com.example.shopbee.databinding.CheckoutBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.main.MainActivity;
+import com.saadahmedev.popupdialog.PopupDialog;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutViewModel> implements CheckoutNavigator{
     private CheckoutBinding binding;
@@ -57,7 +65,7 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        binding = getViewDataBinding();
+        binding = CheckoutBinding.inflate(LayoutInflater.from(getContext()));
         orderResponse = getArguments().getParcelable("orderResponse");
         loadRealtimeData();
         setUpShippingAddress();
@@ -66,7 +74,31 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         binding.submitOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitOrder();
+                orderResponse.setStatus("processing");
+                orderResponse.setPayment(currentPayment.getType());
+                orderResponse.setDate(DateTimeToFormat());
+                listOrderResponse.getList_order().add(orderResponse);
+                viewModel.getCompositeDisposable().add(viewModel.getRepository().updateOrderFirebase(orderResponse)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(success -> {
+                                if (success) {
+                                    navigateToSuccessFragment();
+                                } else {
+                                    PopupDialog.getInstance(v.getContext())
+                                        .statusDialogBuilder()
+                                        .createWarningDialog()
+                                        .setHeading("Pending!")
+                                        .setDescription("You verification is under" +
+                                                " observation. Try again later.")
+                                        .build(Dialog::dismiss)
+                                        .show();
+                                }
+                        },
+                        error -> {
+
+                        })
+                );
             }
         });
         binding.buttonBackSettings.setOnClickListener(new View.OnClickListener() {
@@ -167,21 +199,23 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.paymentFragment);
     }
-    @Override
-    public void submitOrder() {
-        orderResponse.setPayment(currentPayment.getType());
-        listOrderResponse.getList_order().add(orderResponse);
-        for (OrderResponse order : listOrderResponse.getList_order()) {
-            Log.d("TAG", "submitOrder: " + order.getOrder_number());
-        }
-        viewModel.updateOrderFirebase(orderResponse);
-        NavController navController = NavHostFragment.findNavController(this);
-        navController.navigate(R.id.successFragment);
-    }
 
     @Override
     public void backToPreviousFragment() {
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigateUp();
+    }
+
+    @Override
+    public void navigateToSuccessFragment() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.successFragment);
+    }
+
+    private String DateTimeToFormat(){
+        Date now = new Date();
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("HH:mm yyyy-MM-dd");
+        String formattedDateTime = dateTimeFormat.format(now);
+        return formattedDateTime;
     }
 }
