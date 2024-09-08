@@ -26,7 +26,7 @@ public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsVi
     private MyReviewAdapter myReviewAdapter = new MyReviewAdapter();
     @Override
     public int getBindingVariable() {
-        return BR.vm;
+        return 0;
     }
 
     @Override
