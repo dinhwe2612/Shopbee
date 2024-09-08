@@ -33,13 +33,52 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:orientation="vertical">
-
             <TextView
                 style="@style/Black_Bold_34dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="My Reviews"/>
 <!--            android:text="Rating&amp;Reviews"-->
+            <LinearLayout
+                android:id="@+id/loading"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="343dp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:id="@+id/loading1"
+                    android:background="@drawable/color_transition"
+                    android:layout_width="343dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="150dp">
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/loading2"
+                    android:background="@drawable/color_transition"
+                    android:layout_width="343dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="150dp">
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/loading3"
+                    android:background="@drawable/color_transition"
+                    android:layout_width="343dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="150dp">
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/loading4"
+                    android:background="@drawable/color_transition"
+                    android:layout_width="343dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="150dp">
+
+                </RelativeLayout>
+            </LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
