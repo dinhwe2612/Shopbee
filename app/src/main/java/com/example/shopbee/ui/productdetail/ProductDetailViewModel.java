@@ -38,25 +38,24 @@ public class ProductDetailViewModel extends BaseViewModel<ProductDetailNavigator
         );
     }
     public void syncProductByCategory(HashMap<String, String> query) {
-        setIsLoading(true);
         getCompositeDisposable().add(getRepository().getAmazonProductByCategory(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
-                    setIsLoading(false);
                     productByCategory.setValue(result);
                 }, error -> {
-                    setIsLoading(false);
                     Log.e("syncProductDetails", "error on getAmazonProductByCategory: " + error.getMessage());
                 })
         );
     }
     public void syncTryOnImage(Bitmap personBitmap, String garmentUrl) {
+        setIsLoading(true);
         getCompositeDisposable().add(getRepository().getTryOnImage(personBitmap, garmentUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
                     tryOnImage.setValue(BitmapFactory.decodeStream(result.byteStream()));
+                    setIsLoading(false);
                 }, error -> {
                     Log.e("syncTryOnImage", "error on getTryOnImage: " + error.getMessage());
                 })

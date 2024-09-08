@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.example.shopbee.databinding.ImageReviewItemBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -22,8 +23,15 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ReviewImageAdapter extends RecyclerView.Adapter<ReviewImageAdapter.ReviewImageViewHolder> {
     List<String> images;
-    public ReviewImageAdapter(List<String> images) {
+    List<Bitmap> bitmaps;
+    interface Listener {
+        void showImage(Bitmap bitmap);
+    }
+    Listener listener;
+    public ReviewImageAdapter(List<String> images, Listener listener) {
         this.images = images;
+        this.listener = listener;
+        bitmaps = new ArrayList<>(images.size());
     }
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     @NonNull
@@ -39,6 +47,7 @@ public class ReviewImageAdapter extends RecyclerView.Adapter<ReviewImageAdapter.
                         .asBitmap()
                         .load(images.get(position))
                         .submit();
+                bitmaps.add(futureTarget.get());
                 return futureTarget.get();
             })
             .subscribeOn(Schedulers.io())
@@ -49,6 +58,9 @@ public class ReviewImageAdapter extends RecyclerView.Adapter<ReviewImageAdapter.
                 Log.e("error", throwable.getMessage());
             })
         );
+        holder.binding.image.setOnClickListener(v->{
+            listener.showImage(bitmaps.get(position));
+        });
     }
 
     @Override

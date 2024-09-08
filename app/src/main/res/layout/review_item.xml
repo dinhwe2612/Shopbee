@@ -100,18 +100,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginBottom="10dp"
                 android:gravity="center_vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:text="Helpful"
-                    style="@style/Gray_Regular_11dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/like_icon"/>
+                    style="@style/Gray_Regular_14dp"/>
+                <com.varunest.sparkbutton.SparkButton
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    app:sparkbutton_activeImage="@drawable/like_icon_active"
+                    app:sparkbutton_inActiveImage="@drawable/like_icon"
+                    app:sparkbutton_primaryColor="@color/sky_blue"
+                    app:sparkbutton_secondaryColor="@color/sky_blue"
+                    app:sparkbutton_iconSize="18dp"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

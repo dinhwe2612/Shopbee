@@ -24,10 +24,24 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder> {
+public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder> implements ReviewImageAdapter.Listener{
     List<AmazonProductReviewResponse.Data.Review> reviews = new ArrayList<>();
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     List<ReviewImageAdapter> reviewImageAdapters = new ArrayList<>();
+
+    @Override
+    public void showImage(Bitmap bitmap) {
+        listener.showImage(bitmap);
+    }
+
+    public interface Listener {
+        void showImage(Bitmap bitmap);
+    }
+    Listener listener;
+    public ReviewAdapter(Listener listener) {
+        this.listener = listener;
+    }
+
     @NonNull
     @Override
     public ReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -87,12 +101,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         return reviews.size();
     }
 
-    public void setReviews(AmazonProductReviewResponse reviews) {
-        this.reviews = reviews.getData().getReviews();
-        for (int i = 0; i < this.reviews.size(); i++) {
-            reviewImageAdapters.add(new ReviewImageAdapter(this.reviews.get(i).getReview_images()));
+    public void addReviews(AmazonProductReviewResponse reviews) {
+        int oldSize = this.reviews.size();
+        int addSize = reviews.getData().getReviews().size();
+        this.reviews.addAll(reviews.getData().getReviews());
+        for (int i = 0; i < addSize; i++) {
+            reviewImageAdapters.add(new ReviewImageAdapter(this.reviews.get(oldSize + i).getReview_images(), this));
         }
-        notifyDataSetChanged();
+        notifyItemRangeInserted(oldSize, addSize);
     }
 
     public static class ReviewViewHolder extends RecyclerView.ViewHolder {

@@ -12,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -78,6 +80,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     @Override
     public void performDependencyInjection(FragmentComponent buildComponent) {
         buildComponent.inject(this);
+        viewModel.setNavigator(this);
     }
 
     @Override
@@ -86,17 +89,21 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
         if (getArguments() == null) throw new IllegalArgumentException("Arguments ProductDetailFragment cannot be null");
         asin = getArguments().getString("asin");
         binding = getViewDataBinding();
-        viewModel.setNavigator(this);
         setUpRecyclerView();
         syncData(asin);
         observeData();
-        binding.sparkButton.setOnClickListener(v -> viewModel.getNavigator().addFavorite());
-        binding.seeAll.setOnClickListener(v -> viewModel.getNavigator().goToReviews());
         binding.productName.setOnClickListener(v->{
             if (binding.productName.getMaxLines() == 2) {
                 binding.productName.setMaxLines(Integer.MAX_VALUE);
             } else {
                 binding.productName.setMaxLines(2);
+            }
+        });
+        viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
+            if (inProgress) {
+                dialogsManager.showLoadingDialog();
+            } else {
+                dialogsManager.dismiss(dialogsManager.LOADING_DIALOG);
             }
         });
         return binding.getRoot();
@@ -242,19 +249,35 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
 
     @Override
     public void option() {
-
+        PopupMenu popupMenu = new PopupMenu(getContext(), binding.iconMore);
+        popupMenu.inflate(R.menu.product_detail_menu);
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.menu_item_report) {
+                Toast.makeText(getContext(), "Your report has been sent", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            return false;
+        });
+        popupMenu.show();
     }
 
     @Override
     public void goToReviews() {
         Bundle bundle = new Bundle();
         bundle.putString("asin", asin);
+        bundle.putString("ratingNumber", amazonProductDetailsResponse.getData().getProduct_star_rating());
         NavHostFragment.findNavController(this).navigate(R.id.reviewFragment, bundle);
     }
 
     @Override
     public void tryItOn() {
         dialogsManager.showImagePickerDialog();
+    }
+
+    @Override
+    public void search() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.userSearchFragment);
     }
 
     @Override
