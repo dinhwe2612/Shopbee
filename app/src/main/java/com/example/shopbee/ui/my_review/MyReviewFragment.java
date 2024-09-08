@@ -19,7 +19,7 @@ import com.example.shopbee.ui.my_review.adapter.MyReviewAdapter;
 
 import javax.inject.Inject;
 
-public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewViewModel> implements MyReviewNavigator, DialogsManager.Listener, MyReviewAdapter.MoreVariationClickListener {
+public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsViewModel> implements MyReviewNavigator, DialogsManager.Listener, MyReviewAdapter.MoreVariationClickListener {
     @Inject
     DialogsManager dialogsManager;
     private MyReviewsBinding binding;

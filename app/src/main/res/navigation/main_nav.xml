@@ -91,4 +91,8 @@
         android:id="@+id/leaveFeedBackFragment"
         android:name="com.example.shopbee.ui.leave_feedback.LeaveFeedbackFragment"
         android:label="LeaveFeedbackFragment"/>
+    <fragment
+        android:id="@+id/myReviewFragment"
+        android:name="com.example.shopbee.ui.my_review.MyReviewFragment"
+        android:label="MyReviewFragment"/>
 </navigation>

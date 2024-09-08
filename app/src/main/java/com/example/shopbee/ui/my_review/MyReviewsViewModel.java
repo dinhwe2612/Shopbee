@@ -13,12 +13,12 @@ import java.util.List;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class MyReviewViewModel extends BaseViewModel<MyReviewNavigator> {
+public class MyReviewsViewModel extends BaseViewModel<MyReviewNavigator> {
     MutableLiveData<List<WriteReviewEvent>> reviewList = new MutableLiveData<>();
     public MutableLiveData<List<WriteReviewEvent>> getReviewList() {
         return reviewList;
     }
-    public MyReviewViewModel(Repository repository) {
+    public MyReviewsViewModel(Repository repository) {
         super(repository);
     }
     public void syncReviewList() {
