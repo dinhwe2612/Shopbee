@@ -125,4 +125,7 @@ dependencies {
 
     //Alert Dialog
     implementation("com.saadahmedev.popup-dialog:popup-dialog:2.0.0")
+
+    // loading dialog
+    implementation("com.github.razaghimahdi:Android-Loading-Dots:1.3.2")
 }

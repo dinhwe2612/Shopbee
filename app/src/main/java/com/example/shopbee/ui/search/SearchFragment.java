@@ -1,5 +1,7 @@
 package com.example.shopbee.ui.search;
 
+import static com.example.shopbee.data.model.filter.ProductCountry.BR;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -51,9 +53,15 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
 //        this.category = category;
 //        isInListView = 1;
 //    }
+
+    @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.HIDE_BOTTOM_BAR;
+    }
+
     @Override
     public int getBindingVariable() {
-        return BR.vm;
+        return 0;
     }
 
     @Override

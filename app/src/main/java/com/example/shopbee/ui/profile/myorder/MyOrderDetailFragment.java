@@ -157,7 +157,7 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                 backToMyOrder();
             }
         });
-
+        Log.d("MyOrderDetailFragment", "onViewCreated: " + status);
         binding.reorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

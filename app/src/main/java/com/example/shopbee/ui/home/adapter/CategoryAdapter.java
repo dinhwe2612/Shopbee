@@ -16,7 +16,7 @@ import java.util.List;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
     List<String> categoryTitle = new ArrayList<>(Arrays.asList(
             "Recommended for You",
-            "Refrigerators, Freezers & Ice Makers",
+            "Refrigerators & Freezers",
             "Laundry Appliances",
             "Ranges, Ovens & Cooktops",
             "Microwave Ovens",

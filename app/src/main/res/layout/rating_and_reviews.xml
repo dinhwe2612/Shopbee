@@ -11,35 +11,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/Background">
-    <androidx.cardview.widget.CardView
-        android:layout_width="128dp"
-        android:layout_height="36dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginEnd="15dp"
-        app:cardElevation="5dp"
-        app:cardCornerRadius="25dp"
-        android:outlineAmbientShadowColor="@color/red"
-        android:outlineSpotShadowColor="@color/red"
-        app:cardBackgroundColor="@color/red">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/pen_icon"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Write a review"
-                style="@style/White_SemiBold_11dp"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
     <RelativeLayout
         android:id="@+id/relativeLayout_ratingReviews"
         android:layout_width="match_parent"
@@ -73,31 +44,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
-                android:id="@+id/rating_number"
+                android:id="@+id/rating_number_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_alignParentStart="true">
                 <TextView
+                    android:id="@+id/rating_number"
                     style="@style/Black_SemiBold_44dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4.3" />
+                    tools:text="4.3" />
                 <TextView
+                    android:id="@+id/total_rating"
                     style="@style/Gray_Regular_14dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="23 ratings" />
+                    tools:text="23 ratings" />
             </LinearLayout>
             <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/ratingBar"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 app:srb_numStars="5"
-                app:srb_rating="4"
+                app:srb_rating="0"
                 app:srb_starWidth="34dp"
                 app:srb_starHeight="34dp"
                 app:srb_starPadding="5dp"
-                app:srb_stepSize="1"
+                app:srb_stepSize="0.1"
                 app:srb_isIndicator="true"
                 app:srb_clickable="true"
                 app:srb_scrollable="true"
@@ -105,7 +79,7 @@
                 app:srb_drawableEmpty="@drawable/star_empty_icon"
                 app:srb_drawableFilled="@drawable/star_full_icon"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/rating_number"
+                android:layout_toEndOf="@id/rating_number_layout"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"/>
@@ -115,10 +89,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical">
             <TextView
+                android:id="@+id/currentReviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:text="8 reviews"
+                tools:text="8 reviews"
                 style="@style/Black_SemiBold_24dp"/>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -156,10 +131,11 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginBottom="20dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                    android:layout_gravity="center_horizontal">
                     <TextView
+                        android:id="@+id/see_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="See more"

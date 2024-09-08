@@ -7,6 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/image4"
-        android:scaleType="centerCrop"
-        android:id="@+id/bannerImage"/>
+        android:scaleType="fitCenter"
+        android:id="@+id/bannerImage"
+        android:adjustViewBounds="true"/>
 </LinearLayout>

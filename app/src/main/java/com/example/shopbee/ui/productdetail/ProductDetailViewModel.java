@@ -2,6 +2,7 @@ package com.example.shopbee.ui.productdetail;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.http.HttpException;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -10,6 +11,8 @@ import com.example.shopbee.data.Repository;
 import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.ui.common.base.BaseViewModel;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -38,26 +41,26 @@ public class ProductDetailViewModel extends BaseViewModel<ProductDetailNavigator
         );
     }
     public void syncProductByCategory(HashMap<String, String> query) {
-        setIsLoading(true);
         getCompositeDisposable().add(getRepository().getAmazonProductByCategory(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
-                    setIsLoading(false);
                     productByCategory.setValue(result);
                 }, error -> {
-                    setIsLoading(false);
                     Log.e("syncProductDetails", "error on getAmazonProductByCategory: " + error.getMessage());
                 })
         );
     }
     public void syncTryOnImage(Bitmap personBitmap, String garmentUrl) {
+        setIsLoading(true);
         getCompositeDisposable().add(getRepository().getTryOnImage(personBitmap, garmentUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
                     tryOnImage.setValue(BitmapFactory.decodeStream(result.byteStream()));
                 }, error -> {
+                    setIsLoading(false);
+                    getNavigator().tryItOnFailed();
                     Log.e("syncTryOnImage", "error on getTryOnImage: " + error.getMessage());
                 })
         );

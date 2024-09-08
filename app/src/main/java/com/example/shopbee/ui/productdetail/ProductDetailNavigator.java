@@ -9,5 +9,7 @@ public interface ProductDetailNavigator {
     void option();
     void goToReviews();
     void tryItOn();
+    void search();
     void navigateUp();
+    void tryItOnFailed();
 }
