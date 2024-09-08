@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.shopbee.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.ViewToolbarBinding;
 

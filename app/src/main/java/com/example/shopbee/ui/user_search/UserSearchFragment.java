@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.library.baseAdapters.BR;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
@@ -41,7 +40,7 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
     SuggestionAdapter suggestionAdapter = new SuggestionAdapter();
     @Override
     public int getBindingVariable() {
-        return BR.vm;
+        return 0;
     }
 
     @Override

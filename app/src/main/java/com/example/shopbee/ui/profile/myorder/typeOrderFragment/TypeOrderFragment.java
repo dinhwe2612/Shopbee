@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -40,7 +39,7 @@ public class TypeOrderFragment extends BaseFragment<TypeOrderFragmentBinding, Ty
     }
     @Override
     public int getBindingVariable() {
-        return BR.vm;
+        return 0;
     }
 
     @Override

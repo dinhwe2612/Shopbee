@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.databinding.SearchSuggestionBinding;
 import com.example.shopbee.databinding.ShopItemBinding;
-import com.example.shopbee.generated.callback.OnClickListener;
 import com.example.shopbee.ui.search.adapter.ProductAdapter;
 
 import java.util.ArrayList;
