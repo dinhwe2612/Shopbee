@@ -185,7 +185,6 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                                                 .show();
                                         dialog.dismiss();
                                     }
-
                                     @Override
                                     public void onNegativeButtonClicked(Dialog dialog) {
                                         dialog.dismiss();
@@ -255,7 +254,7 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
     @Override
     public void reorder(OrderResponse orderResponse) {
         NavController navController = NavHostFragment.findNavController(this);
-        Bundle bundle = new Bundle();
+        Bundle bundle = new Bundle(); 
         bundle.putParcelable("orderResponse", orderResponse);
         navController.navigate(R.id.checkoutFragment, bundle);
     }
