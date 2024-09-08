@@ -28,7 +28,6 @@ public class     ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> i
     ToolbarView toolbarView;
     @Override
     public int getBindingVariable() {
-//        return BR.vm;
         return 0;
     }
 
