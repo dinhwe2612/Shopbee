@@ -42,6 +42,12 @@ public class SuccessFragment extends BaseFragment<SuccessBinding, SuccessViewMod
         buildComponent.inject(this);
         viewModel.setNavigator(this);
     }
+
+    @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.HIDE_BOTTOM_BAR;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);

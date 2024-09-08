@@ -46,6 +46,11 @@ public class LeaveFeedbackFragment extends BaseFragment<LeaveFeedbackBinding, Le
     }
 
     @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.HIDE_BOTTOM_BAR;
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         if (getArguments() == null) throw new IllegalArgumentException("Arguments LeaveFeedbackFragment cannot be null");

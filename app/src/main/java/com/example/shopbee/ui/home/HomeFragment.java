@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.OrientationHelper;
@@ -36,7 +38,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> implements HomeNavigator, DialogsManager.Listener {
+public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> implements HomeNavigator, DialogsManager.Listener, CategoryAdapter.Listener {
     HomeBinding binding;
     DealAdapter dealAdapter;
     DealAdapter newDealAdapter;
@@ -69,6 +71,10 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
+        binding.searchLayout.setOnClickListener(v -> {
+            NavController navController = NavHostFragment.findNavController(this);
+            navController.navigate(R.id.userSearchFragment);
+        });
         setUpToolbar();
 //        syncData();
         observeData();
@@ -115,7 +121,7 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
         binding.bannerRCV.setAdapter(new BannerAdapter());
         // category recycler view
         binding.categoriesRCV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.categoriesRCV.setAdapter(new CategoryAdapter());
+        binding.categoriesRCV.setAdapter(new CategoryAdapter(this));
         // deals recycler view
         binding.dealRCV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         dealAdapter = new DealAdapter(new ArrayList<AmazonDealsResponse.Data.Deal>());
@@ -148,5 +154,13 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
         if (event instanceof TwoOptionEvent) {
             Toast.makeText(getContext(), "TwoOptionEvent " + ((TwoOptionEvent) event).toString(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onCategoryClick(String categoryId) {
+        NavController navController = NavHostFragment.findNavController(this);
+        Bundle bundle = new Bundle();
+        bundle.putString("category", categoryId);
+        navController.navigate(R.id.searchFragment, bundle);
     }
 }

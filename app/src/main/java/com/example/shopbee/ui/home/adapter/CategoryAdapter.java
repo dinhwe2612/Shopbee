@@ -26,6 +26,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             "Vacuums & Floor Care",
             "Garbage Disposals & Compactors"
     ));
+    List<String> categoryId = new ArrayList<>(Arrays.asList(
+            "17921061011",
+            "18116194011",
+            "18116197011",
+            "289935",
+            "3741271",
+            "289913",
+            "18116199011",
+            "18116203011",
+            "18116205011"
+    ));
     List<String> categoryImageUrl = new ArrayList<>(Arrays.asList(
             "https://m.media-amazon.com/images/I/71-fHgdoOiL.jpg",
             "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQKdozrWx9puvplBhpgh-yA3DWNUPYDHI0tmEVo-U8At7D1dS41kPDABEdh-zmPEpO05PsfLpKZ9-l0xypKIRPP-8BKOS-eQJGNO6nDhia3YxSL-rXOEP2IYg&usqp=CAE",
@@ -38,6 +49,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             "https://m.media-amazon.com/images/S/al-na-9d5791cf-3faf/817742a4-be7a-44a1-a3f2-b5a5123ddcd4._SL480_.png",
             "https://m.media-amazon.com/images/I/71YX6If9RcL._AC_UF894,1000_QL80_.jpg"
     ));
+    public interface Listener {
+        void onCategoryClick(String categoryId);
+    }
+    Listener listener;
+    public CategoryAdapter(Listener listener) {
+        this.listener = listener;
+    }
     public static class CategoryHomeList {
         String title;
         String imageUrl;
@@ -62,6 +80,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         holder.binding.setCh(new CategoryHomeList(categoryTitle.get(position), categoryImageUrl.get(position)));
+        holder.binding.cardView.setOnClickListener(v -> {
+            listener.onCategoryClick(categoryId.get(position));
+        });
     }
 
     @Override

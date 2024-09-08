@@ -2,6 +2,7 @@ package com.example.shopbee.ui.common.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.example.shopbee.di.component.DaggerFragmentComponent;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.di.module.FragmentModule;
 import com.example.shopbee.ui.common.bottombar.BottomBarUserReactionImplementation;
+import com.example.shopbee.ui.main.MainActivity;
 
 import javax.inject.Inject;
 
@@ -82,6 +84,14 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         rootView = viewDataBinding.getRoot();
+        Log.d("onCreateView", this.getClass().getName());
+        if (requireActivity() instanceof MainActivity) {
+            if (getFragmentType() == BaseFragment.FragmentType.HIDE_BOTTOM_BAR) {
+                bottomBar.hideBottomBar();
+            } else {
+                bottomBar.showBottomBar();
+            }
+        }
         return rootView;
     }
 

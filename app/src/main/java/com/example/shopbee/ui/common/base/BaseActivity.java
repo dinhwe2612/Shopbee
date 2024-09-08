@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -59,15 +60,10 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
 
     @Override
     public void onFragmentAttached(BaseFragment fragment) {
-        if (fragment.getFragmentType() == BaseFragment.FragmentType.HIDE_BOTTOM_BAR) {
-            bottomBar.hideBottomBar();
-        }
+
     }
     @Override
     public void onFragmentDetached(BaseFragment fragment) {
-        if (fragment.getFragmentType() == BaseFragment.FragmentType.HIDE_BOTTOM_BAR) {
-            bottomBar.showBottomBar();
-        }
     }
 
     @Override
