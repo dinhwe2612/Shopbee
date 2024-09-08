@@ -112,7 +112,7 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
                                     FutureTarget<Bitmap> futureTarget = Glide.with(binding.imageView.getContext())
                                             .asBitmap()
                                             .load(products.get(position).getData().getProduct_photo())
-                                            .timeout(60000)
+                                            .timeout(600000)
                                             .submit();
                                     return futureTarget.get();
                                 })
