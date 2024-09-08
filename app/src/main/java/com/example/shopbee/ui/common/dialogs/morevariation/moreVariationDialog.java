@@ -27,6 +27,10 @@ import com.example.shopbee.ui.common.dialogs.morevariation.adapter.variationAdap
 import java.util.List;
 
 public class moreVariationDialog extends DialogFragment {
+    boolean hasQuantity = true;
+    public void setHasQuantity(boolean hasQuantity) {
+        this.hasQuantity = hasQuantity;
+    }
     private List<Pair<String, String>> variations;
     private OrderDetailResponse orderDetailResponse;
     private DialogsManager dialogsManager;
@@ -55,8 +59,11 @@ public class moreVariationDialog extends DialogFragment {
                 .into(binding.imageProduct);
         binding.name.setText(orderDetailResponse.getProduct_name());
         binding.price.setText(orderDetailResponse.getPrice());
-        binding.quantity.setText(String.valueOf(orderDetailResponse.getQuantity()));
-
+        if (hasQuantity) binding.quantity.setText(String.valueOf(orderDetailResponse.getQuantity()));
+        else {
+            binding.quantity.setVisibility(View.GONE);
+            binding.quantityText.setVisibility(View.GONE);
+        }
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         adapter = new variationAdapter(variations);

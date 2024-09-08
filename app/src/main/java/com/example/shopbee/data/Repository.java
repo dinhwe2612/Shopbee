@@ -39,10 +39,14 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -1099,12 +1103,23 @@ public class Repository {
             AtomicInteger processedReviews
     ) {
         if (processedReviews.incrementAndGet() == totalReviews) {
-            List<WriteReviewEvent> result = new ArrayList<>(events);
-            Collections.reverse(result);  // Reverse list to maintain order
-            emitter.onNext(result);
+            Collections.sort(events, (event1, event2) -> {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                try {
+                    Date date1 = dateFormat.parse(event1.getReviewDate());
+                    Date date2 = dateFormat.parse(event2.getReviewDate());
+                    return date2.compareTo(date1);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            });
+
+            emitter.onNext(events);
             emitter.onComplete();
         }
     }
+
 
     public void saveReviewForUser(WriteReviewEvent writeReviewEvent) {
         // save on database realtime

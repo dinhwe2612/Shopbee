@@ -42,6 +42,15 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
     public void setVariations(List<List<Pair<String, String>>> variations) {
         this.variations = variations;
     }
+
+    public List<AmazonProductDetailsResponse> getProducts() {
+        return products;
+    }
+
+    public List<List<Pair<String, String>>> getVariations() {
+        return variations;
+    }
+
     @NonNull
     @Override
     public FavoriteAdapterGridView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -82,22 +91,45 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private void setOnClickForViews() {
+            binding.addToBag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION) return;
+                    onItemClickListener.onAddToBagClick(products.get(position).getData().getAsin(), variations.get(position), binding.image);
+                }
+            });
+            binding.more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION) return;
+                    onItemClickListener.onMoreVariationOption(position);
+                }
+            });
+            binding.deleteFromList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION) return;
+                    onItemClickListener.onItemDeleteClick(products.get(position).getData().getAsin(), variations.get(position), position);
+//                    products.remove(position);
+//                    variations.remove(position);
+//                    notifyItemRemoved(position);
+//                    notifyItemRangeChanged(position, getItemCount());
+//                    notifyItemRemoved(position);
+//                    notifyDataSetChanged();
+                }
+            });
+        }
         private FavoriteGridItemBinding binding;
         public ViewHolder(@NonNull FavoriteGridItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            setOnClickForViews();
         }
         public void bindView(int position) {
-            binding.deleteFromList.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.onItemDeleteClick(products.get(position).getData().getAsin(), variations.get(position));
-                    products.remove(position);
-                    variations.remove(position);
-//                    notifyItemRemoved(position);
-                    notifyDataSetChanged();
-                }
-            });
             binding.itemFavoriteName.setText(products.get(position).getData().getProduct_title());
             if (products.get(position).getData().getProduct_star_rating() != null) {
                 binding.simpleRatingBar.setRating(Float.parseFloat(products.get(position).getData().getProduct_star_rating()));
