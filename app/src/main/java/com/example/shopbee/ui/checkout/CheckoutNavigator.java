@@ -4,6 +4,6 @@ public interface CheckoutNavigator {
     void handleError(String message);
     void changeShippingAddress();
     void changePaymentMethod();
-    void submitOrder();
     void backToPreviousFragment();
+    void navigateToSuccessFragment();
 }

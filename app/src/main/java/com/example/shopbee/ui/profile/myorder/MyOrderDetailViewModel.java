@@ -47,7 +47,4 @@ public class MyOrderDetailViewModel extends BaseViewModel {
         return userResponse;
     }
     public MutableLiveData<List<AmazonProductDetailsResponse>> getListDetailProducts() {return listDetailProducts;}
-    public void updateOrderFirebase(OrderResponse orderResponse){
-        getRepository().updateOrderFirebase(orderResponse);
-    }
 }

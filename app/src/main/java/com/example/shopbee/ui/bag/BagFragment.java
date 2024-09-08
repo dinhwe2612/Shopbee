@@ -323,12 +323,6 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         // Combine timestamp with random characters
         return "BEE-" + timestamp + builder.toString();
     }
-    private String DateTimeToFormat(){
-        Date now = new Date();
-        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("HH:mm yyyy-MM-dd");
-        String formattedDateTime = dateTimeFormat.format(now);
-        return formattedDateTime;
-    }
     @Override
     public void onClick(View view) {
         int sum_quantity = 0;
@@ -349,7 +343,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         OrderResponse orderResponse;
         if (promoCodeResponse.getValue() == null) {
             orderResponse = new OrderResponse(
-                    DateTimeToFormat(),
+                    "",
                     sum_quantity,
                     "processing",
                     generateUniqueOrderNumber(),
@@ -359,7 +353,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                     orderDetailResponseList);
         } else {
             orderResponse = new OrderResponse(
-                    DateTimeToFormat(),
+                    "",
                     sum_quantity,
                     "processing",
                     generateUniqueOrderNumber(),

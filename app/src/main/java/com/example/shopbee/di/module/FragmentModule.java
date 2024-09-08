@@ -15,7 +15,7 @@ import com.example.shopbee.ui.checkout.shipping.ShippingViewModel;
 import com.example.shopbee.ui.favorites.FavoritesViewModel;
 import com.example.shopbee.ui.home.HomeViewModel;
 import com.example.shopbee.ui.leave_feedback.LeaveFeedbackViewModel;
-import com.example.shopbee.ui.my_review.MyReviewViewModel;
+import com.example.shopbee.ui.my_review.MyReviewsViewModel;
 import com.example.shopbee.ui.productdetail.ProductDetailViewModel;
 import com.example.shopbee.ui.profile.ProfileViewModel;
 import com.example.shopbee.ui.profile.myorder.MyOrderDetailViewModel;
@@ -164,9 +164,9 @@ public class FragmentModule {
         return new ViewModelProvider(fragment, factory).get(LeaveFeedbackViewModel.class);
     }
     @Provides
-    public MyReviewViewModel provideMyReviewViewModel(Repository repository) {
-        Supplier<MyReviewViewModel> supplier = () -> new MyReviewViewModel(repository);
-        ViewModelProviderFactory<MyReviewViewModel> factory = new ViewModelProviderFactory<MyReviewViewModel>(MyReviewViewModel.class, supplier);
-        return new ViewModelProvider(fragment, factory).get(MyReviewViewModel.class);
+    public MyReviewsViewModel provideMyReviewsViewModel(Repository repository) {
+        Supplier<MyReviewsViewModel> supplier = () -> new MyReviewsViewModel(repository);
+        ViewModelProviderFactory<MyReviewsViewModel> factory = new ViewModelProviderFactory<MyReviewsViewModel>(MyReviewsViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(MyReviewsViewModel.class);
     }
 }

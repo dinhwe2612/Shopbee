@@ -36,7 +36,4 @@ public class CheckoutViewModel extends BaseViewModel {
     public void updateUserFirebase() {
         getRepository().updateUserFirebase();
     }
-    public void updateOrderFirebase(OrderResponse orderResponse) {
-        getRepository().updateOrderFirebase(orderResponse);
-    }
 }
