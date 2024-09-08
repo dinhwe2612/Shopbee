@@ -65,6 +65,11 @@ public class ModifyByMapFragment extends BaseFragment<ModifyByMapBinding, Modify
     }
 
     @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.HIDE_BOTTOM_BAR;
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
@@ -74,9 +79,6 @@ public class ModifyByMapFragment extends BaseFragment<ModifyByMapBinding, Modify
         saveButton = binding.buttonSave;
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.getBottomBar().hideBottomBar();
 
         saveButton.setOnClickListener(v -> {
             if (selectedLatLng != null) {

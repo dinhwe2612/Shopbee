@@ -66,6 +66,11 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
     }
 
     @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.SELECT_PROFILE_ICON;
+    }
+
+    @Override
     public void performDependencyInjection(FragmentComponent buildComponent) {
         buildComponent.inject(this);
         viewModel.setNavigator(this);

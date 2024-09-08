@@ -70,6 +70,10 @@ public class SettingsFragment extends BaseFragment<SettingsBinding, SettingsView
         viewModel.setNavigator(this);
     }
     @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.SELECT_PROFILE_ICON;
+    }
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = getViewDataBinding();

@@ -66,7 +66,6 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
         buildComponent.inject(this);
         viewModel.setNavigator(this);
     }
-
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

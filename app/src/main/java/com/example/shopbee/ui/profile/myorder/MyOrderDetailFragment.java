@@ -69,6 +69,12 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
         buildComponent.inject(this);
         viewModel.setNavigator(this);
     }
+
+    @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.SELECT_PROFILE_ICON;
+    }
+
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = getViewDataBinding();

@@ -55,6 +55,12 @@ public class ModifyAddressFragment extends BaseFragment<ModifyAddressBinding, Mo
     private List<CountryRespone> listCountry;
     private AddressResponse addressResponse;
     private UserResponse userResponse;
+
+    @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.HIDE_BOTTOM_BAR;
+    }
+
     @Inject
     DialogsManager dialogsManager;
     @Override

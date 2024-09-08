@@ -48,14 +48,17 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         buildComponent.inject(this);
         viewModel.setNavigator(this);
     }
+
+    @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.HIDE_BOTTOM_BAR;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
         orderResponse = getArguments().getParcelable("orderResponse");
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.getBottomBar().hideBottomBar();
-
         loadRealtimeData();
         setUpShippingAddress();
         setUpPaymentMethod();

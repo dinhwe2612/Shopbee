@@ -49,6 +49,11 @@ public class     ShopFragment extends BaseFragment<ShopBinding, ShopViewModel> i
     }
 
     @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.SELECT_SHOP_ICON;
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getViewDataBinding().topBar.addView(toolbarView.getRootView());

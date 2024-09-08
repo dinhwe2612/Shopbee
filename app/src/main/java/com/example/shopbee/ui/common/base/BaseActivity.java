@@ -12,12 +12,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
 
 import com.example.shopbee.BaseApplication;
 import com.example.shopbee.di.component.ActivityComponent;
 import com.example.shopbee.di.component.DaggerActivityComponent;
 import com.example.shopbee.di.module.ActivityModule;
 import com.example.shopbee.toolbar.ToolbarView;
+import com.example.shopbee.ui.common.bottombar.BottomBarUserReactionImplementation;
 import com.example.shopbee.ui.login.LoginActivity;
 import com.example.shopbee.utils.CommonUtils;
 
@@ -37,6 +39,9 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     @Inject
     protected V viewModel;
 
+    @Inject
+    protected BottomBarUserReactionImplementation bottomBar;
+
     /**
      * Override for set binding variable
      *
@@ -53,13 +58,16 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
 
 
     @Override
-    public void onFragmentAttached() {
-
+    public void onFragmentAttached(BaseFragment fragment) {
+        if (fragment.getFragmentType() == BaseFragment.FragmentType.HIDE_BOTTOM_BAR) {
+            bottomBar.hideBottomBar();
+        }
     }
-
     @Override
-    public void onFragmentDetached(String tag) {
-
+    public void onFragmentDetached(BaseFragment fragment) {
+        if (fragment.getFragmentType() == BaseFragment.FragmentType.HIDE_BOTTOM_BAR) {
+            bottomBar.showBottomBar();
+        }
     }
 
     @Override

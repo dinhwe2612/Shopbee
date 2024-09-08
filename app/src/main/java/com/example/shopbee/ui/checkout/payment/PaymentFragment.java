@@ -36,6 +36,12 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
     private ListOrderResponse listOrderResponse;
     private PaymentAdapter paymentAdapter;
     private RecyclerView recyclerView;
+
+    @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.HIDE_BOTTOM_BAR;
+    }
+
     @Inject
     DialogsManager dialogsManager;
     @Override

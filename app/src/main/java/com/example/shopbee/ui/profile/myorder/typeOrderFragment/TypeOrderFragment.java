@@ -31,9 +31,12 @@ public class TypeOrderFragment extends BaseFragment<TypeOrderFragmentBinding, Ty
     private UserResponse userResponse;
     private String statusOfOrder;
     TypeOrderFragmentBinding binding;
-
-    public TypeOrderFragment(String statusOfOrder){
-        this.statusOfOrder = statusOfOrder;
+    public static TypeOrderFragment newInstance(String orderType) {
+        TypeOrderFragment fragment = new TypeOrderFragment();
+        Bundle args = new Bundle();
+        args.putString("statusOfOrder", orderType);
+        fragment.setArguments(args);
+        return fragment;
     }
     @Override
     public int getBindingVariable() {
@@ -50,6 +53,8 @@ public class TypeOrderFragment extends BaseFragment<TypeOrderFragmentBinding, Ty
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         super.onCreateView(inflater, container, savedInstanceState);
+        if (getArguments() == null) throw new RuntimeException("Arguments of TypeOrderFragment cannot be null");
+        statusOfOrder = getArguments().getString("statusOfOrder");
         binding = getViewDataBinding();
         loadRealtimeData();
         setUpData();

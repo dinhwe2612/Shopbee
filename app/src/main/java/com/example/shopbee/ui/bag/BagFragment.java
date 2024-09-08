@@ -54,6 +54,12 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     MutableLiveData<PromoCodeResponse> promoCodeResponse = new MutableLiveData<>();
     BagAdapter bagAdapter = new BagAdapter();
     ToolbarView toolbarView;
+
+    @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.SELECT_BAG_ICON;
+    }
+
     @Override
     public int getBindingVariable() {
         return BR.vm;
@@ -392,8 +398,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     @Override
     public void onSaveToFavorites(String asin, List<Pair<String, String>> variations, ImageView imageView) {
         viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, variations, null);
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.getBottomBar().animateAddToFavorite(imageView, mainActivity.findViewById(R.id.main), Repository.UserVariation.FAVORITE);
+        bottomBar.animateAddToFavorite(imageView, requireActivity().findViewById(R.id.main), Repository.UserVariation.FAVORITE);
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.example.shopbee.BaseApplication;
 import com.example.shopbee.di.component.DaggerFragmentComponent;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.di.module.FragmentModule;
+import com.example.shopbee.ui.common.bottombar.BottomBarUserReactionImplementation;
 
 import javax.inject.Inject;
 
@@ -26,9 +27,24 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
     private View rootView;
     private T viewDataBinding;
 
-
     @Inject
     protected V viewModel;
+
+    public enum FragmentType {
+        SELECT_HOME_ICON,
+        SELECT_SHOP_ICON,
+        SELECT_BAG_ICON,
+        SELECT_FAVORITE_ICON,
+        SELECT_PROFILE_ICON,
+        NO_ACTION,
+        HIDE_BOTTOM_BAR
+    }
+    @Inject
+    protected BottomBarUserReactionImplementation bottomBar;
+
+    public FragmentType getFragmentType() {
+        return FragmentType.NO_ACTION;
+    }
 
     /**
      * Override for set binding variable
@@ -51,7 +67,7 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
         if (context instanceof BaseActivity) {
             BaseActivity activity = (BaseActivity) context;
             this.activity = activity;
-            activity.onFragmentAttached();
+            activity.onFragmentAttached(this);
         }
     }
 
@@ -71,6 +87,7 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
 
     @Override
     public void onDetach() {
+        activity.onFragmentDetached(this);
         activity = null;
         super.onDetach();
     }
@@ -81,6 +98,25 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
         viewDataBinding.setVariable(getBindingVariable(), viewModel);
         viewDataBinding.setLifecycleOwner(this);
         viewDataBinding.executePendingBindings();
+        switch (getFragmentType()) {
+            case SELECT_HOME_ICON:
+                bottomBar.update(0);
+                return;
+            case SELECT_SHOP_ICON:
+                bottomBar.update(1);
+                return;
+            case SELECT_BAG_ICON:
+                bottomBar.update(2);
+                return;
+            case SELECT_FAVORITE_ICON:
+                bottomBar.update(3);
+                return;
+            case SELECT_PROFILE_ICON:
+                bottomBar.update(4);
+                return;
+            default:
+                break;
+        }
     }
 
     public BaseActivity getBaseActivity() {
@@ -120,8 +156,8 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
 
     public interface Callback {
 
-        void onFragmentAttached();
+        void onFragmentAttached(BaseFragment fragment);
 
-        void onFragmentDetached(String tag);
+        void onFragmentDetached(BaseFragment fragment);
     }
 }

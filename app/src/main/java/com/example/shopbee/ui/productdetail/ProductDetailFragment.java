@@ -64,6 +64,7 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     AmazonProductDetailsResponse amazonProductDetailsResponse = new AmazonProductDetailsResponse();
     @Inject
     DialogsManager dialogsManager;
+
     @Override
     public int getBindingVariable() {
         return BR.vm;
@@ -278,17 +279,15 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
             OptionEvent optionEvent = (OptionEvent) event;
             if (optionEvent.getName() == "ADD FAVORITE") {
                 viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, optionEvent.getOptions(), null);
-                MainActivity mainActivity = (MainActivity) getActivity();
                 LinearLayoutManager layoutManager = (LinearLayoutManager) binding.prodPhotosRCV.getLayoutManager();
 //                mainActivity.getBottomBar().animateAddToFavorite((ImageView) layoutManager.getChildAt(layoutManager.findFirstVisibleItemPosition()), mainActivity.findViewById(R.id.main), Repository.UserVariation.FAVORITE);
-                mainActivity.getBottomBar().animateAddToFavorite(productPhotosAdapter.getCurrentView(), mainActivity.findViewById(R.id.main), Repository.UserVariation.FAVORITE);
+                bottomBar.animateAddToFavorite(productPhotosAdapter.getCurrentView(), requireActivity().findViewById(R.id.main), Repository.UserVariation.FAVORITE);
             }
             else if (optionEvent.getName() == "ADD TO BAG") {
                 // print out optionEvent
                 viewModel.getRepository().saveUserVariation(Repository.UserVariation.BAG, asin, optionEvent.getOptions(), optionEvent.getQuantity());
-                MainActivity mainActivity = (MainActivity) getActivity();
                 LinearLayoutManager layoutManager = (LinearLayoutManager) binding.prodPhotosRCV.getLayoutManager();
-                mainActivity.getBottomBar().animateAddToFavorite(productPhotosAdapter.getCurrentView(), mainActivity.findViewById(R.id.main), Repository.UserVariation.BAG);
+                bottomBar.animateAddToFavorite(productPhotosAdapter.getCurrentView(), requireActivity().findViewById(R.id.main), Repository.UserVariation.BAG);
             }
         } else if (event instanceof ImagePickerEvent) {
             ImagePickerEvent imagePickerEvent = (ImagePickerEvent) event;
