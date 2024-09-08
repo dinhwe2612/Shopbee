@@ -3,6 +3,7 @@ package com.example.shopbee.ui.common.dialogs;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
@@ -12,6 +13,7 @@ import com.example.shopbee.ui.common.dialogs.addNewCard.addNewCardDialog;
 import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryDialog;
 import com.example.shopbee.ui.common.dialogs.imagepickerdialog.ImagePickerDialog;
 import com.example.shopbee.ui.common.dialogs.imagepreviewdialog.ImagePreviewDialog;
+import com.example.shopbee.ui.common.dialogs.loadingdialog.LoadingDialog;
 import com.example.shopbee.ui.common.dialogs.morevariation.moreVariationDialog;
 import com.example.shopbee.ui.common.dialogs.optiondialog.OptionDialog;
 import com.example.shopbee.ui.common.dialogs.twooptiondialog.TwoOptionDialog;
@@ -23,14 +25,23 @@ import java.util.List;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class DialogsManager {
     Context context;
     final FragmentManager fragmentManager;
+    public String LOADING_DIALOG = "loading_dialog";
 
     public interface Listener {
         void onDialogEvent(Object event);
+    }
+    // provide a method to dismiss the dialog
+    public void dismiss(String tag) {
+        Fragment fragment = fragmentManager.findFragmentByTag(tag);
+        if (fragment != null) {
+            fragmentManager.beginTransaction().remove(fragment).commit();
+        }
     }
     Set<Listener> mListener = new HashSet<>();
     public final void registerListener(Listener listener) {
@@ -88,5 +99,9 @@ public class DialogsManager {
     public void moreVariation(OrderDetailResponse orderDetailResponse){
         moreVariationDialog dialog = moreVariationDialog.newInstance(this, orderDetailResponse);
         dialog.show(fragmentManager, "more_variation_dialog");
+    }
+    public void showLoadingDialog() {
+        LoadingDialog dialog = LoadingDialog.newInstance();
+        dialog.show(fragmentManager, "loading_dialog");
     }
 }

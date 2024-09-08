@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.razzaghimahdi78.dotsloading.linear.LoadingWavy
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:dots_color="@color/red"
+        app:dots_count="4"
+        app:dots_duration="400"
+        android:backgroundTint="@color/transparent"
+        android:background="@color/transparent"
+        android:backgroundTintMode="src_over"
+        android:layout_gravity="center"/>
+</layout>

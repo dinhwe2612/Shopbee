@@ -1,17 +1,21 @@
 package com.example.shopbee.ui.login;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.LoginBinding;
 import com.example.shopbee.di.component.ActivityComponent;
 import com.example.shopbee.ui.common.base.BaseActivity;
+import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.forgotpassword.ForgotPasswordActivity;
 import com.example.shopbee.ui.main.MainActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -23,11 +27,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import javax.inject.Inject;
+
 public class LoginActivity extends BaseActivity<LoginBinding, LoginViewModel>
     implements LoginNavigator{
     private static final int RC_SIGN_IN = 1000;
     LoginBinding loginBinding;
     GoogleSignInClient mGoogleSignInClient;
+    @Inject
+    DialogsManager dialogsManager;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, LoginActivity.class);
@@ -56,8 +64,14 @@ public class LoginActivity extends BaseActivity<LoginBinding, LoginViewModel>
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        viewModel.getInProgress().observe(this, isInProgress -> {
+            if (isInProgress) {
+                dialogsManager.showLoadingDialog();
+            } else {
+                dialogsManager.dismiss(dialogsManager.LOADING_DIALOG);
+            }
+        });
     }
 
     @Override

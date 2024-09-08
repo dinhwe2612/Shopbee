@@ -152,13 +152,14 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                 backToMyOrder();
             }
         });
-
+        Log.d("MyOrderDetailFragment", "onViewCreated: " + status);
         binding.reorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (status){
                     case "delivered":
                         reorder(orderResponse);
+                        break;
                     case "cancelled":
                         reorder(orderResponse);
                         break;
@@ -208,7 +209,8 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                 switch (status){
                     case "delivered":
                         navigateToFeedbackPage();
-//                        dialogsManager.showWriteReviewDialog();
+                        break;
+//                        diachochhhhhhhhhlogsManager.showWriteReviewDialog();
                     case "cancelled":
                         backToHomeFragment();
                         break;
