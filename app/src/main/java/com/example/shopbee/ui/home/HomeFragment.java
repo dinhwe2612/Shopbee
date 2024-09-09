@@ -87,6 +87,11 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
         return binding.getRoot();
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     void setOnClick() {
         binding.searchLayout.setOnClickListener(v -> {
             NavController navController = NavHostFragment.findNavController(this);
