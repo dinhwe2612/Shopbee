@@ -14,7 +14,7 @@ public class OrderDetailResponse implements Parcelable {
     private String price;
     private int quantity;
     private String urlImage;
-    private List<Pair<String, String>> variation;
+    private List<Pair<String, String>> variation = new ArrayList<>();
     private String product_star_rating; // New field
     private Integer product_num_ratings; // New field
 
@@ -97,14 +97,8 @@ public class OrderDetailResponse implements Parcelable {
     public List<Pair<String, String>> getVariation() {
         return variation;
     }
-    public void setVariation(Map<String, String> variationMap) {
-        this.variation = new ArrayList<>();
-        if (variationMap != null) {
-            for (Map.Entry<String, String> entry : variationMap.entrySet()) {
-                Pair<String, String> pair = new Pair<>(entry.getKey(), entry.getValue());
-                this.variation.add(pair);
-            }
-        }
+    public void setVariation(List<Pair<String, String>> variation) {
+        this.variation = variation;
     }
     public String getTotalPrice(){
         String numericString = price.replace("$", "");

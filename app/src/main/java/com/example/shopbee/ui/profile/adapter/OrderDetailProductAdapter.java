@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.profile.adapter;
 
+import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -49,6 +50,7 @@ public class OrderDetailProductAdapter extends RecyclerView.Adapter<OrderDetailP
         holder.binding.quantity.setText(String.valueOf(orderDetailResponse.getQuantity()));
         holder.binding.productName.setText(orderDetailResponse.getProduct_name());
         List<Pair<String, String>> variation = orderDetailResponse.getVariation();
+        Log.d("TAG", "variation: " + variation.get(0).first + " " + variation.get(0).second);
         if (variation != null && !variation.isEmpty()) {
             if (variation.size() == 1) {
                 holder.binding.variationText1.setVisibility(View.VISIBLE);
@@ -63,6 +65,9 @@ public class OrderDetailProductAdapter extends RecyclerView.Adapter<OrderDetailP
                 holder.binding.variation1.setVisibility(View.VISIBLE);
                 holder.binding.variationText2.setVisibility(View.VISIBLE);
                 holder.binding.variation2.setVisibility(View.VISIBLE);
+                for (Pair<String, String> pair : variation) {
+                    Log.d("TAG", "onBindViewHolder: " + pair.first + " " + pair.second);
+                }
                 holder.binding.variationText1.setText(variation.get(0).first + ":");
                 holder.binding.variation1.setText(variation.get(0).second);
                 holder.binding.variationText2.setText(variation.get(1).first + ":");
