@@ -36,7 +36,11 @@ public class BestSellerAdapter extends RecyclerView.Adapter<BestSellerAdapter.Be
         this.listener = listener;
     }
     public void setProducts(List<AmazonBestSellerResponse.Data.BestSeller> products) {
-        this.products = products;
+        if (products.size() > 10) {
+            this.products = products.subList(0, 10);
+        } else {
+            this.products = products;
+        }
         notifyDataSetChanged();
     }
     @NonNull
@@ -49,17 +53,10 @@ public class BestSellerAdapter extends RecyclerView.Adapter<BestSellerAdapter.Be
 
     @Override
     public void onBindViewHolder(@NonNull BestSellerViewHolder holder, int position) {
-        compositeDisposable.add(Observable.fromCallable(() -> {
-            FutureTarget<Bitmap> futureTarget = Glide.with(holder.itemView.getContext())
+        Glide.with(holder.itemView.getContext())
                     .asBitmap()
                     .load(products.get(position).getProduct_photo())
-                    .submit();
-                return futureTarget.get();
-            })
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(holder.binding.productImg::setImageBitmap)
-        );
+                    .into(holder.binding.productImg);
         holder.binding.title.setText(products.get(position).getProduct_title());
         holder.binding.curPrice.setText(products.get(position).getProduct_price());
         holder.binding.numRatings.setText(products.get(position).getProduct_num_ratings());
@@ -71,6 +68,7 @@ public class BestSellerAdapter extends RecyclerView.Adapter<BestSellerAdapter.Be
 
     @Override
     public int getItemCount() {
+        if (products == null) return 0;
         return products.size();
     }
 

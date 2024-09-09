@@ -155,121 +155,213 @@ public class CategoriesHashMap {
         categoriesLink.put("9473326011", "https://m.media-amazon.com/images/I/61rd1Rh3UiL._AC_UF1000,1000_QL80_.jpg");
 
         categories.put("1040660", "Clothing");
+        categoriesLink.put("1040660", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvRzz0rHGFZ4qXeVwD9L06KxEjiQxS8W2S0w&s");
         categories.put("679337011", "Shoes");
+        categoriesLink.put("679337011", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP7ogefkuTQo7yBpQtT2eBXnRp5RjrSqLa0A&s");
         categories.put("7192394011", "Jewelry");
+        categoriesLink.put("7192394011", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0m2m-NFX2yOnKb0TNTl6NY_R-WMdlxyP6ZA&s");
         categories.put("6358543011", "Watches");
+        categoriesLink.put("6358543011", "https://m.media-amazon.com/images/I/71mR1c5l70L._AC_UY350_.jpg");
         categories.put("15743631", "Handbags & Wallets");
+        categoriesLink.put("15743631", "https://m.media-amazon.com/images/I/71JaUbOpzzL._AC_UY900_.jpg");
         categories.put("2474936011", "Accessories");
+        categoriesLink.put("2474936011", "https://images-eu.ssl-images-amazon.com/images/G/42/SL/June/XCM_Manual_1443273_4798064_440x440_2X.jpg");
 
         categories.put("1040658", "Clothing");
+        categoriesLink.put("1040658", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGnxHQXNHSeKALkxZjzr9HZSlEe0-7Xm11tQ&s");
         categories.put("679255011", "Shoes");
+        categoriesLink.put("679255011", "https://m.media-amazon.com/images/I/614tgeynm4L._AC_UY900_.jpg");
         categories.put("3887881", "Jewelry");
+        categoriesLink.put("3887881", "https://m.media-amazon.com/images/I/616m-DZkNxL._UF894,1000_QL80_.jpg");
         categories.put("6358539011", "Watches");
+        categoriesLink.put("6358539011", "https://m.media-amazon.com/images/I/71JCcF4xHZL._AC_UY1000_.jpg");
         categories.put("2474937011", "Accessories");
+        categoriesLink.put("2474937011", "https://m.media-amazon.com/images/I/71iKrPi3DCL._AC_UY1000_.jpg");
 
         categories.put("1044512", "Clothing");
+        categoriesLink.put("1044512", "https://m.media-amazon.com/images/S/mms-media-storage-prod/final/BrandPosts/brandPosts/21e17501-5b42-45ab-aeb7-c598e6df2c90/6ee6d9e9-50a4-4917-a7d1-2166326f3245/media._SL480_.jpeg");
         categories.put("7239798011", "Shoes");
+        categoriesLink.put("7239798011", "https://m.media-amazon.com/images/I/616EV9uFprL._AC_UF894,1000_QL80_.jpg");
         categories.put("2478435011", "Accessories");
+        categoriesLink.put("2478435011", "https://m.media-amazon.com/images/S/al-na-9d5791cf-3faf/2f63bf24-5429-4b24-92e0-93bd3f97dfde._SL480_.jpg");
 
         categories.put("1044510","Clothing");
+        categoriesLink.put("1044510", "https://m.media-amazon.com/images/I/8146Jt8tJVL._AC_UF894,1000_QL80_.jpg");
         categories.put("7239799011", "Shoes");
+        categoriesLink.put("7239799011", "https://m.media-amazon.com/images/I/81e3SnEjmzS._AC_UY900_.jpg");
         categories.put("2478436011", "Accessories");
+        categoriesLink.put("2478436011", "https://m.media-amazon.com/images/I/719WAf7CH1L.jpg");
 
         categories.put("166742011", "Nursery Bedding");
+        categoriesLink.put("166742011", "https://m.media-amazon.com/images/I/61WDn5auQPL._AC_UF894,1000_QL80_.jpg");
         categories.put("1063280", "Blankets & Throws");
+        categoriesLink.put("1063280", "https://m.media-amazon.com/images/I/8148OcS6eDL._AC_UF894,1000_QL80_.jpg");
         categories.put("1199122", "Bed Pillows & Positioners");
+        categoriesLink.put("1199122", "https://m.media-amazon.com/images/S/al-na-9d5791cf-3faf/d4781fad-c4c1-46c2-9f7a-87c6ada35b5a._SL480_.jpg");
         categories.put("1063262", "Decorative Pillows, Inserts & Covers");
+        categoriesLink.put("1063262", "https://m.media-amazon.com/images/S/mms-media-storage-prod/final/BrandPosts/brandPosts/b6283012-5ad3-40d0-9ece-fc485091b0e4/34839003-158c-4634-82ff-b72f0a39a21c/media._SL480_.jpeg");
 
         categories.put("1063244", "Towels");
+        categoriesLink.put("1063244", "https://m.media-amazon.com/images/I/81vy2p+HAgL._AC_UF894,1000_QL80_.jpg");
         categories.put("335116011", "Bathroom Shelves");
+        categoriesLink.put("335116011", "https://m.media-amazon.com/images/S/al-na-9d5791cf-3faf/21bb290a-90e8-4e91-825c-f914f40453f5._SL480_.jpg");
         categories.put("3731671", "Bath Linen Sets");
+        categoriesLink.put("3731671", "https://m.media-amazon.com/images/I/917vvfyNP6L._AC_UF894,1000_QL80_.jpg");
         categories.put("1063242", "Bath Rugs");
+        categoriesLink.put("1063242", "https://m.media-amazon.com/images/I/81vSEefvOXL._AC_UF894,1000_QL80_.jpg");
 
         categories.put("1063308", "Bedroom Furniture");
+        categoriesLink.put("1063308", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFTaoZPvwLyKuqY4wpAkNfL1Qt3Ey2jJZAuQ&s");
         categories.put("1063318", "Living Room Furniture");
+        categoriesLink.put("1063318", "https://m.media-amazon.com/images/I/81MqH4LTA7L._AC_UF894,1000_QL80_.jpg");
         categories.put("3733781", "Kitchen & Dining Room Furniture");
+        categoriesLink.put("3733781", "https://m.media-amazon.com/images/I/81+RnLM+R7L._AC_UF894,1000_QL80_.jpg");
         categories.put("1063312", "Home Office Furniture");
+        categoriesLink.put("1063312", "https://m.media-amazon.com/images/I/91yPdiLwpBL._AC_UF894,1000_QL80_.jpg");
         categories.put("5422303011", "Game & Recreation Room Furniture");
+        categoriesLink.put("5422303011", "https://m.media-amazon.com/images/S/al-na-9d5791cf-3faf/420b9bbd-222c-48ba-be2b-bc21cd49845b._SL480_.jpeg");
 
         categories.put("5486428011", "Ceiling Lights");
+        categoriesLink.put("5486428011", "https://m.media-amazon.com/images/I/7155NnHr5dL._AC_UF894,1000_QL80_.jpg");
         categories.put("495362", "Ceiling Fans & Accessories");
+        categoriesLink.put("495362", "https://m.media-amazon.com/images/S/al-na-9d5791cf-3faf/764595e7-bff0-4484-8a11-0593906a2ce0._SL480_.jpg");
         categories.put("3736561", "Lamps & Shades");
+        categoriesLink.put("3736561", "https://m.media-amazon.com/images/I/61Z8U6hia6L._AC_UF894,1000_QL80_.jpg");
         categories.put("5486429011", "Wall Lights");
+        categoriesLink.put("5486429011", "https://m.media-amazon.com/images/I/51GqXZsdGOL._AC_UF894,1000_QL80_.jpg");
 
         categories.put("14554126011", "Air Conditioners");
+        categoriesLink.put("14554126011", "https://m.media-amazon.com/images/I/61G1U0BZACL._AC_UF894,1000_QL80_.jpg");
         categories.put("267554011", "Air Purifiers");
+        categoriesLink.put("267554011", "https://m.media-amazon.com/images/I/71hP5cdm+8L._AC_UF1000,1000_QL80_.jpg");
         categories.put("3737601", "Household Fans");
+        categoriesLink.put("3737601", "https://m.media-amazon.com/images/I/61B6kl5i0vL._AC_UF894,1000_QL80_.jpg");
         categories.put("1063284", "Stoves & Fireplaces");
+        categoriesLink.put("1063284", "https://m.media-amazon.com/images/I/616n+Kj0gfL._AC_UF894,1000_QL80_.jpg");
 
         categories.put("3743521", "Vacuums");
+        categoriesLink.put("3743521", "https://m.media-amazon.com/images/S/al-na-9d5791cf-3faf/cce996bc-0ab4-4f5d-a078-b7ba2ddcb579._SL480_.jpg");
         categories.put("11333721011", "Carpet & Upholstery Cleaners & Accessories");
+        categoriesLink.put("11333721011", "https://m.media-amazon.com/images/I/719CSrquYYL._AC_UF894,1000_QL80_.jpg");
         categories.put("11333725011", "Steam Cleaners, Steam Mops & Accessories");
+        categoriesLink.put("11333725011", "https://m.media-amazon.com/images/I/911zQs+vg-L.jpg");
 
         categories.put("510246", "Ironing Boards");
+        categoriesLink.put("510246", "https://m.media-amazon.com/images/I/71hOIn27WiL._AC_UF894,1000_QL80_.jpg");
         categories.put("510242", "Irons");
+        categoriesLink.put("510242", "https://m.media-amazon.com/images/I/61mBBqrgJhL._AC_UF894,1000_QL80_.jpg");
         categories.put("510248", "Garment Steamers");
+        categoriesLink.put("510248", "https://m.media-amazon.com/images/I/61dtcYvwMUL._AC_UF894,1000_QL80_.jpg");
 
         categories.put("2422430011", "Baskets, Bins & Containers");
+        categoriesLink.put("2422430011", "https://m.media-amazon.com/images/I/71OexVFpBwL._AC_UF894,1000_QL80_.jpg");
         categories.put("2423187011", "Clothing & Closet Storage");
+        categoriesLink.put("2423187011", "https://m.media-amazon.com/images/I/71X756iVmiL.jpg");
         categories.put("2422463011", "Racks, Shelves & Drawers");
+        categoriesLink.put("2422463011", "https://m.media-amazon.com/images/I/81vXftpoHhL._AC_UF894,1000_QL80_.jpg");
         categories.put("3744341", "Laundry Storage & Organization");
+        categoriesLink.put("3744341", "https://m.media-amazon.com/images/I/81NPf22cJrL.jpg");
 
         categories.put("172638", "Printer Ink & Toner");
+        categoriesLink.put("172638", "https://m.media-amazon.com/images/I/71YNZsK0h0L.jpg");
         categories.put("1069320", "Tape, Adhesives & Fasteners");
+        categoriesLink.put("1069320", "https://m.media-amazon.com/images/I/711VSIxOAnL._AC_UF894,1000_QL80_.jpg");
         categories.put("1069784", "Writing & Correction Supplies");
+        categoriesLink.put("1069784", "https://m.media-amazon.com/images/I/71V4pYi6gNL.jpg");
         categories.put("1069664", "Paper");
+        categoriesLink.put("1069784", "https://m.media-amazon.com/images/I/61Vq5LHY-lL._AC_UF894,1000_QL80_.jpg");
 
         categories.put("172518", "Calculators");
+        categoriesLink.put("172518", "https://m.media-amazon.com/images/I/81gCddxjppL.jpg");
         categories.put("172576", "Copiers");
+        categoriesLink.put("172576", "https://m.media-amazon.com/images/I/41v7t+EAAFL._AC_UF1000,1000_QL80_.jpg");
         categories.put("9424016011", "Printers & Accessories");
+        categoriesLink.put("9424016011", "https://m.media-amazon.com/images/I/31QqYWnIr7L._SR290,290_.jpg");
         categories.put("14759145011", "Video Projectors & Accessories");
+        categoriesLink.put("14759145011", "https://m.media-amazon.com/images/I/71LV06uzumL.jpg");
 
         categories.put("1068956", "Office Lighting");
+        categoriesLink.put("1068956", "https://m.media-amazon.com/images/S/al-na-9d5791cf-3faf/f1ce050f-bac1-4ee2-8f7a-7aa5868171b9._SL480_.jpg");
         categories.put("1069114", "Carts & Stands");
+        categoriesLink.put("1069114", "https://m.media-amazon.com/images/I/71ejWdi2rlL._AC_UF894,1000_QL80_.jpg");
         categories.put("1069222", "Tables");
+        categoriesLink.put("1069222", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-Lf0vWwgn2290RB-p8lBkQqN1u0INiTrUWA&s");
 
         categories.put("2975359011", "Food");
+        categoriesLink.put("2975359011", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ2dTifgpVKsX7tcIOHMWa8RdxzjRxnHr42w&s");
         categories.put("2975413011", "Toys");
+        categoriesLink.put("2975413011", "Toys");
         categories.put("2975377011", "Health Supplies");
+        categoriesLink.put("2975377011", "https://m.media-amazon.com/images/I/61y5u6XY6xL.jpg");
         categories.put("2975326011", "Beds & Furniture");
+        categoriesLink.put("2975326011", "https://m.media-amazon.com/images/I/918EVby+hnL._AC_UF1000,1000_QL80_.jpg");
 
         categories.put("2975243011", "Beds & Furniture");
+        categoriesLink.put("2975243011", "https://m.media-amazon.com/images/I/91Ob6wjGg2L.jpg");
         categories.put("2975259011", "Feeding & Watering Supplies");
+        categoriesLink.put("2975259011", "https://m.media-amazon.com/images/I/71MTlvMw5VL._AC_UF1000,1000_QL80_.jpg");
         categories.put("2975265011", "Food");
+        categoriesLink.put("2975265011", "https://m.media-amazon.com/images/I/712D6MbAnaL._AC_UF1000,1000_QL80_.jpg");
         categories.put("2975303011", "Toys");
+        categoriesLink.put("2975303011", "https://m.media-amazon.com/images/I/61NPu0p-wsL._AC_UF1000,1000_QL80_.jpg");
 
         categories.put("2975464011", "Aquarium Cleaners");
+        categoriesLink.put("2975464011", "https://m.media-amazon.com/images/I/719VY6i5BlL.jpg");
         categories.put("2975448011", "Aquarium Decorator");
+        categoriesLink.put("2975448011", "https://m.media-amazon.com/images/I/81wTpNbwEML._AC_UF894,1000_QL80_.jpg");
         categories.put("3048857011", "Aquarium Hydrometers");
+        categoriesLink.put("3048857011", "https://m.media-amazon.com/images/S/al-na-9d5791cf-3faf/da101607-7454-4f18-b1c7-ef9695d148aa._SL480_.jpg");
         categories.put("7955292011", "Aquariums & Fish Bowls");
+        categoriesLink.put("7955292011", "https://m.media-amazon.com/images/I/61K5VpLA1-L._AC_UF1000,1000_QL80_.jpg");
 
         categories.put("2975238011", "Food");
+        categoriesLink.put("2975238011", "https://m.media-amazon.com/images/I/91kFz2HPcNL._AC_UF1000,1000_QL80_.jpg");
         categories.put("2975222011", "Cages & Accessories");
+        categoriesLink.put("2975222011", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT132cJ9JZHkKLerDr3IpU4-eNjoUVeSCbqWQ&s");
         categories.put("2975234011", "Feeding & Watering Supplies");
+        categoriesLink.put("2975234011", "https://m.media-amazon.com/images/I/71lgfOXeQPL._AC_UF1000,1000_QL80_.jpg");
 
         categories.put("565098", "Desktops");
+        categoriesLink.put("565098", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRMPvjd_sR0P-zbotAwYxtRZTcKTOWTbxFtA&s");
         categories.put("565108", "Laptops");
+        categoriesLink.put("565108", "https://m.media-amazon.com/images/I/71aTEZOda0L.jpg");
         categories.put("1232597011", "Tablets");
+        categoriesLink.put("565108", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTU2YyTxCEV5m-ea5-9N8SwUXFyFEPLFjDL6Q&s");
 
         categories.put("11041841", "Chargers & Adapters");
+        categoriesLink.put("11041841", "https://m.media-amazon.com/images/I/61elgS6ncgL._AC_UF1000,1000_QL80_.jpg");
         categories.put("2243862011", "Cooling Pads & External Fans");
+        categoriesLink.put("2243862011", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0rkAfduzXkSYll4fhjtbvzD9a7lRH-gmHZw&s");
         categories.put("172470", "Bags, Cases & Sleeves");
+        categoriesLink.put("172470", "https://m.media-amazon.com/images/I/61Qta0u6sUS._AC_UF894,1000_QL80_.jpg");
 
         categories.put("3015426011", "Desktop Barebones");
+        categoriesLink.put("3015426011", "https://m.media-amazon.com/images/I/81L816JIBSL._AC_UF894,1000_QL80_.jpg");
         categories.put("3012292011", "External Components");
+        categoriesLink.put("3012292011", "https://m.media-amazon.com/images/S/al-na-9d5791cf-3faf/db711b42-8ed0-46b6-a7d8-675cafe2ce1c._SL480_.jpg");
         categories.put("17923671011", "Internal Components");
+        categoriesLink.put("17923671011", "https://m.media-amazon.com/images/I/41fWoqI9XJL._SR290,290_.jpg");
 
         categories.put("281052", "Digital Cameras");
+        categoriesLink.put("281052", "https://m.media-amazon.com/images/I/71NXowebfKL._AC_UF894,1000_QL80_.jpg");
         categories.put("499248", "Lenses");
+        categoriesLink.put("499248", "https://m.media-amazon.com/images/I/71wfYiuyYRL._AC_UF894,1000_QL80_.jpg");
         categories.put("499306", "Tripods & Monopods");
+        categoriesLink.put("499306", "https://m.media-amazon.com/images/I/71MPXuJuEjL._AC_UF1000,1000_QL80_.jpg");
 
         categories.put("2407748011", "Carrier Cell Phones");
+        categoriesLink.put("2407748011", "Carrier Cell Phones");
         categories.put("2407749011", "Unlocked Cell Phones");
+        categoriesLink.put("2407749011", "https://m.media-amazon.com/images/I/61Nvb4c-i0L._AC_UF894,1000_QL80_.jpg");
         categories.put("2407760011", "Cases, Holsters & Clips");
+        categoriesLink.put("2407760011", "https://m.media-amazon.com/images/I/612OrZZihJL._AC_UF894,1000_QL80_.jpg");
 
         categories.put("12097478011", "Earbud Headphones");
+        categoriesLink.put("12097478011", "https://m.media-amazon.com/images/I/51vZrA9+uIL.jpg");
         categories.put("12097480011", "On-Ear Headphones");
+        categoriesLink.put("12097478011", "https://m.media-amazon.com/images/I/71aBTe8lZkL._AC_UF894,1000_QL80_.jpg");
         categories.put("12097479011", "Over-Ear Headphones");
+        categoriesLink.put("12097479011", "https://m.media-amazon.com/images/I/613axEScHJL._AC_UF894,1000_QL80_.jpg");
 
         clothingCategories = new HashSet<>();
         clothingCategories.add("1040660");

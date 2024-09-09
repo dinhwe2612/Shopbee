@@ -223,6 +223,7 @@
                             style="@style/Black_Regular_16dp"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -255,6 +256,7 @@
                             style="@style/Black_Regular_16dp"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/payment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -420,7 +422,8 @@
                     android:layout_height="wrap_content"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     android:orientation="vertical"
-                    tools:listitem="@layout/deal_item"/>
+                    tools:listitem="@layout/deal_item"
+                    android:nestedScrollingEnabled="false"/>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

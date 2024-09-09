@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.navigation.NavController;
+import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -78,20 +79,45 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
-        binding.searchLayout.setOnClickListener(v -> {
-            NavController navController = NavHostFragment.findNavController(this);
-            navController.navigate(R.id.userSearchFragment);
-        });
         setOnClick();
         setUpToolbar();
-        syncData();
+        if (savedInstanceState == null) {
+            syncData();
+        } else {
+            Log.d("HomeFragment", "savedInstanceState is not null");
+        }
         observeData();
         setUpRecyclerView();
         return binding.getRoot();
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     void setOnClick() {
+        binding.searchLayout.setOnClickListener(v -> {
+            NavController navController = NavHostFragment.findNavController(this);
+            navController.navigate(R.id.userSearchFragment);
+        });
         binding.myOrder.setOnClickListener(v -> navigateToMyOrder());
+        binding.address.setOnClickListener(v -> {
+            NavController navController = NavHostFragment.findNavController(this);
+            navController.navigate(R.id.shippingFragment);
+        });
+        binding.shobeePay.setOnClickListener(v->{
+            NavController navController = NavHostFragment.findNavController(this);
+            navController.navigate(R.id.shopbeePayFragment);
+        });
+        binding.voucher.setOnClickListener(v->{
+            NavController navController = NavHostFragment.findNavController(this);
+//            navController.navigate(R.id.);
+        });
+        binding.payment.setOnClickListener(v->{
+            NavController navController = NavHostFragment.findNavController(this);
+            navController.navigate(R.id.paymentFragment);
+        });
     }
 
     void setUpToolbar() {

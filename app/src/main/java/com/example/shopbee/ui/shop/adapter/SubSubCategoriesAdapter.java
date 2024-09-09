@@ -32,7 +32,6 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SubSubCategoriesAdapter extends BaseAdapter<SubSubCategoriesAdapter.ViewHolder> {
-    CompositeDisposable compositeDisposable = new CompositeDisposable();
     private Context context;
     private ArrayList<String> subSubCategories;
     public SubSubCategoriesAdapter(Context context, String subCategory, ShopNavigator navigator) throws IOException {
@@ -77,28 +76,11 @@ public class SubSubCategoriesAdapter extends BaseAdapter<SubSubCategoriesAdapter
         public void bindView(int position) {
             binding.textView.setText(CategoriesHashMap.getInstance().getCategories().get(subSubCategories.get(position)));
 //            Glide.with(binding.imageView.getContext()).load(CategoriesHashMap.getInstance().getCategoriesLink(subSubCategories.get(position))).into(binding.imageView);
-            compositeDisposable.add(Observable.fromCallable(() -> {
-                       FutureTarget<Bitmap> futureTarget = Glide.with(binding.imageView.getContext())
-                       .asBitmap()
-                       .load(CategoriesHashMap.getInstance()
-                       .getCategoriesLink(subSubCategories.get(position)))
-                       .submit();
-                       return futureTarget.get();
-                   })
-                   .subscribeOn(Schedulers.io())
-                   .observeOn(AndroidSchedulers.mainThread())
-                   .subscribe(bitmap -> {
-                       binding.imageView.setImageBitmap(bitmap);
-                   }, throwable -> {
-                       Log.e("Exception", throwable.getMessage());
-                   })
-            );
+            Glide.with(binding.imageView.getContext())
+                    .asBitmap()
+                    .load(CategoriesHashMap.getInstance()
+                    .getCategoriesLink(subSubCategories.get(position)))
+                    .into(binding.imageView);
         }
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        compositeDisposable.clear();
     }
 }
