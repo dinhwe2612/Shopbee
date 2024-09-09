@@ -85,6 +85,7 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     public void onStop() {
         super.onStop();
         dialogsManager.unregisterListener(this);
+        binding.emptyFavorites.setVisibility(View.GONE);
     }
 
     @Override
@@ -98,59 +99,57 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
         if (viewModel.getRepository().getUserResponse() != null) {
-            viewModel.getFavoriteLists().observe(getViewLifecycleOwner(), lists ->{
-                if (lists.isEmpty()) {
-                    binding.emptyFavorites.setVisibility(View.VISIBLE);
+            setUpAdapter();
+            viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
+                if (inProgress) {
+                    binding.loading.setVisibility(View.VISIBLE);
+                    animateLoading();
+                } else {
+                    stopLoadingAnimations();
                     binding.loading.setVisibility(View.GONE);
+                }
+            });
+
+            viewModel.getFavoriteProducts().observe(getViewLifecycleOwner(), products -> {
+                if (products.size() == 0) {
+                    binding.emptyFavorites.setVisibility(View.VISIBLE);
                 }
                 else {
                     binding.emptyFavorites.setVisibility(View.GONE);
-//                    productAdapter = new FavoriteAdapter();
-                    productAdapter.setOnItemClickListener(this);
-
-//                    productAdapterGridView = new FavoriteAdapterGridView();
-                    productAdapterGridView.setOnItemClickListener(this);
-
-//        getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                    changeView(isInListView, null);
-
-                    viewModel.getFavoriteProducts().observe(getViewLifecycleOwner(), products -> {
-                        changeView(isInListView, products);
-                    });
-                    viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
-                        if (inProgress) {
-                            binding.loading.setVisibility(View.VISIBLE);
-                            animateLoading();
-                        } else {
-                            stopLoadingAnimations();
-                            binding.loading.setVisibility(View.GONE);
-                        }
-                    });
-//        viewModel.getFavoriteVariations().observe(getViewLifecycleOwner(), variations -> {
-//            changeView(isInListView, viewModel.getFavoriteProducts().getValue());
-//        });
-//        binding.imageView.setVisibility(View.VISIBLE);
-                    binding.imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            isInListView = !isInListView;
-                            changeView(isInListView, viewModel.getFavoriteProducts().getValue());
-                        }
-                    });
                 }
+                productAdapter.setProducts(products);
+                productAdapter.notifyDataSetChanged();
+                productAdapterGridView.setProducts(products);
+                productAdapterGridView.notifyDataSetChanged();
+                changeView(isInListView);
             });
-            viewModel.syncFavoriteLists();
-        } else {
-            getViewDataBinding().signIn.setVisibility(View.VISIBLE);
-            getViewDataBinding().signIn.setOnClickListener(new View.OnClickListener() {
+            viewModel.syncFavoriteProducts();
+
+            binding.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    startActivity(intent);
+                    isInListView = !isInListView;
+                    changeView(isInListView);
                 }
             });
+        } else {
+            dealWithNullUser();
         }
         return binding.getRoot();
+    }
+    public void setUpAdapter() {
+        productAdapter.setOnItemClickListener(this);
+        productAdapterGridView.setOnItemClickListener(this);
+    }
+    public void dealWithNullUser() {
+        getViewDataBinding().signIn.setVisibility(View.VISIBLE);
+        getViewDataBinding().signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void animateLoading() {
@@ -201,13 +200,13 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     public void onDialogEvent(Object event) {
 
     }
-    public void changeView(boolean isInListView, List<AmazonProductDetailsResponse> products) {
+    public void changeView(boolean isInListView) {
         if (isInListView) {
             binding.imageView.setImageResource(R.drawable.grid_view_icon);
 
-            productAdapter.setProducts(products);
-            productAdapter.setVariations(viewModel.getFavoriteVariations().getValue());
-            productAdapter.notifyDataSetChanged();
+//            productAdapter.setProducts(products);
+//            productAdapter.setVariations(viewModel.getFavoriteVariations().getValue());
+//            productAdapter.notifyDataSetChanged();
 //            productAdapter.setOnItemClickListener(this::onItemClick);
 
             getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -216,9 +215,9 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         else {
             binding.imageView.setImageResource(R.drawable.list_view_icon);
 
-            productAdapterGridView.setProducts(products);
-            productAdapterGridView.setVariations(viewModel.getFavoriteVariations().getValue());
-            productAdapterGridView.notifyDataSetChanged();
+//            productAdapterGridView.setProducts(products);
+//            productAdapterGridView.setVariations(viewModel.getFavoriteVariations().getValue());
+//            productAdapterGridView.notifyDataSetChanged();
 //            productAdapterGridView.setOnItemClickListener(this::onItemClick);
 
             getViewDataBinding().recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -236,20 +235,9 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
 
     @Override
     public void onItemDeleteClick(String asin, List<Pair<String, String>> variation, int position) {
-        List<List<Pair<String, String>>> variations = productAdapter.getVariations();
-        List<AmazonProductDetailsResponse> products = productAdapter.getProducts();
-        variations.remove(position);
-        products.remove(position);
-        productAdapter.setVariations(variations);
-        productAdapterGridView.setVariations(variations);
-        productAdapter.setProducts(products);
-        productAdapterGridView.setProducts(products);
-        productAdapter.notifyDataSetChanged();
-        productAdapterGridView.notifyDataSetChanged();
-        if (products.isEmpty()) {
-            binding.emptyFavorites.setVisibility(View.VISIBLE);
-            binding.loading.setVisibility(View.GONE);
-        }
+        List<OrderDetailResponse> orderDetailResponseList = viewModel.getFavoriteProducts().getValue();
+        orderDetailResponseList.remove(position);
+        viewModel.getFavoriteProducts().setValue(orderDetailResponseList);
         viewModel.getCompositeDisposable().add(viewModel.getRepository().deleteUserVariation(Repository.UserVariation.FAVORITE, asin, variation)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -270,15 +258,16 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     }
 
     @Override
-    public void onAddToBagClick(String asin, List<Pair<String, String>> variation, ImageView imageView) {
-        viewModel.getRepository().saveUserVariation(Repository.UserVariation.BAG, asin, variation, 1);
+    public void onAddToBagClick(int position, ImageView imageView) {
+        OrderDetailResponse orderDetailResponse = viewModel.getFavoriteProducts().getValue().get(position);
+        orderDetailResponse.setQuantity(1);
+        viewModel.getRepository().saveUserVariation(Repository.UserVariation.BAG, orderDetailResponse);
         bottomBar.animateAddToFavorite(imageView, requireActivity().findViewById(R.id.main), Repository.UserVariation.BAG);
     }
 
     @Override
     public void onMoreVariationOption(int position) {
-        AmazonProductDetailsResponse amazonProductDetailsResponse = viewModel.getFavoriteProducts().getValue().get(position);
-        OrderDetailResponse orderDetailResponse = new OrderDetailResponse(amazonProductDetailsResponse.getData().getAsin(), amazonProductDetailsResponse.getData().getProduct_title(), 0, amazonProductDetailsResponse.getData().getProduct_price(), amazonProductDetailsResponse.getData().getProduct_photo(), viewModel.getFavoriteVariations().getValue().get(position));
+        OrderDetailResponse orderDetailResponse = viewModel.getFavoriteProducts().getValue().get(position);
         moreVariationDialog dialog = moreVariationDialog.newInstance(dialogsManager, orderDetailResponse);
         dialog.setHasQuantity(false);
         dialog.show(requireActivity().getSupportFragmentManager(), "more_variation_dialog");

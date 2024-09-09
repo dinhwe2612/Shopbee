@@ -137,12 +137,12 @@ public class PromoCodeResponse {
         return bd.floatValue();
     }
 
-    public float processDiscount(float price) {
+    public Float processDiscount(float price) {
         float discount = Math.min(price * percent / 100, max_discount);
         return roundToTwoDecimalPlaces(discount);
     }
 
-    public float processPrice(float price) {
+    public Float processPrice(float price) {
         float finalPrice = Math.max(price - max_discount, price - price * percent / 100);
         return roundToTwoDecimalPlaces(finalPrice);
     }
