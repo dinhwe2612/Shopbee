@@ -28,6 +28,7 @@ public class MyReviewsViewModel extends BaseViewModel<MyReviewNavigator> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
                             reviewList.setValue(result);
+                            Log.e("FirebaseImageService", "syncReviewList: " + result.get(0).getReviewImages().size());
                             setIsLoading(false);
                         },
                         error -> {

@@ -36,6 +36,7 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
         void onChangeQuantity(String asin, List<Pair<String, String>> variations, boolean increase);
         void onSaveToFavorites(String asin, List<Pair<String, String>> variations, ImageView imageView);
         void onDeleteFromList(String asin, List<Pair<String, String>> variations, int position);
+        void onMoreVariationOption(int position);
     }
     onChangeQuantityListener onChangeQuantityListener;
     public void setOnChangeQuantityListener(onChangeQuantityListener onChangeQuantityListener) {
@@ -45,6 +46,19 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
     List<Integer> quantities = new ArrayList<>();
     List<AmazonProductDetailsResponse> products = new ArrayList<>();
     List<List<Pair<String, String>>> variations = new ArrayList<>();
+
+    public List<Integer> getQuantities() {
+        return quantities;
+    }
+
+    public List<List<Pair<String, String>>> getVariations() {
+        return variations;
+    }
+
+    public List<AmazonProductDetailsResponse> getProducts() {
+        return products;
+    }
+
     public BagAdapter() {
     }
     public void setQuantities(List<Integer> quantities) {
@@ -93,10 +107,88 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private void setOnClickForViews() {
+            binding.imageView3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION) return;
+                    onChangeQuantityListener.onChangeQuantity(products.get(position).getData().getAsin(), variations.get(position), true);
+                    quantities.set(position, quantities.get(position) + 1);
+//                    Log.e("quantity", "quantity: " + quantities.get(position));
+//                    notifyItemChanged(position);
+                    binding.textView5.setText(String.valueOf(quantities.get(position)));
+                }
+            });
+            binding.textView8.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION) return;
+                    onChangeQuantityListener.onMoreVariationOption(position);
+                }
+            });
+            binding.popupMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION) return;
+                    PopupMenu popupMenu = new PopupMenu(itemView.getContext(), view);
+                    popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            int position = getAdapterPosition();
+                            if (item.getItemId() == R.id.add_to_favorites_popup) {
+                                onChangeQuantityListener.onSaveToFavorites(products.get(position).getData().getAsin(), variations.get(position), binding.imageView);
+                                return true;
+                            } else if (item.getItemId() == R.id.delete_from_list_popup) {
+                                onChangeQuantityListener.onDeleteFromList(products.get(position).getData().getAsin(), variations.get(position), position);
+//                                quantities.remove(position);
+//                                products.remove(position);
+//                                variations.remove(position);
+//                                notifyItemRemoved(position);
+//                                notifyItemRangeChanged(position, getItemCount());
+//                                notifyDataSetChanged();
+//                                notifyItemRemoved(position);
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
+                    popupMenu.show();
+                }
+            });
+            binding.imageView2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION) return;
+                    if (quantities.get(position) > 1) {
+                        onChangeQuantityListener.onChangeQuantity(products.get(position).getData().getAsin(), variations.get(position), false);
+                        quantities.set(position, quantities.get(position) - 1);
+//                        notifyItemChanged(position);
+                        binding.textView5.setText(String.valueOf(quantities.get(position)));
+                    }
+                    else {
+                        onChangeQuantityListener.onDeleteFromList(products.get(position).getData().getAsin(), variations.get(position), position);
+//                        quantities.remove(position);
+//                        products.remove(position);
+//                        variations.remove(position);
+//                        notifyItemRemoved(position);
+//                        notifyItemRangeChanged(position, getItemCount());
+//                        notifyDataSetChanged();
+//                        notifyItemRemoved(position);
+//                        notifyItemRangeChanged(position, getItemCount());
+                    }
+                }
+            });
+        }
         private MyBagItemBinding binding;
         public ViewHolder(@NonNull MyBagItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            setOnClickForViews();
         }
         public void bindView(int position) {
             if (position >= products.size() || position >= quantities.size() || position >= variations.size()) {
@@ -112,7 +204,7 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
                                     FutureTarget<Bitmap> futureTarget = Glide.with(binding.imageView.getContext())
                                             .asBitmap()
                                             .load(products.get(position).getData().getProduct_photo())
-                                            .timeout(60000)
+                                            .timeout(600000)
                                             .submit();
                                     return futureTarget.get();
                                 })
@@ -141,62 +233,6 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
                 binding.textView8.setVisibility(View.GONE);
             }
             binding.textView5.setText(String.valueOf(quantities.get(position)));
-            binding.imageView3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onChangeQuantityListener.onChangeQuantity(products.get(position).getData().getAsin(), variations.get(position), true);
-                    quantities.set(position, quantities.get(position) + 1);
-//                    Log.e("quantity", "quantity: " + quantities.get(position));
-//                    notifyItemChanged(position);
-                    binding.textView5.setText(String.valueOf(quantities.get(position)));
-                }
-            });
-            binding.popupMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    PopupMenu popupMenu = new PopupMenu(itemView.getContext(), view);
-                    popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
-                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            if (item.getItemId() == R.id.add_to_favorites_popup) {
-                                onChangeQuantityListener.onSaveToFavorites(products.get(position).getData().getAsin(), variations.get(position), binding.imageView);
-                                return true;
-                            } else if (item.getItemId() == R.id.delete_from_list_popup) {
-                                onChangeQuantityListener.onDeleteFromList(products.get(position).getData().getAsin(), variations.get(position), position);
-                                quantities.remove(position);
-                                products.remove(position);
-                                variations.remove(position);
-                                notifyDataSetChanged();
-//                                notifyItemRemoved(position);
-                                return true;
-                            }
-                            return false;
-                        }
-                    });
-                    popupMenu.show();
-                }
-            });
-            binding.imageView2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (quantities.get(position) > 1) {
-                        onChangeQuantityListener.onChangeQuantity(products.get(position).getData().getAsin(), variations.get(position), false);
-                        quantities.set(position, quantities.get(position) - 1);
-//                        notifyItemChanged(position);
-                        binding.textView5.setText(String.valueOf(quantities.get(position)));
-                    }
-                    else {
-                        onChangeQuantityListener.onDeleteFromList(products.get(position).getData().getAsin(), variations.get(position), position);
-                        quantities.remove(position);
-                        products.remove(position);
-                        variations.remove(position);
-                        notifyDataSetChanged();
-//                        notifyItemRemoved(position);
-//                        notifyItemRangeChanged(position, getItemCount());
-                    }
-                }
-            });
         }
     }
 }

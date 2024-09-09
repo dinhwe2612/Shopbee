@@ -25,6 +25,10 @@ public class MyReviewAdapter extends RecyclerView.Adapter<MyReviewAdapter.ViewHo
         this.moreVariationClickListener = moreVariationClickListener;
     }
 
+    public List<WriteReviewEvent> getReviewList() {
+        return reviewList;
+    }
+
     private List<WriteReviewEvent> reviewList;
 
     public void setReviewList(List<WriteReviewEvent> reviewList) {

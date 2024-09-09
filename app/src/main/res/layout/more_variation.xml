@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:text="2$"/>
             <TextView
+                android:id="@+id/quantity_text"
                 style="@style/Black_Regular_14dp"
                 android:layout_marginStart="50dp"
                 android:layout_width="wrap_content"

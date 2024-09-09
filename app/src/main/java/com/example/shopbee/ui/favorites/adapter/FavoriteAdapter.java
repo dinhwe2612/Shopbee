@@ -30,8 +30,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHolder> {
     public interface OnItemClickListener {
         void onItemClick(String asin);
-        void onItemDeleteClick(String asin, List<Pair<String, String>> variation);
+        void onItemDeleteClick(String asin, List<Pair<String, String>> variation, int position);
         void onAddToBagClick(String asin, List<Pair<String, String>> variation, ImageView imageView);
+        void onMoreVariationOption(int position);
     }
     OnItemClickListener onItemClickListener;
 
@@ -45,6 +46,15 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
 //    public FavoriteAdapter(List<AmazonProductDetailsResponse> products) {
 //        this.products = products;
 //    }
+
+    public List<AmazonProductDetailsResponse> getProducts() {
+        return products;
+    }
+
+    public List<List<Pair<String, String>>> getVariations() {
+        return variations;
+    }
+
     public void setProducts(List<AmazonProductDetailsResponse> products) {
         this.products = products;
     }
@@ -80,34 +90,51 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private void setOnClickForViews() {
+            binding.deleteFromList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION) return;
+                    onItemClickListener.onItemDeleteClick(products.get(position).getData().getAsin(), variations.get(position), position);
+//                    products.remove(position);
+//                    variations.remove(position);
+//                    notifyItemRemoved(position);
+//                    notifyItemRangeChanged(position, getItemCount());
+//                    notifyItemRemoved(position);
+//                    notifyDataSetChanged();
+                }
+            });
+            binding.addToBag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION) return;
+                    onItemClickListener.onAddToBagClick(products.get(position).getData().getAsin(), variations.get(position), binding.image);
+                }
+            });
+            binding.more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION) return;
+                    onItemClickListener.onMoreVariationOption(position);
+                }
+            });
+        }
         private FavoriteItemBinding binding;
         public ViewHolder(@NonNull FavoriteItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            setOnClickForViews();
         }
         public void bindView(int position) {
-            binding.deleteFromList.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.onItemDeleteClick(products.get(position).getData().getAsin(), variations.get(position));
-                    products.remove(position);
-                    variations.remove(position);
-//                    notifyItemRemoved(position);
-                    notifyDataSetChanged();
-                }
-            });
             binding.itemFavoriteName.setText(products.get(position).getData().getProduct_title());
             if (products.get(position).getData().getProduct_star_rating() != null) {
                 binding.simpleRatingBar.setRating(Float.parseFloat(products.get(position).getData().getProduct_star_rating()));
             } else {
                 binding.simpleRatingBar.setRating(0);
             }
-            binding.addToBag.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.onAddToBagClick(products.get(position).getData().getAsin(), variations.get(position), binding.image);
-                }
-            });
             binding.numRating.setText("(" + products.get(position).getData().getProduct_num_ratings() + ")");
             binding.favoriteItemPrice.setText(products.get(position).getData().getProduct_price());
             // variation

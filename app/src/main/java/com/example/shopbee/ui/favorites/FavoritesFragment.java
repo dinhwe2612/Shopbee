@@ -22,10 +22,12 @@ import com.example.shopbee.R;
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
+import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.databinding.FavoritesBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.example.shopbee.ui.common.dialogs.morevariation.moreVariationDialog;
 import com.example.shopbee.ui.favorites.adapter.FavoriteAdapter;
 import com.example.shopbee.ui.favorites.adapter.FavoriteAdapterGridView;
 import com.example.shopbee.ui.login.LoginActivity;
@@ -96,7 +98,6 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
         if (viewModel.getRepository().getUserResponse() != null) {
-            viewModel.syncFavoriteLists();
             viewModel.getFavoriteLists().observe(getViewLifecycleOwner(), lists ->{
                 if (lists.isEmpty()) {
                     binding.emptyFavorites.setVisibility(View.VISIBLE);
@@ -138,7 +139,7 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
                     });
                 }
             });
-
+            viewModel.syncFavoriteLists();
         } else {
             getViewDataBinding().signIn.setVisibility(View.VISIBLE);
             getViewDataBinding().signIn.setOnClickListener(new View.OnClickListener() {
@@ -234,13 +235,28 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     }
 
     @Override
-    public void onItemDeleteClick(String asin, List<Pair<String, String>> variation) {
+    public void onItemDeleteClick(String asin, List<Pair<String, String>> variation, int position) {
+        List<List<Pair<String, String>>> variations = productAdapter.getVariations();
+        List<AmazonProductDetailsResponse> products = productAdapter.getProducts();
+        variations.remove(position);
+        products.remove(position);
+        productAdapter.setVariations(variations);
+        productAdapterGridView.setVariations(variations);
+        productAdapter.setProducts(products);
+        productAdapterGridView.setProducts(products);
+        productAdapter.notifyDataSetChanged();
+        productAdapterGridView.notifyDataSetChanged();
+        if (products.isEmpty()) {
+            binding.emptyFavorites.setVisibility(View.VISIBLE);
+            binding.loading.setVisibility(View.GONE);
+        }
         viewModel.getCompositeDisposable().add(viewModel.getRepository().deleteUserVariation(Repository.UserVariation.FAVORITE, asin, variation)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(success -> {
                                     if (success) {
-                                        viewModel.syncFavoriteListsOnly();
+//                                        viewModel.getFavoriteProducts().getValue().remove(position);
+//                                        viewModel.syncFavoriteListsOnly();
 //                        viewModel.getBagProducts().setValue(viewModel.getBagProducts().getValue());
                                         // Handle successful deletion
                                     } else {
@@ -257,5 +273,14 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     public void onAddToBagClick(String asin, List<Pair<String, String>> variation, ImageView imageView) {
         viewModel.getRepository().saveUserVariation(Repository.UserVariation.BAG, asin, variation, 1);
         bottomBar.animateAddToFavorite(imageView, requireActivity().findViewById(R.id.main), Repository.UserVariation.BAG);
+    }
+
+    @Override
+    public void onMoreVariationOption(int position) {
+        AmazonProductDetailsResponse amazonProductDetailsResponse = viewModel.getFavoriteProducts().getValue().get(position);
+        OrderDetailResponse orderDetailResponse = new OrderDetailResponse(amazonProductDetailsResponse.getData().getAsin(), amazonProductDetailsResponse.getData().getProduct_title(), 0, amazonProductDetailsResponse.getData().getProduct_price(), amazonProductDetailsResponse.getData().getProduct_photo(), viewModel.getFavoriteVariations().getValue().get(position));
+        moreVariationDialog dialog = moreVariationDialog.newInstance(dialogsManager, orderDetailResponse);
+        dialog.setHasQuantity(false);
+        dialog.show(requireActivity().getSupportFragmentManager(), "more_variation_dialog");
     }
 }

@@ -29,6 +29,7 @@ import com.example.shopbee.toolbar.ToolbarView;
 import com.example.shopbee.ui.bag.adapter.BagAdapter;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.example.shopbee.ui.common.dialogs.morevariation.moreVariationDialog;
 import com.example.shopbee.ui.common.dialogs.promoCode.PromoCodeDialog;
 import com.example.shopbee.ui.login.LoginActivity;
 import com.example.shopbee.ui.main.MainActivity;
@@ -81,12 +82,13 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         super.onViewCreated(view, savedInstanceState);
 //        getViewDataBinding().topBar.addView(toolbarView.getRootView());
         if (viewModel.getRepository().getUserResponse() != null) {
-            viewModel.syncBagLists();
+            displayOptionsForBag(View.GONE, View.GONE);
             getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
             getViewDataBinding().recyclerView.setAdapter(bagAdapter);
             bagAdapter.setOnChangeQuantityListener(this);
             viewModel.getBagProducts().observe(getViewLifecycleOwner(), products -> {
                 doneLoadingProducts = true;
+                viewModel.getBagProducts().removeObservers(getViewLifecycleOwner());
                 bagAdapter.setQuantities(viewModel.getBagQuantities().getValue());
                 bagAdapter.setVariations(viewModel.getBagVariations().getValue());
                 bagAdapter.setProducts(products);
@@ -109,7 +111,9 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                 }
             });
             viewModel.getBagQuantities().observe(getViewLifecycleOwner(), lists -> {
+                Log.d("update bag lists", "observe quantities");
                 if (lists.isEmpty()) {
+                    Log.d("update bag lists", "observe quantities empty lists");
                     getViewDataBinding().loading.setVisibility(View.GONE);
                     displayOptionsForBag(View.GONE, View.VISIBLE);
                 }
@@ -143,16 +147,19 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
             });
             viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
                 if (inProgress) {
+//                    displayOptionsForBag(View.GONE, View.GONE);
                     getViewDataBinding().loading.setVisibility(View.VISIBLE);
                     animateLoading();
 //                showProgressDialog();
                 } else {
+//                    displayOptionsForBag(View.VISIBLE, View.GONE);
                     stopLoadingAnimations();
                     getViewDataBinding().loading.setVisibility(View.GONE);
                     getViewDataBinding().recyclerView.setVisibility(View.VISIBLE);
 //                hideProgressDialog();
                 }
             });
+            viewModel.syncBagLists();
             viewModel.getPromoCodes().observe(getViewLifecycleOwner(), result -> {
                 Log.d("result", "open promoCodeDialog");
                 PromoCodeDialog promoCodeDialog = PromoCodeDialog.newInstance(dialogsManager);
@@ -173,16 +180,18 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
 
                 }
             });
-            promoCodeResponse.observe(getViewLifecycleOwner(), updatedPromoCode ->{
-                if (updatedPromoCode != null) {
-                    getViewDataBinding().promoCodeText.setText(updatedPromoCode.getCode());
-                    getViewDataBinding().discountTotal.setText("-" + updatedPromoCode.processDiscount(getPriceTotal()) + "$");
-                    getViewDataBinding().afterDiscountTotal.setText(updatedPromoCode.processPrice(getPriceTotal()) + "$");
-                }
-                else {
-                    getViewDataBinding().promoCodeText.setText("");
-                    getViewDataBinding().discountTotal.setText("-" + 0 + "$");
-                    getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
+            promoCodeResponse.observe(getViewLifecycleOwner(), updatedPromoCode -> {
+                if (doneLoadingProducts) {
+                    if (updatedPromoCode != null) {
+                        getViewDataBinding().promoCodeText.setText(updatedPromoCode.getCode());
+                        getViewDataBinding().discountTotal.setText("-" + updatedPromoCode.processDiscount(getPriceTotal()) + "$");
+                        getViewDataBinding().afterDiscountTotal.setText(updatedPromoCode.processPrice(getPriceTotal()) + "$");
+                    }
+                    else {
+                        getViewDataBinding().promoCodeText.setText("");
+                        getViewDataBinding().discountTotal.setText("-" + 0 + "$");
+                        getViewDataBinding().afterDiscountTotal.setText(getPriceTotal() + "$");
+                    }
                 }
             });
             getViewDataBinding().checkOut.setOnClickListener(this);
@@ -397,14 +406,24 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
 
     @Override
     public void onDeleteFromList(String asin, List<Pair<String, String>> variations, int position) {
+        List<Integer> quantities = bagAdapter.getQuantities();
+        quantities.remove(position);
+        bagAdapter.setQuantities(quantities);
+        List<List<Pair<String, String>>> newVariations = bagAdapter.getVariations();
+        newVariations.remove(position);
+        bagAdapter.setVariations(newVariations);
+        List<AmazonProductDetailsResponse> products = bagAdapter.getProducts();
+        products.remove(position);
+        bagAdapter.setProducts(products);
+        bagAdapter.notifyDataSetChanged();
         viewModel.getCompositeDisposable().add(viewModel.getRepository().deleteUserVariation(Repository.UserVariation.BAG, asin, variations)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(success -> {
                             if (success) {
                                 // Handle successful update
-                                viewModel.syncBagListsOnly();
                                 viewModel.getBagProducts().getValue().remove(position);
+                                viewModel.syncBagListsOnly();
                             } else {
                                 // Handle failure
                             }
@@ -414,7 +433,18 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                         })
         );
     }
+
+    @Override
+    public void onMoreVariationOption(int position) {
+        AmazonProductDetailsResponse amazonProductDetailsResponse = viewModel.getBagProducts().getValue().get(position);
+        OrderDetailResponse orderDetailResponse = new OrderDetailResponse(amazonProductDetailsResponse.getData().getAsin(), amazonProductDetailsResponse.getData().getProduct_title(), 0, amazonProductDetailsResponse.getData().getProduct_price(), amazonProductDetailsResponse.getData().getProduct_photo(), viewModel.getBagVariations().getValue().get(position));
+        moreVariationDialog dialog = moreVariationDialog.newInstance(dialogsManager, orderDetailResponse);
+        dialog.setHasQuantity(false);
+        dialog.show(requireActivity().getSupportFragmentManager(), "more_variation_dialog");
+    }
+
     public void displayOptionsForBag(int visibility, int emptyBagVisibility) {
+        Log.d("update price", "displayOptionsForBag" + visibility + emptyBagVisibility);
         getViewDataBinding().emptyBag.setVisibility(emptyBagVisibility);
         getViewDataBinding().linearLayout.setVisibility(visibility);
         getViewDataBinding().textView2.setVisibility(visibility);

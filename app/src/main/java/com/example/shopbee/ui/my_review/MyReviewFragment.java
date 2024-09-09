@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
@@ -15,7 +16,11 @@ import com.example.shopbee.databinding.MyReviewsBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.example.shopbee.ui.common.dialogs.writereivewdialog.WriteReviewEvent;
 import com.example.shopbee.ui.my_review.adapter.MyReviewAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -24,9 +29,10 @@ public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsVi
     DialogsManager dialogsManager;
     private MyReviewsBinding binding;
     private MyReviewAdapter myReviewAdapter = new MyReviewAdapter();
+    private MyReviewAdapter withPhotoMyReviewAdapter = new MyReviewAdapter();
     @Override
     public int getBindingVariable() {
-        return BR.vm;
+        return 0;
     }
 
     @Override
@@ -68,6 +74,7 @@ public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsVi
                 setUpRecyclerView();
             }
         });
+        withPhotoReviews();
         return binding.getRoot();
     }
     public void animateLoading() {
@@ -120,9 +127,33 @@ public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsVi
     }
     public void observeReviewList() {
         viewModel.getReviewList().observe(getViewLifecycleOwner(), reviewList -> {
+            binding.numReviews.setText(reviewList.size() + " Reviews");
             myReviewAdapter.setReviewList(reviewList);
             myReviewAdapter.notifyDataSetChanged();
+            List< WriteReviewEvent> events = new ArrayList<>();
+            for (int i = 0; i < reviewList.size(); i++) {
+                if (reviewList.get(i).getReviewImages().size() > 0) {
+                    events.add(reviewList.get(i));
+                }
+            }
+            withPhotoMyReviewAdapter.setReviewList(events);
         });
+    }
+
+    public void withPhotoReviews() {
+        binding.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    binding.numReviews.setText(withPhotoMyReviewAdapter.getReviewList().size() + " Reviews");
+                    binding.reviewRCV.setAdapter(withPhotoMyReviewAdapter);
+                } else {
+                    binding.numReviews.setText(myReviewAdapter.getReviewList().size() + " Reviews");
+                    binding.reviewRCV.setAdapter(myReviewAdapter);
+                }
+            }
+        });
+
     }
 
     @Override
