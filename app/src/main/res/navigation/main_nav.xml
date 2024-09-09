@@ -95,4 +95,8 @@
         android:id="@+id/myReviewFragment"
         android:name="com.example.shopbee.ui.my_review.MyReviewFragment"
         android:label="MyReviewFragment"/>
+    <fragment
+        android:id="@+id/shopbeePayFragment"
+        android:name="com.example.shopbee.ui.shopbeepay.ShopbeePayFragment"
+        android:label="ShopbeePayFragment" />
 </navigation>

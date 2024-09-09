@@ -77,7 +77,7 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
 
     @Override
     public FragmentType getFragmentType() {
-        return FragmentType.SELECT_PROFILE_ICON;
+        return FragmentType.HIDE_BOTTOM_BAR;
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {

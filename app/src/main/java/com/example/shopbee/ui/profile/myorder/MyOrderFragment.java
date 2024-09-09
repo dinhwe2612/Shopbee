@@ -50,7 +50,7 @@ public class MyOrderFragment extends BaseFragment<MyOrdersBinding, MyOrderViewMo
     }
     @Override
     public FragmentType getFragmentType() {
-        return FragmentType.SELECT_PROFILE_ICON;
+        return FragmentType.HIDE_BOTTOM_BAR;
     }
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

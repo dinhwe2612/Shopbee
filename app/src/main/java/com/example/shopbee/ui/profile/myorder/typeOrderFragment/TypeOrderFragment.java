@@ -50,6 +50,12 @@ public class TypeOrderFragment extends BaseFragment<TypeOrderFragmentBinding, Ty
         buildComponent.inject(this);
         viewModel.setNavigator(this);
     }
+
+    @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.HIDE_BOTTOM_BAR;
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         super.onCreateView(inflater, container, savedInstanceState);
         if (getArguments() == null) throw new RuntimeException("Arguments of TypeOrderFragment cannot be null");

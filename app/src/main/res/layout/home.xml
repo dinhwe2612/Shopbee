@@ -223,6 +223,7 @@
                             style="@style/Black_Regular_16dp"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -255,6 +256,7 @@
                             style="@style/Black_Regular_16dp"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/payment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
