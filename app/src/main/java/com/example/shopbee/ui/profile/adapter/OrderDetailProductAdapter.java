@@ -50,7 +50,7 @@ public class OrderDetailProductAdapter extends RecyclerView.Adapter<OrderDetailP
         holder.binding.quantity.setText(String.valueOf(orderDetailResponse.getQuantity()));
         holder.binding.productName.setText(orderDetailResponse.getProduct_name());
         List<Pair<String, String>> variation = orderDetailResponse.getVariation();
-        Log.d("TAG", "variation: " + variation.get(0).first + " " + variation.get(0).second);
+//        Log.d("TAG", "variation: " + variation.get(0).first + " " + variation.get(0).second);
         if (variation != null && !variation.isEmpty()) {
             if (variation.size() == 1) {
                 holder.binding.variationText1.setVisibility(View.VISIBLE);

@@ -160,7 +160,12 @@ public class Repository {
                                     orderDetailResponseObj.setQuantity(orderDetailSnapshot.child("quantity").getValue(Integer.class));
                                     orderDetailResponseObj.setPrice(orderDetailSnapshot.child("price").getValue(String.class));
                                     orderDetailResponseObj.setUrlImage(orderDetailSnapshot.child("urlImage").getValue(String.class));
-                                    List<Pair<String, String>> listVariation = (List<Pair<String, String>>) orderDetailSnapshot.child("variation").getValue();
+                                    List<Pair<String, String>> listVariation = new ArrayList<>();
+                                    for (DataSnapshot variationSnapshot : orderDetailSnapshot.child("variation").getChildren()) {
+                                        Map<String, String> map = (Map<String, String>) variationSnapshot.getValue();
+                                        Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
+                                        listVariation.add(pair);
+                                    }
                                     orderDetailResponseObj.setVariation(listVariation);
                                     orderDetailList.add(orderDetailResponseObj);
                                 }
