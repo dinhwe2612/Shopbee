@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.shopbee.data.model.api.AmazonBestSellerResponse;
 import com.example.shopbee.data.model.api.AmazonDealsResponse;
 import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
@@ -1093,5 +1094,8 @@ public class Repository {
 //                Log.e("FirebaseImageService", "Failed to upload image", exception);
             });
         }
+    }
+    public Observable<AmazonBestSellerResponse> getAmazonBestSeller(HashMap<String, String> map) {
+        return amazonApiService.getAmazonBestSeller(map);
     }
 }

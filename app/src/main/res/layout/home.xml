@@ -90,14 +90,15 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="360dp"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_below="@+id/bannerLayout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="-10dp"
                 app:cardElevation="25dp"
                 app:cardCornerRadius="10dp"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:layout_marginStart="30dp">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -197,34 +198,82 @@
                 android:layout_width="match_parent"
                 android:layout_height="380dp"
                 android:layout_below="@id/bannerLayout"
-                android:background="#DAFFFFFF">
-                <HorizontalScrollView
+                android:background="@color/white_background">
+                <LinearLayout
+                    android:id="@+id/menu"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    android:layout_alignParentTop="true"
+                    android:orientation="horizontal"
                     android:layout_marginTop="70dp">
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="70dp"
-                        android:orientation="horizontal">
-                        <LinearLayout
+                        android:id="@+id/myOrder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/icon_myorder"/>
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                            <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:src="@drawable/icon_myorder"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="My Order"
-                                style="@style/Black_Regular_16dp"/>
-                        </LinearLayout>
+                            android:text="My Order"
+                            style="@style/Black_Regular_16dp"/>
                     </LinearLayout>
-                </HorizontalScrollView>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/icon_address"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Address"
+                            style="@style/Black_Regular_16dp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/icon_vourcher"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="My Voucher"
+                            style="@style/Black_Regular_16dp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/icon_payments"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Payment"
+                            style="@style/Black_Regular_16dp"/>
+                    </LinearLayout>
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:layout_below="@id/menu"
                     android:id="@+id/categoriesRCV"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
@@ -270,19 +319,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="New Deal"
+                    android:text="Best Seller"
                     style="@style/Black_Bold_34dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="25dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/newDealRCV"
+                    android:id="@+id/bestSellerRCV"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"
-                    tools:listitem="@layout/deal_item"/>
+                    tools:listitem="@layout/best_seller_item"/>
 
                 <TextView
                     android:layout_width="wrap_content"

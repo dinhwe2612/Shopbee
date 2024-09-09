@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopbee.data.model.api.AmazonDealsResponse;
 import com.example.shopbee.databinding.DealItemBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
@@ -17,10 +18,14 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder> {
-    List<AmazonDealsResponse.Data.Deal> deals;
+    public interface Listener {
+        void onDealItemClick(String asin);
+    }
+    Listener listener;
+    List<AmazonDealsResponse.Data.Deal> deals = new ArrayList<>();
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-    public DealAdapter(List<AmazonDealsResponse.Data.Deal> products) {
-        this.deals = products;
+    public DealAdapter(Listener listener) {
+        this.listener = listener;
     }
     public void setProducts(List<AmazonDealsResponse.Data.Deal> products) {
         this.deals = products;
@@ -40,6 +45,9 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
                 .subscribeOn(Schedulers.io())
                 .subscribe(() -> holder.binding.progressBar.setVisibility(View.GONE))
         );
+        holder.binding.dealItem.setOnClickListener(v -> {
+            listener.onDealItemClick(deals.get(position).getProduct_asin());
+        });
     }
 
     @Override

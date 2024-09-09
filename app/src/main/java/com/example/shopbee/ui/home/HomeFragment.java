@@ -28,6 +28,7 @@ import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.common.dialogs.twooptiondialog.TwoOptionEvent;
 import com.example.shopbee.ui.home.adapter.BannerAdapter;
+import com.example.shopbee.ui.home.adapter.BestSellerAdapter;
 import com.example.shopbee.ui.home.adapter.CategoryAdapter;
 import com.example.shopbee.ui.home.adapter.DealAdapter;
 import com.example.shopbee.ui.common.base.BaseFragment;
@@ -35,13 +36,19 @@ import com.example.shopbee.utils.ColorUtils;
 import com.example.shopbee.utils.NetworkUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.inject.Inject;
 
-public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> implements HomeNavigator, DialogsManager.Listener, CategoryAdapter.Listener {
+public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> implements
+        HomeNavigator,
+        DialogsManager.Listener,
+        CategoryAdapter.Listener,
+        DealAdapter.Listener,
+        BestSellerAdapter.Listener{
     HomeBinding binding;
     DealAdapter dealAdapter;
-    DealAdapter newDealAdapter;
+    BestSellerAdapter bestSellerAdapter;
     DealAdapter recommendedAdapter;
     @Inject
     DialogsManager dialogsManager;
@@ -75,11 +82,16 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
             NavController navController = NavHostFragment.findNavController(this);
             navController.navigate(R.id.userSearchFragment);
         });
+        setOnClick();
         setUpToolbar();
-//        syncData();
+        syncData();
         observeData();
         setUpRecyclerView();
         return binding.getRoot();
+    }
+
+    void setOnClick() {
+        binding.myOrder.setOnClickListener(v -> navigateToMyOrder());
     }
 
     void setUpToolbar() {
@@ -99,15 +111,17 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
 
     void syncData() {
         viewModel.syncDealProducts(NetworkUtils.createAmazonDealsQuery());
-        viewModel.syncNewDealProducts(NetworkUtils.createAmazonDealsQuery());
+        HashMap<String, String> query = new HashMap<>();
+        query.put("category", "software");
+        viewModel.syncBestSellerProducts(query);
         viewModel.syncRecommendedProducts(NetworkUtils.createAmazonDealsQuery());
     }
     void observeData() {
         viewModel.getDealProducts().observe(getViewLifecycleOwner(), deals -> {
             dealAdapter.setProducts(deals);
         });
-        viewModel.getNewDealProducts().observe(getViewLifecycleOwner(), deals -> {
-            newDealAdapter.setProducts(deals);
+        viewModel.getBestSellerProducts().observe(getViewLifecycleOwner(), bestSellers -> {
+            bestSellerAdapter.setProducts(bestSellers);
         });
         viewModel.getRecommendedProducts().observe(getViewLifecycleOwner(), deals -> {
             recommendedAdapter.setProducts(deals);
@@ -124,15 +138,15 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
         binding.categoriesRCV.setAdapter(new CategoryAdapter(this));
         // deals recycler view
         binding.dealRCV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        dealAdapter = new DealAdapter(new ArrayList<AmazonDealsResponse.Data.Deal>());
+        dealAdapter = new DealAdapter(this);
         binding.dealRCV.setAdapter(dealAdapter);
-        // new deals recycler view
-        binding.newDealRCV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        newDealAdapter = new DealAdapter(new ArrayList<AmazonDealsResponse.Data.Deal>());
-        binding.newDealRCV.setAdapter(newDealAdapter);
+        // best seller recycler view
+        binding.bestSellerRCV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        bestSellerAdapter = new BestSellerAdapter(this);
+        binding.bestSellerRCV.setAdapter(bestSellerAdapter);
         // recommended recycler view
         binding.recommendedRCV.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        recommendedAdapter = new DealAdapter(new ArrayList<AmazonDealsResponse.Data.Deal>());
+        recommendedAdapter = new DealAdapter(this);
         binding.recommendedRCV.setAdapter(recommendedAdapter);
     }
 
@@ -162,5 +176,29 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
         Bundle bundle = new Bundle();
         bundle.putString("category", categoryId);
         navController.navigate(R.id.searchFragment, bundle);
+    }
+
+    @Override
+    public void navigateToMyOrder() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.myOrderFragment);
+    }
+
+    @Override
+    public void navigateToProductDetail(String asin) {
+        NavController navController = NavHostFragment.findNavController(this);
+        Bundle bundle = new Bundle();
+        bundle.putString("asin", asin);
+        navController.navigate(R.id.productDetailFragment, bundle);
+    }
+
+    @Override
+    public void onDealItemClick(String asin) {
+        navigateToProductDetail(asin);
+    }
+
+    @Override
+    public void onBestSellerItemClick(String asin) {
+        navigateToProductDetail(asin);
     }
 }
