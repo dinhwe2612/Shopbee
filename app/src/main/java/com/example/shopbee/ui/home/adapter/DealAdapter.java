@@ -28,7 +28,12 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
         this.listener = listener;
     }
     public void setProducts(List<AmazonDealsResponse.Data.Deal> products) {
-        this.deals = products;
+        // limit 10 item
+        if (products.size() > 10) {
+            deals = products.subList(0, 10);
+        } else {
+            deals = products;
+        }
         notifyDataSetChanged();
     }
     @NonNull

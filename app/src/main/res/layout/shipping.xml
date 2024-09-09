@@ -36,20 +36,16 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:background="@drawable/empty"/>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/relativeLayout_shipping">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_shipping"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="40dp"
-            tools:listitem="@layout/shipping_item" />
-    </ScrollView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/relativeLayout_shipping"
+        android:id="@+id/recyclerView_shipping"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="40dp"
+        tools:listitem="@layout/shipping_item" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="46dp"

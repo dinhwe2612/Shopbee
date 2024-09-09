@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.checkout.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,15 +47,17 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.Shippi
         } else {
             holder.binding.checkBoxCard.setChecked(false, true);
         }
-        holder.binding.checkBoxCard.setOnCheckedChangeListener(new AnimatedCheckBox.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(AnimatedCheckBox checkBox, boolean isChecked) {
-                notifyItemChanged(currentPosition);
-                currentPosition = position;
-                notifyItemChanged(currentPosition);
-                listener.onClickItems(position);
-            }
-        });
+//        holder.binding.checkBoxCard.setOnCheckedChangeListener(new AnimatedCheckBox.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(AnimatedCheckBox checkBox, boolean isChecked) {
+//                holder.binding.getRoot().post(() -> {
+//                    Log.d("TAG", "onCheckedChanged: " + isChecked);
+//                    notifyItemChanged(currentPosition);
+//                    currentPosition = position;
+//                });
+//                /*listener.onClickItems(position);*/
+//            }
+//        });
         holder.binding.editAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -81,7 +81,11 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
         binding = getViewDataBinding();
         setOnClick();
         setUpToolbar();
-        syncData();
+        if (savedInstanceState == null) {
+            syncData();
+        } else {
+            Log.d("HomeFragment", "savedInstanceState is not null");
+        }
         observeData();
         setUpRecyclerView();
         return binding.getRoot();
