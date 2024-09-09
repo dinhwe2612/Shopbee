@@ -31,7 +31,6 @@ public class VariationDetailsAdapter extends RecyclerView.Adapter<VariationDetai
     public VariationDetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new VariationDetailsViewHolder(VariationDetailsItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
-
     @Override
     public void onBindViewHolder(@NonNull VariationDetailsViewHolder holder, int position) {
         holder.binding.content.setText(variationDetails.get(position).getValue());

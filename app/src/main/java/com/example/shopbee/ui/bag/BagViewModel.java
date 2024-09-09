@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
+import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.data.model.api.PromoCodeResponse;
 import com.example.shopbee.data.model.api.UserVariationResponse;
 import com.example.shopbee.ui.common.base.BaseViewModel;
@@ -30,135 +31,76 @@ public class BagViewModel extends BaseViewModel<BagNavigator> {
     public BagViewModel(Repository repository) {
         super(repository);
     }
-    MutableLiveData<List<AmazonProductDetailsResponse>> bagProducts = new MutableLiveData<>();
-    MutableLiveData<List<String>> bagLists = new MutableLiveData<>();
-    MutableLiveData<List<Integer>> bagQuantities = new MutableLiveData<>();
-    public MutableLiveData<List<Integer>> getBagQuantities() {
-        return bagQuantities;
-    }
-    MutableLiveData<List<List<Pair<String, String>>>> bagVariations = new MutableLiveData<>();
+    MutableLiveData<List<OrderDetailResponse>> bagProducts = new MutableLiveData<>();
 
-    public MutableLiveData<List<List<Pair<String, String>>>> getBagVariations() {
-        return bagVariations;
-    }
-
-    public MutableLiveData<List<String>> getBagLists() {
-        return bagLists;
-    }
-
-    public MutableLiveData<List<AmazonProductDetailsResponse>> getBagProducts() {
+    public MutableLiveData<List<OrderDetailResponse>> getBagProducts() {
         return bagProducts;
     }
 
     public void getBagVariationFromFirebase() {
 
     }
-    public void syncBagListsOnly() {
+
+//    public void syncBagProducts(List<String> bagLists) {
 //        setIsLoading(true);
-        getCompositeDisposable().add(getRepository().getUserVariation(Repository.UserVariation.BAG)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(result -> {
+//        // get information from Amazon asin
+//        // reload adapter many times?
+//        List<AmazonProductDetailsResponse> products = new ArrayList<>();
+//        if (products.size() == bagLists.size()) {
+//            setIsLoading(false);
+//            return;
+//        }
+////        AtomicInteger index = new AtomicInteger();
+//        List<Observable<AmazonProductDetailsResponse>> observables = new ArrayList<>();
+//
+//        for (String asin : bagLists) {
+//            HashMap<String, String> queryMap = new HashMap<>();
+//            queryMap.put("asin", asin);
+//
+//            Observable<AmazonProductDetailsResponse> observable = getRepository().getAmazonProductDetails(queryMap)
+//                    .doOnNext(result -> {
+//                        products.add(result); // Add result to products list
+////                        index.getAndIncrement(); // Increment the index
+//                    })
+//                    .doOnError(error -> Log.e("syncBagProducts", "error: " + error.getMessage()));
+//
+//            observables.add(observable);
+//        }
+//
+//// Use concatMap to ensure serial execution of the observables
+//        getCompositeDisposable().add(
+//                Observable.concat(observables)
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(
+//                                result -> {
+//                                    // You could handle each result here if needed
+//                                },
+//                                error -> {
+//                                    Log.e("syncBagProducts", "Final error: " + error.getMessage());
+//                                },
+//                                () -> {
+//                                    // This is called once all observables have completed
+//                                    bagProducts.setValue(products);
 //                                    setIsLoading(false);
-                                    List<String> asins = new ArrayList<>();
-                                    List<List<Pair<String, String>>> variations = new ArrayList<>();
-                                    List<Integer> quantities = new ArrayList<>();
-                                    for (UserVariationResponse.Variation variation : result.getVariations()) {
-                                        asins.add(variation.getAsin());
-                                        variations.add(variation.getVariation());
-                                        quantities.add(variation.getQuantity());
-                                    }
-                                    bagLists.setValue(asins);
-                                    bagVariations.setValue(variations);
-                                    bagQuantities.setValue(quantities);
-//                                    syncBagProducts(bagLists.getValue());
-                                },
-                                error -> {
-//                                    setIsLoading(false);
-//                            Log.e("getUserSearchHistory", "getUserSearchHistory " + error.getMessage());
-                                })
-        );
-    }
-
-    public void syncBagLists() {
-        // get users' favorite asins and variations
+//                                }
+//                        )
+//        );
+//
+//    }
+    public void syncBagProducts() {
         setIsLoading(true);
         getCompositeDisposable().add(getRepository().getUserVariation(Repository.UserVariation.BAG)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(result -> {
-//                                    setIsLoading(false);
-                                    List<String> asins = new ArrayList<>();
-                                    List<List<Pair<String, String>>> variations = new ArrayList<>();
-                                    List<Integer> quantities = new ArrayList<>();
-                                    for (UserVariationResponse.Variation variation : result.getVariations()) {
-                                        asins.add(variation.getAsin());
-                                        variations.add(variation.getVariation());
-                                        quantities.add(variation.getQuantity());
-                                    }
-                                    Log.d("syncBagLists", "syncBagLists: " + asins);
-                                    bagLists.setValue(asins);
-                                    Log.d("syncBagLists", "syncBagLists: " + variations);
-                                    Log.d("syncBagLists", "syncBagLists: " + quantities);
-                                    bagVariations.setValue(variations);
-                                    bagQuantities.setValue(quantities);
-                                    syncBagProducts(bagLists.getValue());
-                                    Log.d("syncBagLists", "syncBagLists: " + bagLists.getValue());
-                                },
-                                error -> {
-                                    setIsLoading(false);
-                                    error.printStackTrace();
-                                    Log.e("syncBagLists", "syncBagLists: " + error.getMessage());
-//                            Log.e("getUserSearchHistory", "getUserSearchHistory " + error.getMessage());
-                                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                            bagProducts.setValue(result);
+                            setIsLoading(false);
+                        },
+                        error -> {
+                            setIsLoading(false);
+                        })
         );
-    }
-    public void syncBagProducts(List<String> bagLists) {
-        setIsLoading(true);
-        // get information from Amazon asin
-        // reload adapter many times?
-        List<AmazonProductDetailsResponse> products = new ArrayList<>();
-        if (products.size() == bagLists.size()) {
-            setIsLoading(false);
-            return;
-        }
-//        AtomicInteger index = new AtomicInteger();
-        List<Observable<AmazonProductDetailsResponse>> observables = new ArrayList<>();
-
-        for (String asin : bagLists) {
-            HashMap<String, String> queryMap = new HashMap<>();
-            queryMap.put("asin", asin);
-
-            Observable<AmazonProductDetailsResponse> observable = getRepository().getAmazonProductDetails(queryMap)
-                    .doOnNext(result -> {
-                        products.add(result); // Add result to products list
-//                        index.getAndIncrement(); // Increment the index
-                    })
-                    .doOnError(error -> Log.e("syncBagProducts", "error: " + error.getMessage()));
-
-            observables.add(observable);
-        }
-
-// Use concatMap to ensure serial execution of the observables
-        getCompositeDisposable().add(
-                Observable.concat(observables)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                result -> {
-                                    // You could handle each result here if needed
-                                },
-                                error -> {
-                                    Log.e("syncBagProducts", "Final error: " + error.getMessage());
-                                },
-                                () -> {
-                                    // This is called once all observables have completed
-                                    bagProducts.setValue(products);
-                                    setIsLoading(false);
-                                }
-                        )
-        );
-
     }
     public void syncPromoCodes() {
         getCompositeDisposable().add(getRepository().getPromoCode()

@@ -19,6 +19,7 @@ import com.bumptech.glide.request.FutureTarget;
 import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
+import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.databinding.FavoriteItemBinding;
 import com.example.shopbee.databinding.MyBagItemBinding;
 import com.example.shopbee.ui.favorites.adapter.FavoriteAdapter;
@@ -33,8 +34,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
     public interface onChangeQuantityListener {
-        void onChangeQuantity(String asin, List<Pair<String, String>> variations, boolean increase);
-        void onSaveToFavorites(String asin, List<Pair<String, String>> variations, ImageView imageView);
+        void onChangeQuantity(String asin, List<Pair<String, String>> variations, boolean increase, int position);
+        void onSaveToFavorites(int position, ImageView imageView);
         void onDeleteFromList(String asin, List<Pair<String, String>> variations, int position);
         void onMoreVariationOption(int position);
     }
@@ -43,33 +44,15 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
         this.onChangeQuantityListener = onChangeQuantityListener;
     }
     CompositeDisposable compositeDisposable = new CompositeDisposable();
-    List<Integer> quantities = new ArrayList<>();
-    List<AmazonProductDetailsResponse> products = new ArrayList<>();
-    List<List<Pair<String, String>>> variations = new ArrayList<>();
-
-    public List<Integer> getQuantities() {
-        return quantities;
-    }
-
-    public List<List<Pair<String, String>>> getVariations() {
-        return variations;
-    }
-
-    public List<AmazonProductDetailsResponse> getProducts() {
+    List<OrderDetailResponse> products = new ArrayList<>();
+    public List<OrderDetailResponse> getProducts() {
         return products;
     }
 
     public BagAdapter() {
     }
-    public void setQuantities(List<Integer> quantities) {
-        this.quantities = quantities;
-    }
 
-    public void setVariations(List<List<Pair<String, String>>> variations) {
-        this.variations = variations;
-    }
-
-    public void setProducts(List<AmazonProductDetailsResponse> products) {
+    public void setProducts(List<OrderDetailResponse> products) {
         this.products = products;
     }
 
@@ -113,11 +96,7 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (position == RecyclerView.NO_POSITION) return;
-                    onChangeQuantityListener.onChangeQuantity(products.get(position).getData().getAsin(), variations.get(position), true);
-                    quantities.set(position, quantities.get(position) + 1);
-//                    Log.e("quantity", "quantity: " + quantities.get(position));
-//                    notifyItemChanged(position);
-                    binding.textView5.setText(String.valueOf(quantities.get(position)));
+                    onChangeQuantityListener.onChangeQuantity(products.get(position).getProduct_id(), products.get(position).getVariation(), true, position);
                 }
             });
             binding.textView8.setOnClickListener(new View.OnClickListener() {
@@ -140,10 +119,10 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
                         public boolean onMenuItemClick(MenuItem item) {
                             int position = getAdapterPosition();
                             if (item.getItemId() == R.id.add_to_favorites_popup) {
-                                onChangeQuantityListener.onSaveToFavorites(products.get(position).getData().getAsin(), variations.get(position), binding.imageView);
+                                onChangeQuantityListener.onSaveToFavorites(position, binding.imageView);
                                 return true;
                             } else if (item.getItemId() == R.id.delete_from_list_popup) {
-                                onChangeQuantityListener.onDeleteFromList(products.get(position).getData().getAsin(), variations.get(position), position);
+                                onChangeQuantityListener.onDeleteFromList(products.get(position).getProduct_id(), products.get(position).getVariation(), position);
 //                                quantities.remove(position);
 //                                products.remove(position);
 //                                variations.remove(position);
@@ -164,14 +143,11 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (position == RecyclerView.NO_POSITION) return;
-                    if (quantities.get(position) > 1) {
-                        onChangeQuantityListener.onChangeQuantity(products.get(position).getData().getAsin(), variations.get(position), false);
-                        quantities.set(position, quantities.get(position) - 1);
-//                        notifyItemChanged(position);
-                        binding.textView5.setText(String.valueOf(quantities.get(position)));
+                    if (products.get(position).getQuantity() > 1) {
+                        onChangeQuantityListener.onChangeQuantity(products.get(position).getProduct_id(), products.get(position).getVariation(), false, position);
                     }
                     else {
-                        onChangeQuantityListener.onDeleteFromList(products.get(position).getData().getAsin(), variations.get(position), position);
+                        onChangeQuantityListener.onDeleteFromList(products.get(position).getProduct_id(), products.get(position).getVariation(), position);
 //                        quantities.remove(position);
 //                        products.remove(position);
 //                        variations.remove(position);
@@ -191,48 +167,34 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
             setOnClickForViews();
         }
         public void bindView(int position) {
-            if (position >= products.size() || position >= quantities.size() || position >= variations.size()) {
-                return; // Position out of bounds
-            }
-            binding.textView2.setText(products.get(position).getData().getProduct_title());
-            if (products.get(position).getData().getProduct_price() != null) {
-                binding.textView6.setText(products.get(position).getData().getProduct_price());
+            binding.textView2.setText(products.get(position).getProduct_name());
+            if (products.get(position).getPrice() != null) {
+                binding.textView6.setText(products.get(position).getPrice());
             }
             // variation
-            if (products.get(position).getData().getProduct_photo() != null) {
-                compositeDisposable.add(Observable.fromCallable(() -> {
-                                    FutureTarget<Bitmap> futureTarget = Glide.with(binding.imageView.getContext())
+            if (products.get(position).getUrlImage() != null) {
+                Glide.with(binding.imageView.getContext())
                                             .asBitmap()
-                                            .load(products.get(position).getData().getProduct_photo())
+                                            .load(products.get(position).getUrlImage())
                                             .timeout(600000)
-                                            .submit();
-                                    return futureTarget.get();
-                                })
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(bitmap -> {
-                                    binding.imageView.setImageBitmap(bitmap);
-                                }, throwable -> {
-                                    Log.e("Exception", throwable.getMessage());
-                                })
-                );
+                                            .into(binding.imageView);
             }
-            if (variations.get(position).size() > 0) {
+            if (products.get(position).getVariation().size() > 0) {
                 binding.textView.setVisibility(View.VISIBLE);
                 binding.textView3.setVisibility(View.VISIBLE);
-                binding.textView.setText(variations.get(position).get(0).first);
-                binding.textView3.setText(variations.get(position).get(0).second);
+                binding.textView.setText(products.get(position).getVariation().get(0).first);
+                binding.textView3.setText(products.get(position).getVariation().get(0).second);
             }
-            if (variations.get(position).size() > 1) {
+            if (products.get(position).getVariation().size() > 1) {
                 binding.textView4.setVisibility(View.VISIBLE);
                 binding.textView7.setVisibility(View.VISIBLE);
-                binding.textView4.setText(variations.get(position).get(1).first);
-                binding.textView7.setText(variations.get(position).get(1).second);
+                binding.textView4.setText(products.get(position).getVariation().get(1).first);
+                binding.textView7.setText(products.get(position).getVariation().get(1).second);
             }
-            if (variations.get(position).size() > 2) {
+            if (products.get(position).getVariation().size() > 2) {
                 binding.textView8.setVisibility(View.GONE);
             }
-            binding.textView5.setText(String.valueOf(quantities.get(position)));
+            binding.textView5.setText(String.valueOf(products.get(position).getQuantity()));
         }
     }
 }

@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
+import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.databinding.FavoriteGridItemBinding;
 import com.example.shopbee.databinding.SaleItemBinding;
 import com.example.shopbee.ui.search.adapter.ProductAdapterGridView;
@@ -31,24 +32,17 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
         this.onItemClickListener = onItemClickListener;
     }
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private List<AmazonProductDetailsResponse> products;
+    private List<OrderDetailResponse> products;
 //    public FavoriteAdapterGridView(List<AmazonProductDetailsResponse> products) {
 //        this.products = products;
 //    }
-    public void setProducts(List<AmazonProductDetailsResponse> products) {
-        this.products = products;
-    }
-    List<List<Pair<String, String>>> variations;
-    public void setVariations(List<List<Pair<String, String>>> variations) {
-        this.variations = variations;
-    }
 
-    public List<AmazonProductDetailsResponse> getProducts() {
+    public List<OrderDetailResponse> getProducts() {
         return products;
     }
 
-    public List<List<Pair<String, String>>> getVariations() {
-        return variations;
+    public void setProducts(List<OrderDetailResponse> products) {
+        this.products = products;
     }
 
     @NonNull
@@ -65,8 +59,9 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int position = holder.getAdapterPosition();
                 if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(products.get(position).getData().getAsin());
+                    onItemClickListener.onItemClick(products.get(position).getProduct_id());
                 }
             }
         });
@@ -97,7 +92,7 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (position == RecyclerView.NO_POSITION) return;
-                    onItemClickListener.onAddToBagClick(products.get(position).getData().getAsin(), variations.get(position), binding.image);
+                    onItemClickListener.onAddToBagClick(position, binding.image);
                 }
             });
             binding.more.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +108,7 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (position == RecyclerView.NO_POSITION) return;
-                    onItemClickListener.onItemDeleteClick(products.get(position).getData().getAsin(), variations.get(position), position);
+                    onItemClickListener.onItemDeleteClick(products.get(position).getProduct_id(), products.get(position).getVariation(), position);
 //                    products.remove(position);
 //                    variations.remove(position);
 //                    notifyItemRemoved(position);
@@ -130,44 +125,33 @@ public class FavoriteAdapterGridView extends RecyclerView.Adapter<FavoriteAdapte
             setOnClickForViews();
         }
         public void bindView(int position) {
-            binding.itemFavoriteName.setText(products.get(position).getData().getProduct_title());
-            if (products.get(position).getData().getProduct_star_rating() != null) {
-                binding.simpleRatingBar.setRating(Float.parseFloat(products.get(position).getData().getProduct_star_rating()));
+            binding.itemFavoriteName.setText(products.get(position).getProduct_name());
+            if (products.get(position).getProduct_star_rating() != null) {
+                binding.simpleRatingBar.setRating(Float.parseFloat(products.get(position).getProduct_star_rating()));
             } else {
                 binding.simpleRatingBar.setRating(0);
             }
-            binding.numRating.setText("(" + products.get(position).getData().getProduct_num_ratings() + ")");
-            binding.favoriteItemPrice.setText(products.get(position).getData().getProduct_price());
+            binding.numRating.setText("(" + products.get(position).getProduct_num_ratings() + ")");
+            binding.favoriteItemPrice.setText(products.get(position).getPrice());
             // variation
-            if (products.get(position).getData().getProduct_photo() != null) {
-                compositeDisposable.add(Observable.fromCallable(() -> {
-                                    FutureTarget<Bitmap> futureTarget = Glide.with(binding.image.getContext())
-                                            .asBitmap()
-                                            .load(products.get(position).getData().getProduct_photo())
-                                            .timeout(60000)
-                                            .submit();
-                                    return futureTarget.get();
-                                })
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(bitmap -> {
-                                    binding.image.setImageBitmap(bitmap);
-                                }, throwable -> {
-                                    Log.e("Exception", throwable.getMessage());
-                                })
-                );
+            if (products.get(position).getUrlImage() != null) {
+                Glide.with(binding.image.getContext())
+                        .asBitmap()
+                        .load(products.get(position).getUrlImage())
+                        .timeout(60000)
+                        .into(binding.image);
             }
-            if (variations.get(position).size() > 0) {
+            if (products.get(position).getVariation().size() > 0) {
                 binding.colorLayout.setVisibility(View.VISIBLE);
-                binding.colorTag.setText(variations.get(position).get(0).first);
-                binding.colorDescription.setText(variations.get(position).get(0).second);
+                binding.colorTag.setText(products.get(position).getVariation().get(0).first);
+                binding.colorDescription.setText(products.get(position).getVariation().get(0).second);
             }
-            if (variations.get(position).size() > 1) {
+            if (products.get(position).getVariation().size() > 1) {
                 binding.layoutColors.setVisibility(View.VISIBLE);
-                binding.sizeTag.setText(variations.get(position).get(1).first);
-                binding.sizeDescription.setText(variations.get(position).get(1).second);
+                binding.sizeTag.setText(products.get(position).getVariation().get(1).first);
+                binding.sizeDescription.setText(products.get(position).getVariation().get(1).second);
             }
-            if (variations.get(position).size() > 2) {
+            if (products.get(position).getVariation().size() > 2) {
                 binding.more.setVisibility(View.GONE);
             }
         }

@@ -15,7 +15,39 @@ public class OrderDetailResponse implements Parcelable {
     private int quantity;
     private String urlImage;
     private List<Pair<String, String>> variation;
-    public OrderDetailResponse(){
+    private String product_star_rating; // New field
+    private Integer product_num_ratings; // New field
+
+    public OrderDetailResponse() {
+    }
+
+    public OrderDetailResponse(String product_id, String product_name, int quantity, String price, String urlImage,
+                               List<Pair<String, String>> variation, String product_star_rating, Integer product_num_ratings) {
+        this.product_id = product_id;
+        this.product_name = product_name;
+        this.quantity = quantity;
+        this.price = price;
+        this.urlImage = urlImage;
+        this.variation = variation;
+        this.product_star_rating = product_star_rating; // New field initialization
+        this.product_num_ratings = product_num_ratings; // New field initialization
+    }
+
+    // Getters and Setters for the new fields
+    public String getProduct_star_rating() {
+        return product_star_rating;
+    }
+
+    public void setProduct_star_rating(String product_star_rating) {
+        this.product_star_rating = product_star_rating;
+    }
+
+    public Integer getProduct_num_ratings() {
+        return product_num_ratings;
+    }
+
+    public void setProduct_num_ratings(Integer product_num_ratings) {
+        this.product_num_ratings = product_num_ratings;
     }
     public OrderDetailResponse(String product_id, String product_name, int quantity, String price, String urlImage, List<Pair<String, String>> variation) {
         this.product_id = product_id;
@@ -87,6 +119,12 @@ public class OrderDetailResponse implements Parcelable {
         urlImage = in.readString();
         variation = new ArrayList<>();
         in.readList(variation, Pair.class.getClassLoader());
+        product_star_rating = in.readString(); // New field
+        if (in.readByte() == 0) { // Handle potential null value for product_num_ratings
+            product_num_ratings = null;
+        } else {
+            product_num_ratings = in.readInt();
+        }
     }
 
     @Override
@@ -97,6 +135,13 @@ public class OrderDetailResponse implements Parcelable {
         dest.writeInt(quantity);
         dest.writeString(urlImage);
         dest.writeList(variation);
+        dest.writeString(product_star_rating); // New field
+        if (product_num_ratings == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(product_num_ratings);
+        }
     }
 
     @Override

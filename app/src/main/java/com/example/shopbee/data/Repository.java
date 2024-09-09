@@ -505,8 +505,8 @@ public class Repository {
         FAVORITE,
         BAG
     }
-    public void saveUserVariation(UserVariation userVariation, String asin, List<Pair<String, String>> variation, Integer quantity) {
-        isVariationInUserPick(userVariation, asin, variation)
+    public void saveUserVariation(UserVariation userVariation, OrderDetailResponse orderDetailResponse) {
+        isVariationInUserPick(userVariation, orderDetailResponse)
                 .subscribeOn(Schedulers.io())  // Run on IO thread
                 .observeOn(AndroidSchedulers.mainThread())  // Observe on Main Thread
                 .subscribe(isInUserPick -> {
@@ -525,14 +525,27 @@ public class Repository {
                             userMap.put("email", userEmail);
                             DatabaseReference userReference;
                             HashMap<String, Object> variations = new HashMap<>();
-                            variations.put("asin", asin);
-                            if (variation == null || variation.isEmpty()) {
-                                variations.put("variation", variation);
+                            variations.put("asin", orderDetailResponse.getProduct_id());
+                            if (orderDetailResponse.getVariation() != null && !orderDetailResponse.getVariation().isEmpty()) {
+                                variations.put("variation", orderDetailResponse.getVariation());
                             }
                             if (userVariation == UserVariation.BAG) {
-                                variations.put("quantity", quantity);
+                                variations.put("quantity", orderDetailResponse.getQuantity());
                             }
-
+                            if (orderDetailResponse.getPrice() != null) {
+                                variations.put("price", orderDetailResponse.getPrice());
+                            }
+                            else {
+                                variations.put("price", "0");
+                            }
+                            if (orderDetailResponse.getUrlImage() != null) variations.put("urlImage", orderDetailResponse.getUrlImage());
+                            if (orderDetailResponse.getProduct_name() != null) {
+                                variations.put("product_name", orderDetailResponse.getProduct_name());
+                            }
+//                            if (userVariation == UserVariation.FAVORITE) {
+                                if (orderDetailResponse.getProduct_num_ratings() != null) variations.put("num_ratings", orderDetailResponse.getProduct_num_ratings());
+                                if (orderDetailResponse.getProduct_star_rating() != null) variations.put("star_rating", orderDetailResponse.getProduct_star_rating());
+//                            }
                             if (!snapshot.exists()) {
                                 userReference = databaseReference.push();
                                 userReference.setValue(userMap);
@@ -557,7 +570,7 @@ public class Repository {
                 });
     }
 
-    public Observable<Boolean> isVariationInUserPick(UserVariation userVariation, String asin, List<Pair<String, String>> variation) {
+    public Observable<Boolean> isVariationInUserPick(UserVariation userVariation, OrderDetailResponse orderDetailResponse) {
         return Observable.create(emitter -> {
             String email = getUserResponse().getValue().getEmail();
             databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
@@ -574,7 +587,7 @@ public class Repository {
 
                             if (variationTypeSnapshot.exists()) {
                                 for (DataSnapshot variationSnapshot : variationTypeSnapshot.getChildren()) {
-                                    if (Objects.equals(variationSnapshot.child("asin").getValue(String.class), asin)) {
+                                    if (Objects.equals(variationSnapshot.child("asin").getValue(String.class), orderDetailResponse.getProduct_id())) {
                                         if (!variationSnapshot.child("variation").exists()) {
                                             emitter.onNext(true);
                                             emitter.onComplete();
@@ -586,16 +599,16 @@ public class Repository {
                                             variationList.add(variationMap);
                                         }
 
-                                        if (variation.size() != variationList.size()) {
+                                        if (orderDetailResponse.getVariation().size() != variationList.size()) {
                                             continue;
                                         }
 
                                         boolean match = true;
-                                        for (int i = 0; i < variation.size(); i++) {
+                                        for (int i = 0; i < orderDetailResponse.getVariation().size(); i++) {
                                             DataSnapshot variationMap = variationList.get(i);
                                             Map<String, String> map = (Map<String, String>) variationMap.getValue();
                                             Pair<String, String> pair = new Pair<>(map.get("first"), map.get("second"));
-                                            if (!variation.get(i).first.equals(pair.first) || !variation.get(i).second.equals(pair.second)) {
+                                            if (!orderDetailResponse.getVariation().get(i).first.equals(pair.first) || !orderDetailResponse.getVariation().get(i).second.equals(pair.second)) {
                                                 match = false;
                                                 break;
                                             }
@@ -622,8 +635,9 @@ public class Repository {
             });
         });
     }
-    public Observable<UserVariationResponse> getUserVariation(UserVariation userVariation) {
-        UserVariationResponse userVariationResponse = new UserVariationResponse();
+    public Observable<List<OrderDetailResponse>> getUserVariation(UserVariation userVariation) {
+        List<OrderDetailResponse> orderDetailResponseList = new ArrayList<>();
+//        UserVariationResponse userVariationResponse = new UserVariationResponse();
         return Observable.create(emitter -> {
             if (getUserResponse().getValue() == null) {
                 emitter.onError(new Throwable("User response is null"));
@@ -657,24 +671,46 @@ public class Repository {
                                                     variations.add(pair);
                                                 }
                                             }
-                                            Integer quantity = null;
+                                            Integer quantity = 0;
                                             if (userVariation == UserVariation.BAG) {
                                                 quantity = variation.child("quantity").getValue(Integer.class);
                                             }
-                                            UserVariationResponse.Variation userVariation = new UserVariationResponse.Variation(asin, variations, quantity);
-                                            userVariationResponse.addVariation(userVariation);
+                                            String price = null;
+                                            if (variation.child("price").exists()) {
+                                                price = variation.child("price").getValue(String.class);
+                                            }
+                                            String urlImage = null;
+                                            if (variation.child("urlImage").exists()) {
+                                                urlImage = variation.child("urlImage").getValue(String.class);
+                                            }
+                                            String product_name = null;
+                                            if (variation.child("product_name").exists()) {
+                                                product_name = variation.child("product_name").getValue(String.class);
+                                            }
+                                            String star_rating = null;
+                                            if (variation.child("star_rating").exists()) {
+                                                star_rating = variation.child("star_rating").getValue(String.class);
+                                            }
+                                            Integer num_ratings = null;
+                                            if (variation.child("num_ratings").exists()) {
+                                                num_ratings = variation.child("num_ratings").getValue(Integer.class);
+                                            }
+                                            OrderDetailResponse orderDetailResponse = new OrderDetailResponse(asin, product_name, quantity, price, urlImage, variations, star_rating, num_ratings);
+//                                            UserVariationResponse.Variation userVariation = new UserVariationResponse.Variation(asin, variations, quantity);
+//                                            userVariationResponse.addVariation(userVariation);
+                                            orderDetailResponseList.add(orderDetailResponse);
 
                                         }
-                                        UserVariationResponse result = new UserVariationResponse();
-                                        for (int i = userVariationResponse.getVariations().size() - 1; i >= 0; i--) {
+                                        List<OrderDetailResponse> result = new ArrayList<>();
+                                        for (int i = orderDetailResponseList.size() - 1; i >= 0; i--) {
 //                                            Log.d("TAG", "syncBagLists: " + userVariationResponse.getVariations().get(i).getAsin());
-                                            result.addVariation(userVariationResponse.getVariations().get(i));
+                                            result.add(orderDetailResponseList.get(i));
                                             emitter.onNext(result);
                                         }
                                         emitter.onComplete();
-                                        Log.d("TAG", "syncBagLists: " + userVariationResponse.getVariations().size());
+//                                        Log.d("TAG", "syncBagLists: " + userVariationResponse.getVariations().size());
                                     } else {
-                                        emitter.onNext(userVariationResponse);
+                                        emitter.onNext(orderDetailResponseList);
                                         emitter.onComplete();
                                     }
                                 }
@@ -687,7 +723,7 @@ public class Repository {
                         }
                     }
                     else {
-                        emitter.onNext(userVariationResponse);
+                        emitter.onNext(orderDetailResponseList);
                         emitter.onComplete();
                     }
                 }

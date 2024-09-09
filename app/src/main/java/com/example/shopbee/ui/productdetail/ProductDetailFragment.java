@@ -28,6 +28,7 @@ import com.example.shopbee.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
+import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.databinding.ProductDetailBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
@@ -82,6 +83,11 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     public void performDependencyInjection(FragmentComponent buildComponent) {
         buildComponent.inject(this);
         viewModel.setNavigator(this);
+    }
+
+    @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.HIDE_BOTTOM_BAR;
     }
 
     @Override
@@ -316,16 +322,26 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
     public void onDialogEvent(Object event) {
         if (event instanceof OptionEvent) {
             OptionEvent optionEvent = (OptionEvent) event;
+            AmazonProductDetailsResponse.Data data = amazonProductDetailsResponse.getData();
+            OrderDetailResponse orderDetailResponse = new OrderDetailResponse(asin,
+                    data.getProduct_title(),
+                    optionEvent.getQuantity(),
+                    data.getProduct_price(),
+                    data.getProduct_photo(),
+                    optionEvent.getOptions(),
+                    data.getProduct_star_rating(),
+                    data.getProduct_num_ratings());
             if (optionEvent.getName() == "ADD FAVORITE") {
-                viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, asin, optionEvent.getOptions(), null);
-                LinearLayoutManager layoutManager = (LinearLayoutManager) binding.prodPhotosRCV.getLayoutManager();
+                viewModel.getRepository().saveUserVariation(Repository.UserVariation.FAVORITE, orderDetailResponse);
+//                LinearLayoutManager layoutManager = (LinearLayoutManager) binding.prodPhotosRCV.getLayoutManager();
 //                mainActivity.getBottomBar().animateAddToFavorite((ImageView) layoutManager.getChildAt(layoutManager.findFirstVisibleItemPosition()), mainActivity.findViewById(R.id.main), Repository.UserVariation.FAVORITE);
                 bottomBar.animateAddToFavorite(productPhotosAdapter.getCurrentView(), requireActivity().findViewById(R.id.main), Repository.UserVariation.FAVORITE);
             }
             else if (optionEvent.getName() == "ADD TO BAG") {
                 // print out optionEvent
-                viewModel.getRepository().saveUserVariation(Repository.UserVariation.BAG, asin, optionEvent.getOptions(), optionEvent.getQuantity());
-                LinearLayoutManager layoutManager = (LinearLayoutManager) binding.prodPhotosRCV.getLayoutManager();
+//                orderDetailResponse.setQuantity(optionEvent.getQuantity());
+                viewModel.getRepository().saveUserVariation(Repository.UserVariation.BAG, orderDetailResponse);
+//                LinearLayoutManager layoutManager = (LinearLayoutManager) binding.prodPhotosRCV.getLayoutManager();
                 bottomBar.animateAddToFavorite(productPhotosAdapter.getCurrentView(), requireActivity().findViewById(R.id.main), Repository.UserVariation.BAG);
             }
         } else if (event instanceof ImagePickerEvent) {
