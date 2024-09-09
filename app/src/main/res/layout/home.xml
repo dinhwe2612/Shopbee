@@ -422,7 +422,8 @@
                     android:layout_height="wrap_content"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     android:orientation="vertical"
-                    tools:listitem="@layout/deal_item"/>
+                    tools:listitem="@layout/deal_item"
+                    android:nestedScrollingEnabled="false"/>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

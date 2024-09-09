@@ -36,7 +36,11 @@ public class BestSellerAdapter extends RecyclerView.Adapter<BestSellerAdapter.Be
         this.listener = listener;
     }
     public void setProducts(List<AmazonBestSellerResponse.Data.BestSeller> products) {
-        this.products = products;
+        if (products.size() > 10) {
+            this.products = products.subList(0, 10);
+        } else {
+            this.products = products;
+        }
         notifyDataSetChanged();
     }
     @NonNull

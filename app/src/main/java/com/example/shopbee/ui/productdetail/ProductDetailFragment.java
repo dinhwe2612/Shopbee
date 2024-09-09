@@ -100,6 +100,9 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
                 binding.productName.setMaxLines(2);
             }
         });
+        binding.sparkButton.setOnClickListener(v->{
+            addFavorite();
+        });
         viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
             if (inProgress) {
                 dialogsManager.showLoadingDialog();
