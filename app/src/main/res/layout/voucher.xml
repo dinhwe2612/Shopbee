@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -37,10 +37,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
                 android:background="@drawable/banner_voucher" />
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="#fffae0"/>
             <RelativeLayout
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center_horizontal"
@@ -48,10 +44,11 @@
                 android:layout_height="120dp"
                 android:background="@drawable/my_voucher">
                 <TextView
+                    android:id="@+id/my_voucher"
                     android:textColor="#fffae0"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginStart="50dp"
-                    style="@style/Black_SemiBold_24dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginStart="25dp"
+                    style="@style/Black_Bold_34dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="My vouchers"/>
@@ -63,46 +60,73 @@
                 android:background="@drawable/voucher_name">
                 <TextView
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="25dp"
                     android:textColor="#fffae0"
                     android:layout_marginStart="40dp"
-                    style="@style/Black_SemiBold_18dp"
+                    style="@style/White_Bold_28dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Freeship"/>
             </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginStart="20dp"
+                android:id="@+id/freeshipRecyclerView"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal"
+                android:orientation="horizontal"
+                tools:listitem="@layout/voucher_item"/>
             <RelativeLayout
+                android:layout_marginTop="10dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
                 android:background="@drawable/voucher_name">
                 <TextView
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="25dp"
                     android:textColor="#fffae0"
                     android:layout_marginStart="40dp"
-                    style="@style/Black_SemiBold_18dp"
+                    style="@style/White_Bold_28dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Shopbee Voucher"/>
+                    android:text="Shopbee"/>
             </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/shopbeeRecyclerView"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal"
+                android:orientation="horizontal"
+                tools:listitem="@layout/voucher_item"/>
             <RelativeLayout
+                android:layout_marginTop="10dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
                 android:background="@drawable/voucher_name">
                 <TextView
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="25dp"
                     android:textColor="#fffae0"
-                    android:layout_marginStart="40dp"
-                    style="@style/Black_SemiBold_18dp"
+                    style="@style/White_Bold_28dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Freeship"/>
+                    android:text="New user"/>
             </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginStart="20dp"
+                android:id="@+id/newbieRecyclerView"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal"
+                android:orientation="horizontal"
+                tools:listitem="@layout/voucher_item"/>
         </LinearLayout>
     </ScrollView>
-
 </RelativeLayout>
 </layout>

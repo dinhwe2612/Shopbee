@@ -1,4 +1,5 @@
 package com.example.shopbee.ui.voucher;
 
-public class VoucherNavigator {
+public interface VoucherNavigator {
+    void backToPreviousFragment();
 }

@@ -112,7 +112,7 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
         });
         binding.voucher.setOnClickListener(v->{
             NavController navController = NavHostFragment.findNavController(this);
-//            navController.navigate(R.id.);
+            navController.navigate(R.id.voucherFragment);
         });
         binding.payment.setOnClickListener(v->{
             NavController navController = NavHostFragment.findNavController(this);
