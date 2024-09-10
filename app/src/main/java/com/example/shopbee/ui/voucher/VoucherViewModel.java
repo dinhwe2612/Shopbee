@@ -22,7 +22,7 @@ public class VoucherViewModel extends BaseViewModel {
         return promoCodes;
     }
     public void syncPromoCodes() {
-        getCompositeDisposable().add(getRepository().getPromoCode()
+        getCompositeDisposable().add(getRepository().getAllPromoCodes()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
