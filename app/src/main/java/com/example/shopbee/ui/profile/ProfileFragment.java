@@ -206,7 +206,8 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
 
     @Override
     public void promocodes() {
-
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.myVouchersFragment);
     }
 
     @Override

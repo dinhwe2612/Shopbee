@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="330dp"
+        android:layout_height="125dp"
+        android:layout_marginBottom="15dp"
+        android:gravity="center_horizontal"
+        android:id="@+id/typeOfVoucher"
+        android:background="@drawable/voucher_item"
+        android:layout_marginEnd="10dp">
+        <TextView
+            android:id="@+id/nameVoucher"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10% OFF"
+            style="@style/Red_SemiBold_16dp"/>
+        <TextView
+            android:layout_toRightOf="@id/nameVoucher"
+            android:id="@+id/subVoucher"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" up to $5"
+            style="@style/Black_SemiBold_16dp"/>
+        <TextView
+            android:layout_below="@id/subVoucher"
+            android:id="@+id/code"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SPB123456789"
+            style="@style/Black_SemiBold_18dp"/>
+        <TextView
+            android:id="@+id/dueto"
+            android:layout_marginBottom="15dp"
+            android:layout_marginStart="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valid until 04-12-2024"
+            style="@style/Black_Regular_14dp" />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/saveVoucher"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            style="@style/White_Medium_14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:background="@drawable/rounded_red_rectangle"
+            android:text="Save"/>
+    </RelativeLayout>
+</layout>

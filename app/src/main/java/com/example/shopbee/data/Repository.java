@@ -453,6 +453,9 @@ public class Repository {
             }
         });
     }
+    public Observable<Boolean> userHasThisPromoCode(PromoCodeResponse promoCodeResponse) {
+        return null;
+    }
     public Observable<Boolean> savePromoCode(PromoCodeResponse promoCodeResponse) {
         return Observable.create(emitter -> {
             String email = getUserResponse().getValue().getEmail();

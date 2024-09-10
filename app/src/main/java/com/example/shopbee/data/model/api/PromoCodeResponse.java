@@ -17,6 +17,16 @@ import java.util.Date;
 import java.util.List;
 
 public class PromoCodeResponse {
+    String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     String style;
 
     public void setStyle(String style) {

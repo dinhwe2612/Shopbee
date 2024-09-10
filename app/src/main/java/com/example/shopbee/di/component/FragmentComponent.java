@@ -13,6 +13,7 @@ import com.example.shopbee.ui.favorites.FavoritesFragment;
 import com.example.shopbee.ui.home.HomeFragment;
 import com.example.shopbee.ui.leave_feedback.LeaveFeedbackFragment;
 import com.example.shopbee.ui.my_review.MyReviewFragment;
+import com.example.shopbee.ui.my_vouchers.MyVouchersFragment;
 import com.example.shopbee.ui.productdetail.ProductDetailFragment;
 import com.example.shopbee.ui.profile.ProfileFragment;
 import com.example.shopbee.ui.profile.myorder.MyOrderDetailFragment;
@@ -55,4 +56,5 @@ public interface FragmentComponent {
     void inject(MyReviewFragment myReviewFragment);
     void inject(ShopbeePayFragment shopbeePayFragment);
     void inject(VoucherFragment voucherFragment);
+    void inject(MyVouchersFragment myVouchersFragment);
 }
