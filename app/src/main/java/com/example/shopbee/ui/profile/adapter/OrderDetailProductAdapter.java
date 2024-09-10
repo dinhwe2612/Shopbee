@@ -50,28 +50,30 @@ public class OrderDetailProductAdapter extends RecyclerView.Adapter<OrderDetailP
         holder.binding.quantity.setText(String.valueOf(orderDetailResponse.getQuantity()));
         holder.binding.productName.setText(orderDetailResponse.getProduct_name());
         List<Pair<String, String>> variation = orderDetailResponse.getVariation();
-//        Log.d("TAG", "variation: " + variation.get(0).first + " " + variation.get(0).second);
         if (variation != null && !variation.isEmpty()) {
             if (variation.size() == 1) {
                 holder.binding.variationText1.setVisibility(View.VISIBLE);
                 holder.binding.variation1.setVisibility(View.VISIBLE);
                 holder.binding.variationText2.setVisibility(View.GONE);
                 holder.binding.variation2.setVisibility(View.GONE);
-                holder.binding.variationText1.setText(variation.get(0).first + ":");
-                holder.binding.variation1.setText(variation.get(0).second);
+                String newVarFirst = variation.get(0).first.substring(0, 1).toUpperCase() + variation.get(0).first.substring(1).toLowerCase();
+                String newVarSecond = variation.get(0).second.substring(0, 1).toUpperCase() + variation.get(0).second.substring(1).toLowerCase();
+                holder.binding.variationText1.setText(newVarFirst + ":");
+                holder.binding.variation1.setText(newVarSecond);
             }
             if (variation.size() >= 2) {
                 holder.binding.variationText1.setVisibility(View.VISIBLE);
                 holder.binding.variation1.setVisibility(View.VISIBLE);
                 holder.binding.variationText2.setVisibility(View.VISIBLE);
                 holder.binding.variation2.setVisibility(View.VISIBLE);
-                for (Pair<String, String> pair : variation) {
-                    Log.d("TAG", "onBindViewHolder: " + pair.first + " " + pair.second);
-                }
-                holder.binding.variationText1.setText(variation.get(0).first + ":");
-                holder.binding.variation1.setText(variation.get(0).second);
-                holder.binding.variationText2.setText(variation.get(1).first + ":");
-                holder.binding.variation2.setText(variation.get(1).second);
+                String newVarFirst1 = variation.get(0).first.substring(0, 1).toUpperCase() + variation.get(0).first.substring(1).toLowerCase();
+                String newVarSecond1 = variation.get(0).second.substring(0, 1).toUpperCase() + variation.get(0).second.substring(1).toLowerCase();
+                String newVarFirst2 = variation.get(1).first.substring(0, 1).toUpperCase() + variation.get(1).first.substring(1).toLowerCase();
+                String newVarSecond2 = variation.get(1).second.substring(0, 1).toUpperCase() + variation.get(1).second.substring(1).toLowerCase();
+                holder.binding.variationText1.setText(newVarFirst1 + ":");
+                holder.binding.variation1.setText(newVarSecond1);
+                holder.binding.variationText2.setText(newVarFirst2 + ":");
+                holder.binding.variation2.setText(newVarSecond2);
                 if (variation.size() > 2) {
                     holder.binding.moreText.setVisibility(View.VISIBLE);
                     holder.binding.moreText.setOnClickListener(new View.OnClickListener() {

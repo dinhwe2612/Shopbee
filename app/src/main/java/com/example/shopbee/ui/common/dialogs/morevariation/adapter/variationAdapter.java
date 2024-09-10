@@ -27,8 +27,10 @@ public class variationAdapter extends RecyclerView.Adapter<variationAdapter.Vari
     @Override
     public void onBindViewHolder(@NonNull VariationViewHolder holder, int position) {
         Pair<String, String> pair = listVariation.get(position);
-        holder.binding.nameVariation.setText(pair.first + ": ");
-        holder.binding.valueVariation.setText(pair.second);
+        String newVarFirst = pair.first.substring(0, 1).toUpperCase() +pair.first.substring(1).toLowerCase();
+        String newVarSecond = pair.second.substring(0, 1).toUpperCase() + pair.second.substring(1).toLowerCase();
+        holder.binding.nameVariation.setText(newVarFirst + ": ");
+        holder.binding.valueVariation.setText(newVarSecond);
     }
 
     @Override

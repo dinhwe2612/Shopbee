@@ -99,4 +99,8 @@
         android:id="@+id/shopbeePayFragment"
         android:name="com.example.shopbee.ui.shopbeepay.ShopbeePayFragment"
         android:label="ShopbeePayFragment" />
+    <fragment
+        android:id="@+id/voucherFragment"
+        android:name="com.example.shopbee.ui.voucher.VoucherFragment"
+        android:label="VoucherFragment" />
 </navigation>

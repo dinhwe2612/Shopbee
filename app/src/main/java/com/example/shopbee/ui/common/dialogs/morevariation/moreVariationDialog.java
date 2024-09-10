@@ -65,7 +65,7 @@ public class moreVariationDialog extends DialogFragment {
             binding.quantityText.setVisibility(View.GONE);
         }
         RecyclerView recyclerView = binding.recyclerView;
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         adapter = new variationAdapter(variations);
         recyclerView.setAdapter(adapter);
 

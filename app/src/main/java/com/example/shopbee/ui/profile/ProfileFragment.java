@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,7 +13,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -24,16 +27,22 @@ import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.ListOrderResponse;
 import com.example.shopbee.data.model.api.OrderResponse;
+import com.example.shopbee.data.model.api.PromoCodeResponse;
 import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.databinding.ProfileBinding;
+import com.example.shopbee.databinding.VoucherBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.profile.adapter.ProfileAdapter;
+import com.example.shopbee.ui.voucher.adapter.VoucherAdapter;
+import com.saadahmedev.popupdialog.PopupDialog;
+import com.saadahmedev.popupdialog.listener.StandardDialogActionListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,71 +85,92 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
         viewModel.setNavigator(this);
     }
     @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        binding = getViewDataBinding();
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        binding = ProfileBinding.inflate(LayoutInflater.from(getContext()));
         loadRealtimeData();
-
-        viewModel.getAvatar().observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
-            @Override
-            public void onChanged(Bitmap bitmap) {
-                if (bitmap == null){
-                    binding.userAvatar.setImageResource(R.drawable.def_avatar);
-                } else {
-                    binding.userAvatar.setImageBitmap(bitmap);
-                }
-            }
-        });
-        binding.fullName.setText(userResponse.getFull_name());
-        binding.email.setText(userResponse.getEmail());
-
-        RecyclerView recyclerView = binding.recyclerViewProfile;
-        adapter = new ProfileAdapter(this, getContentEachOption());
-        adapter.setUpListProfileItem();
-        recyclerView.setAdapter(adapter);
-
-        binding.userAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CharSequence[] options = {"Take Photo", "Choose from Gallery"};
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Select an Option");
-                builder.setItems(options, (dialog, which) -> {
-                    if (which == 0) {
-                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        imagePickerLauncher.launch(takePictureIntent);
-                        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                            imagePickerLauncher.launch(takePictureIntent);
+        if (userResponse == null){
+            PopupDialog.getInstance(getContext())
+                    .standardDialogBuilder()
+                    .createStandardDialog()
+                    .setHeading("Login")
+                    .setDescription("Login to save order and your infomation")
+                    .setIcon(R.drawable.login_icon)
+                    .build(new StandardDialogActionListener() {
+                        @Override
+                        public void onPositiveButtonClicked(Dialog dialog) {
+                            //Move to login
                         }
-                    } else if (which == 1) {
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("image/*");
-                        imagePickerLauncher.launch(intent);
-                    }
-                });
-                builder.show();
-            }
-        });
-        imagePickerLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult()
-                , result -> {
-            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                if (result.getData().getExtras() != null) {
-                    Bitmap photo = (Bitmap) result.getData().getExtras().get("data");
-                    binding.userAvatar.setImageBitmap(photo);
-                    viewModel.uploadImageBitmapFirebase(photo, "avatar", userResponse.getEmail());
-                } else {
-                    Uri imageUri = result.getData().getData();
-                    try {
-                        Bitmap photo = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri);
-                        binding.userAvatar.setImageBitmap(photo);
-                        viewModel.uploadImageBitmapFirebase(photo, "avatar", userResponse.getEmail());
-                    } catch (IOException e) {
-                        Log.e(TAG, "Failed to load image from gallery", e);
+
+                        @Override
+                        public void onNegativeButtonClicked(Dialog dialog) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        } else {
+            viewModel.getAvatar().observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
+                @Override
+                public void onChanged(Bitmap bitmap) {
+                    if (bitmap == null){
+                        binding.userAvatar.setImageResource(R.drawable.def_avatar);
+                    } else {
+                        binding.userAvatar.setImageBitmap(bitmap);
                     }
                 }
-            }
-        });
+            });
+            binding.fullName.setText(userResponse.getFull_name());
+            binding.email.setText(userResponse.getEmail());
+
+            RecyclerView recyclerView = binding.recyclerViewProfile;
+            adapter = new ProfileAdapter(this, getContentEachOption());
+            adapter.setUpListProfileItem();
+            recyclerView.setAdapter(adapter);
+
+            binding.userAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CharSequence[] options = {"Take Photo", "Choose from Gallery"};
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Select an Option");
+                    builder.setItems(options, (dialog, which) -> {
+                        if (which == 0) {
+                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            imagePickerLauncher.launch(takePictureIntent);
+                            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                                imagePickerLauncher.launch(takePictureIntent);
+                            }
+                        } else if (which == 1) {
+                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                            intent.setType("image/*");
+                            imagePickerLauncher.launch(intent);
+                        }
+                    });
+                    builder.show();
+                }
+            });
+            imagePickerLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult()
+                    , result -> {
+                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                            if (result.getData().getExtras() != null) {
+                                Bitmap photo = (Bitmap) result.getData().getExtras().get("data");
+                                binding.userAvatar.setImageBitmap(photo);
+                                viewModel.uploadImageBitmapFirebase(photo, "avatar", userResponse.getEmail());
+                            } else {
+                                Uri imageUri = result.getData().getData();
+                                try {
+                                    Bitmap photo = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri);
+                                    binding.userAvatar.setImageBitmap(photo);
+                                    viewModel.uploadImageBitmapFirebase(photo, "avatar", userResponse.getEmail());
+                                } catch (IOException e) {
+                                    Log.e(TAG, "Failed to load image from gallery", e);
+                                }
+                            }
+                        }
+                    });
+        }
+        return binding.getRoot();
     }
     @Override
     public void handleError(String message) {
