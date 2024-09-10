@@ -159,6 +159,8 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         bagAdapter.notifyDataSetChanged();
     }
     public void dealWithNullUser() {
+        getViewDataBinding().loading.setVisibility(View.GONE);
+        displayOptionsForBag(View.GONE, View.GONE);
         getViewDataBinding().signIn.setVisibility(View.VISIBLE);
         getViewDataBinding().signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,7 +262,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     @Override
     public void onStop() {
         super.onStop();
-        displayOptionsForBag(View.GONE, View.GONE);
+//        displayOptionsForBag(View.GONE, View.GONE);
         dialogsManager.unregisterListener(this);
     }
 
