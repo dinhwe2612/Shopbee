@@ -9,4 +9,5 @@ public interface ProfileNavigator {
     void myReviews();
     void setting();
     void openMainActivity();
+    void navigateToLogin();
 }

@@ -93,13 +93,15 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
             PopupDialog.getInstance(getContext())
                     .standardDialogBuilder()
                     .createStandardDialog()
-                    .setHeading("Login")
-                    .setDescription("Login to save order and your infomation")
+                    .setHeading("LOGIN")
+                    .setDescription("Login to save order and your information")
+                    .setPositiveButtonText("Go to login")
+                    .setPositiveButtonTextColor(R.color.white)
                     .setIcon(R.drawable.login_icon)
                     .build(new StandardDialogActionListener() {
                         @Override
                         public void onPositiveButtonClicked(Dialog dialog) {
-                            //Move to login
+                            navigateToLogin();
                         }
 
                         @Override
@@ -108,7 +110,15 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
                         }
                     })
                     .show();
+            binding.loginText.setVisibility(View.VISIBLE);
+            binding.loginText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navigateToLogin();
+                }
+            });
         } else {
+            binding.loginText.setVisibility(View.GONE);
             viewModel.getAvatar().observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
                 @Override
                 public void onChanged(Bitmap bitmap) {
@@ -214,6 +224,12 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
     @Override
     public void openMainActivity() {
 
+    }
+
+    @Override
+    public void navigateToLogin() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.login);
     }
 
     @Override
