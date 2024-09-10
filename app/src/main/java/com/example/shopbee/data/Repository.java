@@ -484,6 +484,37 @@ public class Repository {
             });
         });
     }
+    public Observable<List<PromoCodeResponse>> getAllPromoCodes() {
+        return Observable.create(emitter -> {
+            List<PromoCodeResponse> list = new ArrayList<>();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("promo_code");
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot promoSnapshot : snapshot.getChildren()) {
+                            // Get promo code details if user possesses it
+                            String name = promoSnapshot.child("name").getValue(String.class);
+                            String code = promoSnapshot.child("code").getValue(String.class);
+                            Integer percent = promoSnapshot.child("percent").getValue(Integer.class);
+                            Float maxDiscount = promoSnapshot.child("max_discount").getValue(Float.class);
+                            String dueDate = promoSnapshot.child("due_date").getValue(String.class);
+                            String style = promoSnapshot.child("style").getValue(String.class);
+                            PromoCodeResponse promoCodeResponse = new PromoCodeResponse(percent, maxDiscount, name, code, dueDate, style);
+                            list.add(promoCodeResponse);
+                        }
+                    }
+                    emitter.onNext(list);
+                    emitter.onComplete();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    emitter.onError(error.toException());
+                }
+            });
+        });
+    }
     public Observable<List<PromoCodeResponse>> getPromoCode() {
         return Observable.create(emitter -> {
             List<PromoCodeResponse> list = new ArrayList<>();
