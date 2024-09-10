@@ -115,6 +115,7 @@
 
     </TextView>
     <LinearLayout
+        android:layout_marginTop="25dp"
         android:id="@+id/loading"
         android:orientation="vertical"
         android:layout_gravity="center"

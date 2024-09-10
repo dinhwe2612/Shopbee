@@ -16,6 +16,7 @@ import com.example.shopbee.ui.favorites.FavoritesViewModel;
 import com.example.shopbee.ui.home.HomeViewModel;
 import com.example.shopbee.ui.leave_feedback.LeaveFeedbackViewModel;
 import com.example.shopbee.ui.my_review.MyReviewsViewModel;
+import com.example.shopbee.ui.my_vouchers.MyVouchersViewModel;
 import com.example.shopbee.ui.productdetail.ProductDetailViewModel;
 import com.example.shopbee.ui.profile.ProfileViewModel;
 import com.example.shopbee.ui.profile.myorder.MyOrderDetailViewModel;
@@ -182,5 +183,11 @@ public class FragmentModule {
         Supplier<VoucherViewModel> supplier = () -> new VoucherViewModel(repository);
         ViewModelProviderFactory<VoucherViewModel> factory = new ViewModelProviderFactory<VoucherViewModel>(VoucherViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(VoucherViewModel.class);
+    }
+    @Provides
+    public MyVouchersViewModel provideMyVouchersViewModel(Repository repository) {
+        Supplier<MyVouchersViewModel> supplier = () -> new MyVouchersViewModel(repository);
+        ViewModelProviderFactory<MyVouchersViewModel> factory = new ViewModelProviderFactory<>(MyVouchersViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(MyVouchersViewModel.class);
     }
 }
