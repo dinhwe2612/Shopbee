@@ -453,7 +453,37 @@ public class Repository {
             }
         });
     }
+    public Observable<Boolean> savePromoCode(PromoCodeResponse promoCodeResponse) {
+        return Observable.create(emitter -> {
+            String email = getUserResponse().getValue().getEmail();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("promo_code");
+            // check all promo codes
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot promoSnapshot : snapshot.getChildren()) {
+                            if (promoCodeResponse.getCode().equals(promoSnapshot.child("code").getValue(String.class))) {
+                                HashMap<String, String> map = new HashMap<>();
+                                map.put("email", email);
+                                promoSnapshot.child("users").getRef().push().setValue(map);
+                                emitter.onNext(true);
+                                emitter.onComplete();
+                                break;
+                            }
+                        }
+                    }
+                    emitter.onNext(false);
+                    emitter.onComplete();
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    emitter.onError(error.toException()); // Emit error if the operation is cancelled
+                }
+            });
+        });
+    }
     public Observable<List<PromoCodeResponse>> getPromoCode() {
         return Observable.create(emitter -> {
             List<PromoCodeResponse> list = new ArrayList<>();
