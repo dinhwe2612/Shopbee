@@ -34,6 +34,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
     public interface onChangeQuantityListener {
+        void onItemClick(String asin);
         void onChangeQuantity(String asin, List<Pair<String, String>> variations, boolean increase, int position);
         void onSaveToFavorites(int position, ImageView imageView);
         void onDeleteFromList(String asin, List<Pair<String, String>> variations, int position);
@@ -67,6 +68,13 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull BagAdapter.ViewHolder holder, int position) {
         holder.bindView(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                onChangeQuantityListener.onItemClick(products.get(position).getProduct_id());
+            }
+        });
     }
 
     @Override

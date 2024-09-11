@@ -114,6 +114,10 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
             NavController navController = NavHostFragment.findNavController(this);
             navController.navigate(R.id.voucherFragment);
         });
+        binding.myvoucher.setOnClickListener(v->{
+            NavController navController = NavHostFragment.findNavController(this);
+            navController.navigate(R.id.myVouchersFragment);
+        });
         binding.payment.setOnClickListener(v->{
             NavController navController = NavHostFragment.findNavController(this);
             navController.navigate(R.id.paymentFragment);

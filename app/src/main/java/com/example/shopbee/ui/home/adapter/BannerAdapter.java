@@ -12,11 +12,11 @@ import com.example.shopbee.R;
 
 public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerViewHolder> {
     int[] images = {
-            R.drawable.image1,
-            R.drawable.image2,
-            R.drawable.image3,
-            R.drawable.image4,
-            R.drawable.image5
+            R.drawable.books_banner,
+//            R.drawable.gaming_banner,
+//            R.drawable.toy_banner,
+            R.drawable.kitchen_banner,
+            R.drawable.beauty_banner
     };
     @NonNull
     @Override

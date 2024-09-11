@@ -369,6 +369,14 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     }
 
     @Override
+    public void onItemClick(String asin) {
+        Bundle bundle = new Bundle();
+        bundle.putString("asin", asin);
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.productDetailFragment, bundle);
+    }
+
+    @Override
     public void onChangeQuantity(String asin, List<Pair<String, String>> variations, boolean increase, int position) {
         viewModel.getCompositeDisposable().add(viewModel.getRepository().updateUserBagVariation(asin, variations, increase)
                         .subscribeOn(Schedulers.io())

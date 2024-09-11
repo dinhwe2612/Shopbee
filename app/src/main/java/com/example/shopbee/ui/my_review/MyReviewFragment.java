@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.shopbee.R;
@@ -47,6 +48,11 @@ public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsVi
     }
 
     @Override
+    public FragmentType getFragmentType() {
+        return FragmentType.SELECT_PROFILE_ICON;
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         dialogsManager.registerListener(this);
@@ -73,6 +79,9 @@ public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsVi
                 binding.loading.setVisibility(View.GONE);
                 setUpRecyclerView();
             }
+        });
+        binding.backbutton.setOnClickListener(v->{
+            navigateUp();
         });
         withPhotoReviews();
         return binding.getRoot();
@@ -164,5 +173,10 @@ public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsVi
     @Override
     public void onMoreVariationClick(int position) {
 
+    }
+
+    @Override
+    public void navigateUp() {
+        NavHostFragment.findNavController(this).navigateUp();
     }
 }

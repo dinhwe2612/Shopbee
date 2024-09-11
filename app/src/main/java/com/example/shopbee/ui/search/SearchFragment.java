@@ -170,6 +170,9 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
                 navigateToMannualSearchFragment();
             }
         });
+        getViewDataBinding().backbutton.setOnClickListener(v->{
+            NavHostFragment.findNavController(this).navigateUp();
+        });
     }
 
     public void syncProducts(boolean searchByCategory, HashMap<String, String> query) {

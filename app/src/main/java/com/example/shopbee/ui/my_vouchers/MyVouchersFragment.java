@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,6 +46,9 @@ public class MyVouchersFragment extends BaseFragment<MyVouchersBinding, MyVouche
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
+        binding.backbutton.setOnClickListener(v->{
+            navigateUp();
+        });
         setUpRecyclerView();
         observeData();
         observeLoading();
@@ -115,5 +119,10 @@ public class MyVouchersFragment extends BaseFragment<MyVouchersBinding, MyVouche
     public void setUpRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.recyclerView.setAdapter(myVouchersAdapter);
+    }
+
+    @Override
+    public void navigateUp() {
+        NavHostFragment.findNavController(this).navigateUp();
     }
 }

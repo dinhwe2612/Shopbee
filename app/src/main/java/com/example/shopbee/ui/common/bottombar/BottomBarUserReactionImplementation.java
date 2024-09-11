@@ -79,8 +79,8 @@ public class BottomBarUserReactionImplementation {
             public void onGlobalLayout() {
                 binding.getRoot().getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 UISelected(currentPosition);
-                animatedBackground.setX(getTranslationX(currentPosition));
-                Log.d("BottomBarUserReaction", "onGlobalLayout: " + currentPosition);
+                animateBackground(currentPosition);
+                Log.d("BottomBarUserReaction", "onGlobalLayout: " + currentPosition + " " + getTranslationX(currentPosition));
             }
         });
     }

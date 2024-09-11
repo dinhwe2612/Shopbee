@@ -290,7 +290,7 @@ public class CategoriesHashMap {
         categories.put("2975359011", "Food");
         categoriesLink.put("2975359011", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ2dTifgpVKsX7tcIOHMWa8RdxzjRxnHr42w&s");
         categories.put("2975413011", "Toys");
-        categoriesLink.put("2975413011", "Toys");
+        categoriesLink.put("2975413011", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfVoJ-vuuOkMUhKTWDQlezV3QnvhHpnuHYWQ&s");
         categories.put("2975377011", "Health Supplies");
         categoriesLink.put("2975377011", "https://m.media-amazon.com/images/I/61y5u6XY6xL.jpg");
         categories.put("2975326011", "Beds & Furniture");
@@ -326,7 +326,7 @@ public class CategoriesHashMap {
         categories.put("565108", "Laptops");
         categoriesLink.put("565108", "https://m.media-amazon.com/images/I/71aTEZOda0L.jpg");
         categories.put("1232597011", "Tablets");
-        categoriesLink.put("565108", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTU2YyTxCEV5m-ea5-9N8SwUXFyFEPLFjDL6Q&s");
+        categoriesLink.put("1232597011", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTU2YyTxCEV5m-ea5-9N8SwUXFyFEPLFjDL6Q&s");
 
         categories.put("11041841", "Chargers & Adapters");
         categoriesLink.put("11041841", "https://m.media-amazon.com/images/I/61elgS6ncgL._AC_UF1000,1000_QL80_.jpg");
@@ -350,7 +350,7 @@ public class CategoriesHashMap {
         categoriesLink.put("499306", "https://m.media-amazon.com/images/I/71MPXuJuEjL._AC_UF1000,1000_QL80_.jpg");
 
         categories.put("2407748011", "Carrier Cell Phones");
-        categoriesLink.put("2407748011", "Carrier Cell Phones");
+        categoriesLink.put("2407748011", "https://m.media-amazon.com/images/I/61gVa7mjtjL.jpg");
         categories.put("2407749011", "Unlocked Cell Phones");
         categoriesLink.put("2407749011", "https://m.media-amazon.com/images/I/61Nvb4c-i0L._AC_UF894,1000_QL80_.jpg");
         categories.put("2407760011", "Cases, Holsters & Clips");
@@ -359,7 +359,7 @@ public class CategoriesHashMap {
         categories.put("12097478011", "Earbud Headphones");
         categoriesLink.put("12097478011", "https://m.media-amazon.com/images/I/51vZrA9+uIL.jpg");
         categories.put("12097480011", "On-Ear Headphones");
-        categoriesLink.put("12097478011", "https://m.media-amazon.com/images/I/71aBTe8lZkL._AC_UF894,1000_QL80_.jpg");
+        categoriesLink.put("12097480011", "https://m.media-amazon.com/images/I/71aBTe8lZkL._AC_UF894,1000_QL80_.jpg");
         categories.put("12097479011", "Over-Ear Headphones");
         categoriesLink.put("12097479011", "https://m.media-amazon.com/images/I/613axEScHJL._AC_UF894,1000_QL80_.jpg");
 
