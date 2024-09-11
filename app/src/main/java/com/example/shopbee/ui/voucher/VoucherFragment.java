@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,10 +30,19 @@ import com.saadahmedev.popupdialog.listener.StandardDialogActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewModel> implements VoucherNavigator, VoucherAdapter.Listener{
     private VoucherBinding binding;
     private UserResponse userResponse;
-    private MutableLiveData<PromoCodeResponse> promoCodeResponse = new MutableLiveData<>();
+    private List<PromoCodeResponse> shopbeeList;
+    private List<PromoCodeResponse> freeshipList;
+    private List<PromoCodeResponse> newUserList;
+    private VoucherAdapter shopbeeAdapter;
+    private VoucherAdapter freeshipAdapter;
+    private VoucherAdapter newUserAdapter;
+
     @Override
     public int getBindingVariable() {
         return BR.vm;
@@ -53,6 +63,12 @@ public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewMod
         super.onCreateView(inflater, container, savedInstanceState);
         binding = VoucherBinding.inflate(LayoutInflater.from(getContext()));
         viewModel.syncPromoCodes();
+        viewModel.getUserResponse().observeForever(new Observer<UserResponse>() {
+            @Override
+            public void onChanged(UserResponse response) {
+                userResponse = response;
+            }
+        });
         RecyclerView shopbeeRecyclerView = binding.shopbeeRecyclerView;
         RecyclerView freeshipRecyclerView = binding.freeshipRecyclerView;
         RecyclerView newUserRecyclerView = binding.newbieRecyclerView;
@@ -62,9 +78,9 @@ public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewMod
         newUserRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         viewModel.getPromoCodes().observe(getViewLifecycleOwner(), result -> {
-            List<PromoCodeResponse> shopbeeList = new ArrayList<>();
-            List<PromoCodeResponse> freeshipList = new ArrayList<>();
-            List<PromoCodeResponse> newUserList = new ArrayList<>();
+            shopbeeList = new ArrayList<>();
+            freeshipList = new ArrayList<>();
+            newUserList = new ArrayList<>();
             for (PromoCodeResponse promoCodeResponse : result) {
                 switch (promoCodeResponse.getName()){
                     case "shopbee":
@@ -79,16 +95,19 @@ public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewMod
                 }
             }
             if  (userResponse != null){
-                VoucherAdapter shopbeeAdapter = new VoucherAdapter(this, shopbeeList, userResponse.getEmail());
-                VoucherAdapter freeshipAdapter = new VoucherAdapter(this, freeshipList, userResponse.getEmail());
-                VoucherAdapter newUserAdapter = new VoucherAdapter(this, newUserList, userResponse.getEmail());
-                shopbeeRecyclerView.setAdapter(shopbeeAdapter);
-                freeshipRecyclerView.setAdapter(freeshipAdapter);
-                newUserRecyclerView.setAdapter(newUserAdapter);
+                viewModel.syncPromoCodesOfUser();
+                viewModel.getPromoCodeOfUser().observe(getViewLifecycleOwner(), listCodeUser -> {
+                    shopbeeAdapter = new VoucherAdapter(this, shopbeeList, userResponse.getEmail(), listCodeUser);
+                    freeshipAdapter = new VoucherAdapter(this, freeshipList, userResponse.getEmail(), listCodeUser);
+                    newUserAdapter = new VoucherAdapter(this, newUserList, userResponse.getEmail(), listCodeUser);
+                    shopbeeRecyclerView.setAdapter(shopbeeAdapter);
+                    freeshipRecyclerView.setAdapter(freeshipAdapter);
+                    newUserRecyclerView.setAdapter(newUserAdapter);
+                });
             } else {
-                VoucherAdapter shopbeeAdapter = new VoucherAdapter(this, shopbeeList, "");
-                VoucherAdapter freeshipAdapter = new VoucherAdapter(this, freeshipList, "");
-                VoucherAdapter newUserAdapter = new VoucherAdapter(this, newUserList, "");
+                shopbeeAdapter = new VoucherAdapter(this, shopbeeList, "", null);
+                freeshipAdapter = new VoucherAdapter(this, freeshipList, "", null);
+                newUserAdapter = new VoucherAdapter(this, newUserList, "", null);
                 shopbeeRecyclerView.setAdapter(shopbeeAdapter);
                 freeshipRecyclerView.setAdapter(freeshipAdapter);
                 newUserRecyclerView.setAdapter(newUserAdapter);
@@ -97,7 +116,7 @@ public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewMod
         binding.myVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Navigate to my voucher
+                navigateToMyVoucher();
             }
         });
         binding.buttonBack.setOnClickListener(new View.OnClickListener() {
@@ -108,9 +127,20 @@ public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewMod
         });
         return binding.getRoot();
     }
+    @Override
+    public void backToPreviousFragment() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigateUp();
+    }
 
     @Override
-    public void onSaveVoucher(int position) {
+    public void navigateToMyVoucher() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.myVouchersFragment);
+    }
+
+    @Override
+    public void onSaveVoucherFreeShip(int position) {
         if (userResponse == null){
             PopupDialog.getInstance(getContext())
                     .standardDialogBuilder()
@@ -131,13 +161,99 @@ public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewMod
                     })
                     .show();
         } else {
-            // updatePromote code
+            PromoCodeResponse newPromoCode = freeshipList.get(position);
+            viewModel.getCompositeDisposable().add(viewModel.getRepository().savePromoCode(newPromoCode)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(success ->{
+                                if (success){
+                                    viewModel.getPromoCodeOfUser().getValue().add(newPromoCode);
+                                    freeshipAdapter.notifyItemChanged(position, viewModel.getPromoCodeOfUser().getValue());
+                                }
+                            },
+                            error ->{
+
+                            })
+            );
         }
     }
 
     @Override
-    public void backToPreviousFragment() {
-        NavController navController = NavHostFragment.findNavController(this);
-        navController.navigateUp();
+    public void onSaveVoucherShopbee(int position) {
+        if (userResponse == null){
+            PopupDialog.getInstance(getContext())
+                    .standardDialogBuilder()
+                    .createStandardDialog()
+                    .setHeading("Login")
+                    .setDescription("Login to save voucher and get discount")
+                    .setIcon(R.drawable.login_icon)
+                    .build(new StandardDialogActionListener() {
+                        @Override
+                        public void onPositiveButtonClicked(Dialog dialog) {
+                            //Move to login
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked(Dialog dialog) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        } else {
+            PromoCodeResponse newPromoCode = shopbeeList.get(position);
+            viewModel.getCompositeDisposable().add(viewModel.getRepository().savePromoCode(newPromoCode)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(success ->{
+                                if (success){
+                                    viewModel.getPromoCodeOfUser().getValue().add(newPromoCode);
+                                    shopbeeAdapter.notifyItemChanged(position, viewModel.getPromoCodeOfUser().getValue());
+                                }
+                            },
+                            error ->{
+
+                            })
+            );
+        }
+    }
+
+    @Override
+    public void onSaveVoucherNewbie(int position) {
+        if (userResponse == null){
+            PopupDialog.getInstance(getContext())
+                    .standardDialogBuilder()
+                    .createStandardDialog()
+                    .setHeading("Login")
+                    .setDescription("Login to save voucher and get discount")
+                    .setIcon(R.drawable.login_icon)
+                    .build(new StandardDialogActionListener() {
+                        @Override
+                        public void onPositiveButtonClicked(Dialog dialog) {
+                            //Move to login
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked(Dialog dialog) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        } else {
+            PromoCodeResponse newPromoCode = newUserList.get(position);
+            viewModel.getCompositeDisposable().add(viewModel.getRepository().savePromoCode(newPromoCode)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(success ->{
+                                if (success){
+                                    viewModel.getPromoCodeOfUser().getValue().add(newPromoCode);
+                                    newUserAdapter.notifyItemChanged(position, viewModel.getPromoCodeOfUser().getValue());
+                                }
+                            },
+                            error ->{
+
+                            })
+            );
+
+        }
     }
 }
