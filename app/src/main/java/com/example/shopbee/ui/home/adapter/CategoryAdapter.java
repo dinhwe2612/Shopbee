@@ -16,38 +16,36 @@ import java.util.List;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
     List<String> categoryTitle = new ArrayList<>(Arrays.asList(
             "Recommended for You",
-            "Refrigerators & Freezers",
-            "Laundry Appliances",
-            "Ranges, Ovens & Cooktops",
-            "Microwave Ovens",
-            "Dishwashers",
-            "Small Kitchen Appliances",
-            "Heating, Cooling & Air Quality",
-            "Vacuums & Floor Care",
-            "Garbage Disposals & Compactors"
+            "Baskets, Bins & Containers",
+            "Clothing & Closet Storage",
+            "Calculators",
+            "Office Lighting",
+            "Toys",
+            "Desktops",
+            "Tablets",
+            "Vacuums"
     ));
     List<String> categoryId = new ArrayList<>(Arrays.asList(
+            "",
             "17921061011",
-            "18116194011",
-            "18116197011",
-            "289935",
-            "3741271",
-            "289913",
-            "18116199011",
-            "18116203011",
-            "18116205011"
+            "2423187011",
+            "172518",
+            "1068956",
+            "2975413011",
+            "565098",
+            "1232597011",
+            "3743521"
     ));
     List<String> categoryImageUrl = new ArrayList<>(Arrays.asList(
             "https://m.media-amazon.com/images/I/71-fHgdoOiL.jpg",
-            "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQKdozrWx9puvplBhpgh-yA3DWNUPYDHI0tmEVo-U8At7D1dS41kPDABEdh-zmPEpO05PsfLpKZ9-l0xypKIRPP-8BKOS-eQJGNO6nDhia3YxSL-rXOEP2IYg&usqp=CAE",
-            "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcT9VN7DohBlt7xldBlB5eUHfI7Xykxgcv255rKmbmRP3uY9tB22Dbcvn68z2LmeXC-Wgppud9BddHDE1sR59AJ2jxcm9SwAZOvUTIJrDtBC&usqp=CAE",
-            "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcR-z91RFf2xvCUREulS_ZvGmWuSXqRa95TJ-sPUxOhOzYYk5YI8B52v85SaVtK--9ldEjj4UejV57STmdsYyvk8srzzApR54OOQQQ21qxTUuKhGFCt3UJTfzg&usqp=CAE",
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQijG5pp4cBUTT7_mKy1Ytv3s47J6rHmXW4FA&s",
-            "https://m.media-amazon.com/images/I/41Rz9mSUBaL._SR290,290_.jpg",
-            "https://images-na.ssl-images-amazon.com/images/G/01/img18/home/Harmony/Nav_Tiles/SmallAppliances/Nav1._CB476888166_.jpg",
-            "https://m.media-amazon.com/images/G/01/img22/Storefronts/HeatingCoolingAir/HMT_HeatingCoolingAir_Storefront2024_ShopTop_AirPurifiers_432x432._CB582873206_UC290,290_.jpg",
-            "https://m.media-amazon.com/images/S/al-na-9d5791cf-3faf/817742a4-be7a-44a1-a3f2-b5a5123ddcd4._SL480_.png",
-            "https://m.media-amazon.com/images/I/71YX6If9RcL._AC_UF894,1000_QL80_.jpg"
+            "https://m.media-amazon.com/images/I/71OexVFpBwL._AC_UF894,1000_QL80_.jpg",
+            "https://m.media-amazon.com/images/I/71X756iVmiL.jpg",
+            "https://m.media-amazon.com/images/I/81gCddxjppL.jpg",
+            "https://m.media-amazon.com/images/S/al-na-9d5791cf-3faf/f1ce050f-bac1-4ee2-8f7a-7aa5868171b9._SL480_.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfVoJ-vuuOkMUhKTWDQlezV3QnvhHpnuHYWQ&s",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRMPvjd_sR0P-zbotAwYxtRZTcKTOWTbxFtA&s",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTU2YyTxCEV5m-ea5-9N8SwUXFyFEPLFjDL6Q&s",
+            "https://m.media-amazon.com/images/S/al-na-9d5791cf-3faf/cce996bc-0ab4-4f5d-a078-b7ba2ddcb579._SL480_.jpg"
     ));
     public interface Listener {
         void onCategoryClick(String categoryId);
@@ -80,7 +78,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         holder.binding.setCh(new CategoryHomeList(categoryTitle.get(position), categoryImageUrl.get(position)));
-        holder.binding.cardView.setOnClickListener(v -> {
+        if (position != 0) holder.binding.cardView.setOnClickListener(v -> {
             listener.onCategoryClick(categoryId.get(position));
         });
     }

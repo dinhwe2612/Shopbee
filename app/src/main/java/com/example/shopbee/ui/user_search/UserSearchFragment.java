@@ -118,13 +118,11 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
                 }
             }
         });
-        binding.textInputLayout.setStartIconOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.textInputLayout.clearFocus();
-                binding.textInputEditText.clearFocus();
-                clearSuggestions();
-            }
+        binding.textInputLayout.setStartIconOnClickListener(v-> {
+            binding.textInputLayout.clearFocus();
+            binding.textInputEditText.clearFocus();
+            clearSuggestions();
+            NavHostFragment.findNavController(this).navigateUp();
         });
         binding.textInputEditText.addTextChangedListener(new TextWatcher() {
             @Override

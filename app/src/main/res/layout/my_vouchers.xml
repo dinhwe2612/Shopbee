@@ -8,8 +8,16 @@
         xmlns:tools="http://schemas.android.com/tools"
         style="@style/Background"
         android:orientation="vertical">
-        <include
-            layout="@layout/element_toolbar"/>
+
+        <ImageButton
+            android:id="@+id/backbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/back_icon"
+            android:layout_marginBottom="15dp"/>
         <LinearLayout
             android:background="@color/white_light_theme"
             android:layout_width="match_parent"
