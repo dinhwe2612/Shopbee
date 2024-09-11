@@ -49,12 +49,14 @@
             android:id="@+id/bagIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/bag_icon_white"
             android:layout_marginTop="10dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"/>
 
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/messageIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -216,12 +218,13 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/icon_myorder"/>
+                            android:src="@drawable/my_order"/>
                         <TextView
+                            android:layout_marginTop="2dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="My Order"
-                            style="@style/Black_Regular_16dp"/>
+                            style="@style/Black_SemiBold_16dp"/>
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/address"
@@ -233,12 +236,13 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/icon_address"/>
+                            android:src="@drawable/location"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Address"
-                            style="@style/Black_Regular_16dp"/>
+                            android:layout_marginTop="2dp"
+                            style="@style/Black_SemiBold_16dp"/>
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/myvoucher"
@@ -248,14 +252,15 @@
                         android:layout_weight="1"
                         android:gravity="center_horizontal">
                         <ImageView
-                            android:layout_width="40dp"
+                            android:layout_width="50dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/icon_vourcher"/>
+                            android:src="@drawable/my_voucher_1"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="My Voucher"
-                            style="@style/Black_Regular_16dp"/>
+                            android:layout_marginTop="2dp"
+                            style="@style/Black_SemiBold_16dp"/>
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/payment"
@@ -267,12 +272,13 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/icon_payments"/>
+                            android:src="@drawable/my_payment"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Payment"
-                            style="@style/Black_Regular_16dp"/>
+                            android:layout_marginTop="2dp"
+                            style="@style/Black_SemiBold_16dp"/>
                     </LinearLayout>
                 </LinearLayout>
 
