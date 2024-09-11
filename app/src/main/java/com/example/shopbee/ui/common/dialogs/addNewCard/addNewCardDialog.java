@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,7 +46,7 @@ public class addNewCardDialog extends DialogFragment {
         binding.checkBoxCard.setChecked(false, false);
         handleStateOfInput(binding.name, binding.nameHint, binding.nameOnCardLayout);
         handleStateOfNumberCard(binding.cardNumber, binding.cardNumberHint, binding.cardNumberLayout, binding.typeCardIcon);
-        handleStateOfInput(binding.expiryDate, binding.expiryDateHint, binding.expiryDateLayout);
+        handleStateOfExpiryDate(binding.expiryDate, binding.expiryDateHint, binding.expiryDateLayout);
         handleStateOfInput(binding.cvv, binding.cvvHint, binding.cvvLayout);
 
         binding.checkBoxCard.setOnCheckedChangeListener(new AnimatedCheckBox.OnCheckedChangeListener() {
@@ -124,8 +126,14 @@ public class addNewCardDialog extends DialogFragment {
     }
     private void handleStateOfNumberCard(EditText editText, TextView hint, LinearLayout layout, ImageView icon) {
         editText.addTextChangedListener(new TextWatcher() {
+            private boolean isFormatting;
+            private int cursorPosition;
+            private int beforeTextLength;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                cursorPosition = editText.getSelectionStart();
+                beforeTextLength = s.length();
                 if (s.toString().isEmpty()){
                     hint.setVisibility(View.GONE);
                 } else {
@@ -143,7 +151,7 @@ public class addNewCardDialog extends DialogFragment {
                     icon.setVisibility(View.GONE);
                 } else {
                     hint.setVisibility(View.VISIBLE);
-                    if (s.toString().length() == 16) {
+                    if (s.toString().length() == 19) {
                         icon.setVisibility(View.VISIBLE);
                     } else {
                         icon.setVisibility(View.GONE);
@@ -153,6 +161,79 @@ public class addNewCardDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (isFormatting) return;
+                isFormatting = true;
+
+                StringBuilder formatted = new StringBuilder(s.toString().replace(" ", ""));
+                if (formatted.length() > 0) {
+                    for (int i = 4; i < formatted.length(); i += 5) {
+                        formatted.insert(i, " ");
+                    }
+                }
+
+                if (beforeTextLength != s.length()) {
+                    editText.setText(formatted.toString());
+                    editText.setSelection(Math.min(cursorPosition + (formatted.length() - s.length()), formatted.length()));
+                } else {
+                    editText.setSelection(Math.min(cursorPosition, formatted.length()));
+                }
+
+                isFormatting = false;
+                if (s.toString().isEmpty()){
+                    hint.setVisibility(View.GONE);
+                } else {
+                    hint.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+    private void handleStateOfExpiryDate(EditText editText, TextView hint, LinearLayout layout) {
+        editText.addTextChangedListener(new TextWatcher() {
+            private boolean isFormatting;
+            private int cursorPosition;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                cursorPosition = editText.getSelectionStart();
+                if (s.toString().isEmpty()){
+                    hint.setVisibility(View.GONE);
+                } else {
+                    hint.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                editText.setHintTextColor(getResources().getColor(R.color.gray));
+                hint.setTextColor(getResources().getColor(R.color.gray));
+                layout.setBackgroundResource(R.drawable.slight_rounded_white_rectangle);
+                if (s.toString().isEmpty()){
+                    hint.setVisibility(View.GONE);
+                } else {
+                    hint.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isFormatting) return;
+                isFormatting = true;
+
+                String input = s.toString().replace("/", "");
+                StringBuilder formatted = new StringBuilder();
+
+                if (input.length() >= 2) {
+                    formatted.append(input.substring(0, 2));
+                    if (input.length() > 2) {
+                        formatted.append("/").append(input.substring(2));
+                    }
+                } else {
+                    formatted.append(input);
+                }
+
+                editText.setText(formatted.toString());
+                editText.setSelection(Math.min(cursorPosition + (formatted.length() - s.length()), formatted.length()));
+
+                isFormatting = false;
                 if (s.toString().isEmpty()){
                     hint.setVisibility(View.GONE);
                 } else {
