@@ -37,8 +37,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutViewModel> implements CheckoutNavigator{
     private CheckoutBinding binding;
     private UserResponse userResponse;
-    private AddressResponse currentAddress;
-    private PaymentResponse currentPayment;
+    private AddressResponse finalAddress;
+    private PaymentResponse finalPayment;
     private OrderResponse orderResponse;
     private ListOrderResponse listOrderResponse;
     @Override
@@ -74,31 +74,41 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         binding.submitOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderResponse.setStatus("processing");
-                orderResponse.setPayment(currentPayment.getType());
-                orderResponse.setDate(DateTimeToFormat());
-                listOrderResponse.getList_order().add(orderResponse);
-                viewModel.getCompositeDisposable().add(viewModel.getRepository().updateOrderFirebase(orderResponse)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(success -> {
-                                if (success) {
-                                    navigateToSuccessFragment();
-                                } else {
-                                    PopupDialog.getInstance(v.getContext())
-                                        .statusDialogBuilder()
-                                        .createWarningDialog()
-                                        .setHeading("Pending!")
-                                        .setDescription("You verification is under" +
-                                                " observation. Try again later.")
-                                        .build(Dialog::dismiss)
-                                        .show();
-                                }
-                        },
-                        error -> {
+                if (finalAddress == null || finalPayment == null){
+                    PopupDialog.getInstance(v.getContext())
+                            .statusDialogBuilder()
+                            .createWarningDialog()
+                            .setHeading("Missing")
+                            .setDescription("Please select a default address/payment method to move forward.")
+                            .build(Dialog::dismiss)
+                            .show();
+                } else {
+                    orderResponse.setStatus("processing");
+                    orderResponse.setPayment(finalPayment.getType());
+                    orderResponse.setDate(DateTimeToFormat());
+                    listOrderResponse.getList_order().add(orderResponse);
+                    viewModel.getCompositeDisposable().add(viewModel.getRepository().updateOrderFirebase(orderResponse)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(success -> {
+                                        if (success) {
+                                            navigateToSuccessFragment();
+                                        } else {
+                                            PopupDialog.getInstance(v.getContext())
+                                                    .statusDialogBuilder()
+                                                    .createWarningDialog()
+                                                    .setHeading("Pending!")
+                                                    .setDescription("You verification is under" +
+                                                            " observation. Try again later.")
+                                                    .build(Dialog::dismiss)
+                                                    .show();
+                                        }
+                                    },
+                                    error -> {
 
-                        })
-                );
+                                    })
+                    );
+                }
             }
         });
         binding.buttonBackSettings.setOnClickListener(new View.OnClickListener() {
@@ -124,13 +134,22 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         });
     }
     private void setUpShippingAddress(){
+        AddressResponse currentAddress = null;
         for (AddressResponse addressResponse : userResponse.getAddress()) {
             if (addressResponse.getDef()){
                 currentAddress = addressResponse;
             }
         }
-        binding.fullName.setText(userResponse.getFull_name());
-        binding.address.setText(currentAddress.toString());
+        finalAddress = currentAddress;
+        if (currentAddress == null){
+            binding.fullName.setText("");
+            binding.address.setText("Default address is missing. Tap choose to set your default address.");
+            binding.changeAddress.setText("Choose");
+        } else {
+            binding.fullName.setText(currentAddress.getName());
+            binding.address.setText(currentAddress.toString());
+            binding.changeAddress.setText("Change");
+        }
         binding.changeAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,31 +158,40 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         });
     }
     private void setUpPaymentMethod(){
+        PaymentResponse currentPayment = null;
         for (PaymentResponse paymentResponse : userResponse.getPayment()) {
             if (paymentResponse.getDef()){
                 currentPayment = paymentResponse;
             }
         }
-        switch (currentPayment.getType()){
-            case "shopbee":
-                binding.isShopbeePay.setVisibility(View.VISIBLE);
-                binding.paymentMethodImage.setBackgroundResource(R.drawable.wallet);
-                break;
-            case "visa":
-                binding.isShopbeePay.setVisibility(View.GONE);
-                binding.paymentMethodImage.setBackgroundResource(R.drawable.visa);
-                binding.numberCard.setText("**** **** **** " + currentPayment.getNumber().substring(12, 15));
+        finalPayment = currentPayment;
+        if (currentPayment == null){
+            binding.isShopbeePay.setVisibility(View.GONE);
+            binding.paymentMethodImage.setVisibility(View.GONE);
+            binding.paymentLayout.setVisibility(View.GONE);
+            binding.numberCard.setText("Default payment method is missing. Tap choose to set your default payment method.");
+            binding.changePayment.setText("Choose");
+        } else {
+            switch (currentPayment.getType()){
+                case "shopbee":
+                    binding.isShopbeePay.setVisibility(View.VISIBLE);
+                    binding.paymentLayout.setVisibility(View.VISIBLE);
+                    binding.paymentMethodImage.setBackgroundResource(R.drawable.wallet);
+                    break;
+                case "visa":
+                    binding.isShopbeePay.setVisibility(View.GONE);
+                    binding.paymentLayout.setVisibility(View.VISIBLE);
+                    binding.paymentMethodImage.setBackgroundResource(R.drawable.visa);
+                    binding.numberCard.setText("**** **** **** " + currentPayment.getNumber().substring(12, 15));
 
-                break;
-            case "master":
-                binding.isShopbeePay.setVisibility(View.GONE);
-                /*RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) binding.paymentMethodImage.getLayoutParams();
-                params.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
-                params.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
-                binding.paymentMethodImage.setLayoutParams(params);*/
-                binding.paymentMethodImage.setBackgroundResource(R.drawable.master);
-                binding.numberCard.setText("**** **** **** " + currentPayment.getNumber().substring(12, 15));
-                break;
+                    break;
+                case "master":
+                    binding.isShopbeePay.setVisibility(View.GONE);
+                    binding.paymentLayout.setVisibility(View.VISIBLE);
+                    binding.paymentMethodImage.setBackgroundResource(R.drawable.master);
+                    binding.numberCard.setText("**** **** **** " + currentPayment.getNumber().substring(12, 15));
+                    break;
+            }
         }
         binding.changePayment.setOnClickListener(new View.OnClickListener() {
             @Override

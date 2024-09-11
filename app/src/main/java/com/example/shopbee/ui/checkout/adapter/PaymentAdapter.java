@@ -56,19 +56,20 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
                 holder.binding.expiryDate.setText(paymentResponse.getExpiryDate());
                 break;
         }
-        holder.binding.checkBoxCard.setChecked(currentPosition == position, true);
-        holder.binding.checkBoxCard.setOnCheckedChangeListener(new AnimatedCheckBox.OnCheckedChangeListener() {
+        holder.binding.checkBoxCard.setChecked(currentPosition == position, false);
+        holder.binding.checkBoxCard.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(AnimatedCheckBox checkBox, boolean isChecked) {
-                if (isChecked) {
-                    int previousPosition = currentPosition;
-                    currentPosition = position;
-                    notifyItemChanged(position);
-                    listener.onClickItems(position);
+            public void onClick(View v) {
+                if (holder.binding.checkBoxCard.isChecked()){
+                    holder.binding.checkBoxCard.setChecked(false, true);
+                    currentPosition = -1;
+                    listener.onClickItems(currentPosition);
+                    notifyDataSetChanged();
                 } else {
-                    if (currentPosition == position) {
-                        currentPosition = -1; // No item selected
-                    }
+                    holder.binding.checkBoxCard.setChecked(true, true);
+                    currentPosition = position;
+                    listener.onClickItems(currentPosition);
+                    notifyDataSetChanged();
                 }
             }
         });

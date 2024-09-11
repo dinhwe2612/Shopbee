@@ -90,7 +90,7 @@ public class ModifyByMapFragment extends BaseFragment<ModifyByMapBinding, Modify
                     String state = address.getAdminArea();
                     String country = address.getCountryName();
                     String postalCode = address.getPostalCode();
-                    AddressResponse addressResponse = new AddressResponse(newAddress, city, state, country, postalCode, false);
+                    AddressResponse addressResponse = new AddressResponse(newAddress, city, state, country, postalCode, false, userResponse.getFull_name());
                     userResponse.getAddress().add(addressResponse);
                     viewModel.updateUserFirebase();
                     NavController navController = NavHostFragment.findNavController(ModifyByMapFragment.this);

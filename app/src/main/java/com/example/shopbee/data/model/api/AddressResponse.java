@@ -1,6 +1,7 @@
 package com.example.shopbee.data.model.api;
 
 public class AddressResponse {
+    private String name;
     private String address;
     private String city;
     private String country;
@@ -10,14 +11,24 @@ public class AddressResponse {
 
     public AddressResponse(){}
 
-    public AddressResponse(String address, String city, String state, String country, String zip_code, Boolean def) {
+    public AddressResponse(String address, String city, String state, String country, String zip_code, Boolean def, String name) {
         this.address = address;
         this.city = city;
         this.state = state;
         this.country = country;
         this.zip_code = zip_code;
         this.def = def;
+        this.name = name;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getAddress() {return address;}
     public String getCity() {
         return city;
