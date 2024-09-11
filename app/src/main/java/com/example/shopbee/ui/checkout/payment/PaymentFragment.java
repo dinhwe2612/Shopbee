@@ -105,13 +105,18 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
     }
     @Override
     public void onClickItems(int position) {
-        for (int i = 0; i < userResponse.getPayment().size(); i++) {
-            userResponse.getPayment().get(i).setDef(false);
+        if (position == -1){
+            for (int i = 0; i < userResponse.getPayment().size(); i++) {
+                userResponse.getPayment().get(i).setDef(false);
+            }
+        } else {
+            for (int i = 0; i < userResponse.getPayment().size(); i++) {
+                userResponse.getPayment().get(i).setDef(false);
+            }
+            userResponse.getPayment().get(position).setDef(true);
         }
-        userResponse.getPayment().get(position).setDef(true);
         viewModel.updateUserFirebase();
     }
-
     @Override
     public void onDialogEvent(Object event) {
         if (event instanceof addNewCardEvent){
@@ -135,7 +140,6 @@ public class PaymentFragment extends BaseFragment<PaymentBinding, PaymentViewMod
             viewModel.updateUserFirebase();
         }
     }
-
     @Override
     public void backToCheckout() {
         NavController navController = NavHostFragment.findNavController(this);

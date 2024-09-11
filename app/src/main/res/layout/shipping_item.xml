@@ -46,12 +46,18 @@
                 android:textAlignment="viewStart"
                 style="@style/Black_Regular_14dp"
                 android:text="3 Newbridge Court, Chino Hills, CA 91709, United States"/>
-            <LinearLayout
+            <RelativeLayout
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_below="@id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/buttonCheckBox"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/rounded_transparent_rectangle"/>
                 <com.animsh.animatedcheckbox.AnimatedCheckBox
                     android:id="@+id/checkBoxCard"
                     android:layout_width="22dp"
@@ -65,12 +71,13 @@
                     app:small_tick="true"
                     app:tick_stroke_width="1dp"/>
                 <TextView
-                    android:layout_gravity="center_vertical"
+                    android:layout_toRightOf="@id/checkBoxCard"
+                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Use as shipping address"
                     style="@style/Black_Regular_14dp"/>
-            </LinearLayout>
+            </RelativeLayout>
             <ImageView
                 android:id="@+id/delete"
                 android:layout_marginTop="10dp"

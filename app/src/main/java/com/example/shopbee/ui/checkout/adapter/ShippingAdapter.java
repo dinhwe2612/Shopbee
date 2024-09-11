@@ -18,18 +18,16 @@ import java.util.List;
 public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ShippingViewHolder>{
     private List<AddressResponse> addressResponses;
     private int currentPosition;
-    private String fullName;
     public interface Listener{
         void onClickItems(int position);
         void onEditItems(int position);
         void onClickDeleteItems(int position);
     }
     private Listener listener;
-    public ShippingAdapter(Listener listener, List<AddressResponse> addressResponses, int currentPosition, String fullName) {
+    public ShippingAdapter(Listener listener, List<AddressResponse> addressResponses, int currentPosition) {
         this.listener = listener;
         this.addressResponses = addressResponses;
         this.currentPosition = currentPosition;
-        this.fullName = fullName;
     }
     @NonNull
     @Override
@@ -40,24 +38,29 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.Shippi
     @Override
     public void onBindViewHolder(@NonNull ShippingViewHolder holder, int position) {
         AddressResponse addressResponse = addressResponses.get(position);
-        holder.binding.fullName.setText(fullName);
+        holder.binding.fullName.setText(addressResponse.getName());
         holder.binding.address.setText(addressResponse.toString());
         if (position == currentPosition){
             holder.binding.checkBoxCard.setChecked(true, false);
         } else {
-            holder.binding.checkBoxCard.setChecked(false, true);
+            holder.binding.checkBoxCard.setChecked(false, false);
         }
-//        holder.binding.checkBoxCard.setOnCheckedChangeListener(new AnimatedCheckBox.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(AnimatedCheckBox checkBox, boolean isChecked) {
-//                holder.binding.getRoot().post(() -> {
-//                    Log.d("TAG", "onCheckedChanged: " + isChecked);
-//                    notifyItemChanged(currentPosition);
-//                    currentPosition = position;
-//                });
-//                /*listener.onClickItems(position);*/
-//            }
-//        });
+        holder.binding.checkBoxCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.binding.checkBoxCard.isChecked()){
+                    holder.binding.checkBoxCard.setChecked(false, true);
+                    currentPosition = -1;
+                    listener.onClickItems(currentPosition);
+                    notifyDataSetChanged();
+                } else {
+                    holder.binding.checkBoxCard.setChecked(true, true);
+                    currentPosition = position;
+                    listener.onClickItems(currentPosition);
+                    notifyDataSetChanged();
+                }
+            }
+        });
         holder.binding.editAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

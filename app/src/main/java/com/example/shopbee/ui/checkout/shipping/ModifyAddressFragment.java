@@ -104,7 +104,7 @@ public class ModifyAddressFragment extends BaseFragment<ModifyAddressBinding, Mo
             Glide.with(this)
                     .load(listCountry.get(index).getFlagPngUrl())
                     .into(binding.countryImage);
-            addressResponse = new AddressResponse(address, city, state, country, zip, false);
+            addressResponse = new AddressResponse(address, city, state, country, zip, false, name);
         } else {
             addressResponse.setCountry("");
         }
@@ -155,10 +155,12 @@ public class ModifyAddressFragment extends BaseFragment<ModifyAddressBinding, Mo
                         userResponse.getAddress().get(position).setState(addressResponse.getState());
                         userResponse.getAddress().get(position).setZip_code(addressResponse.getZip_code());
                         userResponse.getAddress().get(position).setCountry(addressResponse.getCountry());
+                        userResponse.getAddress().get(position).setName(addressResponse.getName());
                     } else {
                         if (userResponse.getAddress() == null){
                             userResponse.setAddress(new ArrayList<>());
                         }
+                        addressResponse.setName(binding.name.getText().toString());
                         addressResponse.setAddress(binding.address.getText().toString());
                         addressResponse.setCity(binding.city.getText().toString());
                         addressResponse.setState(binding.state.getText().toString());
@@ -241,6 +243,7 @@ public class ModifyAddressFragment extends BaseFragment<ModifyAddressBinding, Mo
             changeCountryEvent mChangeCountryEvent = (changeCountryEvent) event;
             Log.d("TAG", "onDialogEvent: " + mChangeCountryEvent.getNewCountry());
             binding.country.setText(mChangeCountryEvent.getNewCountry());
+            binding.country.setTextColor(getResources().getColor(R.color.black_light_theme));
             Disposable d = (Observable.fromCallable(() -> {
                         FutureTarget<Bitmap> futureTarget = Glide.with(this)
                                 .asBitmap()

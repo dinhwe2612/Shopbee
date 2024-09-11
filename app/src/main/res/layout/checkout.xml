@@ -140,6 +140,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Shopbee Pay"
+                    android:textAlignment="viewStart"
                     android:layout_toRightOf="@id/paymentLayout"
                     android:layout_below="@id/paymentText"
                     style="@style/Black_Regular_14dp"/>

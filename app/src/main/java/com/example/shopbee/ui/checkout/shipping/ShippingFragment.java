@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +82,7 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
                 positionDef = i;
             }
         }
-        shippingAdapter = new ShippingAdapter(this, userResponse.getAddress(), positionDef, userResponse.getFull_name());
+        shippingAdapter = new ShippingAdapter(this, userResponse.getAddress(), positionDef);
         recyclerView.setAdapter(shippingAdapter);
 
         binding.buttonBackSettings.setOnClickListener(new View.OnClickListener() {
@@ -106,10 +107,16 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
 
     @Override
     public void onClickItems(int position) {
-        for (int i = 0; i < userResponse.getAddress().size(); i++) {
-            userResponse.getAddress().get(i).setDef(false);
+        if (position == -1){
+            for (int i = 0; i < userResponse.getAddress().size(); i++) {
+                userResponse.getAddress().get(i).setDef(false);
+            }
+        } else {
+            for (int i = 0; i < userResponse.getAddress().size(); i++) {
+                userResponse.getAddress().get(i).setDef(false);
+            }
+            userResponse.getAddress().get(position).setDef(true);
         }
-        userResponse.getAddress().get(position).setDef(true);
         viewModel.updateUserFirebase();
     }
 
@@ -141,7 +148,7 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
         Bundle bundle = new Bundle();
         bundle.putInt("position", position);
         bundle.putString("modify", "edit");
-        bundle.putString("name", userResponse.getFull_name());
+        bundle.putString("name", addressResponse.getName());
         bundle.putString("address", addressResponse.getAddress());
         bundle.putString("city", addressResponse.getCity());
         bundle.putString("state", addressResponse.getState());

@@ -75,6 +75,9 @@
                     <EditText
                         android:id="@+id/card_number"
                         android:hint="Card number"
+                        android:maxLength="19"
+                        android:inputType="number"
+                        android:digits="0123456789 "
                         android:layout_width="350dp"
                         android:layout_height="50dp"
                         style="@style/EditText"/>
@@ -109,14 +112,19 @@
                     style="@style/AccountEditText_Background"
                     android:padding="1dp">
                     <EditText
+                        android:inputType="number"
+                        android:maxLength="5"
                         android:id="@+id/expiry_date"
-                        android:hint="Expiry date"
+                        android:hint="Expiry date (MM/YY)"
                         android:layout_width="350dp"
                         android:layout_height="50dp"
                         style="@style/EditText"/>
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
+                android:fitsSystemWindows="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:id="@+id/cvv_layout"
                 android:layout_marginTop="20dp"
                 android:layout_width="350dp"
@@ -139,6 +147,8 @@
                     <EditText
                         android:id="@+id/cvv"
                         android:hint="CVV"
+                        android:inputType="number"
+                        android:maxLength="4"
                         android:layout_width="350dp"
                         android:layout_height="50dp"
                         style="@style/EditText"/>
