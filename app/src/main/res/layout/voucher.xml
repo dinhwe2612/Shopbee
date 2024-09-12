@@ -34,11 +34,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <ImageView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/bannerRCV"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
-                android:background="@drawable/banner_voucher"/>
-            <TextView
+                android:orientation="horizontal"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/voucher_banner_item"/>
+            <RelativeLayout
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
                 android:layout_width="230dp"

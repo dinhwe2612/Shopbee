@@ -32,6 +32,7 @@ import com.example.shopbee.ui.favorites.adapter.FavoriteAdapter;
 import com.example.shopbee.ui.favorites.adapter.FavoriteAdapterGridView;
 import com.example.shopbee.ui.login.LoginActivity;
 import com.example.shopbee.ui.main.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -98,7 +99,7 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = getViewDataBinding();
-        if (viewModel.getRepository().getUserResponse() != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             setUpAdapter();
             viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {
                 if (inProgress) {
@@ -142,6 +143,7 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         productAdapterGridView.setOnItemClickListener(this);
     }
     public void dealWithNullUser() {
+        getViewDataBinding().imageView.setVisibility(View.GONE);
         getViewDataBinding().signIn.setVisibility(View.VISIBLE);
         getViewDataBinding().signIn.setOnClickListener(new View.OnClickListener() {
             @Override

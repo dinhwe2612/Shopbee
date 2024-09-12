@@ -8,8 +8,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Background"
     android:orientation="vertical">
-    <include
-        layout="@layout/element_toolbar"/>
+<!--    <include-->
+<!--        layout="@layout/element_toolbar"/>-->
     <LinearLayout
         android:background="@color/white_light_theme"
         android:layout_width="match_parent"
