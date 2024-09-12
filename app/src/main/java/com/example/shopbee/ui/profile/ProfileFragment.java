@@ -120,6 +120,7 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
                 }
             });
         } else {
+            viewModel.syncImageBitmapFirebase("avatar", userResponse.getEmail());
             mAuth = FirebaseAuth.getInstance();
             binding.loginText.setText("Log out");
             binding.loginText.setVisibility(View.VISIBLE);
@@ -261,7 +262,6 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
                 listOrderResponse = responses;
             }
         });
-        viewModel.syncImageBitmapFirebase("avatar", userResponse.getEmail());
 
     }
     public List<String> getContentEachOption(){
