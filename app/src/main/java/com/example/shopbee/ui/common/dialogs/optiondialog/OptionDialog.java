@@ -72,7 +72,6 @@ public class OptionDialog extends DialogFragment implements VariationAdapter.Lis
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(binding.getRoot());
         dialog.setCancelable(true);
-        dialog.show();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 420, getContext().getResources().getDisplayMetrics()));
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.AnimationBottomSheetDialog;

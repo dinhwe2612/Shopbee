@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -127,6 +128,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 pipe.draw(canvas, pipeBitmap);
             }
         }
+        // Draw the score
+        Paint paint = new Paint();
+        paint.setColor(Color.parseColor("#8A3324"));
+        paint.setTextSize(100);
+        paint.setFakeBoldText(true);
+        canvas.drawText("Score: " + score, 10, 100, paint);
         surfaceHolder.unlockCanvasAndPost(canvas);
     }
 
@@ -215,6 +222,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             } else {
                 // the bee passed the pipe
                 listener.updateScore();
+                ++score;
             }
         }
         // Check if the bird hits the pipes

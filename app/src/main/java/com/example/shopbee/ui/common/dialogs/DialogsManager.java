@@ -11,11 +11,13 @@ import com.example.shopbee.data.model.api.CountryRespone;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.ui.common.dialogs.addNewCard.addNewCardDialog;
 import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryDialog;
+import com.example.shopbee.ui.common.dialogs.gameoverdialog.GameOverDialog;
 import com.example.shopbee.ui.common.dialogs.imagepickerdialog.ImagePickerDialog;
 import com.example.shopbee.ui.common.dialogs.imagepreviewdialog.ImagePreviewDialog;
 import com.example.shopbee.ui.common.dialogs.loadingdialog.LoadingDialog;
 import com.example.shopbee.ui.common.dialogs.morevariation.moreVariationDialog;
 import com.example.shopbee.ui.common.dialogs.optiondialog.OptionDialog;
+import com.example.shopbee.ui.common.dialogs.ruledialog.RuleDialog;
 import com.example.shopbee.ui.common.dialogs.twooptiondialog.TwoOptionDialog;
 import com.example.shopbee.ui.common.dialogs.changePassword.changePassDialog;
 import com.example.shopbee.ui.common.dialogs.writereivewdialog.WriteReviewDialog;
@@ -103,5 +105,13 @@ public class DialogsManager {
     public void showLoadingDialog() {
         LoadingDialog dialog = LoadingDialog.newInstance();
         dialog.show(fragmentManager, "loading_dialog");
+    }
+    public void showRuleDialog() {
+        RuleDialog dialog = RuleDialog.newInstance();
+        dialog.show(fragmentManager, "rule_dialog");
+    }
+    public void showGameOverDialog(int score) {
+        GameOverDialog dialog = GameOverDialog.newInstance(this, score);
+        dialog.show(fragmentManager, "game_over_dialog");
     }
 }

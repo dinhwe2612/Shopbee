@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.flappybee;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -10,10 +11,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.GameBinding;
+import com.example.shopbee.di.component.ActivityComponent;
+import com.example.shopbee.ui.common.base.BaseActivity;
+import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.example.shopbee.ui.common.dialogs.gameoverdialog.GameOverEvent;
 
-public class GameActivity extends AppCompatActivity implements GameView.Listener {
+import javax.inject.Inject;
+
+public class GameActivity extends BaseActivity<GameBinding, GameViewModel> implements GameView.Listener, DialogsManager.Listener {
     GameBinding binding;
     Integer score = 0;
+    @Inject
+    DialogsManager dialogsManager;
+
+    @Override
+    public int getBindingVariable() {
+        return 0;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.game;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,16 +41,26 @@ public class GameActivity extends AppCompatActivity implements GameView.Listener
         // Hide the status bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        binding = GameBinding.inflate(getLayoutInflater());
+        binding = getViewDataBinding();
         setContentView(binding.getRoot());
 
-        // Initialize the private views
         binding.gameView.setListener(this);
         binding.play.setOnClickListener(v->{
             binding.startingGame.setVisibility(View.GONE);
             binding.gameView.setVisibility(View.VISIBLE);
             binding.gameView.resume();
         });
+        binding.rule.setOnClickListener(v->{
+            dialogsManager.showRuleDialog();
+        });
+        binding.backButton.setOnClickListener(v->{
+            onBackPressed();
+        });
+    }
+
+    @Override
+    public void performDependencyInjection(ActivityComponent buildComponent) {
+        buildComponent.inject(this);
     }
 
     @Override
@@ -44,20 +74,33 @@ public class GameActivity extends AppCompatActivity implements GameView.Listener
     @Override
     public void endGame() {
         runOnUiThread(() ->{
-            AlertDialog dialog = new AlertDialog.Builder(this)
-                    .setTitle("Game Over")
-                    .setMessage("Your score is " + score.toString())
-                    .setPositiveButton("Restart", (dialog1, which) -> {
-                        score = 0;
-                        binding.gameView.resume();
-                    })
-                    .setNegativeButton("Exit", (dialog1, which) -> {
-                        binding.startingGame.setVisibility(View.VISIBLE);
-                        binding.gameView.setVisibility(View.GONE);
-                        score = 0;
-                    })
-                    .create();
-            dialog.show();
+            dialogsManager.showGameOverDialog(score);
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        dialogsManager.registerListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        dialogsManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onDialogEvent(Object event) {
+        if (event instanceof GameOverEvent) {
+            GameOverEvent gameOverEvent = (GameOverEvent) event;
+            score = 0;
+            if (gameOverEvent.getGameOver() == GameOverEvent.GameOver.HOME) {
+                binding.gameView.setVisibility(View.GONE);
+                binding.startingGame.setVisibility(View.VISIBLE);
+            } else {
+                binding.gameView.resume();
+            }
+        }
     }
 }

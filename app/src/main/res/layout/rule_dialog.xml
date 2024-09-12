@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="400dp"
+    android:layout_height="200dp"
+    android:background="@drawable/woodboard"
+    android:layout_gravity="center">
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/closebutton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="-10dp"/>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rule"
+        style="@style/Black_Bold_34dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="- You must pass through the obstacles to earn points.\n\n- Once your points reaches 3, 6, or 9, you'll receive a voucher."
+        android:textAlignment="viewStart"
+        style="@style/Black_SemiBold_18dp"
+        android:layout_below="@id/title"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"/>
+</RelativeLayout>
+</layout>

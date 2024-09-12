@@ -3,6 +3,7 @@ package com.example.shopbee.di.component;
 import com.example.shopbee.di.module.ActivityModule;
 import com.example.shopbee.di.scope.ActivityScope;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.example.shopbee.ui.flappybee.GameActivity;
 import com.example.shopbee.ui.forgotpassword.ForgotPasswordActivity;
 import com.example.shopbee.ui.login.LoginActivity;
 import com.example.shopbee.ui.main.MainActivity;
@@ -15,4 +16,5 @@ public interface ActivityComponent {
     void inject(MainActivity activity);
     void inject(LoginActivity activity);
     void inject(ForgotPasswordActivity forgotPasswordActivity);
+    void inject(GameActivity gameActivity);
 }
