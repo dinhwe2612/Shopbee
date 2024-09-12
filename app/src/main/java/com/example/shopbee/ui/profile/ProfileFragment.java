@@ -41,6 +41,7 @@ import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.profile.adapter.ProfileAdapter;
 import com.example.shopbee.ui.voucher.adapter.VoucherAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.saadahmedev.popupdialog.PopupDialog;
 import com.saadahmedev.popupdialog.listener.StandardDialogActionListener;
 
@@ -55,6 +56,7 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
     private UserResponse userResponse;
     private ListOrderResponse listOrderResponse;
     private ActivityResultLauncher<Intent> imagePickerLauncher;
+    private FirebaseAuth mAuth;
 
     Map<Integer, Runnable> triggered = Map.of(
             0, this::myOrder,
@@ -118,7 +120,9 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
                 }
             });
         } else {
-            binding.loginText.setVisibility(View.GONE);
+            mAuth = FirebaseAuth.getInstance();
+            binding.loginText.setText("Log out");
+            binding.loginText.setVisibility(View.VISIBLE);
             viewModel.getAvatar().observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
                 @Override
                 public void onChanged(Bitmap bitmap) {
@@ -179,6 +183,13 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
                             }
                         }
                     });
+            binding.loginText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mAuth.signOut();
+                    navigateToLogin();
+                }
+            });
         }
         return binding.getRoot();
     }
@@ -254,23 +265,11 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
 
     }
     public List<String> getContentEachOption(){
-        if (userResponse == null){
-            List<String> listContent = new ArrayList<>();
-            if (listOrderResponse.getList_order().isEmpty()) listContent.add("You have no order yet.");
-            else listContent.add("Already have " + String.valueOf(listOrderResponse.getList_order().size()) + " order(s)");
-            if (userResponse.getAddress().isEmpty()){
-                listContent.add("You have no address yet.");
-            } else listContent.add(String.valueOf(userResponse.getAddress().size()) + " address(es)");
-            if (userResponse.getPayment().isEmpty()){
-                listContent.add("You have no payment method yet.");
-            } else {
-                listContent.add("You have " + String.valueOf(userResponse.getPayment().size()) + " payment method(s)");
-            }
-            listContent.add("You have special promocodes");
-            listContent.add("Review for 3 item(s)");
-            listContent.add("Notification, password");
-        }
         List<String> listContent = new ArrayList<>();
+        if (userResponse == null){
+            for (int i = 0; i < 6; i++) listContent.add("");
+            return listContent;
+        }
         if (listOrderResponse.getList_order().isEmpty()) listContent.add("You have no order yet.");
         else listContent.add("Already have " + String.valueOf(listOrderResponse.getList_order().size()) + " order(s)");
         if (userResponse.getAddress().isEmpty()){

@@ -96,11 +96,18 @@ public class ModifyAddressFragment extends BaseFragment<ModifyAddressBinding, Mo
             String country = getArguments().getString("country");
             int index = retrievePosition(country);
             binding.name.setText(name);
+            binding.nameHint.setVisibility(View.VISIBLE);
             binding.address.setText(address);
+            binding.addressHint.setVisibility(View.VISIBLE);
             binding.city.setText(city);
+            binding.cityHint.setVisibility(View.VISIBLE);
             binding.state.setText(state);
+            binding.stateHint.setVisibility(View.VISIBLE);
             binding.country.setText(country);
+            binding.countryHint.setVisibility(View.VISIBLE);
+            binding.country.setTextColor(getResources().getColor(R.color.black_light_theme));
             binding.zip.setText(zip);
+            binding.zipHint.setVisibility(View.VISIBLE);
             Glide.with(this)
                     .load(listCountry.get(index).getFlagPngUrl())
                     .into(binding.countryImage);
@@ -150,12 +157,12 @@ public class ModifyAddressFragment extends BaseFragment<ModifyAddressBinding, Mo
                 } else {
                     Toast.makeText(getContext(), "Save address successfully", Toast.LENGTH_SHORT).show();
                     if (modify.equals("edit")) {
-                        userResponse.getAddress().get(position).setAddress(addressResponse.getAddress());
-                        userResponse.getAddress().get(position).setCity(addressResponse.getCity());
-                        userResponse.getAddress().get(position).setState(addressResponse.getState());
-                        userResponse.getAddress().get(position).setZip_code(addressResponse.getZip_code());
-                        userResponse.getAddress().get(position).setCountry(addressResponse.getCountry());
-                        userResponse.getAddress().get(position).setName(addressResponse.getName());
+                        userResponse.getAddress().get(position).setAddress(binding.address.getText().toString());
+                        userResponse.getAddress().get(position).setCity(binding.city.getText().toString());
+                        userResponse.getAddress().get(position).setState(binding.state.getText().toString());
+                        userResponse.getAddress().get(position).setZip_code(binding.zip.getText().toString());
+                        userResponse.getAddress().get(position).setCountry(binding.country.getText().toString());
+                        userResponse.getAddress().get(position).setName(binding.name.getText().toString());
                     } else {
                         if (userResponse.getAddress() == null){
                             userResponse.setAddress(new ArrayList<>());
@@ -243,7 +250,6 @@ public class ModifyAddressFragment extends BaseFragment<ModifyAddressBinding, Mo
             changeCountryEvent mChangeCountryEvent = (changeCountryEvent) event;
             Log.d("TAG", "onDialogEvent: " + mChangeCountryEvent.getNewCountry());
             binding.country.setText(mChangeCountryEvent.getNewCountry());
-            binding.country.setTextColor(getResources().getColor(R.color.black_light_theme));
             Disposable d = (Observable.fromCallable(() -> {
                         FutureTarget<Bitmap> futureTarget = Glide.with(this)
                                 .asBitmap()

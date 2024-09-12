@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,8 @@ import com.example.shopbee.databinding.ShippingBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.checkout.adapter.ShippingAdapter;
 import com.example.shopbee.ui.common.base.BaseFragment;
+import com.saadahmedev.popupdialog.PopupDialog;
+import com.saadahmedev.popupdialog.listener.StandardDialogActionListener;
 
 public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingViewModel> implements ShippingNavigator, ShippingAdapter.Listener {
     private ShippingBinding binding;
@@ -128,10 +131,30 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
 
     @Override
     public void onClickDeleteItems(int position) {
-        userResponse.getAddress().remove(position);
-        shippingAdapter.notifyItemChanged(position);
-        shippingAdapter.notifyItemRangeChanged(position, userResponse.getAddress().size());
-        viewModel.updateUserFirebase();
+        PopupDialog.getInstance(getContext())
+                .standardDialogBuilder()
+                .createStandardDialog()
+                .setHeading("Delete an address")
+                .setDescription("Are you sure you want to delete this address?")
+                .setPositiveButtonText("Submit")
+                .setNegativeButtonText("Cancel")
+                .setPositiveButtonTextColor(R.color.white)
+                .setIcon(R.drawable.cancel)
+                .build(new StandardDialogActionListener() {
+                    @Override
+                    public void onPositiveButtonClicked(Dialog dialog) {
+                        userResponse.getAddress().remove(position);
+                        shippingAdapter.notifyItemChanged(position);
+                        shippingAdapter.notifyItemRangeChanged(position, userResponse.getAddress().size());
+                        viewModel.updateUserFirebase();
+                        dialog.dismiss();
+                    }
+                    @Override
+                    public void onNegativeButtonClicked(Dialog dialog) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
     @Override
     public void addNewAddressByHand() {

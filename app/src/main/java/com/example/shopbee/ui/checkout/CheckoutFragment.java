@@ -27,6 +27,7 @@ import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.main.MainActivity;
 import com.saadahmedev.popupdialog.PopupDialog;
+import com.saadahmedev.popupdialog.listener.StandardDialogActionListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -114,7 +115,27 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         binding.buttonBackSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backToPreviousFragment();
+                PopupDialog.getInstance(getContext())
+                        .standardDialogBuilder()
+                        .createStandardDialog()
+                        .setHeading("Postpone Ordering")
+                        .setDescription("Promotion is running out soon. Do you want to postpone your order?")
+                        .setPositiveButtonText("Continue order")
+                        .setNegativeButtonText("Go back")
+                        .setPositiveButtonTextColor(R.color.white)
+                        .setIcon(R.drawable.sad_icon)
+                        .build(new StandardDialogActionListener() {
+                            @Override
+                            public void onPositiveButtonClicked(Dialog dialog) {
+                                dialog.dismiss();
+                            }
+                            @Override
+                            public void onNegativeButtonClicked(Dialog dialog) {
+                                backToPreviousFragment();
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
         return binding.getRoot();
