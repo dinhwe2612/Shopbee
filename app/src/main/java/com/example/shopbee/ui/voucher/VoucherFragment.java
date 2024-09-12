@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.R;
@@ -24,6 +25,7 @@ import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.promoCode.PromoCodeDialog;
 import com.example.shopbee.ui.voucher.adapter.VoucherAdapter;
+import com.example.shopbee.ui.voucher.adapter.VoucherBannerAdapter;
 import com.saadahmedev.popupdialog.PopupDialog;
 import com.saadahmedev.popupdialog.listener.StandardDialogActionListener;
 
@@ -72,7 +74,9 @@ public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewMod
         RecyclerView shopbeeRecyclerView = binding.shopbeeRecyclerView;
         RecyclerView freeshipRecyclerView = binding.freeshipRecyclerView;
         RecyclerView newUserRecyclerView = binding.newbieRecyclerView;
-
+        binding.bannerRCV.setAdapter(new VoucherBannerAdapter());
+        binding.bannerRCV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        new PagerSnapHelper().attachToRecyclerView(binding.bannerRCV);
         shopbeeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         freeshipRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         newUserRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));

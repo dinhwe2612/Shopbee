@@ -25,6 +25,8 @@ import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.bottombar.BottomBarUserReactionImplementation;
 import com.example.shopbee.ui.common.bottombar.BottomBarUserReactionListener;
 import com.example.shopbee.ui.common.base.BaseActivity;
+import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -55,6 +57,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     public void performDependencyInjection(ActivityComponent buildComponent) {
         buildComponent.inject(this);
     }
+    @Inject
+    DialogsManager dialogsManager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +66,16 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         bottomBar.bindView(binding.bottomBar, this);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.fragmentContainer.getId());
         navController = navHostFragment.getNavController();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            viewModel.syncDataResponse(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        }
+        viewModel.getInProgress().observe(this, isLoading->{
+            if (isLoading) {
+                dialogsManager.showLoadingDialog();
+            } else {
+                dialogsManager.dismiss(dialogsManager.LOADING_DIALOG);
+            }
+        });
     }
     @Override
     public void handleError(String message) {

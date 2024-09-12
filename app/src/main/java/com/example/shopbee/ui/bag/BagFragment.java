@@ -33,6 +33,7 @@ import com.example.shopbee.ui.common.dialogs.morevariation.moreVariationDialog;
 import com.example.shopbee.ui.common.dialogs.promoCode.PromoCodeDialog;
 import com.example.shopbee.ui.login.LoginActivity;
 import com.example.shopbee.ui.main.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
@@ -80,7 +81,8 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        getViewDataBinding().topBar.addView(toolbarView.getRootView());
-        if (viewModel.getRepository().getUserResponse() != null) {
+        Log.d("BagFragment", "Null: " + FirebaseAuth.getInstance().getCurrentUser());
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 //            displayOptionsForBag(View.GONE, View.GONE);
             getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
             getViewDataBinding().recyclerView.setAdapter(bagAdapter);
@@ -159,6 +161,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         bagAdapter.notifyDataSetChanged();
     }
     public void dealWithNullUser() {
+        Log.d("BagFragment", "null sign in");
         getViewDataBinding().loading.setVisibility(View.GONE);
         displayOptionsForBag(View.GONE, View.GONE);
         getViewDataBinding().signIn.setVisibility(View.VISIBLE);

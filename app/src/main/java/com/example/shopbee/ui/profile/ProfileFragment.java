@@ -39,6 +39,7 @@ import com.example.shopbee.databinding.ProfileBinding;
 import com.example.shopbee.databinding.VoucherBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
+import com.example.shopbee.ui.login.LoginActivity;
 import com.example.shopbee.ui.profile.adapter.ProfileAdapter;
 import com.example.shopbee.ui.voucher.adapter.VoucherAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -103,6 +104,7 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
                     .build(new StandardDialogActionListener() {
                         @Override
                         public void onPositiveButtonClicked(Dialog dialog) {
+                            FirebaseAuth.getInstance().signOut();
                             navigateToLogin();
                         }
 
@@ -241,8 +243,8 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
 
     @Override
     public void navigateToLogin() {
-        NavController navController = NavHostFragment.findNavController(this);
-        navController.navigate(R.id.login);
+        Intent intent = new Intent(requireContext(), LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override
