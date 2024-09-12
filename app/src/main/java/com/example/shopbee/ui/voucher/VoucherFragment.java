@@ -1,6 +1,7 @@
 package com.example.shopbee.ui.voucher;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,10 +21,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.PromoCodeResponse;
 import com.example.shopbee.data.model.api.UserResponse;
+import com.example.shopbee.databinding.GameBinding;
 import com.example.shopbee.databinding.VoucherBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.promoCode.PromoCodeDialog;
+import com.example.shopbee.ui.flappybee.GameActivity;
+import com.example.shopbee.ui.main.MainActivity;
 import com.example.shopbee.ui.voucher.adapter.VoucherAdapter;
 import com.example.shopbee.ui.voucher.adapter.VoucherBannerAdapter;
 import com.saadahmedev.popupdialog.PopupDialog;
@@ -35,7 +39,10 @@ import java.util.List;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewModel> implements VoucherNavigator, VoucherAdapter.Listener{
+public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewModel> implements
+        VoucherNavigator,
+        VoucherAdapter.Listener,
+        VoucherBannerAdapter.Listener{
     private VoucherBinding binding;
     private UserResponse userResponse;
     private List<PromoCodeResponse> shopbeeList;
@@ -74,7 +81,7 @@ public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewMod
         RecyclerView shopbeeRecyclerView = binding.shopbeeRecyclerView;
         RecyclerView freeshipRecyclerView = binding.freeshipRecyclerView;
         RecyclerView newUserRecyclerView = binding.newbieRecyclerView;
-        binding.bannerRCV.setAdapter(new VoucherBannerAdapter());
+        binding.bannerRCV.setAdapter(new VoucherBannerAdapter(this));
         binding.bannerRCV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         new PagerSnapHelper().attachToRecyclerView(binding.bannerRCV);
         shopbeeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -129,6 +136,7 @@ public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewMod
                 backToPreviousFragment();
             }
         });
+        binding.game.setOnClickListener(v->navigateToGameActivity());
         return binding.getRoot();
     }
     @Override
@@ -141,6 +149,12 @@ public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewMod
     public void navigateToMyVoucher() {
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.myVouchersFragment);
+    }
+
+    @Override
+    public void navigateToGameActivity() {
+        Intent intent = new Intent(requireContext(), GameActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -259,5 +273,10 @@ public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewMod
             );
 
         }
+    }
+
+    @Override
+    public void onBannerGameClick() {
+        navigateToGameActivity();
     }
 }

@@ -14,6 +14,8 @@ import com.example.shopbee.ui.flappybee.GameViewModel;
 import com.example.shopbee.ui.forgotpassword.ForgotPasswordViewModel;
 import com.example.shopbee.ui.login.LoginViewModel;
 import com.example.shopbee.ui.main.MainViewModel;
+import com.example.shopbee.ui.signup.SignUpActivity;
+import com.example.shopbee.ui.signup.SignUpViewModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,6 +62,13 @@ public class ActivityModule {
         Supplier<ForgotPasswordViewModel> supplier = () -> new ForgotPasswordViewModel(repository);
         ViewModelProviderFactory<ForgotPasswordViewModel> factory = new ViewModelProviderFactory<>(ForgotPasswordViewModel.class, supplier);
         return new ViewModelProvider(activity, factory).get(ForgotPasswordViewModel.class);
+    }
+
+    @Provides
+    SignUpViewModel provideSignUpViewModel(Repository repository) {
+        Supplier<SignUpViewModel> supplier = () -> new SignUpViewModel(repository);
+        ViewModelProviderFactory<SignUpViewModel> factory = new ViewModelProviderFactory<>(SignUpViewModel.class, supplier);
+        return new ViewModelProvider(activity, factory).get(SignUpViewModel.class);
     }
 
     @Provides
