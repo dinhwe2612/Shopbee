@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.navigation.NavController;
@@ -139,7 +137,7 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
                 .setPositiveButtonText("Submit")
                 .setNegativeButtonText("Cancel")
                 .setPositiveButtonTextColor(R.color.white)
-                .setIcon(R.drawable.cancel)
+                .setIcon(R.drawable.cancel_image)
                 .build(new StandardDialogActionListener() {
                     @Override
                     public void onPositiveButtonClicked(Dialog dialog) {

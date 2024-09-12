@@ -53,6 +53,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     @Inject
     DialogsManager dialogsManager;
     MutableLiveData<PromoCodeResponse> promoCodeResponse = new MutableLiveData<>();
+    MutableLiveData<PromoCodeResponse> freeshipVoucher = new MutableLiveData<>();
     BagAdapter bagAdapter = new BagAdapter();
     ToolbarView toolbarView;
 
@@ -135,11 +136,11 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                 PromoCodeDialog promoCodeDialog = PromoCodeDialog.newInstance(dialogsManager);
                 promoCodeDialog.setPromoCodeResponseList(result);
                 promoCodeDialog.setPromoCodeResponse(promoCodeResponse.getValue());
-                promoCodeDialog.setOnCollectVoucherListener(new PromoCodeDialog.onCollectVoucherListener() {
-                    @Override
-                    public void onCollectVoucher() {
-                        // navigate to collect voucher fragment
-                    }
+                promoCodeDialog.setFreeshipVoucher(freeshipVoucher.getValue());
+                promoCodeDialog.setOnCollectVoucherListener(() -> {
+                    // navigate to collect voucher fragment
+                    NavController navController = NavHostFragment.findNavController(this);
+                    navController.navigate(R.id.voucherFragment);
                 });
                 promoCodeDialog.show(requireActivity().getSupportFragmentManager(), promoCodeDialog.getTag());
             });
@@ -272,9 +273,18 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     @Override
     public void onDialogEvent(Object event) {
         if (event instanceof PromoCodeResponse) {
-            promoCodeResponse.setValue((PromoCodeResponse) event);
-        } else {
-            promoCodeResponse.setValue(null);
+            if (((PromoCodeResponse) event).getName().equals("freeship")) {
+                freeshipVoucher.setValue((PromoCodeResponse) event);
+            }
+            else {
+                promoCodeResponse.setValue((PromoCodeResponse) event);
+            }
+        } else if (event instanceof String){
+            if (((String) event).equals("no voucher")) {
+                promoCodeResponse.setValue(null);
+            } else {
+                freeshipVoucher.setValue(null);
+            }
         }
     }
     public void setPriceUI() {
@@ -367,6 +377,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable("orderResponse", orderResponse);
+        bundle.putParcelable("freeShipVoucher", freeshipVoucher.getValue());
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.checkoutFragment, bundle);
     }

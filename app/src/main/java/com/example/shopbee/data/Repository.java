@@ -1227,77 +1227,94 @@ public class Repository {
     }
 
 
-    public void saveReviewForUser(WriteReviewEvent writeReviewEvent) {
-        // save on database realtime
-        String email = getUserResponse().getValue().getEmail();
-        databaseReference = FirebaseDatabase.getInstance().getReference("user_reviews");
-        Query query = databaseReference.orderByChild("email").equalTo(email);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        DatabaseReference reviewsReference = userSnapshot.child("reviews").getRef().push();
-                        DatabaseReference reviewReference = reviewsReference.child("review");
-                        reviewReference.child("starRating").setValue(writeReviewEvent.getStarRating());
-                        reviewReference.child("reviewTitle").setValue(writeReviewEvent.getReviewTitle());
-                        reviewReference.child("reviewContent").setValue(writeReviewEvent.getReviewContent());
-                        reviewReference.child("reviewDate").setValue(writeReviewEvent.getReviewDate());
-                        DatabaseReference productReference = reviewsReference.child("product");
-                        productReference.child("order_number").setValue(writeReviewEvent.getOrder_number());
-                        productReference.child("product_id").setValue(writeReviewEvent.getOrderDetailResponse().getProduct_id());
-                        productReference.child("product_name").setValue(writeReviewEvent.getOrderDetailResponse().getProduct_name());
-                        productReference.child("urlImage").setValue(writeReviewEvent.getOrderDetailResponse().getUrlImage());
-                        productReference.child("price").setValue(writeReviewEvent.getOrderDetailResponse().getPrice());
-                        productReference.child("quantity").setValue(writeReviewEvent.getOrderDetailResponse().getQuantity());
-                        productReference.child("variation").setValue(writeReviewEvent.getOrderDetailResponse().getVariation());
+    public Observable<Boolean> saveReviewForUser(WriteReviewEvent writeReviewEvent) {
+        return Observable.create(emitter -> {
+            String email = getUserResponse().getValue().getEmail();
+            databaseReference = FirebaseDatabase.getInstance().getReference("user_reviews");
+            Query query = databaseReference.orderByChild("email").equalTo(email);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    DatabaseReference reviewsReference;
+
+                    if (snapshot.exists()) {
+                        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                            reviewsReference = userSnapshot.child("reviews").getRef().push();
+                            saveReviewData(writeReviewEvent, reviewsReference);
+                        }
+                    } else {
+                        databaseReference = databaseReference.push();
+                        HashMap<String, String> userMap = new HashMap<>();
+                        userMap.put("email", email);
+                        databaseReference.setValue(userMap);
+
+                        reviewsReference = databaseReference.child("reviews").push();
+                        saveReviewData(writeReviewEvent, reviewsReference);
+                    }
+
+                    // Now handle image uploading to Firebase Storage
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    String encodeEmail = email.replace("@", "_").replace(".", "_");
+                    StorageReference storageRef = storage.getReference().child("user_reviews")
+                            .child(encodeEmail).child(writeReviewEvent.getReviewDate())
+                            .child(writeReviewEvent.getOrderDetailResponse().getProduct_id());
+
+                    List<Bitmap> images = writeReviewEvent.getReviewImages();
+                    AtomicInteger uploadCounter = new AtomicInteger(0);
+
+                    if (images.isEmpty()) {
+                        // If no images to upload, emit success immediately
+                        emitter.onNext(true);
+                        emitter.onComplete();
+                    } else {
+                        // Upload images
+                        for (int i = 0; i < images.size(); i++) {
+                            Bitmap bitmap = images.get(i);
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                            byte[] data = baos.toByteArray();
+                            StorageReference imageRef = storageRef.child("review_image_" + i);
+
+                            UploadTask uploadTask = imageRef.putBytes(data);
+                            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                                if (uploadCounter.incrementAndGet() == images.size()) {
+                                    // All images uploaded successfully
+                                    emitter.onNext(true);
+                                    emitter.onComplete();
+                                }
+                            }).addOnFailureListener(exception -> {
+                                emitter.onError(exception);
+                            });
+                        }
                     }
                 }
-                else {
-                    databaseReference = databaseReference.push();
-                    HashMap<String, String> userMap = new HashMap<>();
-                    userMap.put("email", email);
-                    databaseReference.setValue(userMap);
-                    DatabaseReference reviewsReference = databaseReference.child("reviews").push();
-                    DatabaseReference reviewReference = reviewsReference.child("review");
-                    reviewReference.child("starRating").setValue(writeReviewEvent.getStarRating());
-                    reviewReference.child("reviewTitle").setValue(writeReviewEvent.getReviewTitle());
-                    reviewReference.child("reviewContent").setValue(writeReviewEvent.getReviewContent());
-                    reviewReference.child("reviewDate").setValue(writeReviewEvent.getReviewDate());
-                    DatabaseReference productReference = reviewsReference.child("product");
-                    productReference.child("order_number").setValue(writeReviewEvent.getOrder_number());
-                    productReference.child("product_id").setValue(writeReviewEvent.getOrderDetailResponse().getProduct_id());
-                    productReference.child("product_name").setValue(writeReviewEvent.getOrderDetailResponse().getProduct_name());
-                    productReference.child("urlImage").setValue(writeReviewEvent.getOrderDetailResponse().getUrlImage());
-                    productReference.child("price").setValue(writeReviewEvent.getOrderDetailResponse().getPrice());
-                    productReference.child("quantity").setValue(writeReviewEvent.getOrderDetailResponse().getQuantity());
-                    productReference.child("variation").setValue(writeReviewEvent.getOrderDetailResponse().getVariation());
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    emitter.onError(new Exception(error.getMessage()));
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        // save on firebase storage
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        String encodeEmail = email.replace("@", "_").replace(".", "_");
-        StorageReference storageRef = storage.getReference().child("user_reviews").child(encodeEmail).child(writeReviewEvent.getReviewDate()).child(writeReviewEvent.getOrderDetailResponse().getProduct_id());
-
-        for (Bitmap bitmap : writeReviewEvent.getReviewImages()) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            byte[] data = baos.toByteArray();
-            StorageReference imageRef = storageRef.child("review_image" + writeReviewEvent.getReviewImages().indexOf(bitmap));
-            UploadTask uploadTask = imageRef.putBytes(data);
-            uploadTask.addOnSuccessListener(taskSnapshot -> {
-//                Log.d("FirebaseImageService", "Image uploaded successfully: " + imageName);
-            }).addOnFailureListener(exception -> {
-//                Log.e("FirebaseImageService", "Failed to upload image", exception);
             });
-        }
+        });
     }
+
+    private void saveReviewData(WriteReviewEvent writeReviewEvent, DatabaseReference reviewsReference) {
+        DatabaseReference reviewReference = reviewsReference.child("review");
+        reviewReference.child("starRating").setValue(writeReviewEvent.getStarRating());
+        reviewReference.child("reviewTitle").setValue(writeReviewEvent.getReviewTitle());
+        reviewReference.child("reviewContent").setValue(writeReviewEvent.getReviewContent());
+        reviewReference.child("reviewDate").setValue(writeReviewEvent.getReviewDate());
+
+        DatabaseReference productReference = reviewsReference.child("product");
+        productReference.child("order_number").setValue(writeReviewEvent.getOrder_number());
+        productReference.child("product_id").setValue(writeReviewEvent.getOrderDetailResponse().getProduct_id());
+        productReference.child("product_name").setValue(writeReviewEvent.getOrderDetailResponse().getProduct_name());
+        productReference.child("urlImage").setValue(writeReviewEvent.getOrderDetailResponse().getUrlImage());
+        productReference.child("price").setValue(writeReviewEvent.getOrderDetailResponse().getPrice());
+        productReference.child("quantity").setValue(writeReviewEvent.getOrderDetailResponse().getQuantity());
+        productReference.child("variation").setValue(writeReviewEvent.getOrderDetailResponse().getVariation());
+    }
+
     public Observable<AmazonBestSellerResponse> getAmazonBestSeller(HashMap<String, String> map) {
         return amazonApiService.getAmazonBestSeller(map);
     }
