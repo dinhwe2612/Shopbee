@@ -18,6 +18,7 @@ import com.example.shopbee.ui.common.base.BaseActivity;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.forgotpassword.ForgotPasswordActivity;
 import com.example.shopbee.ui.main.MainActivity;
+import com.example.shopbee.ui.signup.SignUpActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -122,5 +123,16 @@ public class LoginActivity extends BaseActivity<LoginBinding, LoginViewModel>
     public void toForgotPassword() {
         Intent intent = ForgotPasswordActivity.newIntent(this);
         startActivity(intent);
+    }
+
+    @Override
+    public void navigateToSignUp() {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void backToMain() {
+        finish();
     }
 }

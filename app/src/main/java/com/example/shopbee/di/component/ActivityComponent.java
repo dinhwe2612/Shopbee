@@ -7,6 +7,7 @@ import com.example.shopbee.ui.flappybee.GameActivity;
 import com.example.shopbee.ui.forgotpassword.ForgotPasswordActivity;
 import com.example.shopbee.ui.login.LoginActivity;
 import com.example.shopbee.ui.main.MainActivity;
+import com.example.shopbee.ui.signup.SignUpActivity;
 
 import dagger.Component;
 @ActivityScope
@@ -17,4 +18,5 @@ public interface ActivityComponent {
     void inject(LoginActivity activity);
     void inject(ForgotPasswordActivity forgotPasswordActivity);
     void inject(GameActivity gameActivity);
+    void inject(SignUpActivity signUpActivity);
 }
