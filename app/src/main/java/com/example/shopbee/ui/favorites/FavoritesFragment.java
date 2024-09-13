@@ -143,6 +143,7 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         productAdapterGridView.setOnItemClickListener(this);
     }
     public void dealWithNullUser() {
+        getViewDataBinding().loading.setVisibility(View.GONE);
         getViewDataBinding().imageView.setVisibility(View.GONE);
         getViewDataBinding().signIn.setVisibility(View.VISIBLE);
         getViewDataBinding().signIn.setOnClickListener(new View.OnClickListener() {
@@ -174,6 +175,11 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         if (!animationDrawable4.isRunning()) {
             animationDrawable4.start();
         }
+
+        AnimationDrawable animationDrawable5 = (AnimationDrawable) binding.loading5.getBackground();
+        if (!animationDrawable5.isRunning()) {
+            animationDrawable5.start();
+        }
     }
 
     public void stopLoadingAnimations() {
@@ -195,6 +201,11 @@ public class FavoritesFragment extends BaseFragment<FavoritesBinding, FavoritesV
         AnimationDrawable animationDrawable4 = (AnimationDrawable) binding.loading4.getBackground();
         if (animationDrawable4.isRunning()) {
             animationDrawable4.stop();
+        }
+
+        AnimationDrawable animationDrawable5 = (AnimationDrawable) binding.loading5.getBackground();
+        if (animationDrawable5.isRunning()) {
+            animationDrawable5.stop();
         }
     }
 

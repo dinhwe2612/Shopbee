@@ -1,8 +1,10 @@
 package com.example.shopbee.ui.forgotpassword;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
@@ -11,6 +13,7 @@ import com.example.shopbee.R;
 import com.example.shopbee.databinding.ForgotPasswordBinding;
 import com.example.shopbee.di.component.ActivityComponent;
 import com.example.shopbee.ui.common.base.BaseActivity;
+import com.saadahmedev.popupdialog.PopupDialog;
 
 public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordBinding, ForgotPasswordViewModel>
         implements ForgotPasswordNavigator{
@@ -38,6 +41,13 @@ public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordBinding, 
         super.onCreate(savedInstanceState);
         viewModel.setNavigator(this);
         binding = getViewDataBinding();
+
+        binding.buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -53,11 +63,23 @@ public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordBinding, 
 
     @Override
     public void sentEmailSuccess() {
-
+        PopupDialog.getInstance(this)
+                .statusDialogBuilder()
+                .createSuccessDialog()
+                .setHeading("Send Email Successfully")
+                .setDescription("Please check email to reset password")
+                .build(Dialog::dismiss)
+                .show();
     }
 
     @Override
     public void sentEmailFailed(String message) {
-
+        PopupDialog.getInstance(this)
+                .statusDialogBuilder()
+                .createErrorDialog()
+                .setHeading("Uh-Oh")
+                .setDescription("Email not found.")
+                .build(Dialog::dismiss)
+                .show();
     }
 }

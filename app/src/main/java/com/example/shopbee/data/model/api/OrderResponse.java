@@ -18,11 +18,12 @@ public class OrderResponse implements Parcelable {
     private String tracking_number;
     private String payment;
     private String discount;
+    private String freeship;
     private List<OrderDetailResponse> order_detail;
 
     public OrderResponse(){
     }
-    public OrderResponse(String date, int quantity, String status, String order_number, String tracking_number, String payment, String discount, List<OrderDetailResponse> order_detail) {
+    public OrderResponse(String date, int quantity, String status, String order_number, String tracking_number, String payment, String discount, List<OrderDetailResponse> order_detail, String freeship) {
         this.date = date;
         this.quantity = quantity;
         this.status = status;
@@ -31,8 +32,16 @@ public class OrderResponse implements Parcelable {
         this.payment = payment;
         this.discount = discount;
         this.order_detail = order_detail;
+        this.freeship = freeship;
     }
 
+    public String getFreeship() {
+        return freeship;
+    }
+
+    public void setFreeship(String freeship) {
+        this.freeship = freeship;
+    }
     public String getDate() {
         return date;
     }
@@ -105,20 +114,19 @@ public class OrderResponse implements Parcelable {
         return total.setScale(2, RoundingMode.HALF_UP).toString() + "$";
     }
     public String getTotal_amount() {
-        BigDecimal total = BigDecimal.valueOf(10);
+        float total = 10;
         for (OrderDetailResponse orderDetailResponse : order_detail) {
             String numericString = orderDetailResponse.getPrice().replace("$", "");
-            BigDecimal price = new BigDecimal(numericString);
-            total = total.add(price.multiply(BigDecimal.valueOf(orderDetailResponse.getQuantity())));
+            float price = Float.parseFloat(numericString);
+            total += price * orderDetailResponse.getQuantity();
         }
-        if (discount.isEmpty()) {
-            return total.setScale(2, RoundingMode.HALF_UP).toString() + "$";
+        if (!discount.isEmpty()){
+            total = total - Float.parseFloat(discount.replace("$", ""));
         }
-
-        BigDecimal discountAmount = new BigDecimal(this.discount.replace("$", ""));
-        BigDecimal finalAmount = total.subtract(discountAmount);
-
-        return finalAmount.setScale(2, RoundingMode.HALF_UP).toString() + "$";
+        if (!freeship.isEmpty()){
+            total = total - Float.parseFloat(freeship.replace("$", ""));
+        }
+        return roundToTwoDecimalPlaces(total) + "$";
     }
     protected OrderResponse(Parcel in) {
         date = in.readString();
@@ -158,5 +166,10 @@ public class OrderResponse implements Parcelable {
             return new OrderResponse[size];
         }
     };
+    public static float roundToTwoDecimalPlaces(float value) {
+        BigDecimal bd = new BigDecimal(Float.toString(value));
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.floatValue();
+    }
 }
 

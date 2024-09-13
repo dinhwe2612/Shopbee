@@ -154,6 +154,14 @@
             android:layout_height="116dp">
 
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/loading5"
+            android:background="@drawable/color_transition"
+            android:layout_width="343dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="116dp">
+
+        </RelativeLayout>
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

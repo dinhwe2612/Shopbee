@@ -221,7 +221,7 @@
                         android:id="@+id/deliveryMethod"
                         android:layout_marginStart="10dp"
                         android:layout_toRightOf="@id/deliveryMethodText"
-                        android:text="BEExp, 3 days, $10"
+                        android:text="BEExp, 3 days"
                         style="@style/Black_Medium_14dp"
                         android:textAlignment="viewStart"
                         android:layout_width="wrap_content"

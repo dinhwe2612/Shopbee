@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/searchIcon"
-                android:text="Ao thun nam"
+                android:text="T-shirt"
                 style="@style/Black_Medium_14dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="5dp"/>
@@ -404,6 +404,7 @@
                     android:layout_marginTop="25dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:layout_gravity="center_horizontal"
                     android:id="@+id/recommendedRCV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

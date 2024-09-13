@@ -115,12 +115,15 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                 }
                 break;
         }
-        if (orderResponse.getDiscount().isEmpty()){
+        if (orderResponse.getDiscount().equals("0$")){
             binding.discountLayout.setVisibility(View.GONE);
         }
         else binding.discount.setText("-" + orderResponse.getDiscount());
+        if (orderResponse.getFreeship().equals("0$")){
+            binding.deliveryMethod.setText("BEExp, 2-3 days, 10$");
+        }
+        else binding.deliveryMethod.setText("BEExp, 2-3 days, 10$ (-" + orderResponse.getFreeship() + ")");
         binding.totalAmount.setText(orderResponse.getTotal_amount());
-
         switch (status){
             case "delivered":
                 binding.reorder.setText("Reorder");

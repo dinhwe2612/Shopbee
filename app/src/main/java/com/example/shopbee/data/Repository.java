@@ -151,6 +151,7 @@ public class Repository {
                                 orderResponseObj.setTracking_number(listOrderSnapshot.child("tracking_number").getValue(String.class));
                                 orderResponseObj.setPayment(listOrderSnapshot.child("payment").getValue(String.class));
                                 orderResponseObj.setDiscount(listOrderSnapshot.child("discount").getValue(String.class));
+                                orderResponseObj.setFreeship(listOrderSnapshot.child("freeship").getValue(String.class));
 
                                 List<OrderDetailResponse> orderDetailList = new ArrayList<>();
                                 for (DataSnapshot orderDetailSnapshot : listOrderSnapshot.child("order_detail").getChildren()) {
@@ -1313,6 +1314,34 @@ public class Repository {
         productReference.child("price").setValue(writeReviewEvent.getOrderDetailResponse().getPrice());
         productReference.child("quantity").setValue(writeReviewEvent.getOrderDetailResponse().getQuantity());
         productReference.child("variation").setValue(writeReviewEvent.getOrderDetailResponse().getVariation());
+    }
+
+    public void deleteBag() {
+//        return Observable.create(emitter -> {
+            String email = getUserResponse().getValue().getEmail();
+            databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
+            Query query = databaseReference.orderByChild("email").equalTo(email);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                            DataSnapshot variationTypeSnapshot;
+                            variationTypeSnapshot = userSnapshot.child("bag");
+                            variationTypeSnapshot.getRef().removeValue();
+                        }
+                    }
+//                    emitter.onNext(true);
+//                    emitter.onComplete();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+//                    emitter.onError(databaseError.toException());  // Emit error if query is cancelled
+                }
+            });
+//        });
     }
 
     public Observable<AmazonBestSellerResponse> getAmazonBestSeller(HashMap<String, String> map) {

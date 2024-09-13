@@ -46,13 +46,13 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
             case "visa":
                 holder.binding.paymentIcon.setBackgroundResource(R.drawable.visa);
                 holder.binding.cardName.setText(paymentResponse.getName());
-                holder.binding.cardNumber.setText("* * * *  * * * *  * * * *  " + paymentResponse.getNumber().substring(12, 15));
+                holder.binding.cardNumber.setText("* * * *  * * * *  * * * *  " + paymentResponse.getNumber().substring(12, 16));
                 holder.binding.expiryDate.setText(paymentResponse.getExpiryDate());
                 break;
             case "master":
                 holder.binding.paymentIcon.setBackgroundResource(R.drawable.master);
                 holder.binding.cardName.setText(paymentResponse.getName());
-                holder.binding.cardNumber.setText("* * * *  * * * *  * * * *  " + paymentResponse.getNumber().substring(12, 15));
+                holder.binding.cardNumber.setText("* * * *  * * * *  * * * *  " + paymentResponse.getNumber().substring(12, 16));
                 holder.binding.expiryDate.setText(paymentResponse.getExpiryDate());
                 break;
         }

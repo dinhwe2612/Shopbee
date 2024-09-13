@@ -64,6 +64,12 @@ public class LeaveFeedbackFragment extends BaseFragment<LeaveFeedbackBinding, Le
         orderResponse = getArguments().getParcelable("orderResponse");
         if (orderResponse == null) throw new IllegalArgumentException("OrderResponse LeaveFeedbackFragment cannot be null");
         binding = getViewDataBinding();
+        binding.backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.getNavigator().navigateUp();
+            }
+        });
         observeReviewList();
         viewModel.syncIsReviewedList(orderResponse);
         viewModel.getInProgress().observe(getViewLifecycleOwner(), inProgress -> {

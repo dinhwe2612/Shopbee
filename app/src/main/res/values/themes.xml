@@ -505,5 +505,5 @@
         <item name="android:windowEnterAnimation">@anim/slide_in_animation</item>
         <item name="android:windowExitAnimation">@anim/slide_out_animation</item>
     </style>
-
+    <color name="voucher_background">#E7F0EF</color>
 </resources>

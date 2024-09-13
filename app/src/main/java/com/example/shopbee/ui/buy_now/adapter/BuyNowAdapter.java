@@ -1,8 +1,5 @@
-package com.example.shopbee.ui.bag.adapter;
+package com.example.shopbee.ui.buy_now.adapter;
 
-import android.graphics.Bitmap;
-import android.media.Image;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -15,24 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.FutureTarget;
 import com.example.shopbee.R;
-import com.example.shopbee.data.model.api.AmazonProductByCategoryResponse;
-import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
-import com.example.shopbee.databinding.FavoriteItemBinding;
 import com.example.shopbee.databinding.MyBagItemBinding;
-import com.example.shopbee.ui.favorites.adapter.FavoriteAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
+public class BuyNowAdapter extends RecyclerView.Adapter<BuyNowAdapter.ViewHolder> {
     public interface onChangeQuantityListener {
         void onItemClick(String asin);
         void onChangeQuantity(String asin, List<Pair<String, String>> variations, boolean increase, int position);
@@ -50,7 +39,7 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
         return products;
     }
 
-    public BagAdapter() {
+    public BuyNowAdapter() {
     }
 
     public void setProducts(List<OrderDetailResponse> products) {
@@ -59,14 +48,14 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public BagAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BuyNowAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         MyBagItemBinding binding = MyBagItemBinding.inflate(inflater, parent, false);
-        return new BagAdapter.ViewHolder(binding);
+        return new BuyNowAdapter.ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BagAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BuyNowAdapter.ViewHolder holder, int position) {
         holder.bindView(position);
         holder.binding.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,7 +144,7 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
                         onChangeQuantityListener.onChangeQuantity(products.get(position).getProduct_id(), products.get(position).getVariation(), false, position);
                     }
                     else {
-                        onChangeQuantityListener.onDeleteFromList(products.get(position).getProduct_id(), products.get(position).getVariation(), position);
+//                        onChangeQuantityListener.onDeleteFromList(products.get(position).getProduct_id(), products.get(position).getVariation(), position);
 //                        quantities.remove(position);
 //                        products.remove(position);
 //                        variations.remove(position);

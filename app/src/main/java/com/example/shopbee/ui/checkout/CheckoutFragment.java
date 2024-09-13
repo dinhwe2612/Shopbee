@@ -21,6 +21,7 @@ import com.example.shopbee.data.model.api.AddressResponse;
 import com.example.shopbee.data.model.api.ListOrderResponse;
 import com.example.shopbee.data.model.api.OrderResponse;
 import com.example.shopbee.data.model.api.PaymentResponse;
+import com.example.shopbee.data.model.api.PromoCodeResponse;
 import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.databinding.CheckoutBinding;
 import com.example.shopbee.di.component.FragmentComponent;
@@ -93,6 +94,7 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(success -> {
                                         if (success) {
+                                            viewModel.getRepository().deleteBag();
                                             navigateToSuccessFragment();
                                         } else {
                                             PopupDialog.getInstance(v.getContext())
@@ -203,14 +205,14 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
                     binding.isShopbeePay.setVisibility(View.GONE);
                     binding.paymentLayout.setVisibility(View.VISIBLE);
                     binding.paymentMethodImage.setBackgroundResource(R.drawable.visa);
-                    binding.numberCard.setText("**** **** **** " + currentPayment.getNumber().substring(12, 15));
+                    binding.numberCard.setText("**** **** **** " + currentPayment.getNumber().substring(12, 16));
 
                     break;
                 case "master":
                     binding.isShopbeePay.setVisibility(View.GONE);
                     binding.paymentLayout.setVisibility(View.VISIBLE);
                     binding.paymentMethodImage.setBackgroundResource(R.drawable.master);
-                    binding.numberCard.setText("**** **** **** " + currentPayment.getNumber().substring(12, 15));
+                    binding.numberCard.setText("**** **** **** " + currentPayment.getNumber().substring(12, 16));
                     break;
             }
         }
@@ -229,6 +231,12 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         } else {
             binding.discountLayout.setVisibility(View.VISIBLE);
             binding.discountAmount.setText("-" + orderResponse.getDiscount());
+        }
+        if (orderResponse.getFreeship().equals("0$")){
+            binding.freeshipLayout.setVisibility(View.GONE);
+        } else {
+            binding.freeshipLayout.setVisibility(View.VISIBLE);
+            binding.freeshipAmount.setText("-" + orderResponse.getFreeship());
         }
         binding.totalAmount.setText(orderResponse.getTotal_amount());
     }

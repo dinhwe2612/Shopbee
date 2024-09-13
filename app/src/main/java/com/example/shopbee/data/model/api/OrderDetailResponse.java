@@ -111,15 +111,24 @@ public class OrderDetailResponse implements Parcelable {
         price = in.readString();
         quantity = in.readInt();
         urlImage = in.readString();
-        variation = new ArrayList<>();
-        in.readList(variation, Pair.class.getClassLoader());
-        product_star_rating = in.readString(); // New field
-        if (in.readByte() == 0) { // Handle potential null value for product_num_ratings
+
+        // Reading List<Pair<String, String>> variation
+        int size = in.readInt();
+        variation = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            String first = in.readString();
+            String second = in.readString();
+            variation.add(new Pair<>(first, second));
+        }
+
+        product_star_rating = in.readString();
+        if (in.readByte() == 0) {
             product_num_ratings = null;
         } else {
             product_num_ratings = in.readInt();
         }
     }
+
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -128,8 +137,15 @@ public class OrderDetailResponse implements Parcelable {
         dest.writeString(price);
         dest.writeInt(quantity);
         dest.writeString(urlImage);
-        dest.writeList(variation);
-        dest.writeString(product_star_rating); // New field
+
+        // Writing List<Pair<String, String>> variation
+        dest.writeInt(variation.size());
+        for (Pair<String, String> pair : variation) {
+            dest.writeString(pair.first);
+            dest.writeString(pair.second);
+        }
+
+        dest.writeString(product_star_rating);
         if (product_num_ratings == null) {
             dest.writeByte((byte) 0);
         } else {
@@ -137,6 +153,7 @@ public class OrderDetailResponse implements Parcelable {
             dest.writeInt(product_num_ratings);
         }
     }
+
 
     @Override
     public int describeContents() {

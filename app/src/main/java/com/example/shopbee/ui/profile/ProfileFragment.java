@@ -124,7 +124,7 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
         } else {
             viewModel.syncImageBitmapFirebase("avatar", userResponse.getEmail());
             mAuth = FirebaseAuth.getInstance();
-            binding.loginText.setText("Log out");
+            binding.loginText.setText(" Log out ");
             binding.loginText.setVisibility(View.VISIBLE);
             viewModel.getAvatar().observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
                 @Override

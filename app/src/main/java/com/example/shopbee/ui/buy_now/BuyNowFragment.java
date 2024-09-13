@@ -1,4 +1,4 @@
-package com.example.shopbee.ui.bag;
+package com.example.shopbee.ui.buy_now;
 
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -19,42 +19,38 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.shopbee.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.data.Repository;
-import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.data.model.api.OrderResponse;
 import com.example.shopbee.data.model.api.PromoCodeResponse;
 import com.example.shopbee.databinding.BagBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.toolbar.ToolbarView;
-import com.example.shopbee.ui.bag.adapter.BagAdapter;
+import com.example.shopbee.ui.buy_now.adapter.BuyNowAdapter;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.common.dialogs.morevariation.moreVariationDialog;
 import com.example.shopbee.ui.common.dialogs.promoCode.PromoCodeDialog;
 import com.example.shopbee.ui.login.LoginActivity;
-import com.example.shopbee.ui.main.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implements BagNavigator, ToolbarView.SearchClickListener, DialogsManager.Listener, View.OnClickListener, BagAdapter.onChangeQuantityListener {
+public class BuyNowFragment extends BaseFragment<BagBinding, BuyNowViewModel> implements BuyNowNavigator, ToolbarView.SearchClickListener, DialogsManager.Listener, View.OnClickListener, BuyNowAdapter.onChangeQuantityListener {
     // handle blank bag
     @Inject
     DialogsManager dialogsManager;
     MutableLiveData<PromoCodeResponse> promoCodeResponse = new MutableLiveData<>();
     MutableLiveData<PromoCodeResponse> freeshipVoucher = new MutableLiveData<>();
-    BagAdapter bagAdapter = new BagAdapter();
+    OrderDetailResponse bagProducts;
+    BuyNowAdapter buyNowAdapter = new BuyNowAdapter();
     ToolbarView toolbarView;
 
     @Override
@@ -82,12 +78,12 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        getViewDataBinding().topBar.addView(toolbarView.getRootView());
-        Log.d("BagFragment", "Null: " + FirebaseAuth.getInstance().getCurrentUser());
+        Log.d("BuyNowFragment", "Null: " + FirebaseAuth.getInstance().getCurrentUser());
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 //            displayOptionsForBag(View.GONE, View.GONE);
             getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-            getViewDataBinding().recyclerView.setAdapter(bagAdapter);
-            bagAdapter.setOnChangeQuantityListener(this);
+            getViewDataBinding().recyclerView.setAdapter(buyNowAdapter);
+            buyNowAdapter.setOnChangeQuantityListener(this);
             observePromoCodes();
             viewModel.getBagProducts().observe(getViewLifecycleOwner(), products -> {
                 changeDatasetForAdapter(products);
@@ -130,7 +126,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
 //                hideProgressDialog();
                 }
             });
-            viewModel.syncBagProducts();
+            syncBagProducts();
             viewModel.getPromoCodes().observe(getViewLifecycleOwner(), result -> {
                 Log.d("result", "open promoCodeDialog");
                 PromoCodeDialog promoCodeDialog = PromoCodeDialog.newInstance(dialogsManager);
@@ -157,12 +153,19 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
             dealWithNullUser();
         }
     }
+
+    private void syncBagProducts() {
+        List<OrderDetailResponse> orderDetailResponseList = new ArrayList<>();
+        orderDetailResponseList.add(bagProducts);
+        viewModel.getBagProducts().setValue(orderDetailResponseList);
+    }
+
     public void changeDatasetForAdapter(List<OrderDetailResponse> orderDetailResponseList) {
-        bagAdapter.setProducts(orderDetailResponseList);
-        bagAdapter.notifyDataSetChanged();
+        buyNowAdapter.setProducts(orderDetailResponseList);
+        buyNowAdapter.notifyDataSetChanged();
     }
     public void dealWithNullUser() {
-        Log.d("BagFragment", "null sign in");
+        Log.d("BuyNowFragment", "null sign in");
         getViewDataBinding().loading.setVisibility(View.GONE);
         displayOptionsForBag(View.GONE, View.GONE);
         getViewDataBinding().signIn.setVisibility(View.VISIBLE);
@@ -246,10 +249,14 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         toolbarView = new ToolbarView(inflater, container);
         toolbarView.setTitle("");
         toolbarView.setSearchClickListener(this);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        if (getArguments() == null) throw new IllegalArgumentException("Arguments BuyNowFragment cannot be null");
+        bagProducts = getArguments().getParcelable("orderDetailResponse");
+        getViewDataBinding().textView.setText("Buy Now");
+        return getViewDataBinding().getRoot();
     }
 
     @Override
@@ -383,6 +390,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable("orderResponse", orderResponse);
+        bundle.putParcelable("freeShipVoucher", freeshipVoucher.getValue());
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.checkoutFragment, bundle);
     }
@@ -397,23 +405,23 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
 
     @Override
     public void onChangeQuantity(String asin, List<Pair<String, String>> variations, boolean increase, int position) {
-        viewModel.getCompositeDisposable().add(viewModel.getRepository().updateUserBagVariation(asin, variations, increase)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(success -> {
-                                    if (success) {
-//                                        Log.d("success", "success" + success);
-//                                        viewModel.syncBagListsOnly();
-//                        viewModel.getBagProducts().setValue(viewModel.getBagProducts().getValue());
-                                        // Handle successful deletion
-                                    } else {
-                                        // Handle failure
-                                    }
-                                },
-                                error -> {
-
-                                })
-        );
+//        viewModel.getCompositeDisposable().add(viewModel.getRepository().updateUserBagVariation(asin, variations, increase)
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(success -> {
+//                                    if (success) {
+////                                        Log.d("success", "success" + success);
+////                                        viewModel.syncBagListsOnly();
+////                        viewModel.getBagProducts().setValue(viewModel.getBagProducts().getValue());
+//                                        // Handle successful deletion
+//                                    } else {
+//                                        // Handle failure
+//                                    }
+//                                },
+//                                error -> {
+//
+//                                })
+//        );
         List<OrderDetailResponse> orderDetailResponseList = viewModel.getBagProducts().getValue();
         int quantity = updateQuantity(orderDetailResponseList.get(position).getQuantity(), increase);
         orderDetailResponseList.get(position).setQuantity(quantity);
@@ -422,7 +430,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
 
     public static int updateQuantity(int quantity, boolean increase) {
         if (increase) return quantity + 1;
-        return Math.max(quantity - 1, 0);
+        return Math.max(quantity - 1, 1);
     }
 
     @Override
