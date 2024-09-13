@@ -41,6 +41,17 @@ public class LeaveFeedbackViewModel extends BaseViewModel<LeaveFeedbackNavigator
         );
     }
     public void saveReview(WriteReviewEvent event) {
-        getRepository().saveReviewForUser(event);
+        getCompositeDisposable().add(getRepository().saveReviewForUser(event)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                            if (result) {
+
+                            }
+                        },
+                        error -> {
+
+                        })
+        );
     }
 }

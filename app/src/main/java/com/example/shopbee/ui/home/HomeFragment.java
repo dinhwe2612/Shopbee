@@ -1,6 +1,5 @@
 package com.example.shopbee.ui.home;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -12,10 +11,8 @@ import android.view.ViewTreeObserver;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,7 +20,6 @@ import androidx.recyclerview.widget.OrientationHelper;
 
 import com.dingmouren.layoutmanagergroup.banner.BannerLayoutManager;
 import com.example.shopbee.R;
-import com.example.shopbee.data.model.api.AmazonDealsResponse;
 import com.example.shopbee.databinding.HomeBinding;
 import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
@@ -35,8 +31,6 @@ import com.example.shopbee.ui.home.adapter.DealAdapter;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.utils.ColorUtils;
 import com.example.shopbee.utils.NetworkUtils;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.inject.Inject;
@@ -89,11 +83,6 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
         observeData();
         setUpRecyclerView();
         return binding.getRoot();
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
     }
 
     void setOnClick() {

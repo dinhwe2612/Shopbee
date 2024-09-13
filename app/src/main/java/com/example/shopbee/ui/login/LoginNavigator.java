@@ -7,4 +7,6 @@ public interface LoginNavigator {
     void loginWithGoogle();
     void openMainActivity();
     void toForgotPassword();
+    void navigateToSignUp();
+    void backToMain();
 }

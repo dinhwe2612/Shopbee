@@ -71,12 +71,13 @@
 
             </TextView>
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="10dp"
                 android:id="@+id/recyclerView"
                 android:layout_gravity="center"
-                tools:listitem="@layout/promo_code_item"
+                tools:listitem="@layout/promo_codes_item"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="vertical"
-                android:layout_width="343dp"
+                android:layout_width="380dp"
                 android:layout_height="480dp">
 
             </androidx.recyclerview.widget.RecyclerView>

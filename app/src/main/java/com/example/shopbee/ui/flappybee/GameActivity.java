@@ -55,7 +55,7 @@ public class GameActivity extends BaseActivity<GameBinding, GameViewModel> imple
             dialogsManager.showRuleDialog();
         });
         binding.backButton.setOnClickListener(v->{
-            onBackPressed();
+            finish();
         });
     }
 

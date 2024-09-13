@@ -10,11 +10,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shopbee.databinding.ImageReviewItemBinding;
+import com.example.shopbee.databinding.ImageMyReviewsItemBinding;
 
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
+    public interface OnImageClickListener {
+        void onImageClick(Bitmap image);
+    }
+    OnImageClickListener onImageClickListener;
+    public void setOnImageClickListener(OnImageClickListener onImageClickListener) {
+        this.onImageClickListener = onImageClickListener;
+    }
     private List<Bitmap> images;
     public ImageAdapter(List<Bitmap> images) {
         this.images = images;
@@ -22,12 +29,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @NonNull
     @Override
     public ImageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(ImageReviewItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new ViewHolder(ImageMyReviewsItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ImageAdapter.ViewHolder holder, int position) {
         holder.binding.image.setImageBitmap(images.get(position));
+        holder.itemView.setOnClickListener(v -> {
+            if (onImageClickListener != null) {
+                onImageClickListener.onImageClick(images.get(position));
+            }
+        });
     }
 
     @Override
@@ -37,8 +49,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageReviewItemBinding binding;
-        public ViewHolder(@NonNull ImageReviewItemBinding binding) {
+        ImageMyReviewsItemBinding binding;
+        public ViewHolder(@NonNull ImageMyReviewsItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

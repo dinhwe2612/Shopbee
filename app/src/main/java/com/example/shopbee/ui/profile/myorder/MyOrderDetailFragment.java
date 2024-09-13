@@ -1,15 +1,11 @@
 package com.example.shopbee.ui.profile.myorder;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
@@ -19,32 +15,23 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.AddressResponse;
-import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.data.model.api.ListOrderResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.data.model.api.OrderResponse;
 import com.example.shopbee.data.model.api.PaymentResponse;
 import com.example.shopbee.data.model.api.UserResponse;
-import com.example.shopbee.databinding.MyOrdersBinding;
 import com.example.shopbee.databinding.OrderDetailsBinding;
 import com.example.shopbee.di.component.FragmentComponent;
-import com.example.shopbee.ui.bag.BagFragment;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
-import com.example.shopbee.ui.common.dialogs.changeCountry.changeCountryDialog;
-import com.example.shopbee.ui.home.HomeFragment;
 import com.example.shopbee.ui.profile.adapter.OrderDetailProductAdapter;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.saadahmedev.popupdialog.PopupDialog;
 import com.saadahmedev.popupdialog.listener.StandardDialogActionListener;
 
 import java.security.SecureRandom;
-import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
@@ -274,7 +261,7 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
             .setPositiveButtonTextColor(R.color.white_light_theme)
             .setDescription("Are you sure you want to cancel?" +
                     " This action cannot be undone")
-            .setIcon(R.drawable.cancel)
+            .setIcon(R.drawable.cancel_image)
             .build(new StandardDialogActionListener() {
                 @Override
                 public void onPositiveButtonClicked(Dialog dialog) {

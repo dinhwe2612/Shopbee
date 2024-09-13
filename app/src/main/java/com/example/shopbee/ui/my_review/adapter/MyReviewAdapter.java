@@ -1,5 +1,7 @@
 package com.example.shopbee.ui.my_review.adapter;
 
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +18,14 @@ import com.example.shopbee.ui.productdetail.adapter.AboutProductAdapter;
 import java.util.List;
 
 public class MyReviewAdapter extends RecyclerView.Adapter<MyReviewAdapter.ViewHolder> {
-    public interface MoreVariationClickListener {
-        void onMoreVariationClick(int position);
+    public interface DetailsClickListener {
+        void onDetailsClick(int position);
+        void onImageClick(Bitmap image);
     }
-    MoreVariationClickListener moreVariationClickListener;
+    DetailsClickListener detailsClickListener;
 
-    public void setMoreVariationClickListener(MoreVariationClickListener moreVariationClickListener) {
-        this.moreVariationClickListener = moreVariationClickListener;
+    public void setDetailsClickListener(DetailsClickListener detailsClickListener) {
+        this.detailsClickListener = detailsClickListener;
     }
 
     public List<WriteReviewEvent> getReviewList() {
@@ -59,7 +62,15 @@ public class MyReviewAdapter extends RecyclerView.Adapter<MyReviewAdapter.ViewHo
         holder.binding.content.setText(event.getReviewContent());
 
         holder.binding.imagesRCV.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        holder.binding.imagesRCV.setAdapter(new ImageAdapter(event.getReviewImages()));
+        ImageAdapter imageAdapter = new ImageAdapter(event.getReviewImages());
+        imageAdapter.setOnImageClickListener(image -> detailsClickListener.onImageClick(image));
+        holder.binding.imagesRCV.setAdapter(imageAdapter);
+        holder.binding.details.setOnClickListener(v -> {
+            int currentPosition = holder.getAdapterPosition();
+            if (detailsClickListener != null && currentPosition != RecyclerView.NO_POSITION) {
+                detailsClickListener.onDetailsClick(currentPosition);
+            }
+        });
     }
 
     @Override

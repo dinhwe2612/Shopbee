@@ -9,24 +9,55 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.PromoCodeResponse;
-import com.example.shopbee.databinding.PromoCodeItemBinding;
+import com.example.shopbee.databinding.PromoCodesItemBinding;
 import com.example.shopbee.databinding.SortItemBinding;
 import com.example.shopbee.ui.common.dialogs.sortbydialog.DialogAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PromoCodeAdapter extends RecyclerView.Adapter<PromoCodeAdapter.ViewHolder> {
     public interface OnItemClick {
         void onItemClick(PromoCodeResponse promoCodeResponse);
+        void onItemTransportClick(PromoCodeResponse promoCodeResponse);
     }
     OnItemClick onItemClick;
     public void setOnItemClick(OnItemClick onItemClick) {
         this.onItemClick = onItemClick;
     }
-    PromoCodeResponse currentItem;
-    public void setCurrentItem(PromoCodeResponse currentItem) {
+    int currentItem = -1;
+    int currentTransportItem = -1;
+
+    public void setCurrentItem(PromoCodeResponse promoCodeResponse) {
+        if (promoCodeResponse == null) return;
+        for (int i = 0; i < promoCodeList.size(); i++) {
+            if (promoCodeList.get(i).getCode().equals(promoCodeResponse.getCode())) {
+                currentItem = i;
+                notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
+    public void setCurrentTransportItem(PromoCodeResponse promoCodeResponse) {
+        if (promoCodeResponse == null) return;
+        for (int i = 0; i < promoCodeList.size(); i++) {
+            if (promoCodeList.get(i).getCode().equals(promoCodeResponse.getCode())) {
+                currentTransportItem = i;
+                notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+    
+    public void setCurrentItem(int currentItem) {
         this.currentItem = currentItem;
+//        notifyDataSetChanged();
+    }
+    public void setCurrentTransportItem(int currentTransportItem) {
+        this.currentTransportItem = currentTransportItem;
+//        notifyDataSetChanged();
     }
     List<PromoCodeResponse> promoCodeList = new ArrayList<>();
     public void setPromoCodeList(List<PromoCodeResponse> promoCodeList) {
@@ -37,7 +68,7 @@ public class PromoCodeAdapter extends RecyclerView.Adapter<PromoCodeAdapter.View
     @Override
     public PromoCodeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        PromoCodeItemBinding binding = PromoCodeItemBinding.inflate(inflater, parent, false);
+        PromoCodesItemBinding binding = PromoCodesItemBinding.inflate(inflater, parent, false);
         return new ViewHolder(binding);
     }
 
@@ -55,39 +86,74 @@ public class PromoCodeAdapter extends RecyclerView.Adapter<PromoCodeAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        PromoCodeItemBinding binding;
-        public ViewHolder(@NonNull PromoCodeItemBinding binding) {
+        PromoCodesItemBinding binding;
+        public ViewHolder(@NonNull PromoCodesItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
         public void bindView(int position) {
+            binding.dueto.setText(promoCodeList.get(position).getRemainingTime());
             if (promoCodeList.get(position).getRemainingTime().equals("Expired")) {
-                binding.promoCodeLayout.setAlpha(0.45f);
-                binding.textView3.setText(promoCodeList.get(position).getRemainingTime());
-                binding.textView5.setVisibility(View.GONE);
-                binding.textView3.setTextAppearance(R.style.Red_Regular_10dp);
+                binding.typeVoucher.setAlpha(0.45f);
+                binding.saveVoucher.setVisibility(View.GONE);
+                binding.dueto.setTextAppearance(R.style.Red_Regular_10dp);
             }
-            binding.textView.setText(String.valueOf(promoCodeList.get(position).getPercent()));
-            binding.textView2.setText(String.valueOf(promoCodeList.get(position).getName()));
-            binding.textView4.setText(String.valueOf(promoCodeList.get(position).getCode()));
-            if (currentItem != null && promoCodeList.get(position).equals(currentItem)) {
-                binding.textView5.setText("Discard");
-                binding.textView5.setTextAppearance(R.style.White_Button_Black_Stroke_Black_Text);
-                binding.textView5.setBackgroundResource(R.drawable.rounded_white_rectangle_black_stroke);
+            binding.nameVoucher.setText(promoCodeList.get(position).getPercent() + "% OFF");
+            switch (promoCodeList.get(position).getName()){
+                case "freeship":
+                    binding.iconVoucher.setBackgroundResource(R.drawable.shipping_icon);
+                    binding.typeVoucher.setText("Freeship");
+                    break;
+                case "shopbee":
+                    binding.iconVoucher.setBackgroundResource(R.drawable.shopbee_voucher_icon);
+                    binding.typeVoucher.setText("Shopbee");
+                    break;
+                case "newbie":
+                    binding.iconVoucher.setBackgroundResource(R.drawable.newbie_voucher_icon);
+                    binding.typeVoucher.setText("Newbie");
+                    break;
+            }
+            binding.code.setText(String.valueOf(promoCodeList.get(position).getCode()));
+            binding.subVoucher.setText(" up to $" + promoCodeList.get(position).getMax_discount());
+            if ((currentItem != -1 && promoCodeList.get(position).equals(promoCodeList.get(currentItem))) || (currentTransportItem != -1 && promoCodeList.get(position).equals(promoCodeList.get(currentTransportItem)))) {
+                binding.saveVoucher.setText("Discard");
+                binding.saveVoucher.setTextAppearance(R.style.White_Button_Black_Stroke_Black_Text);
+                binding.saveVoucher.setBackgroundResource(R.drawable.rounded_white_rectangle_black_stroke);
             }
             else {
-                binding.textView5.setText("Apply");
-                binding.textView5.setTextAppearance(R.style.Red_Button_White_Text);
-                binding.textView5.setBackgroundResource(R.drawable.rounded_red_rectangle);
+                binding.saveVoucher.setText("Apply");
+                binding.saveVoucher.setTextAppearance(R.style.Red_Button_White_Text);
+                binding.saveVoucher.setBackgroundResource(R.drawable.rounded_red_rectangle);
             }
-            binding.textView5.setOnClickListener(new View.OnClickListener() {
+            binding.saveVoucher.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (currentItem != null && promoCodeList.get(position).equals(currentItem)) {
-                        onItemClick.onItemClick(null);
+                    int position = getAdapterPosition();
+                    if ((currentItem != -1 && promoCodeList.get(position).equals(promoCodeList.get(currentItem))) || (currentTransportItem != -1 && promoCodeList.get(position).equals(promoCodeList.get(currentTransportItem)))) {
+                        if (Objects.equals(promoCodeList.get(position).getName(), "freeship")) {
+                            onItemClick.onItemTransportClick(null);
+                            notifyItemChanged(currentTransportItem);
+                            currentTransportItem = -1;
+//                            notifyItemChanged(currentTransportItem);
+                        } else {
+                            onItemClick.onItemClick(null);
+                            notifyItemChanged(currentItem);
+                            currentItem = -1;
+//                            notifyItemChanged(currentItem);
+                        }
                     }
                     else {
-                        onItemClick.onItemClick(promoCodeList.get(position));
+                        if (Objects.equals(promoCodeList.get(position).getName(), "freeship")) {
+                            onItemClick.onItemTransportClick(promoCodeList.get(position));
+                            if (currentTransportItem != -1) notifyItemChanged(currentTransportItem);
+                            currentTransportItem = position;
+                            notifyItemChanged(currentTransportItem);
+                        } else {
+                            onItemClick.onItemClick(promoCodeList.get(position));
+                            if (currentItem != -1) notifyItemChanged(currentItem);
+                            currentItem = position;
+                            notifyItemChanged(currentItem);
+                        }
                     }
                 }
             });

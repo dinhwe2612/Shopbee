@@ -51,6 +51,7 @@ public class PromoCodeDialog extends BottomSheetDialogFragment implements  Promo
 
     String promoCode;
     PromoCodeResponse promoCodeResponse;
+    PromoCodeResponse freeshipVoucher;
     PromoCodeAdapter promoCodeAdapter = new PromoCodeAdapter();
     DialogsManager dialogsManager;
     public void setDialogsManager(DialogsManager dialogsManager) {
@@ -59,6 +60,10 @@ public class PromoCodeDialog extends BottomSheetDialogFragment implements  Promo
 
     public void setPromoCodeResponse(PromoCodeResponse promoCodeResponse) {
         this.promoCodeResponse = promoCodeResponse;
+    }
+
+    public void setFreeshipVoucher(PromoCodeResponse freeshipVoucher) {
+        this.freeshipVoucher = freeshipVoucher;
     }
 
     public void setPromoCodeAdapter(PromoCodeAdapter promoCodeAdapter) {
@@ -96,6 +101,7 @@ public class PromoCodeDialog extends BottomSheetDialogFragment implements  Promo
         binding.recyclerView.setAdapter(promoCodeAdapter);
         promoCodeAdapter.setPromoCodeList(promoCodeResponseList);
         promoCodeAdapter.setCurrentItem(promoCodeResponse);
+        promoCodeAdapter.setCurrentTransportItem(freeshipVoucher);
         promoCodeAdapter.setOnItemClick(this);
         binding.collectVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +141,22 @@ public class PromoCodeDialog extends BottomSheetDialogFragment implements  Promo
 
     @Override
     public void onItemClick(PromoCodeResponse promoCodeResponse) {
-        dialogsManager.postEvent(promoCodeResponse);
-        dismiss();
+        if (promoCodeResponse != null) {
+            dialogsManager.postEvent(promoCodeResponse);
+        }
+        else {
+            dialogsManager.postEvent("no voucher");
+        }
+//        dismiss();
+    }
+
+    @Override
+    public void onItemTransportClick(PromoCodeResponse promoCodeResponse) {
+        if (promoCodeResponse != null) {
+            dialogsManager.postEvent(promoCodeResponse);
+        }
+        else {
+            dialogsManager.postEvent("no freeship");
+        }
     }
 }

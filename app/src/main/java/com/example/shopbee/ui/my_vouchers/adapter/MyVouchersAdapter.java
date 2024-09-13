@@ -35,13 +35,16 @@ public class MyVouchersAdapter extends RecyclerView.Adapter<MyVouchersAdapter.Vi
         PromoCodeResponse voucherResponse = promoCodeResponseList.get(position);
         switch (voucherResponse.getName()){
             case "freeship":
-                holder.binding.typeOfVoucher.setBackgroundResource(R.drawable.freeship_item);
+                holder.binding.iconVoucher.setBackgroundResource(R.drawable.shipping_icon);
+                holder.binding.typeVoucher.setText("Freeship");
                 break;
             case "shopbee":
-                holder.binding.typeOfVoucher.setBackgroundResource(R.drawable.voucher_item);
+                holder.binding.iconVoucher.setBackgroundResource(R.drawable.shopbee_voucher_icon);
+                holder.binding.typeVoucher.setText("Shopbee");
                 break;
             case "newbie":
-                holder.binding.typeOfVoucher.setBackgroundResource(R.drawable.newbie_item);
+                holder.binding.iconVoucher.setBackgroundResource(R.drawable.newbie_voucher_icon);
+                holder.binding.typeVoucher.setText("Newbie");
                 break;
         }
         holder.binding.nameVoucher.setText(voucherResponse.getPercent() + "% OFF");
