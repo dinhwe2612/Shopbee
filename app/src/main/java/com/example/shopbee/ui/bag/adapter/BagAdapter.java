@@ -68,7 +68,7 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull BagAdapter.ViewHolder holder, int position) {
         holder.bindView(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.binding.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();

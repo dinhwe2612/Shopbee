@@ -1,5 +1,6 @@
 package com.example.shopbee.ui.my_review;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -25,7 +27,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsViewModel> implements MyReviewNavigator, DialogsManager.Listener, MyReviewAdapter.MoreVariationClickListener {
+public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsViewModel> implements MyReviewNavigator, DialogsManager.Listener, MyReviewAdapter.DetailsClickListener {
     @Inject
     DialogsManager dialogsManager;
     private MyReviewsBinding binding;
@@ -130,7 +132,7 @@ public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsVi
         }
     }
     public void setUpRecyclerView() {
-        myReviewAdapter.setMoreVariationClickListener(this);
+        myReviewAdapter.setDetailsClickListener(this);
         binding.reviewRCV.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.reviewRCV.setAdapter(myReviewAdapter);
     }
@@ -171,12 +173,20 @@ public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsVi
     }
 
     @Override
-    public void onMoreVariationClick(int position) {
-
+    public void navigateUp() {
+        NavHostFragment.findNavController(this).navigateUp();
     }
 
     @Override
-    public void navigateUp() {
-        NavHostFragment.findNavController(this).navigateUp();
+    public void onDetailsClick(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putString("asin", viewModel.getReviewList().getValue().get(position).getOrderDetailResponse().getProduct_id());
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.productDetailFragment, bundle);
+    }
+
+    @Override
+    public void onImageClick(Bitmap image) {
+        dialogsManager.showImagePreviewDialog(image);
     }
 }

@@ -124,6 +124,7 @@
 
         </TextView>
         <LinearLayout
+            android:visibility="gone"
             android:layout_marginTop="25dp"
             android:id="@+id/loading"
             android:orientation="vertical"
@@ -169,7 +170,7 @@
             style="@style/Background"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:layout_width="328dp"
+            android:layout_width="380dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

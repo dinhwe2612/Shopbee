@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.shopbee.R;
@@ -20,6 +21,7 @@ import com.example.shopbee.ui.common.dialogs.writereivewdialog.WriteReviewEvent;
 import com.example.shopbee.ui.leave_feedback.adapter.FeedbackAdapter;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -37,6 +39,11 @@ public class LeaveFeedbackFragment extends BaseFragment<LeaveFeedbackBinding, Le
     @Override
     public int getLayoutId() {
         return R.layout.leave_feedback;
+    }
+
+    @Override
+    public void navigateUp() {
+        NavHostFragment.findNavController(this).navigateUp();
     }
 
     @Override
@@ -153,7 +160,16 @@ public class LeaveFeedbackFragment extends BaseFragment<LeaveFeedbackBinding, Le
     public void onDialogEvent(Object event) {
         if (event instanceof WriteReviewEvent) {
             viewModel.saveReview((WriteReviewEvent) event);
-            viewModel.syncIsReviewedList(orderResponse);
+//            viewModel.syncIsReviewedList(orderResponse);
+            List<Boolean> isReviewedList = viewModel.getIsReviewedList().getValue();
+            for (int i = 0; i < orderResponse.getOrder_detail().size(); i++) {
+                if (Objects.equals(orderResponse.getOrder_detail().get(i).getProduct_id(), ((WriteReviewEvent) event).getOrderDetailResponse().getProduct_id())) {
+                    assert isReviewedList != null;
+                    isReviewedList.set(i, true);
+                    break;
+                }
+            }
+            viewModel.getIsReviewedList().setValue(isReviewedList);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.example.shopbee.data.model.api;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Pair;
 
 import androidx.annotation.Nullable;
@@ -16,8 +18,57 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-public class PromoCodeResponse {
+public class PromoCodeResponse implements Parcelable {
     String description;
+    String style;
+    Integer percent;
+    Float max_discount;
+    String name;
+    String code;
+    String due_date;
+
+    public PromoCodeResponse() {
+
+    }
+
+    public PromoCodeResponse(Integer percent, Float max_discount, String name, String code, String due_date, String style) {
+        this.percent = percent;
+        this.max_discount = max_discount;
+        this.name = name;
+        this.code = code;
+        this.due_date = due_date;
+        this.style = style;
+    }
+
+    protected PromoCodeResponse(Parcel in) {
+        description = in.readString();
+        style = in.readString();
+        if (in.readByte() == 0) {
+            percent = null;
+        } else {
+            percent = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            max_discount = null;
+        } else {
+            max_discount = in.readFloat();
+        }
+        name = in.readString();
+        code = in.readString();
+        due_date = in.readString();
+    }
+
+    public static final Creator<PromoCodeResponse> CREATOR = new Creator<PromoCodeResponse>() {
+        @Override
+        public PromoCodeResponse createFromParcel(Parcel in) {
+            return new PromoCodeResponse(in);
+        }
+
+        @Override
+        public PromoCodeResponse[] newArray(int size) {
+            return new PromoCodeResponse[size];
+        }
+    };
 
     public String getDescription() {
         return description;
@@ -26,8 +77,6 @@ public class PromoCodeResponse {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    String style;
 
     public void setStyle(String style) {
         this.style = style;
@@ -40,19 +89,6 @@ public class PromoCodeResponse {
         return null;
     }
 
-    public PromoCodeResponse(Integer percent, Float max_discount, String name, String code, String due_date, String style) {
-        this.percent = percent;
-        this.max_discount = max_discount;
-        this.name = name;
-        this.code = code;
-        this.due_date = due_date;
-        this.style = style;
-    }
-    Integer percent;
-    Float max_discount;
-    String name;
-    String code;
-    String due_date;
     public Float getMax_discount() {
         return max_discount;
     }
@@ -65,24 +101,23 @@ public class PromoCodeResponse {
         this.due_date = due_date;
     }
 
-
     public Date getDueDate() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            // Parse the string into a Date object with both date and time
             return formatter.parse(due_date);
         } catch (ParseException e) {
             e.printStackTrace();
-            return null; // Handle parsing errors appropriately
+            return null;
         }
     }
+
     public String getRemainingTime() {
         Date dueDate = getDueDate();
         if (dueDate == null) {
-            return "Invalid due date"; // Handle the case where the due date couldn't be parsed
+            return "Invalid due date";
         }
 
-        Date currentDate = new Date(); // Get the current date and time
+        Date currentDate = new Date();
         long diffInMillies = dueDate.getTime() - currentDate.getTime();
 
         if (diffInMillies <= 0) {
@@ -117,14 +152,13 @@ public class PromoCodeResponse {
     public boolean hasPassedDueDate() {
         Date dueDate = getDueDate();
         if (dueDate == null) {
-            // Handle the case where the due date couldn't be parsed
-            return false; // or throw an exception, or handle it as needed
+            return false;
         }
 
-        Date currentDate = new Date(); // Get the current date and time
-        // Check if the due date is before the current date
+        Date currentDate = new Date();
         return dueDate.before(currentDate);
     }
+
     public String getDue_date() {
         return due_date;
     }
@@ -138,9 +172,6 @@ public class PromoCodeResponse {
         return (this.code.equals(promoCodeResponse.code));
     }
 
-    public PromoCodeResponse() {
-
-    }
     public static float roundToTwoDecimalPlaces(float value) {
         BigDecimal bd = new BigDecimal(Float.toString(value));
         bd = bd.setScale(2, RoundingMode.HALF_UP);
@@ -183,5 +214,31 @@ public class PromoCodeResponse {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(description);
+        parcel.writeString(style);
+        if (percent == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(percent);
+        }
+        if (max_discount == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeFloat(max_discount);
+        }
+        parcel.writeString(name);
+        parcel.writeString(code);
+        parcel.writeString(due_date);
     }
 }

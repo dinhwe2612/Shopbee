@@ -7,11 +7,11 @@
     android:layout_marginEnd="10dp"
     android:background="@drawable/slight_rounded_white_rectangle">
     <ImageView
-        android:visibility="gone"
         android:id="@+id/remove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon_close"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/cancel_image"
         android:elevation="1dp"
         android:layout_gravity="center"
         android:layout_alignParentEnd="true"
