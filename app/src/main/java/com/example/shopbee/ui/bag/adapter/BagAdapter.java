@@ -200,7 +200,7 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ViewHolder> {
                 binding.textView7.setText(products.get(position).getVariation().get(1).second);
             }
             if (products.get(position).getVariation().size() > 2) {
-                binding.textView8.setVisibility(View.GONE);
+                binding.textView8.setVisibility(View.VISIBLE);
             }
             binding.textView5.setText(String.valueOf(products.get(position).getQuantity()));
         }
