@@ -93,6 +93,7 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(success -> {
                                         if (success) {
+                                            viewModel.getRepository().deleteBag();
                                             navigateToSuccessFragment();
                                         } else {
                                             PopupDialog.getInstance(v.getContext())

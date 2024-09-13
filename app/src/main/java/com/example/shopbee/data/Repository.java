@@ -1315,6 +1315,34 @@ public class Repository {
         productReference.child("variation").setValue(writeReviewEvent.getOrderDetailResponse().getVariation());
     }
 
+    public void deleteBag() {
+//        return Observable.create(emitter -> {
+            String email = getUserResponse().getValue().getEmail();
+            databaseReference = FirebaseDatabase.getInstance().getReference("user_variations");
+            Query query = databaseReference.orderByChild("email").equalTo(email);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                            DataSnapshot variationTypeSnapshot;
+                            variationTypeSnapshot = userSnapshot.child("bag");
+                            variationTypeSnapshot.getRef().removeValue();
+                        }
+                    }
+//                    emitter.onNext(true);
+//                    emitter.onComplete();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+//                    emitter.onError(databaseError.toException());  // Emit error if query is cancelled
+                }
+            });
+//        });
+    }
+
     public Observable<AmazonBestSellerResponse> getAmazonBestSeller(HashMap<String, String> map) {
         return amazonApiService.getAmazonBestSeller(map);
     }
