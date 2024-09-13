@@ -120,8 +120,6 @@ public class HomeFragment extends BaseFragment<HomeBinding, HomeViewModel> imple
                 int scrollY = binding.scrollView.getScrollY();
                 float percentage = Math.min(1, (float)scrollY / (float) maxScrollHeight);
                 binding.toolbarLayout.setBackgroundColor(ColorUtils.adjustAlpha(Color.WHITE, percentage));
-                int bagIconColor = ColorUtils.interpolateColor(Color.WHITE, Color.BLACK, percentage);
-                binding.bagIcon.setColorFilter(bagIconColor, PorterDuff.Mode.SRC_IN);
                 int messageIconColor = ColorUtils.interpolateColor(Color.WHITE, Color.BLACK, percentage);
                 binding.messageIcon.setColorFilter(messageIconColor, PorterDuff.Mode.SRC_IN);
             }

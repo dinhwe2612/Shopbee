@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +23,7 @@
             android:layout_height="38dp"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_weight="4"
             android:background="@drawable/slight_rounded_white_rectangle_gray_stroke">
 
             <ImageView
@@ -46,25 +47,15 @@
         </RelativeLayout>
 
         <ImageView
-            android:id="@+id/bagIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/bag_icon_white"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"/>
-
-        <ImageView
             android:layout_centerVertical="true"
             android:id="@+id/messageIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/icon_message_white"
-            android:layout_marginTop="10dp"
-            android:layout_toStartOf="@id/bagIcon"
-            android:layout_toEndOf="@id/searchLayout"/>
-    </RelativeLayout>
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="20dp"/>
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollView"
