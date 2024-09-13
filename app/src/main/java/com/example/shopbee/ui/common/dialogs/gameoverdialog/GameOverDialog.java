@@ -37,6 +37,7 @@ public class GameOverDialog extends DialogFragment {
             dialogsManager.postEvent(new GameOverEvent(GameOverEvent.GameOver.PLAYAGAIN));
             dismiss();
         });
+        binding.scoreMessage.setText("You scored " + score + " points.");
         Dialog dialog = new Dialog(requireContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(binding.getRoot());
