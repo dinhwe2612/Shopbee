@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/searchIcon"
-                android:text="Ao thun nam"
+                android:text="T-shirt"
                 style="@style/Black_Medium_14dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="5dp"/>

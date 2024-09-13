@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.library.baseAdapters.BR;
@@ -78,6 +79,8 @@ public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewMod
                 userResponse = response;
             }
         });
+        binding.layoutMyVoucher.setVisibility(View.GONE);
+        ScrollView scrollView = binding.scrollView;
         RecyclerView shopbeeRecyclerView = binding.shopbeeRecyclerView;
         RecyclerView freeshipRecyclerView = binding.freeshipRecyclerView;
         RecyclerView newUserRecyclerView = binding.newbieRecyclerView;
@@ -105,7 +108,26 @@ public class VoucherFragment extends BaseFragment<VoucherBinding, VoucherViewMod
                         break;
                 }
             }
+            binding.shopbee.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    scrollView.smoothScrollTo(binding.shopbee.getTop(), binding.shopbeeRecyclerView.getTop());
+                }
+            });
+            binding.freeship.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    scrollView.smoothScrollTo(binding.freeship.getTop(), binding.freeshipRecyclerView.getTop());
+                }
+            });
+            binding.newbie.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    scrollView.smoothScrollTo(binding.newbie.getTop(), binding.newbieRecyclerView.getTop());
+                }
+            });
             if  (userResponse != null){
+                binding.layoutMyVoucher.setVisibility(View.VISIBLE);
                 viewModel.syncPromoCodesOfUser();
                 viewModel.getPromoCodeOfUser().observe(getViewLifecycleOwner(), listCodeUser -> {
                     shopbeeAdapter = new VoucherAdapter(this, shopbeeList, userResponse.getEmail(), listCodeUser);
