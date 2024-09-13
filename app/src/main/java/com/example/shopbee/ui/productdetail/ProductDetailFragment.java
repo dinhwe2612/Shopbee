@@ -31,6 +31,7 @@ import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.databinding.ProductDetailBinding;
 import com.example.shopbee.di.component.FragmentComponent;
+import com.example.shopbee.ui.buy_now.BuyNowFragment;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.common.dialogs.imagepickerdialog.ImagePickerEvent;
@@ -344,6 +345,13 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
 //                LinearLayoutManager layoutManager = (LinearLayoutManager) binding.prodPhotosRCV.getLayoutManager();
                 bottomBar.animateAddToFavorite(productPhotosAdapter.getCurrentView(), requireActivity().findViewById(R.id.main), Repository.UserVariation.BAG);
             }
+            else if (optionEvent.getName() == "BUY NOW") {
+//                viewModel.getRepository().saveUserVariation(Repository.UserVariation.CHECKOUT, orderDetailResponse);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("orderDetailResponse", orderDetailResponse);
+                NavHostFragment.findNavController(this).navigate(R.id.buyNowFragment, bundle);
+            }
+
         } else if (event instanceof ImagePickerEvent) {
             ImagePickerEvent imagePickerEvent = (ImagePickerEvent) event;
             // call api to try it on

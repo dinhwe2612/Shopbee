@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.di.ViewModelProviderFactory;
 import com.example.shopbee.ui.bag.BagViewModel;
+import com.example.shopbee.ui.buy_now.BuyNowViewModel;
 import com.example.shopbee.ui.checkout.CheckoutViewModel;
 import com.example.shopbee.ui.checkout.SuccessViewModel;
 import com.example.shopbee.ui.checkout.payment.PaymentViewModel;
@@ -189,5 +190,11 @@ public class FragmentModule {
         Supplier<MyVouchersViewModel> supplier = () -> new MyVouchersViewModel(repository);
         ViewModelProviderFactory<MyVouchersViewModel> factory = new ViewModelProviderFactory<>(MyVouchersViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(MyVouchersViewModel.class);
+    }
+    @Provides
+    public BuyNowViewModel buyNowViewModel(Repository repository) {
+        Supplier<BuyNowViewModel> supplier = () -> new BuyNowViewModel(repository);
+        ViewModelProviderFactory<BuyNowViewModel> factory = new ViewModelProviderFactory<>(BuyNowViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(BuyNowViewModel.class);
     }
 }
