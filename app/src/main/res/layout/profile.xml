@@ -51,15 +51,17 @@
         android:layout_height="wrap_content">
     </TextView>
     <TextView
+        android:layout_marginTop="5dp"
+        android:background="@drawable/rounded_red_rectangle"
         android:id="@+id/loginText"
         android:layout_below="@id/email"
         android:layout_toRightOf="@id/userAvatar"
-        style="@style/Black_SemiBold_18dp"
+        style="@style/Black_SemiBold_16dp"
         android:layout_marginStart="15dp"
-        android:textColor="@color/dark_red"
+        android:textColor="@color/black_light_theme"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"/>
+        android:layout_height="25dp"
+        android:text="  Login  "/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_profile"
         tools:listitem="@layout/profile_options"
