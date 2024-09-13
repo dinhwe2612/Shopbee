@@ -205,14 +205,14 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
                     binding.isShopbeePay.setVisibility(View.GONE);
                     binding.paymentLayout.setVisibility(View.VISIBLE);
                     binding.paymentMethodImage.setBackgroundResource(R.drawable.visa);
-                    binding.numberCard.setText("**** **** **** " + currentPayment.getNumber().substring(12, 15));
+                    binding.numberCard.setText("**** **** **** " + currentPayment.getNumber().substring(12, 16));
 
                     break;
                 case "master":
                     binding.isShopbeePay.setVisibility(View.GONE);
                     binding.paymentLayout.setVisibility(View.VISIBLE);
                     binding.paymentMethodImage.setBackgroundResource(R.drawable.master);
-                    binding.numberCard.setText("**** **** **** " + currentPayment.getNumber().substring(12, 15));
+                    binding.numberCard.setText("**** **** **** " + currentPayment.getNumber().substring(12, 16));
                     break;
             }
         }

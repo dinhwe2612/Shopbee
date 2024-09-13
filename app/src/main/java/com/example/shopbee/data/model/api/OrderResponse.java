@@ -114,7 +114,7 @@ public class OrderResponse implements Parcelable {
         return total.setScale(2, RoundingMode.HALF_UP).toString() + "$";
     }
     public String getTotal_amount() {
-        float total = 0;
+        float total = 10;
         for (OrderDetailResponse orderDetailResponse : order_detail) {
             String numericString = orderDetailResponse.getPrice().replace("$", "");
             float price = Float.parseFloat(numericString);
