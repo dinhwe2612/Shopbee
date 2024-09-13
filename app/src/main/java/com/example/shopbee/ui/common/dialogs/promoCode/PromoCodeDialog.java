@@ -107,6 +107,7 @@ public class PromoCodeDialog extends BottomSheetDialogFragment implements  Promo
             @Override
             public void onClick(View view) {
                 onCollectVoucherListener.onCollectVoucher();
+                dismiss();
             }
         });
         binding.promoCodeEditText.addTextChangedListener(new TextWatcher() {
