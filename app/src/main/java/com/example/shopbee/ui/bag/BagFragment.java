@@ -355,6 +355,8 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
         }
         OrderResponse orderResponse;
         if (promoCodeResponse.getValue() == null) {
+            String freeship = "0$";
+            if (freeshipVoucher.getValue() != null) freeship = freeshipVoucher.getValue().processDiscount(10) + "$";
             orderResponse = new OrderResponse(
                     "",
                     sum_quantity,
@@ -363,8 +365,11 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                     generateUniqueTrackingNumber(),
                     "",
                     "0$",
-                    viewModel.getBagProducts().getValue());
+                    viewModel.getBagProducts().getValue(),
+                    freeship);
         } else {
+            String freeship = "0$";
+            if (freeshipVoucher.getValue() != null) freeship = freeshipVoucher.getValue().processDiscount(10) + "$";
             orderResponse = new OrderResponse(
                     "",
                     sum_quantity,
@@ -373,11 +378,11 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                     generateUniqueTrackingNumber(),
                     "",
                     promoCodeResponse.getValue().processDiscount(getPriceTotal()) + "$",
-                    viewModel.getBagProducts().getValue());
+                    viewModel.getBagProducts().getValue(),
+                    freeship);
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable("orderResponse", orderResponse);
-        bundle.putParcelable("freeShipVoucher", freeshipVoucher.getValue());
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.checkoutFragment, bundle);
     }

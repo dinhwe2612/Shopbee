@@ -1,6 +1,7 @@
 package com.example.shopbee.ui.common.dialogs.changePassword;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.ChangePasswordBinding;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
+import com.example.shopbee.ui.forgotpassword.ForgotPasswordActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -86,7 +88,7 @@ public class changePassDialog extends DialogFragment {
         binding.forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(ForgotPasswordActivity.newIntent(getContext()));
             }
         });
         binding.newPassword.addTextChangedListener(new TextWatcher() {

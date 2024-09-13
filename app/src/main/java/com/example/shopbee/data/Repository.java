@@ -151,6 +151,7 @@ public class Repository {
                                 orderResponseObj.setTracking_number(listOrderSnapshot.child("tracking_number").getValue(String.class));
                                 orderResponseObj.setPayment(listOrderSnapshot.child("payment").getValue(String.class));
                                 orderResponseObj.setDiscount(listOrderSnapshot.child("discount").getValue(String.class));
+                                orderResponseObj.setFreeship(listOrderSnapshot.child("freeship").getValue(String.class));
 
                                 List<OrderDetailResponse> orderDetailList = new ArrayList<>();
                                 for (DataSnapshot orderDetailSnapshot : listOrderSnapshot.child("order_detail").getChildren()) {

@@ -21,6 +21,7 @@ import com.example.shopbee.data.model.api.AddressResponse;
 import com.example.shopbee.data.model.api.ListOrderResponse;
 import com.example.shopbee.data.model.api.OrderResponse;
 import com.example.shopbee.data.model.api.PaymentResponse;
+import com.example.shopbee.data.model.api.PromoCodeResponse;
 import com.example.shopbee.data.model.api.UserResponse;
 import com.example.shopbee.databinding.CheckoutBinding;
 import com.example.shopbee.di.component.FragmentComponent;
@@ -229,6 +230,12 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
         } else {
             binding.discountLayout.setVisibility(View.VISIBLE);
             binding.discountAmount.setText("-" + orderResponse.getDiscount());
+        }
+        if (orderResponse.getFreeship().equals("0$")){
+            binding.freeshipLayout.setVisibility(View.GONE);
+        } else {
+            binding.freeshipLayout.setVisibility(View.VISIBLE);
+            binding.freeshipAmount.setText("-" + orderResponse.getFreeship());
         }
         binding.totalAmount.setText(orderResponse.getTotal_amount());
     }
