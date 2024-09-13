@@ -44,6 +44,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -173,6 +174,22 @@ public class Repository {
                                 orderResponseObj.setOrder_detail(orderDetailList);
                                 orderList.add(orderResponseObj);
                             }
+                            Collections.sort(orderList, new Comparator<OrderResponse>() {
+                                SimpleDateFormat sdf = new SimpleDateFormat("mm:HH yyyy-MM-dd", Locale.getDefault());
+
+                                @Override
+                                public int compare(OrderResponse o1, OrderResponse o2) {
+                                    try {
+                                        Date date1 = sdf.parse(o1.getDate());
+                                        Date date2 = sdf.parse(o2.getDate());
+                                        return date2.compareTo(date1);
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    return 0;
+                                }
+                            });
+
                             listOrderResponseObj.setList_order(orderList);
                             listOrderResponse.setValue(listOrderResponseObj);
                             emitter.onNext(listOrderResponseObj);
