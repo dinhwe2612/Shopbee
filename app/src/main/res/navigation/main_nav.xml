@@ -107,4 +107,8 @@
         android:id="@+id/myVouchersFragment"
         android:name="com.example.shopbee.ui.my_vouchers.MyVouchersFragment"
         android:label="MyVouchersFragment" />
+    <fragment
+        android:id="@+id/buyNowFragment"
+        android:name="com.example.shopbee.ui.buy_now.BuyNowFragment"
+        android:label="BuyNowFragment" />
 </navigation>
