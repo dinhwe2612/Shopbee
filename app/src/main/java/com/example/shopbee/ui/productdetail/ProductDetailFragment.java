@@ -227,19 +227,16 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
 
     @Override
     public void addToBag() {
-        Toast.makeText(getContext(), "Add to bag", Toast.LENGTH_SHORT).show();
         dialogsManager.showOptionDialog("ADD TO BAG", amazonProductDetailsResponse.getData().getProduct_price(), amazonProductDetailsResponse.getData().getProduct_photo(), amazonProductDetailsResponse.getData().getProduct_variations());
     }
 
     @Override
     public void buyNow() {
-        Toast.makeText(getContext(), "Buy now", Toast.LENGTH_SHORT).show();
         dialogsManager.showOptionDialog("BUY NOW", amazonProductDetailsResponse.getData().getProduct_price(), amazonProductDetailsResponse.getData().getProduct_photo(), amazonProductDetailsResponse.getData().getProduct_variations());
     }
 
     @Override
     public void goToBag() {
-        Toast.makeText(getContext(), "Go to bag", Toast.LENGTH_SHORT).show();
         NavHostFragment.findNavController(this).navigate(R.id.bagFragment);
     }
 

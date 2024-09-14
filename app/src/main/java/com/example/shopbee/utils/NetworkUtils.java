@@ -4,12 +4,11 @@ import java.util.HashMap;
 
 public final class NetworkUtils {
     public static final String BASE_URL_TEXEL = "https://texel-virtual-try-on.p.rapidapi.com/";
-
     private NetworkUtils() {}
     public static final String BASE_URL_COUNTRY = "https://restcountries.com/";
     public static final String BASE_URL = "https://real-time-amazon-data.p.rapidapi.com/";
     public static final String HEADER_KEY = "x-rapidapi-key";
-    public static final String KEY = "bb662cd28bmshc73cda7d8df6139p190b29jsn8dbcf236d12e";
+    public static final String KEY = "84991d2686mshd668733463bf0a1p1945a4jsn762c832dc6f2";
     public static final String HEADER_HOST = "x-rapidapi-host";
     public static final String HOST = "real-time-amazon-data.p.rapidapi.com";
     public static HashMap<String, String> createSearchQuery(String query, String page, String country) {
