@@ -112,6 +112,7 @@ public class SearchFragment extends BaseFragment<SearchCatalogNewBinding, Search
             if (isInListView == 1) {
                 productAdapter = new ProductAdapter(products);
                 productAdapter.setOnItemClickListener(this);
+                productAdapterGridView.setOnItemClickListener(this);
                 getViewDataBinding().recyclerView1.setAdapter(productAdapter);
             }
             else {
