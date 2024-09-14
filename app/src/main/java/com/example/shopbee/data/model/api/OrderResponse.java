@@ -17,22 +17,32 @@ public class OrderResponse implements Parcelable {
     private String order_number;
     private String tracking_number;
     private String payment;
+    private String address;
     private String discount;
     private String freeship;
     private List<OrderDetailResponse> order_detail;
 
     public OrderResponse(){
     }
-    public OrderResponse(String date, int quantity, String status, String order_number, String tracking_number, String payment, String discount, List<OrderDetailResponse> order_detail, String freeship) {
+    public OrderResponse(String date, int quantity, String status, String order_number, String tracking_number, String payment, String address, String discount, List<OrderDetailResponse> order_detail, String freeship) {
         this.date = date;
         this.quantity = quantity;
         this.status = status;
         this.order_number = order_number;
         this.tracking_number = tracking_number;
         this.payment = payment;
+        this.address = address;
         this.discount = discount;
         this.order_detail = order_detail;
         this.freeship = freeship;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getFreeship() {
@@ -135,6 +145,7 @@ public class OrderResponse implements Parcelable {
         order_number = in.readString();
         tracking_number = in.readString();
         payment = in.readString();
+        address = in.readString();
         discount = in.readString();
         order_detail = in.createTypedArrayList(OrderDetailResponse.CREATOR);
     }
@@ -152,6 +163,7 @@ public class OrderResponse implements Parcelable {
         dest.writeString(order_number);
         dest.writeString(tracking_number);
         dest.writeString(payment);
+        dest.writeString(address);
         dest.writeString(discount);
         dest.writeTypedList(order_detail);
     }

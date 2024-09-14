@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="- You must pass through the obstacles to earn points.\n\n- Once your points reaches 3, 6, or 9, you'll receive a voucher."
+        android:text="- You must pass through the obstacles to earn points.\n\n- Once your points reaches 5, 10, or 15, you'll receive a voucher."
         android:textAlignment="viewStart"
         style="@style/Black_SemiBold_18dp"
         android:layout_below="@id/title"
