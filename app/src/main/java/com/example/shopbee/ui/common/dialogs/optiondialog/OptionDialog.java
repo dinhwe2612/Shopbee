@@ -1,6 +1,7 @@
 package com.example.shopbee.ui.common.dialogs.optiondialog;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -27,6 +28,10 @@ import com.example.shopbee.databinding.OptionDialogBinding;
 import com.example.shopbee.ui.common.dialogs.DialogsManager;
 import com.example.shopbee.ui.common.dialogs.optiondialog.adapter.VariationAdapter;
 import com.example.shopbee.ui.common.dialogs.optiondialog.adapter.VariationDetailsAdapter;
+import com.example.shopbee.ui.login.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.saadahmedev.popupdialog.PopupDialog;
+import com.saadahmedev.popupdialog.listener.StandardDialogActionListener;
 
 import java.util.HashMap;
 import java.util.List;
@@ -98,6 +103,31 @@ public class OptionDialog extends DialogFragment implements VariationAdapter.Lis
         binding.button.setOnClickListener(v -> {
             if (valid) {
                 Log.d("OptionDialog", "setClickListener: " + variationAdapter.getDecisions().toString());
+                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                    PopupDialog.getInstance(getContext())
+                            .standardDialogBuilder()
+                            .createStandardDialog()
+                            .setHeading("LOGIN") 
+                            .setDescription("Login to experience this features")
+                            .setPositiveButtonText("Go to login")
+                            .setPositiveButtonTextColor(R.color.white)
+                            .setIcon(R.drawable.login_icon)
+                            .build(new StandardDialogActionListener() {
+                                @Override
+                                public void onPositiveButtonClicked(Dialog dialog) {
+                                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                                    dialog.dismiss();
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onNegativeButtonClicked(Dialog dialog) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                    return;
+                }
                 OptionEvent event = new OptionEvent(variationAdapter.getDecisions(), quantity, name);
                 dialogsManager.postEvent(event);
                 dismiss();
