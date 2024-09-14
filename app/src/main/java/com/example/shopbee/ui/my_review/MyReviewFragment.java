@@ -133,6 +133,7 @@ public class MyReviewFragment extends BaseFragment<MyReviewsBinding, MyReviewsVi
     }
     public void setUpRecyclerView() {
         myReviewAdapter.setDetailsClickListener(this);
+        withPhotoMyReviewAdapter.setDetailsClickListener(this);
         binding.reviewRCV.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.reviewRCV.setAdapter(myReviewAdapter);
     }
