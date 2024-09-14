@@ -142,7 +142,6 @@ public class ShippingFragment extends BaseFragment<ShippingBinding, ShippingView
                     @Override
                     public void onPositiveButtonClicked(Dialog dialog) {
                         userResponse.getAddress().remove(position);
-                        shippingAdapter.notifyItemChanged(position);
                         shippingAdapter.notifyItemRangeChanged(position, userResponse.getAddress().size());
                         viewModel.updateUserFirebase();
                         dialog.dismiss();

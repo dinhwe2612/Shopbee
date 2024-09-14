@@ -48,12 +48,12 @@ public class UserSearchViewModel extends BaseViewModel {
         getRepository().saveSearchHistory(searchText);
     }
     public void syncSearchHistory() {
-        setIsLoading(true);
+//        setIsLoading(true);
         getCompositeDisposable().add(getRepository().getSearchHistory()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
-                            setIsLoading(false);
+//                            setIsLoading(false);
 //                            if (result == null) {
 //                                isUserNotSignedIn.setValue(true);
 //                                return;
@@ -68,7 +68,7 @@ public class UserSearchViewModel extends BaseViewModel {
                             }
                         },
                         error -> {
-                            setIsLoading(false);
+//                            setIsLoading(false);
                             Log.e("getUserSearchHistory", "getUserSearchHistory " + error.getMessage());
                         })
         );
@@ -76,12 +76,12 @@ public class UserSearchViewModel extends BaseViewModel {
 
     public Observable<String> deleteSearchHistory(String searchText) {
         return Observable.create(emitter -> {
-            setIsLoading(true);
+//            setIsLoading(true);
             getCompositeDisposable().add(getRepository().deleteSearchHistory(searchText)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(result -> {
-                                setIsLoading(false);
+//                                setIsLoading(false);
                                 Log.e("deleteSearchHistory", "deleteSearchHistory " + result);
                                 if (result.equals("complete")) {
 //                                    syncSearchHistory();
@@ -90,18 +90,18 @@ public class UserSearchViewModel extends BaseViewModel {
                                 }
                             },
                             error -> {
-                                setIsLoading(false);
+//                                setIsLoading(false);
                             })
             );
         });
     }
     public void syncSuggestions() {
-        setIsLoading(true);
+//        setIsLoading(true);
         getCompositeDisposable().add(getRepository().getAllUserSearchHistory()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(result -> {
-                                    setIsLoading(false);
+//                                    setIsLoading(false);
 //                            if (result == null) {
 //                                isUserNotSignedIn.setValue(true);
 //                                return;
@@ -110,7 +110,7 @@ public class UserSearchViewModel extends BaseViewModel {
                                     suggestions.setValue(result);
                                 },
                                 error -> {
-                                    setIsLoading(false);
+//                                    setIsLoading(false);
                                     Log.e("getUserSearchHistory", "getUserSearchHistory " + error.getMessage());
                                 })
         );
