@@ -33,6 +33,15 @@
             android:layout_alignParentEnd="true"
             android:background="@drawable/correct_mark_icon"/>
     </RelativeLayout>
+    <TextView
+        android:padding="5dp"
+        android:id="@+id/addressDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Black_Medium_14dp"
+        android:background="@color/pastel_green"
+        android:textAlignment="viewStart"
+        android:text="Address: "/>
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"

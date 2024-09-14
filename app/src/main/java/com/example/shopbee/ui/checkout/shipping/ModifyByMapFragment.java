@@ -132,11 +132,18 @@ public class ModifyByMapFragment extends BaseFragment<ModifyByMapBinding, Modify
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15));
                     googleMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your Location"));
                     selectedLatLng = currentLatLng;
-
+                    Address address = getAddressFromCoordinates(selectedLatLng.latitude, selectedLatLng.longitude);
+                    if (address != null){
+                        binding.addressDisplay.setText("Address: " + address.getAddressLine(0));
+                    }
                     googleMap.setOnMapClickListener(latLng -> {
                         googleMap.clear();
                         googleMap.addMarker(new MarkerOptions().position(latLng).title("Pinned Location"));
                         selectedLatLng = latLng;
+                        Address address1 = getAddressFromCoordinates(selectedLatLng.latitude, selectedLatLng.longitude);
+                        if (address1 != null){
+                            binding.addressDisplay.setText("Address: " + address1.getAddressLine(0));
+                        }
                     });
                 } else {
                     Toast.makeText(getContext(), "Unable to get current location", Toast.LENGTH_SHORT).show();

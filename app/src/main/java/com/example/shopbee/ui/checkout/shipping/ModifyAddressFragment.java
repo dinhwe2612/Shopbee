@@ -95,6 +95,7 @@ public class ModifyAddressFragment extends BaseFragment<ModifyAddressBinding, Mo
             String zip = getArguments().getString("zip");
             String country = getArguments().getString("country");
             int index = retrievePosition(country);
+            binding.title.setText("Editing Shipping Address");
             binding.name.setText(name);
             binding.nameHint.setVisibility(View.VISIBLE);
             binding.address.setText(address);
