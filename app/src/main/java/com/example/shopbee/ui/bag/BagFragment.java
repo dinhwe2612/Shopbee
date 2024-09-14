@@ -364,6 +364,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                     generateUniqueOrderNumber(),
                     generateUniqueTrackingNumber(),
                     "",
+                    "",
                     "0$",
                     viewModel.getBagProducts().getValue(),
                     freeship);
@@ -376,6 +377,7 @@ public class BagFragment extends BaseFragment<BagBinding, BagViewModel> implemen
                     "processing",
                     generateUniqueOrderNumber(),
                     generateUniqueTrackingNumber(),
+                    "",
                     "",
                     promoCodeResponse.getValue().processDiscount(getPriceTotal()) + "$",
                     viewModel.getBagProducts().getValue(),

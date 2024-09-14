@@ -93,20 +93,16 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                 binding.paymentMethodImage.setBackgroundResource(R.drawable.visa);
                 for (PaymentResponse paymentResponse : userResponse.getPayment()) {
                     if (paymentResponse.getType().equals("visa")){
-                        binding.paymentMethod.setText("**** **** **** " + paymentResponse.getNumber().substring(12, 15));
+                        binding.paymentMethod.setText("**** **** **** " + paymentResponse.getNumber().substring(12, 16));
                     }
                 }
                 break;
             case "master":
                 binding.isShopbeePay.setVisibility(View.GONE);
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) binding.paymentMethodImage.getLayoutParams();
-                params.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
-                params.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
-                binding.paymentMethodImage.setLayoutParams(params);
                 binding.paymentMethodImage.setBackgroundResource(R.drawable.master);
                 for (PaymentResponse paymentResponse : userResponse.getPayment()) {
                     if (paymentResponse.getType().equals("master")){
-                        binding.paymentMethod.setText("**** **** **** " + paymentResponse.getNumber().substring(12, 15));
+                        binding.paymentMethod.setText("**** **** **** " + paymentResponse.getNumber().substring(12, 16));
                     }
                 }
                 break;

@@ -371,6 +371,7 @@ public class BuyNowFragment extends BaseFragment<BagBinding, BuyNowViewModel> im
                     generateUniqueOrderNumber(),
                     generateUniqueTrackingNumber(),
                     "",
+                    "",
                     "0$",
                     viewModel.getBagProducts().getValue(),
                     freeship);
@@ -383,6 +384,7 @@ public class BuyNowFragment extends BaseFragment<BagBinding, BuyNowViewModel> im
                     "processing",
                     generateUniqueOrderNumber(),
                     generateUniqueTrackingNumber(),
+                    "",
                     "",
                     promoCodeResponse.getValue().processDiscount(getPriceTotal()) + "$",
                     viewModel.getBagProducts().getValue(),

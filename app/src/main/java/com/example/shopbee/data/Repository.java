@@ -151,6 +151,7 @@ public class Repository {
                                 orderResponseObj.setOrder_number(listOrderSnapshot.child("order_number").getValue(String.class));
                                 orderResponseObj.setTracking_number(listOrderSnapshot.child("tracking_number").getValue(String.class));
                                 orderResponseObj.setPayment(listOrderSnapshot.child("payment").getValue(String.class));
+                                orderResponseObj.setAddress(listOrderSnapshot.child("address").getValue(String.class));
                                 orderResponseObj.setDiscount(listOrderSnapshot.child("discount").getValue(String.class));
                                 orderResponseObj.setFreeship(listOrderSnapshot.child("freeship").getValue(String.class));
 
