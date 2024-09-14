@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.AddressResponse;
+import com.example.shopbee.data.model.api.BuyNowResponse;
 import com.example.shopbee.data.model.api.ListOrderResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.data.model.api.OrderResponse;
@@ -32,6 +33,8 @@ import com.saadahmedev.popupdialog.PopupDialog;
 import com.saadahmedev.popupdialog.listener.StandardDialogActionListener;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
@@ -215,10 +218,14 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
 
     @Override
     public void reorder(OrderResponse orderResponse) {
-        NavController navController = NavHostFragment.findNavController(this);
-        Bundle bundle = new Bundle(); 
-        bundle.putParcelable("orderResponse", orderResponse);
-        navController.navigate(R.id.checkoutFragment, bundle);
+        Bundle bundle = new Bundle();
+        BuyNowResponse buyNowResponse = new BuyNowResponse(orderResponse.getOrder_detail());
+        bundle.putParcelable("reorderResponse", buyNowResponse);
+        NavHostFragment.findNavController(this).navigate(R.id.buyNowFragment, bundle);
+//        NavController navController = NavHostFragment.findNavController(this);
+//        Bundle bundle = new Bundle();
+//        bundle.putParcelable("orderResponse", orderResponse);
+//        navController.navigate(R.id.checkoutFragment, bundle);
     }
 
     @Override
