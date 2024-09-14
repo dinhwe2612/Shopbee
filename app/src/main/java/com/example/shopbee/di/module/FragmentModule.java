@@ -7,6 +7,8 @@ import com.example.shopbee.data.Repository;
 import com.example.shopbee.di.ViewModelProviderFactory;
 import com.example.shopbee.ui.bag.BagViewModel;
 import com.example.shopbee.ui.buy_now.BuyNowViewModel;
+import com.example.shopbee.ui.chat.ChatFragment;
+import com.example.shopbee.ui.chat.ChatViewModel;
 import com.example.shopbee.ui.checkout.CheckoutViewModel;
 import com.example.shopbee.ui.checkout.SuccessViewModel;
 import com.example.shopbee.ui.checkout.payment.PaymentViewModel;
@@ -196,5 +198,11 @@ public class FragmentModule {
         Supplier<BuyNowViewModel> supplier = () -> new BuyNowViewModel(repository);
         ViewModelProviderFactory<BuyNowViewModel> factory = new ViewModelProviderFactory<>(BuyNowViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(BuyNowViewModel.class);
+    }
+    @Provides
+    public ChatViewModel provideChatViewModel(Repository repository) {
+        Supplier<ChatViewModel> supplier = () -> new ChatViewModel(repository);
+        ViewModelProviderFactory<ChatViewModel> factory = new ViewModelProviderFactory<ChatViewModel>(ChatViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(ChatViewModel.class);
     }
 }

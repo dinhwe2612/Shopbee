@@ -1,16 +1,9 @@
 package com.example.shopbee.ui.profile.myorder;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +16,6 @@ import com.example.shopbee.R;
 import com.example.shopbee.data.model.api.ListOrderResponse;
 import com.example.shopbee.databinding.MyOrdersBinding;
 import com.example.shopbee.di.component.FragmentComponent;
-import com.example.shopbee.testUI.PagerAdapter.ViewPagerAdapter;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;

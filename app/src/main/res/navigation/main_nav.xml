@@ -13,7 +13,6 @@
         android:id="@+id/shopFragment"
         android:name="com.example.shopbee.ui.shop.ShopFragment"
         android:label="ShopFragment" />
-
     <fragment
         android:id="@+id/bagFragment"
         android:name="com.example.shopbee.ui.bag.BagFragment"
@@ -111,4 +110,8 @@
         android:id="@+id/buyNowFragment"
         android:name="com.example.shopbee.ui.buy_now.BuyNowFragment"
         android:label="BuyNowFragment" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.shopbee.ui.chat.ChatFragment"
+        android:label="ChatFragment" />
 </navigation>
