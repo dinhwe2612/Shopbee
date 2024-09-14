@@ -38,12 +38,20 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageViewH
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         holder.binding.image.setImageBitmap(images.get(position));
-        holder.binding.remove.setOnClickListener(v -> {
-            images.remove(position);
-            notifyItemRemoved(position);
+        holder.binding.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                images.remove(position);
+                notifyDataSetChanged();
+            }
         });
-        holder.binding.image.setOnClickListener(v -> {
-            listener.onItemClick(images.get(position));
+        holder.binding.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                listener.onItemClick(images.get(position));
+            }
         });
     }
 
