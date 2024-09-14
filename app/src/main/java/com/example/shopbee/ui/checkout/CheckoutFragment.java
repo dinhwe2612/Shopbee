@@ -87,6 +87,7 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
                 } else {
                     orderResponse.setStatus("processing");
                     orderResponse.setPayment(finalPayment.getType());
+                    orderResponse.setAddress(finalAddress.toString());
                     orderResponse.setDate(DateTimeToFormat());
                     listOrderResponse.getList_order().add(orderResponse);
                     viewModel.getCompositeDisposable().add(viewModel.getRepository().updateOrderFirebase(orderResponse)

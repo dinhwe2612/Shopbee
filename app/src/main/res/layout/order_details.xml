@@ -139,7 +139,7 @@
                 <RelativeLayout
                     android:layout_marginTop="15dp"
                     android:layout_width="347dp"
-                    android:layout_height="40dp">
+                    android:layout_height="wrap_content">
                     <TextView
                         android:layout_alignParentStart="true"
                         style="@style/Gray_Regular_14dp"

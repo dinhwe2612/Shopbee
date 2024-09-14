@@ -82,11 +82,7 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
         binding.quantity.setText(String.valueOf(orderResponse.getQuantity()));
         String newStatus = status.substring(0, 1).toUpperCase() + status.substring(1).toLowerCase();
         binding.status.setText(newStatus);
-        for (AddressResponse addressResponse : userResponse.getAddress()) {
-            if (addressResponse.getDef()){
-                binding.shippingAddress.setText(addressResponse.toString());
-            }
-        }
+        binding.shippingAddress.setText(orderResponse.getAddress());
         switch (orderResponse.getPayment()){
             case "shopbee":
                 binding.isShopbeePay.setVisibility(View.VISIBLE);

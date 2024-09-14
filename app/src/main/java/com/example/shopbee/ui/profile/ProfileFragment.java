@@ -189,7 +189,10 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
             binding.loginText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mAuth.signOut();
+                    if (userResponse != null){
+                        mAuth.signOut();
+                        userResponse = null;
+                    }
                     navigateToLogin();
                 }
             });
