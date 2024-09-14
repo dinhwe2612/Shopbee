@@ -28,6 +28,7 @@ import com.example.shopbee.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.data.Repository;
 import com.example.shopbee.data.model.api.AmazonProductDetailsResponse;
+import com.example.shopbee.data.model.api.BuyNowResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.databinding.ProductDetailBinding;
 import com.example.shopbee.di.component.FragmentComponent;
@@ -348,7 +349,10 @@ public class ProductDetailFragment extends BaseFragment<ProductDetailBinding, Pr
             else if (optionEvent.getName() == "BUY NOW") {
 //                viewModel.getRepository().saveUserVariation(Repository.UserVariation.CHECKOUT, orderDetailResponse);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("orderDetailResponse", orderDetailResponse);
+                List<OrderDetailResponse> orderDetailResponseList = new ArrayList<>();
+                orderDetailResponseList.add(orderDetailResponse);
+                BuyNowResponse buyNowResponse = new BuyNowResponse(orderDetailResponseList);
+                bundle.putParcelable("buyNowResponse", buyNowResponse);
                 NavHostFragment.findNavController(this).navigate(R.id.buyNowFragment, bundle);
             }
 

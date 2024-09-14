@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.shopbee.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.data.Repository;
+import com.example.shopbee.data.model.api.BuyNowResponse;
 import com.example.shopbee.data.model.api.OrderDetailResponse;
 import com.example.shopbee.data.model.api.OrderResponse;
 import com.example.shopbee.data.model.api.PromoCodeResponse;
@@ -49,7 +50,7 @@ public class BuyNowFragment extends BaseFragment<BagBinding, BuyNowViewModel> im
     DialogsManager dialogsManager;
     MutableLiveData<PromoCodeResponse> promoCodeResponse = new MutableLiveData<>();
     MutableLiveData<PromoCodeResponse> freeshipVoucher = new MutableLiveData<>();
-    OrderDetailResponse bagProducts;
+    BuyNowResponse bagProducts;
     BuyNowAdapter buyNowAdapter = new BuyNowAdapter();
     ToolbarView toolbarView;
 
@@ -155,9 +156,7 @@ public class BuyNowFragment extends BaseFragment<BagBinding, BuyNowViewModel> im
     }
 
     private void syncBagProducts() {
-        List<OrderDetailResponse> orderDetailResponseList = new ArrayList<>();
-        orderDetailResponseList.add(bagProducts);
-        viewModel.getBagProducts().setValue(orderDetailResponseList);
+        viewModel.getBagProducts().setValue(bagProducts.getOrderDetailResponseList());
     }
 
     public void changeDatasetForAdapter(List<OrderDetailResponse> orderDetailResponseList) {
@@ -254,8 +253,12 @@ public class BuyNowFragment extends BaseFragment<BagBinding, BuyNowViewModel> im
         toolbarView.setTitle("");
         toolbarView.setSearchClickListener(this);
         if (getArguments() == null) throw new IllegalArgumentException("Arguments BuyNowFragment cannot be null");
-        bagProducts = getArguments().getParcelable("orderDetailResponse");
+        bagProducts = getArguments().getParcelable("buyNowResponse");
         getViewDataBinding().textView.setText("Buy Now");
+        if (bagProducts == null) {
+            getViewDataBinding().textView.setText("Reorder");
+            bagProducts = getArguments().getParcelable("reorderResponse");
+        }
         return getViewDataBinding().getRoot();
     }
 
