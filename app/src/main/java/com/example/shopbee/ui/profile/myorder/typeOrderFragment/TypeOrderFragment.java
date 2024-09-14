@@ -1,6 +1,7 @@
 package com.example.shopbee.ui.profile.myorder.typeOrderFragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,14 @@ import com.example.shopbee.di.component.FragmentComponent;
 import com.example.shopbee.ui.common.base.BaseFragment;
 import com.example.shopbee.ui.profile.adapter.OrderProductAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class TypeOrderFragment extends BaseFragment<TypeOrderFragmentBinding, TypeOrderViewModel> implements TypeOrderNavigator, OrderProductAdapter.Listener{
     private ListOrderResponse listOrderResponse;
@@ -73,15 +80,29 @@ public class TypeOrderFragment extends BaseFragment<TypeOrderFragmentBinding, Ty
     }
 
     private void setUpData() {
+        List<OrderResponse> orderResponse = listOrderResponse.getList_order();
+        Collections.sort(orderResponse, new Comparator<OrderResponse>() {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+            @Override
+            public int compare(OrderResponse o1, OrderResponse o2) {
+                try {
+                    Date date1 = sdf.parse(o1.getDate());
+                    Date date2 = sdf.parse(o2.getDate());
+                    return date2.compareTo(date1);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
         orderProductItemList = new ArrayList<>();
-        for (int i = 0; i < listOrderResponse.getList_order().size(); i++){
-            if (listOrderResponse.getList_order().get(i).getStatus().equals(statusOfOrder)){
-                OrderResponse orderResponse = listOrderResponse.getList_order().get(i);
-                orderProductItemList.add(new OrderProductItem(i, orderResponse.getOrder_number(), orderResponse.getDate(), orderResponse.getTracking_number(), orderResponse.getQuantity(), orderResponse.getTotal_amount(), orderResponse.getStatus()));
+        for (int i = 0; i < orderResponse.size(); i++){
+            if (orderResponse.get(i).getStatus().equals(statusOfOrder)){
+                OrderResponse mOrderResponse = orderResponse.get(i);
+                orderProductItemList.add(new OrderProductItem(i, mOrderResponse.getOrder_number(), mOrderResponse.getDate(), mOrderResponse.getTracking_number(), mOrderResponse.getQuantity(), mOrderResponse.getTotal_amount(), mOrderResponse.getStatus()));
             }
         }
     }
-
     private void loadRealtimeData() {
         viewModel.getUserResponse().observeForever(new Observer<UserResponse>() {
             @Override

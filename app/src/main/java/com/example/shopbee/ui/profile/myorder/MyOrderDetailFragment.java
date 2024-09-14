@@ -33,7 +33,9 @@ import com.saadahmedev.popupdialog.PopupDialog;
 import com.saadahmedev.popupdialog.listener.StandardDialogActionListener;
 
 import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -268,6 +270,7 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
                 @Override
                 public void onPositiveButtonClicked(Dialog dialog) {
                     orderResponse.setStatus("cancelled");
+                    orderResponse.setDate(DateTimeToFormat());
                     listOrderResponse.getList_order().get(position).setStatus("cancelled");
                     binding.status.setText("Cancelled");
                     binding.reorder.setText("Reorder");
@@ -323,5 +326,11 @@ public class MyOrderDetailFragment extends BaseFragment<OrderDetailsBinding, MyO
             builder.append(ALPHA_NUMERIC_STRING.charAt(index));
         }
         return "BEE-" + timestamp + builder.toString();
+    }
+    private String DateTimeToFormat(){
+        Date now = new Date();
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String formattedDateTime = dateTimeFormat.format(now);
+        return formattedDateTime;
     }
 }

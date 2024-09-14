@@ -272,7 +272,7 @@ public class CheckoutFragment extends BaseFragment<CheckoutBinding, CheckoutView
 
     private String DateTimeToFormat(){
         Date now = new Date();
-        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("HH:mm yyyy-MM-dd");
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String formattedDateTime = dateTimeFormat.format(now);
         return formattedDateTime;
     }
