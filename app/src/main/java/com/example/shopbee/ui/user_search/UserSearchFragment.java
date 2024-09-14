@@ -80,16 +80,7 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
                     observeFullList();
                 }
             });
-            viewModel.getSuggestions().observe(getViewLifecycleOwner(), suggestions -> {
-                originalSuggestions = suggestions;
-//                suggestionAdapter.setSuggestions(suggestions);
-//                suggestionAdapter.notifyDataSetChanged();
-            });
             viewModel.syncSearchHistory();
-            viewModel.syncSuggestions();
-            suggestionAdapter.setOnSearchClickListener(this);
-            binding.recyclerView1.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-            binding.recyclerView1.setAdapter(suggestionAdapter);
             binding.relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -110,11 +101,22 @@ public class UserSearchFragment extends BaseFragment<SearchLayoutBinding, UserSe
                 }
             });
         }
+        viewModel.getSuggestions().observe(getViewLifecycleOwner(), suggestions -> {
+            originalSuggestions = suggestions;
+//                suggestionAdapter.setSuggestions(suggestions);
+//                suggestionAdapter.notifyDataSetChanged();
+        });
+        viewModel.syncSuggestions();
+        suggestionAdapter.setOnSearchClickListener(this);
+        binding.recyclerView1.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        binding.recyclerView1.setAdapter(suggestionAdapter);
         binding.textInputLayout.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!binding.textInputEditText.getText().toString().isEmpty()) {
-                    viewModel.saveSearchHistory(binding.textInputEditText.getText().toString());
+                    if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                        viewModel.saveSearchHistory(binding.textInputEditText.getText().toString());
+                    }
                     navigateToSearchFragment(binding.textInputEditText.getText().toString());
                 }
             }

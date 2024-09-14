@@ -20,11 +20,8 @@ import com.example.shopbee.BR;
 import com.example.shopbee.R;
 import com.example.shopbee.databinding.SuccessBinding;
 import com.example.shopbee.di.component.FragmentComponent;
-import com.example.shopbee.toolbar.ToolbarView;
 import com.example.shopbee.ui.checkout.shipping.SuccessNavigator;
 import com.example.shopbee.ui.common.base.BaseFragment;
-import com.example.shopbee.ui.main.MainActivity;
-
 public class SuccessFragment extends BaseFragment<SuccessBinding, SuccessViewModel> implements SuccessNavigator {
     SuccessBinding binding;
     @Override

@@ -19,7 +19,6 @@ import com.example.shopbee.BaseApplication;
 import com.example.shopbee.di.component.ActivityComponent;
 import com.example.shopbee.di.component.DaggerActivityComponent;
 import com.example.shopbee.di.module.ActivityModule;
-import com.example.shopbee.toolbar.ToolbarView;
 import com.example.shopbee.ui.common.bottombar.BottomBarUserReactionImplementation;
 import com.example.shopbee.ui.login.LoginActivity;
 import com.example.shopbee.utils.CommonUtils;
@@ -34,7 +33,6 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     // since its going to be common for all the activities
     public ActivityComponent activityComponent;
     private ProgressDialog progressDialog;
-    ToolbarView toolbarView;
     private T viewDataBinding;
 
     @Inject
