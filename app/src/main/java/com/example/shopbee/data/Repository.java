@@ -27,6 +27,7 @@ import com.example.shopbee.data.remote.TexelVirtualTryOnApiService;
 import com.example.shopbee.ui.common.dialogs.writereivewdialog.WriteReviewEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -1364,5 +1365,10 @@ public class Repository {
 
     public Observable<AmazonBestSellerResponse> getAmazonBestSeller(HashMap<String, String> map) {
         return amazonApiService.getAmazonBestSeller(map);
+    }
+    public void SignOut() {
+        FirebaseAuth.getInstance().signOut();
+        userResponse.setValue(null);
+        listOrderResponse.setValue(null);
     }
 }

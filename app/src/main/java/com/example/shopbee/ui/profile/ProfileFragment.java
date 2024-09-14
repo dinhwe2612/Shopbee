@@ -104,7 +104,6 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
                     .build(new StandardDialogActionListener() {
                         @Override
                         public void onPositiveButtonClicked(Dialog dialog) {
-                            FirebaseAuth.getInstance().signOut();
                             navigateToLogin();
                         }
 
@@ -190,8 +189,8 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
                 @Override
                 public void onClick(View v) {
                     if (userResponse != null){
-                        mAuth.signOut();
                         userResponse = null;
+                        viewModel.getRepository().SignOut();
                     }
                     navigateToLogin();
                 }
@@ -289,5 +288,43 @@ public class ProfileFragment extends BaseFragment<ProfileBinding, ProfileViewMod
         listContent.add("Review for 3 item(s)");
         listContent.add("Notification, password");
         return listContent;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (userResponse == null){
+            PopupDialog.getInstance(getContext())
+                    .standardDialogBuilder()
+                    .createStandardDialog()
+                    .setHeading("LOGIN")
+                    .setDescription("Login to save order and your information")
+                    .setPositiveButtonText("Go to login")
+                    .setPositiveButtonTextColor(R.color.white)
+                    .setIcon(R.drawable.login_icon)
+                    .build(new StandardDialogActionListener() {
+                        @Override
+                        public void onPositiveButtonClicked(Dialog dialog) {
+                            navigateToLogin();
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked(Dialog dialog) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+            binding.email.setText("guest@gmail.com");
+            binding.fullName.setText("Guest");
+            binding.recyclerViewProfile.setVisibility(View.GONE);
+            binding.loginText.setText("  Login  ");
+            binding.userAvatar.setBackgroundResource(R.drawable.def_avatar);
+            binding.loginText.setVisibility(View.VISIBLE);
+            binding.loginText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navigateToLogin();
+                }
+            });
+        }
     }
 }
