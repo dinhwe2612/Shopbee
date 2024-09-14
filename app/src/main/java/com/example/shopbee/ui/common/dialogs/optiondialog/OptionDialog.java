@@ -107,7 +107,7 @@ public class OptionDialog extends DialogFragment implements VariationAdapter.Lis
                     PopupDialog.getInstance(getContext())
                             .standardDialogBuilder()
                             .createStandardDialog()
-                            .setHeading("LOGIN") 
+                            .setHeading("LOGIN")
                             .setDescription("Login to experience this features")
                             .setPositiveButtonText("Go to login")
                             .setPositiveButtonTextColor(R.color.white)
